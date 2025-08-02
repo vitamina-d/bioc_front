@@ -1,9 +1,12 @@
-import { useState } from "react";
 
-function Range() {
-    const [start, setStart] = useState("700000");
-    const [end, setEnd] = useState("702000");
-    return (
+type Props = {
+    setStart: React.Dispatch<React.SetStateAction<string>>, 
+    setEnd: React.Dispatch<React.SetStateAction<string>>,
+};
+
+function Range( { setStart, setEnd }: Props ) {
+
+        return (
         <>
             <div className="mb-3 row">
                 <div className="col">
@@ -14,10 +17,7 @@ function Range() {
                         type="number"
                         className="form-control"
                         id="startInput"
-                        value={start}
-                        onChange={(e) => {
-                            return setStart(e.target.value);
-                        }}
+                        onChange={(e) => setStart(e.target.value)}
                     />
                 </div>
                 <div className="col">
@@ -28,7 +28,6 @@ function Range() {
                         type="number"
                         className="form-control"
                         id="endInput"
-                        value={end}
                         onChange={(e) => setEnd(e.target.value)}
                     />
                 </div>
