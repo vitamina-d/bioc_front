@@ -10,6 +10,8 @@ type Props = {
 };
 
 function SequenceViewer({ sequence }: Props) {
+  console.log(sequence);
+  
   return (
     <div className="p-3 bg-light rounded border">
       {sequence.split("").map((nuc: string, index: number) => (

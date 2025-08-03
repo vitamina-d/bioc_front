@@ -4,14 +4,14 @@ import List from "./List";
 import SelectGenome from "./SelectGenome";
 import SequenceViewer from "./SequenceViewer";
 import EnsemblService from "../services/EnsemblService";
+import BSGenomeService from "../services/BSGenomeService";
 
 function Body() {
-    const [start, setStart] = useState("1");
-    const [end, setEnd] = useState("2");
+    const [start, setStart] = useState("100000");
+    const [end, setEnd] = useState("100100");
     const [chr, setChr] = useState("");
     const [req, setReq] = useState("");
-    const [data, setData] = useState("ABC");
-
+    const [data, setData] = useState<string>("ACGT");
     const list: string[] = ["0", "1", "2", "3", "4"];
 
     const handleSelect = (element: string) => {
@@ -21,12 +21,33 @@ function Body() {
     //click button
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        const url: string = `https://localhost:32773/api/Genome/ensembl?chrom=${chr}&start=${start}&end=${end}`;
-        //consulta
-        console.log("request a: ", req, "| chr:", chr, "start:", start, "y end:", end);
 
-        const response: string = await EnsemblService(url);
-    
+        let url: string = "";
+        let response: string = "";
+
+        console.log("REQQQQQ", req);
+        if (req === "ensembl") {
+            url = `https://localhost:32773/api/Genome/ensembl?chrom=${chr}&start=${start}&end=${end}`;
+            response = await EnsemblService(url);
+        } else if (req === "bsgenome") {
+            url = `https://localhost:32773/api/Genome/seq?chrom=chr${chr}&start=${start}&end=${end}`;
+            response = await BSGenomeService(url);
+        } else {
+            response = "ABC";
+        }
+
+        //consulta
+        console.log(
+            "request a: ",
+            req,
+            "| chr:",
+            chr,
+            "start:",
+            start,
+            "y end:",
+            end
+        );
+
         setData(response);
         console.log(data);
     };
@@ -34,10 +55,12 @@ function Body() {
     return (
         <div className="mb-3 row">
             <Card>
-                <CardBody title="Secuencia" text="" />
+                <CardBody title="Secuencia Genomica" text="" />
                 <SelectGenome
                     setChr={setChr}
+                    start={start}
                     setStart={setStart}
+                    end={end}
                     setEnd={setEnd}
                     setReq={setReq}
                     submit={handleSubmit}
