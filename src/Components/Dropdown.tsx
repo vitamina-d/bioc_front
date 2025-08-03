@@ -1,59 +1,38 @@
+import type { ReactNode } from "react";
+
+type optionsReq = {
+    label: string,
+    value: string,
+}[]
+
 type Props = {
-    setChr: React.Dispatch<React.SetStateAction<string>>,
+    setItem: React.Dispatch<React.SetStateAction<string>>,
+    options: optionsReq,
+    children: ReactNode
 };
 
-function Dropdown({ setChr }: Props) {
+function Dropdown({ children, setItem, options }: Props) {
     return (
-        <>
-            <div className="input-group mb-3">
+            <div className="input-group mb-3 w-auto" >
                 <label
                     className="input-group-text"
-                    htmlFor="inputGroupSelect01"
                 >
-                    Cromosoma
+                    {children}
                 </label>
-                <select className="form-select w-auto" id="inputGroupSelect01" onChange={(e) => setChr(e.target.value)}>
+                <select id="chrInput" className="form-select" onChange={(e) => setItem(e.target.value)}>
                     <option value="">Seleccione...</option>
                     {options.map((elem, i) => (
                         <option
                             key={i}
-                            value={elem}
+                            value={elem.value}
                         >
-                            {elem}
+                            {elem.label}
                         </option>
                     ))}
                 </select>
             </div>
-        </>
     );
 }
 
 export default Dropdown;
 
-const options = [
-    "chr1",
-    "chr2",
-    "chr3",
-    "chr4",
-    "chr5",
-    "chr6",
-    "chr7",
-    "chr8",
-    "chr9",
-    "chr10",
-    "chr11",
-    "chr12",
-    "chr13",
-    "chr14",
-    "chr15",
-    "chr16",
-    "chr17",
-    "chr18",
-    "chr19",
-    "chr20",
-    "chr21",
-    "chr22",
-    "chrX",
-    "chrY",
-    "chrM", // ADN mitocondrial
-];
