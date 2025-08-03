@@ -19,13 +19,25 @@ interface CardBodyProps {
     text?: string;
 }
 
-export function CardBody(props: CardBodyProps) {
-    const { title, text } = props;
+export function CardBody(props: CardBodyProps & { imageSrc?: string }) {
+    const { title, text, imageSrc } = props;
     return (
-        <>
-            <h5 className="card-title">{title}</h5>
-            <p className="card-text">{text}</p>
-        </>
+        <div className="d-flex align-items-start mb-2">
+            {imageSrc && (
+                <img
+                    src={imageSrc}
+                    alt="icono"
+                    className="me-2"
+                    style={{ width: '40px', height: '40px', objectFit: 'cover' }}
+                />
+            )}
+            <div>
+                <h5 className="card-title mb-1">{title}</h5>
+                <p className="card-text">{text}</p>
+            </div>
+        </div>
     );
 }
+
+
 export default Card;

@@ -55,7 +55,7 @@ function Body() {
     return (
         <div className="mb-3 row">
             <Card>
-                <CardBody title="Secuencia Genomica" text="" />
+                <CardBody title="Secuencia Genomica" text="Ingrese la fuente para consultar la secuencia." imageSrc="../../public/gene.png" />
                 <SelectGenome
                     setChr={setChr}
                     start={start}
