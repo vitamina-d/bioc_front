@@ -1,28 +1,13 @@
-import type { ReactNode } from "react";
 
-interface Props {
-    children: ReactNode;
-}
-
-function Card(props: Props) {
-    const { children } = props;
-
-    return (
-        <div className="card border border-secondary m-3 "  >
-            <div className="card-body">{children}</div>
-        </div>
-    );
-}
-
-interface CardBodyProps {
+interface HeaderProps {
     title: string;
     text?: string;
 }
 
-export function CardBody(props: CardBodyProps & { imageSrc?: string }) {
+function Header(props: HeaderProps & { imageSrc?: string }) {
     const { title, text, imageSrc } = props;
     return (
-        <div className="d-flex align-items-start mb-2">
+        <div className="d-flex align-items-start mb-2 p-3">
             {imageSrc && (
                 <img
                     src={imageSrc}
@@ -40,4 +25,4 @@ export function CardBody(props: CardBodyProps & { imageSrc?: string }) {
 }
 
 
-export default Card;
+export default Header;

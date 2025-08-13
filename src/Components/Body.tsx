@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from "react";
-import Card, { CardBody } from "./Card";
-import List from "./List";
+import Card from "./Card";
 import SelectGenome from "./SelectGenome";
 import SequenceViewer from "./SequenceViewer";
 import EnsemblService from "../services/EnsemblService";
 import BSGenomeService from "../services/BSGenomeService";
+import Detail from "./Detail";
+import Header from "./Header";
 
 function Body() {
     const [start, setStart] = useState("100000");
@@ -12,11 +13,6 @@ function Body() {
     const [chr, setChr] = useState("");
     const [req, setReq] = useState("");
     const [data, setData] = useState<string>("ACGT");
-    const list: string[] = ["0", "1", "2", "3", "4"];
-
-    const handleSelect = (element: string) => {
-        console.log("imprimiendo: ", element);
-    };
 
     //click button
     const handleSubmit = async (event: FormEvent) => {
@@ -53,9 +49,19 @@ function Body() {
     };
 
     return (
-        <div className="mb-3 row">
+        <div className="row" style={{ maxWidth: '100%' }}>
+            <Header
+                title="vitamina"
+                text=""
+                imageSrc="../../public/gene.png"
+            />
+
             <Card>
-                <CardBody title="Secuencia Genomica" text="Ingrese la fuente para consultar la secuencia." imageSrc="../../public/gene.png" />
+                <Header
+                    title="Consulta Genomica"
+                    text="Ingrese la fuente para consultar la secuencia."
+                    imageSrc="../../public/gene.png"
+                />
                 <SelectGenome
                     setChr={setChr}
                     start={start}
@@ -68,14 +74,15 @@ function Body() {
                 <SequenceViewer sequence={data} />
             </Card>
 
-            {list.length ? (
-                <Card>
-                    <CardBody title="Lista" text="lista" />
-                    <List onSelect={handleSelect} data={list} />
-                </Card>
-            ) : (
-                ""
-            )}
+            <Card>
+                <Header
+                    title="Detalle"
+                    text=""
+                    imageSrc="../../public/gene.png"
+                />
+            <Detail />
+
+            </Card>
         </div>
     );
 }

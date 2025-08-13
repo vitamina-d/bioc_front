@@ -1,0 +1,12 @@
+npm run dev
+
+TAREAS: https://trello.com/b/7RpIuSQF/vitamina
+
+https://igv.org/web/release/3.4.1/examples/cram-vcf.html 
+
+BOOTSTRAP:
+    https://getbootstrap.com/docs/5.3/components/buttons/ 
+    https://bootstrapshuffle.com/classes?search=border
+
+PLOT
+https://plotly.com/javascript/react/

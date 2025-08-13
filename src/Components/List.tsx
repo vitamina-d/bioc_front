@@ -7,7 +7,14 @@ type Props = {
 };
 
 function List({ data, onSelect }: Props) {
+    onSelect = (element: string) => {
+        console.log("imprimiendo: ", element);
+    };
+    data = ["0", "1", "2", "3", "4"];
+
     const [index, setIndex] =  useState(1);
+
+
 
     const handleClick = (i: number, element: string) => {
         setIndex(i);

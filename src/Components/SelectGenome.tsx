@@ -17,8 +17,8 @@ function SelectGenome({ submit, setChr, setReq, start, setStart, end, setEnd }: 
     const isLoading = false;
 
     return (
-        <form onSubmit={submit} className="p-3">
-            <div className="row g-3">
+        <form onSubmit={submit}>
+            <div className="row">
                 <div className="col-12 col-md">
                     <Dropdown setItem={setReq} options={optionsReq}>Consulta a</Dropdown>
                 </div>
