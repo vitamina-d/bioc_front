@@ -73,7 +73,9 @@ function Detail() {
                     },
                 ]}
                 layout={{
-                    title: "Alineamiento de secuencias",
+                    title: {
+                                text: "Alineamiento de secuencias",
+                            },
                     xaxis: {
                         title: "Posición",
                         rangeslider: { visible: true }, 
