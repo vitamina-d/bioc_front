@@ -10,3 +10,4 @@ BOOTSTRAP:
 
 PLOT
 https://plotly.com/javascript/react/
+https://plotly.com/javascript/line-and-scatter/

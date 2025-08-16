@@ -6,6 +6,7 @@ import EnsemblService from "../services/EnsemblService";
 import BSGenomeService from "../services/BSGenomeService";
 import Detail from "./Detail";
 import Header from "./Header";
+import ReadFile from "./ReadFile";
 
 function Body() {
     const [start, setStart] = useState("100000");
@@ -13,6 +14,10 @@ function Body() {
     const [chr, setChr] = useState("");
     const [req, setReq] = useState("");
     const [data, setData] = useState<string>("ACGT");
+
+
+    const [content, setContent] = useState<string>("");
+
 
     //click button
     const handleSubmit = async (event: FormEvent) => {
@@ -49,12 +54,8 @@ function Body() {
     };
 
     return (
-        <div className="row" style={{ maxWidth: '100%' }}>
-            <Header
-                title="vitamina"
-                text=""
-                imageSrc="../../public/gene.png"
-            />
+        <div className="row" style={{ maxWidth: "100%" }}>
+            <Header title="vitamina" text="" imageSrc="../../public/gene.png" />
 
             <Card>
                 <Header
@@ -72,16 +73,17 @@ function Body() {
                     submit={handleSubmit}
                 />
                 <SequenceViewer sequence={data} />
-            </Card>
 
+                <ReadFile content={content} setContent={setContent} />
+
+            </Card>
             <Card>
                 <Header
                     title="Detalle"
                     text=""
                     imageSrc="../../public/gene.png"
                 />
-            <Detail />
-
+                <Detail />
             </Card>
         </div>
     );
