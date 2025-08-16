@@ -9,9 +9,24 @@ function App() {
             <Navigation />
             <Routes>
                 <Route path="/" element={<Body />} />
-                <Route path="/about" element={<Header
-                    title="Consulta Genomica"
-                    text="Ingrese la fuente, cromosoma y rango para consultar la secuencia."
+                <Route path="/search" element={<Header
+                    title="Buscar Gen"
+                    text="subtitle."
+                    imageSrc="../../public/gene.png"
+                />} />
+                <Route path="/sequence" element={<Header
+                    title="Obtener secuencia"
+                    text="subtitle."
+                    imageSrc="../../public/gene.png"
+                />} />
+                <Route path="/align" element={<Header
+                    title="Alinear"
+                    text="subtitle."
+                    imageSrc="../../public/gene.png"
+                />} />
+                <Route path="/upload" element={<Header
+                    title="Subir FASTA"
+                    text="subtitle."
                     imageSrc="../../public/gene.png"
                 />} />
             </Routes>
