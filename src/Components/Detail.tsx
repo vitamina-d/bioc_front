@@ -1,14 +1,10 @@
 import Plot from "react-plotly.js";
-import { bases } from "../const/bases";
+import { label_bases } from "../const/label_bases";
 import { nucleotideColors } from "../const/nucleotideColors";
+import { response } from "../const/response";
 
 function Detail() {
-    const baseCounts: Record<string, number> = {
-        A: 20,
-        T: 15,
-        C: 55,
-        G: 10,
-    };
+    const xValues = response.data.CpG_ranges.map((r) => r.start);
 
     return (
         <div className="container my-4">
@@ -24,12 +20,12 @@ function Detail() {
                     <Plot
                         data={[
                             {
-                                values: bases.map((b) => baseCounts[b]),
-                                labels: bases,
+                                values: response.data.nucleotides.counts,
+                                labels: response.data.nucleotides.labels,
                                 type: "pie",
                                 sort: false,
                                 marker: {
-                                    colors: bases.map(
+                                    colors: label_bases.map(
                                         (b) => nucleotideColors[b]
                                     ),
                                 },
@@ -51,11 +47,11 @@ function Detail() {
                     <Plot
                         data={[
                             {
-                                x: bases,
-                                y: bases.map((b) => baseCounts[b]),
+                                x: response.data.nucleotides.labels,
+                                y: response.data.nucleotides.counts,
                                 type: "bar",
                                 marker: {
-                                    color: bases.map(
+                                    color: label_bases.map(
                                         (b) => nucleotideColors[b]
                                     ),
                                 },
@@ -77,33 +73,70 @@ function Detail() {
                             },
 
                             height: 400,
-                            width: 400,
+                            //width: 400,
                         }}
+                        style={{ width: "100%" }}
                     />
                 </div>
             </div>
 
-            <div className="border border-secondary m-3">
-                <Plot
-                    data={[
-                        {
-                            x: [1, 2, 3],
-                            y: [2, 6, 3],
-                            type: "scatter",
-                            mode: "lines+markers",
-                            marker: { color: "red" },
-                        },
-                        { type: "bar", x: [1, 2, 3], y: [2, 5, 3] },
-                    ]}
-                    layout={{
-                        width: 400,
-                        height: 400,
-                        title: {
-                            text: "A Fancy Plot",
-                        },
-                    }}
-                />
-            </div>
+            <Plot
+                data={[
+                    {
+                        x: xValues,
+                        y: xValues.map(() => 1),
+                        type: "scatter",
+                        mode: "lines+markers",
+                        marker: { color: "red" },
+                    },
+                    { type: "bar", x: xValues, y: xValues.map(() => 1) },
+                ]}
+                layout={{
+                    //width: "800" ,
+                    height: 400,
+                    title: {
+                        text: "A Fancy Plot",
+                    },
+                    yaxis: { visible: false },
+                }}
+                style={{ width: "100%" }}
+            />
+
+            <Plot
+                data={[
+                    {
+                        x: xValues,
+                        type: "histogram",
+                        histnorm: "probability density",
+                        opacity: 0.6,
+                        marker: { color: "skyblue" },
+                    },
+                ]}
+                layout={{
+                    title: "Distribución (Densidad)",
+                    bargap: 0.05,
+                    yaxis: { visible: false },
+                }}
+                style={{ width: "100%" }}
+            />
+
+            <Plot
+                data={[
+                    {
+                        x: xValues,
+                        y: xValues.map(() => 1),
+                        mode: "markers",
+                        type: "scatter",
+                        marker: { color: "blue", size: 6 },
+                    },
+                ]}
+                layout={{
+                    title: "Posiciones CpG",
+                    xaxis: { title: "Start" },
+                    yaxis: { visible: false },
+                }}
+                style={{ width: "100%" }}
+            />
         </div>
     );
 }

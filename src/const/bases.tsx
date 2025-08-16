@@ -1,1 +1,0 @@
-export const bases: string[]= ["A", "T", "C", "G"];
