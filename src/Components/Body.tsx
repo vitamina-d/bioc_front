@@ -15,9 +15,7 @@ function Body() {
     const [req, setReq] = useState("");
     const [data, setData] = useState<string>("ACGT");
 
-
     const [content, setContent] = useState<string>("");
-
 
     //click button
     const handleSubmit = async (event: FormEvent) => {
@@ -54,13 +52,11 @@ function Body() {
     };
 
     return (
-        <div className="row" style={{ maxWidth: "100%" }}>
-            <Header title="vitamina" text="" imageSrc="../../public/gene.png" />
-
+        <>
             <Card>
                 <Header
                     title="Consulta Genomica"
-                    text="Ingrese la fuente para consultar la secuencia."
+                    text="Ingrese la fuente, cromosoma y rango para consultar la secuencia."
                     imageSrc="../../public/gene.png"
                 />
                 <SelectGenome
@@ -73,10 +69,17 @@ function Body() {
                     submit={handleSubmit}
                 />
                 <SequenceViewer sequence={data} />
-
-                <ReadFile content={content} setContent={setContent} />
-
             </Card>
+
+            <Card>
+                <Header
+                    title="Subir FASTA"
+                    text="Ingrese la fuente para consultar la secuencia."
+                    imageSrc="../../public/gene.png"
+                />
+                <ReadFile content={content} setContent={setContent} />
+            </Card>
+
             <Card>
                 <Header
                     title="Detalle"
@@ -85,7 +88,7 @@ function Body() {
                 />
                 <Detail />
             </Card>
-        </div>
+        </>
     );
 }
 
