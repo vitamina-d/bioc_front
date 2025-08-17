@@ -8,7 +8,7 @@ import Detail from "../Components/Detail";
 import Header from "../Components/Header";
 import ReadFile from "../Components/ReadFile";
 
-function Body() {
+function Search() {
     const [start, setStart] = useState("100000");
     const [end, setEnd] = useState("100100");
     const [chr, setChr] = useState("");
@@ -55,10 +55,11 @@ function Body() {
         <>
             <Card>
                 <Header
-                    title="Consulta Genomica"
+                    title="Buscar Gen"
                     text="Ingrese la fuente, cromosoma y rango para consultar la secuencia."
                     imageSrc="../../public/gene.png"
                 />
+
                 <SelectGenome
                     setChr={setChr}
                     start={start}
@@ -92,4 +93,4 @@ function Body() {
     );
 }
 
-export default Body;
+export default Search;

@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+/*import { useState, type FormEvent } from "react";
 import Card from "./Card";
 import SelectGenome from "./SelectGenome";
 import SequenceViewer from "./SequenceViewer";
@@ -93,3 +93,4 @@ function Body() {
 }
 
 export default Body;
+*/
