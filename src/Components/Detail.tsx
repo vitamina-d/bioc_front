@@ -3,12 +3,13 @@ import { label_bases } from "../const/label_bases";
 import { nucleotideColors } from "../const/nucleotideColors";
 import { response } from "../const/response";
 import { bootstrap_colors } from "../const/bootstrap_colors";
-import type { Nucleotides } from "../types/ApiResponse";
-import { align } from "../const/align";
+import type { Nucleotides } from "../interfaces/ApiResponse";
 
 function Detail() {
     const xValues: number[] = response.data.CpG_ranges.map((r) => r.start);
     const nucleotides: Nucleotides = response.data.nucleotides;
+
+    // o viene en el response
 
     const atcg: Nucleotides = {
         labels: ["AT", "CG"],
@@ -20,32 +21,6 @@ function Detail() {
         ],
     };
 
-    /////////////////////
-
-    const seqArray1: string[] = align.pattern_align.split("");
-    const seqArray2: string[] = align.subject_align.split("");
-
-    // Mapeamos las letras a índices según label_bases
-    const z = [seqArray1, seqArray2].map((seq) =>
-        seq.map((base) => {
-        const idx = label_bases.indexOf(base);
-        return idx === -1 ? 4 : idx;    
-        } 
-    ));
-
-    // Ticks de la barra de colores
-    const tickVals = [0, 1, 2, 3, 4];
-    const tickText = ["A", "T", "C", "G", "-"];
-    
-    const colorScale = [
-        [0 / label_bases.length, nucleotideColors["A"]],
-        [1 / label_bases.length, nucleotideColors["T"]],
-        [2 / label_bases.length, nucleotideColors["C"]],
-        [3 / label_bases.length, nucleotideColors["G"]],
-        [4 / label_bases.length, "#000000"],
-    ];
-    /////////////////////
-
     return (
         <div className="container my-4">
             <div className="card mb-4 shadow-sm">
@@ -55,37 +30,6 @@ function Detail() {
                 </div>
             </div>
 
-            <Plot
-                data={[
-                    {
-                        z: z,
-                        x: seqArray1.length,
-                        y: ["Seq1", "Seq2"], // filas
-                        type: "heatmap",
-                        colorscale: colorScale,
-                        colorbar: {
-                            tickvals: tickVals,
-                            ticktext: tickText,
-                            title: "Bases",
-                        },
-                        hoverinfo: "text",
-                        text: [seqArray1, seqArray2],
-                    },
-                ]}
-                layout={{
-                    title: {
-                                text: "Alineamiento de secuencias",
-                            },
-                    xaxis: {
-                        title: "Posición",
-                        rangeslider: { visible: true }, 
-                        autorange: true,
-                    },
-                    yaxis: { title: "Secuencia" },
-                    height: 400,
-                }}
-                style={{ width: "100%" }}
-            />
             <div className="row">
                 <div className="col-md-6 mb-4">
                     <Plot

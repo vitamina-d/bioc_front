@@ -1,4 +1,4 @@
-import type { ApiResponse } from "../types/ApiResponse";
+import type { ApiResponse } from "../interfaces/ApiResponse";
 
 export const response: ApiResponse = {
     status: "success",

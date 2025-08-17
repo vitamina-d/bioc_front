@@ -12,7 +12,7 @@ function Header(props: HeaderProps & { imageSrc?: string }) {
                 <img
                     src={imageSrc}
                     alt="icono"
-                    className="me-2"
+                    className="me-2 rounded-circle"
                     style={{ width: '40px', height: '40px', objectFit: 'cover' }}
                 />
             )}

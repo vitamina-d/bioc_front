@@ -1,12 +1,11 @@
 import { useState, type FormEvent } from "react";
-import Card from "../Components/Card";
+import { Card } from "react-bootstrap";
 import SelectGenome from "../Components/SelectGenome";
 import SequenceViewer from "../Components/SequenceViewer";
 import EnsemblService from "../services/EnsemblService";
 import BSGenomeService from "../services/BSGenomeService";
 import Detail from "../Components/Detail";
 import Header from "../Components/Header";
-import ReadFile from "../Components/ReadFile";
 
 function Search() {
     const [start, setStart] = useState("100000");
@@ -14,8 +13,6 @@ function Search() {
     const [chr, setChr] = useState("");
     const [req, setReq] = useState("");
     const [data, setData] = useState<string>("ACGT");
-
-    const [content, setContent] = useState<string>("");
 
     //click button
     const handleSubmit = async (event: FormEvent) => {
@@ -53,7 +50,7 @@ function Search() {
 
     return (
         <>
-            <Card>
+            <Card className="p-3 my-3 ">
                 <Header
                     title="Buscar Gen"
                     text="Ingrese la fuente, cromosoma y rango para consultar la secuencia."
@@ -72,16 +69,7 @@ function Search() {
                 <SequenceViewer sequence={data} />
             </Card>
 
-            <Card>
-                <Header
-                    title="Subir FASTA"
-                    text="Ingrese la fuente para consultar la secuencia."
-                    imageSrc="../../public/gene.png"
-                />
-                <ReadFile content={content} setContent={setContent} />
-            </Card>
-
-            <Card>
+            <Card className="p-3 my-3 ">
                 <Header
                     title="Detalle"
                     text=""

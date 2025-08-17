@@ -1,12 +1,20 @@
+import { Card } from "react-bootstrap";
 import Header from "../Components/Header";
+import ReadFile from "../Components/ReadFile";
+import { useState } from "react";
 
 function Upload() {
+    const [content, setContent] = useState<string>("");
+
     return (
-        <Header
-            title="Subir FASTA"
-            text="subtitle."
-            imageSrc="../../public/gene.png"
-        />
+        <Card className="p-3 my-3 ">
+            <Header
+                title="Subir FASTA"
+                text="Ingrese la fuente para consultar la secuencia."
+                imageSrc="../../public/gene.png"
+            />
+            <ReadFile content={content} setContent={setContent} />
+        </Card>
     );
 }
 
