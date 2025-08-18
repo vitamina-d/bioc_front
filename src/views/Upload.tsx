@@ -10,7 +10,7 @@ function Upload() {
         <Card className="p-3 my-3 ">
             <Header
                 title="Subir FASTA"
-                text="Ingrese la fuente para consultar la secuencia."
+                text="subtitle."
                 imageSrc="../../public/gene.png"
             />
             <ReadFile content={content} setContent={setContent} />
