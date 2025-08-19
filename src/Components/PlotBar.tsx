@@ -24,18 +24,10 @@ function PlotBar({ title, x, y, colors }: PlotBarProps) {
                 title: {
                     text: title,
                 },
-                xaxis: {
-                    title: {
-                        text: "Bases",
-                    },
-                },
-                yaxis: {
-                    title: {
-                        text: "Frecuencia",
-                    },
-                },
+                xaxis: { title: { text: "Bases" }, tickangle: -45, automargin: true },
+                yaxis: { title: { text: "Frecuencia" }, automargin: true },
                 autosize: true,
-                height: 300
+                height: 300,
             }}
             useResizeHandler
             style={{ width: "100%", height: "100%" }}

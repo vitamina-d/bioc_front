@@ -24,9 +24,9 @@ function PlotScatter({ title, x }: PlotScatterProps) {
 
                 xaxis: {
                     title: "X",
-                    showline: true,
+                    showline: false,
                     showgrid: true,
-                    zeroline: false, // no dibuja el cero
+                    zeroline: false, 
                 },
                 yaxis: { visible: false },
                 height: 300,

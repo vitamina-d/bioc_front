@@ -19,6 +19,7 @@ function PlotIslandBar({ title, x }: PlotIslandBarProps) {
                 title: {
                     text: title,
                 },
+                
                 yaxis: { visible: false },
             }}
             style={{ width: "100%" }}

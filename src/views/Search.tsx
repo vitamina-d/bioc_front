@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { Card } from "react-bootstrap";
 import SelectGenome from "../Components/SelectGenome";
 import SequenceViewer from "../Components/SequenceViewer";
-import EnsemblService from "../services/EnsemblService";
+import EnsemblService from "../services/PublicServices";
 import BSGenomeService from "../services/BSGenomeService";
 import Detail from "../Components/Detail";
 import Header from "../Components/Header";

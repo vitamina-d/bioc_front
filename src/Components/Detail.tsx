@@ -27,7 +27,7 @@ function Detail() {
 
     return (
         <div className="container my-4">
-            <div className="row">
+            <div className="row mb-4">
                 <div className="col-lg-6">
                     <Card className="shadow">
                         <CardBody>
