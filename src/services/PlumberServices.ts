@@ -1,3 +1,5 @@
+import type { ResponseGetSequenceByRangePlumber } from "../types/ResponseGetSequenceByRangePlumber";
+
 const DOTNET_PLUMBER_URL: string = "https://localhost:32769/api/Plumber"; //api a R
 
 //https://localhost:32769/api/Plumber/msg?msg=${msg}
@@ -40,20 +42,23 @@ const GetDetail = async (gene_symbol: string): Promise<string> => {
 };
 
 //https://localhost:32769/api/Plumber/sequence_by_range?chrom=${}&start=${}&end=${}
-const GetSequenceByRange = async ( 
+const GetSequenceByRange = async (
     chr: string,
     start: number,
     end: number
-): Promise<string> => {
+): Promise<ResponseGetSequenceByRangePlumber> => {
     const response = await fetch(
-        `${DOTNET_PLUMBER_URL}/sequence_by_range?chrom=${chr}&start=${start}&end=${end}`
+        `${DOTNET_PLUMBER_URL}/sequence_by_range?chrom=chr${chr}&start=${start}&end=${end}`
     );
     const data = await response.json();
+
+    console.log(response);
+    console.log(data); //{response: '{"status":"success","time_secs":0.0021,"data":{"se…h":12,"sequence":"NNNNNNNNNNNN","complete":true}}'}
     return data;
 };
 
 //https://localhost:32769/api/Plumber/align?pattern=${}&subject=${}&global=${}
-const GetAlign = async ( 
+const GetAlign = async (
     pattern: string,
     subject: string,
     global: boolean
@@ -65,7 +70,7 @@ const GetAlign = async (
     return data;
 };
 
-export default {
+export {
     getMessage,
     GetSequenceBySymbol,
     GetPercent,

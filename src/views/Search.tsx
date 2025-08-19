@@ -2,50 +2,43 @@ import { useState, type FormEvent } from "react";
 import { Card } from "react-bootstrap";
 import SelectGenome from "../Components/SelectGenome";
 import SequenceViewer from "../Components/SequenceViewer";
-import EnsemblService from "../services/PublicServices";
-import BSGenomeService from "../services/BSGenomeService";
+import { EnsemblService } from "../services/PublicServices";
+import { GetSequenceByRange } from "../services/PlumberServices";
 import Detail from "../Components/Detail";
 import Header from "../Components/Header";
+import type { ResponseGetSequenceByRangePlumber } from "../types/ResponseGetSequenceByRangePlumber";
 
 function Search() {
     const [start, setStart] = useState("100000");
     const [end, setEnd] = useState("100100");
     const [chr, setChr] = useState("");
     const [req, setReq] = useState("");
-    const [data, setData] = useState<string>("ACGT");
+    const [data, setData] = useState("AAA");
 
     //click button
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
 
-        let url: string = "";
-        let response: string = "";
+        console.log("chr:", chr, "start", start, "end", end);
 
-        console.log("REQQQQQ", req);
         if (req === "ensembl") {
-            url = `https://localhost:32773/api/Genome/ensembl?chrom=${chr}&start=${start}&end=${end}`;
-            response = await EnsemblService(url);
+            const response = await EnsemblService(
+                chr,
+                parseInt(start),
+                parseInt(end)
+            );
+            console.log(response);
         } else if (req === "bsgenome") {
-            url = `https://localhost:32773/api/Genome/seq?chrom=chr${chr}&start=${start}&end=${end}`;
-            response = await BSGenomeService(url);
+            // responseFromBackend es el objeto que recibís del backend
+            const response: ResponseGetSequenceByRangePlumber =
+                await GetSequenceByRange(chr, parseInt(start), parseInt(end));
+
+            setData(response.data.sequence);
+
+            console.log(response); 
         } else {
-            response = "ABC";
+            setData("ABC");
         }
-
-        //consulta
-        console.log(
-            "request a: ",
-            req,
-            "| chr:",
-            chr,
-            "start:",
-            start,
-            "y end:",
-            end
-        );
-
-        setData(response);
-        console.log(data);
     };
 
     return (

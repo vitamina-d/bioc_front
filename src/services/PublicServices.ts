@@ -8,7 +8,7 @@ const EnsemblService = async (
     start: number,
     end: number
 ): Promise<string> => {
-    const url = `${DOTNET_PUBLIC_URL}ensembl?chrom=${chr}&start=${start}&end=${end}`;
+    const url = `${DOTNET_PUBLIC_URL}ensembl?chrom=chr${chr}&start=${start}&end=${end}`;
     const response = await fetch(url);
     const data = await response.json();
     return data;
@@ -24,4 +24,4 @@ const SummaryService = async (
     return data;
 };
 
-export default {EnsemblService, SummaryService};
+export { EnsemblService, SummaryService };
