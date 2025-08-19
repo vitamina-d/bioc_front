@@ -2,12 +2,13 @@ import { useState, type FormEvent } from "react";
 import { Card } from "react-bootstrap";
 import SelectGenome from "../Components/SelectGenome";
 import SequenceViewer from "../Components/SequenceViewer";
-import { EnsemblService } from "../services/PublicServices";
+import { EnsemblService, SummaryService } from "../services/PublicServices";
 import { GetSequenceByRange } from "../services/PlumberServices";
 import Detail from "../Components/Detail";
 import Header from "../Components/Header";
 import type { ResponseGetSequenceByRangePlumber } from "../types/ResponseGetSequenceByRangePlumber";
 import type { ResponseGetSequenceByRangePublic } from "../types/ResponseGetSequenceByRangePublic";
+import type { ResponseGetSummaryPublic } from "../types/ResponseGetSummaryPublic";
 
 function Search() {
     const [start, setStart] = useState("100000");
@@ -38,7 +39,16 @@ function Search() {
             console.log(response);
             setData(response.data.sequence);
 
-        } else {
+        } else if (req === "summary") {
+            console.log("SUMMARY");
+          
+            const response: ResponseGetSummaryPublic =
+                await SummaryService(1717, "gene");
+
+            console.log(response);
+            setData(response.summary);
+
+        }else {
             setData("ABC");
         }
     };

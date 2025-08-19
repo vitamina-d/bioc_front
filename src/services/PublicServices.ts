@@ -1,4 +1,5 @@
 import type { ResponseGetSequenceByRangePublic } from "../types/ResponseGetSequenceByRangePublic";
+import type { ResponseGetSummaryPublic } from "../types/ResponseGetSummaryPublic";
 
 const DOTNET_PUBLIC_URL: string = `https://localhost:32769/api/Public/`;
 
@@ -19,10 +20,11 @@ const EnsemblService = async (
 const SummaryService = async (
     entrez: number,
     gene: string
-): Promise<string> => {
+): Promise<ResponseGetSummaryPublic> => {
     const url = `${DOTNET_PUBLIC_URL}summary?entrez=${entrez}&type=${gene}`;
     const response = await fetch(url);
     const data = await response.json();
+    console.log(data);
     return data;
 };
 
