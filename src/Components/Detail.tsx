@@ -16,7 +16,6 @@ function Detail() {
     const xValues: number[] = response.data.CpG_ranges.map((r) => r.start);
     const nucleotides: Nucleotides = response.data.nucleotides;
     const [entrez, setEntrez] = useState("1717");
-    const [summary, setSummary] = useState("");
     const [response2, setResponse2] = useState<ResponseGetSummaryPublic>({
         entrezId: "",
         name: "",
@@ -65,7 +64,6 @@ function Detail() {
                 <Card className="shadow">
                     <CardBody>
                         <CardTitle>Summary</CardTitle>
-                        <CardText>{summary}</CardText>
                         <CardText>Entrez ID: {response2.entrezId}</CardText>
                         <CardText>Name: {response2.name}</CardText>
                         <CardText>Location: {response2.mapLocation}</CardText>
