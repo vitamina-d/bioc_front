@@ -18,7 +18,7 @@ const EnsemblService = async (
 
 //https://localhost:32769/api/Public/summary?entrez=${entrez}&type=${gene}
 const SummaryService = async (
-    entrez: number,
+    entrez: string,
     gene: string
 ): Promise<ResponseGetSummaryPublic> => {
     const url = `${DOTNET_PUBLIC_URL}summary?entrez=${entrez}&type=${gene}`;

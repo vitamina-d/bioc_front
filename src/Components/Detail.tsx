@@ -4,15 +4,26 @@ import { response } from "../const/response";
 import type { Nucleotides } from "../interfaces/ApiResponse";
 import PlotPie from "./PlotPie";
 import PlotBar from "./PlotBar";
-import { Card, CardBody, CardText, CardTitle } from "react-bootstrap";
+import { Button, Card, CardBody, CardText, CardTitle } from "react-bootstrap";
 import PlotIslandBar from "./PlotIslandBar";
 import PlotHistogram from "./PlotHistogram";
 import PlotScatter from "./PlotScatter";
+import type { ResponseGetSummaryPublic } from "../types/ResponseGetSummaryPublic";
+import { SummaryService } from "../services/PublicServices";
+import { useState } from "react";
 
 function Detail() {
     const xValues: number[] = response.data.CpG_ranges.map((r) => r.start);
     const nucleotides: Nucleotides = response.data.nucleotides;
-
+    const [entrez, setEntrez] = useState("1717");
+    const [summary, setSummary] = useState("");
+    const [response2, setResponse2] = useState<ResponseGetSummaryPublic>({
+        entrezId: "",
+        name: "",
+        mapLocation: "",
+        description: "",
+        summary: "",
+    });
     const atcg: Nucleotides = {
         labels: ["AT", "CG"],
         counts: [
@@ -25,8 +36,45 @@ function Detail() {
 
     const colors: string[] = label_bases.map((b) => nucleotideColors[b]);
 
+    //click button
+    const onClick = async () => {
+        console.log("SUMMARY");
+
+        const res: ResponseGetSummaryPublic = await SummaryService(
+            entrez,
+            "gene"
+        );
+        console.log(res);
+        setResponse2(res);
+    };
+
     return (
         <div className="container my-4">
+            <div className="row mb-4">
+                <div className="input-group mb-3 w-auto">
+                    <label className="input-group-text">ENTREZID</label>
+                    <input
+                        type="string"
+                        className="form-control"
+                        id="inputRange"
+                        placeholder={entrez}
+                        onChange={(e) => setEntrez(e.target.value)}
+                    />
+                    <Button onClick={onClick}>Buscar</Button>
+                </div>
+                <Card className="shadow">
+                    <CardBody>
+                        <CardTitle>Summary</CardTitle>
+                        <CardText>{summary}</CardText>
+                        <CardText>Entrez ID: {response2.entrezId}</CardText>
+                        <CardText>Name: {response2.name}</CardText>
+                        <CardText>Location: {response2.mapLocation}</CardText>
+                        <CardText>Description: {response2.description}</CardText>
+                        <CardText>Summary: {response2.summary}</CardText>
+                    </CardBody>
+                </Card>
+            </div>
+
             <div className="row mb-4">
                 <div className="col-lg-6">
                     <Card className="shadow">
