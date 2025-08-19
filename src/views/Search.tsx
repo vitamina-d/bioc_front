@@ -7,6 +7,7 @@ import { GetSequenceByRange } from "../services/PlumberServices";
 import Detail from "../Components/Detail";
 import Header from "../Components/Header";
 import type { ResponseGetSequenceByRangePlumber } from "../types/ResponseGetSequenceByRangePlumber";
+import type { ResponseGetSequenceByRangePublic } from "../types/ResponseGetSequenceByRangePublic";
 
 function Search() {
     const [start, setStart] = useState("100000");
@@ -19,23 +20,24 @@ function Search() {
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
 
-        console.log("chr:", chr, "start", start, "end", end);
-
+        
         if (req === "ensembl") {
-            const response = await EnsemblService(
-                chr,
-                parseInt(start),
-                parseInt(end)
-            );
+            
+            console.log("PUBLIC: chr:", chr, "start", start, "end", end);
+            const response: ResponseGetSequenceByRangePublic =
+                await EnsemblService(chr, parseInt(start), parseInt(end));
             console.log(response);
+            setData(response.seq);
+
         } else if (req === "bsgenome") {
-            // responseFromBackend es el objeto que recibís del backend
+            console.log("PLUMBER: chr:", chr, "start", start, "end", end);
+          
             const response: ResponseGetSequenceByRangePlumber =
                 await GetSequenceByRange(chr, parseInt(start), parseInt(end));
 
+            console.log(response);
             setData(response.data.sequence);
 
-            console.log(response); 
         } else {
             setData("ABC");
         }
