@@ -22,7 +22,7 @@ function PlotPie({ title, values, labels, colors }: PlotPieProps) {
                     textinfo: "percent", // label+percent
                     textposition: "outside",
                     automargin: true,
-                    showlegend: false,
+                    showlegend: true,
                     hole: 0.5,
                     pull: 0.0,
                 },
@@ -32,7 +32,14 @@ function PlotPie({ title, values, labels, colors }: PlotPieProps) {
                     text: title,
                 },
                 autosize: true,
-                height: 300
+                //height: 300,
+                legend: {
+                    orientation: "h",
+                    x: 0.5,
+                    y: 0,
+                    xanchor: "center",
+                    
+                },
             }}
             useResizeHandler
             style={{ width: "100%", height: "100%" }}

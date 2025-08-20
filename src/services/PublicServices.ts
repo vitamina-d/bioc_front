@@ -1,7 +1,8 @@
 import type { ResponseGetSequenceByRangePublic } from "../types/ResponseGetSequenceByRangePublic";
 import type { ResponseGetSummaryPublic } from "../types/ResponseGetSummaryPublic";
 
-const DOTNET_PUBLIC_URL: string = `https://localhost:32769/api/Public/`;
+const DOTNET_PUBLIC_URL: string = `https://localhost:32771/api/Public/`;
+//const DOTNET_PUBLIC_URL: string = `https://localhost:32769/api/Public/`;
 
 //https://localhost:32773/api/Public/ensembl?chrom=${chr}&start=${start}&end=${end}`;
 const EnsemblService = async (

@@ -5,6 +5,7 @@ import Home from "./views/Home";
 import Sequence from "./views/Sequence";
 import Align from "./views/Align";
 import Upload from "./views/Upload";
+import DetailView from "./views/DetailView";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
             <Navigation />
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/detail" element={<DetailView />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/sequence" element={<Sequence />} />
                 <Route path="/align" element={<Align />} />

@@ -21,6 +21,9 @@ function Navigation() {
                     <Nav.Link as={Link} to="/">
                         Home
                     </Nav.Link>
+                    <Nav.Link as={Link} to="/detail">
+                        Detail
+                    </Nav.Link>
                     <Nav.Link as={Link} to="/search">
                         Search
                     </Nav.Link>

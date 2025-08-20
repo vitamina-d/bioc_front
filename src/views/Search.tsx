@@ -4,7 +4,6 @@ import SelectGenome from "../Components/SelectGenome";
 import SequenceViewer from "../Components/SequenceViewer";
 import { EnsemblService } from "../services/PublicServices";
 import { GetSequenceByRange } from "../services/PlumberServices";
-import Detail from "../Components/Detail";
 import Header from "../Components/Header";
 import type { ResponseGetSequenceByRangePlumber } from "../types/ResponseGetSequenceByRangePlumber";
 import type { ResponseGetSequenceByRangePublic } from "../types/ResponseGetSequenceByRangePublic";
@@ -40,36 +39,24 @@ function Search() {
     };
 
     return (
-        <>
-            <Card className="p-3 my-3 ">
-                <Header
-                    title="Buscar Gen"
-                    text="Ingrese la fuente, cromosoma y rango para consultar la secuencia."
-                    imageSrc="../../public/gene.png"
-                />
+        <Card className="p-3 my-3 ">
+            <Header
+                title="Buscar Gen"
+                text="Ingrese la fuente, cromosoma y rango para consultar la secuencia."
+                imageSrc="../../public/gene.png"
+            />
 
-                <SelectGenome
-                    setChr={setChr}
-                    start={start}
-                    setStart={setStart}
-                    end={end}
-                    setEnd={setEnd}
-                    setReq={setReq}
-                    submit={handleSubmit}
-                />
-                <SequenceViewer sequence={data} />
-            </Card>
-
-            <Card className="p-3 my-3 ">
-                <Header
-                    title="Detalle"
-                    text=""
-                    imageSrc="../../public/gene.png"
-                />
-                
-                <Detail />
-            </Card>
-        </>
+            <SelectGenome
+                setChr={setChr}
+                start={start}
+                setStart={setStart}
+                end={end}
+                setEnd={setEnd}
+                setReq={setReq}
+                submit={handleSubmit}
+            />
+            <SequenceViewer sequence={data} />
+        </Card>
     );
 }
 

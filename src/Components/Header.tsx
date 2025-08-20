@@ -18,7 +18,7 @@ function Header(props: HeaderProps & { imageSrc?: string }) {
             )}
             <div>
                 <h5 className="card-title mb-1">{title}</h5>
-                <p className="card-text">{text}</p>
+                <p className="card-text text-muted ">{text}</p>
             </div>
         </div>
     );

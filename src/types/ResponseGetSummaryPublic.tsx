@@ -4,6 +4,8 @@ export type ResponseGetSummaryPublic = {
   mapLocation: string;
   description: string;
   summary: string;
+  scientificname: string;
+  taxId: number;
 };
 
 
