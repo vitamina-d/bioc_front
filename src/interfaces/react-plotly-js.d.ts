@@ -17,4 +17,6 @@
 
   export default class Plot extends Component<PlotParams> {}
 }
+r
+npm i @types/react-plotly.js
 */

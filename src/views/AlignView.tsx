@@ -3,31 +3,36 @@ import Header from "../Components/Header";
 import { label_bases } from "../const/label_bases";
 import { nucleotideColors } from "../const/nucleotideColors";
 import Plot from "react-plotly.js";
+
 import { align } from "../types/align";
+import type { ColorScale, Datum, PlotType } from "plotly.js";
 
 function AlignView() {
     const sequence_pattern = align.pattern_align;
     const sequence_subject = align.subject_align;
 
-    const pattern: string[] = sequence_pattern.split("");
-    const subject: string[] = sequence_subject.split("");
+    const pattern_string: string[] = sequence_pattern.split("");
+    const subject_string: string[] = sequence_subject.split("");
 
-    const pattern_number: number[] = pattern.map((nuc) => {
+    const pattern_number: number[] = pattern_string.map((nuc) => {
         const idx = label_bases.indexOf(nuc);
         return idx == -1 ? 4 : idx;
     });
-    const subject_number: number[] = subject.map((nuc) => {
+    const subject_number: number[] = subject_string.map((nuc) => {
         const idx = label_bases.indexOf(nuc);
         return idx == -1 ? 4 : idx;
     });
 
-    const matriz = [pattern_number, subject_number];
-
+    const type:PlotType = "heatmap";
+    const y:Datum[] = ["pattern", "subject"];
+    
+    const matriz:Datum[][] = [pattern_number, subject_number];
+        
     // Ticks de la barra de colores
-    const tickVals = [0, 1, 2, 3, 4];
-    const tickText = ["A", "T", "C", "G", "-"];
+    const tickVals:Datum[] = [0, 1, 2, 3, 4];
+    const tickText:Datum[] = ["A", "T", "C", "G", "-"];
 
-    const colorScale = [
+    const colorScale: ColorScale = [
         [0 / 4, nucleotideColors["A"]],
         [1 / 4, nucleotideColors["T"]],
         [2 / 4, nucleotideColors["C"]],
@@ -48,27 +53,27 @@ function AlignView() {
             </InputGroup>
             <InputGroup className="mb-3">
                 <InputGroup.Text>Subject</InputGroup.Text>
-                <Form.Control  value={sequence_subject} as="textarea" />
+                <Form.Control value={sequence_subject} as="textarea" />
             </InputGroup>
             <Card.Body>
                 <Plot
                     data={[
                         {
-                            x: pattern.length,
-                            y: ["pattern", "subject"],
+                            //x: pattern.length,
+                            y: y,
                             z: matriz,
                             zmin: 0,
                             zmax: 4,
-                            type: "heatmap",
+                            type: type,
                             colorscale: colorScale,
                             showscale: false,
                             colorbar: {
                                 tickvals: tickVals,
                                 ticktext: tickText,
-                                title: "Bases",
+                                title: { text: "Bases" },
                             },
                             hoverinfo: "text",
-                            text: [pattern, subject],
+                            //text: text,
                         },
                     ]}
                     layout={{
@@ -76,11 +81,17 @@ function AlignView() {
                             text: "Alineamiento de secuencias",
                         },
                         xaxis: {
-                            title: "Posición",
+                            title: {
+                                text: "Posicion",
+                            },
                             rangeslider: { visible: true },
-                            autorange: true,
+                            //autorange: true,
                         },
-                        yaxis: { title: "Secuencia" },
+                        yaxis: {
+                            title: {
+                                text: "Secuencia",
+                            },
+                        },
                         height: 400,
                         dragmode: "pan", ///!!!!!!! arrastrar en el eje x
                     }}
