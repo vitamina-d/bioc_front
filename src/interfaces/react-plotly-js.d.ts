@@ -1,4 +1,4 @@
-declare module "react-plotly.js" {
+/*declare module "react-plotly.js" {
   import Plotly from "plotly.js";
   import { Component } from "react";
 
@@ -17,3 +17,4 @@ declare module "react-plotly.js" {
 
   export default class Plot extends Component<PlotParams> {}
 }
+*/
