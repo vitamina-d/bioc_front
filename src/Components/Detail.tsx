@@ -1,17 +1,18 @@
 import { label_bases } from "../const/label_bases";
 import { nucleotideColors } from "../const/nucleotideColors";
 import { response } from "../const/response";
-import type { Nucleotides } from "../interfaces/ApiResponse";
-import PlotPie from "./PlotPie";
-import PlotBar from "./PlotBar";
+import type { Nucleotides } from "../types/ApiResponse";
+import PlotPie from "./Plots/PlotPie";
+import PlotBar from "./Plots/PlotBar";
 import { Button, Card, CardBody, CardText } from "react-bootstrap";
-import PlotIslandBar from "./PlotIslandBar";
-import PlotHistogram from "./PlotHistogram";
-import PlotScatter from "./PlotScatter";
+import PlotIslandBar from "./Plots/PlotIslandBar";
+import PlotHistogram from "./Plots/PlotHistogram";
+import PlotScatter from "./Plots/PlotScatter";
 import type { ResponseGetSummaryPublic } from "../types/ResponseGetSummaryPublic";
 import { SummaryService } from "../services/PublicServices";
 import { useState } from "react";
 import Header from "./Header";
+import SequenceViewer from "./SequenceViewer";
 
 function Detail() {
     const xValues: number[] = response.data.CpG_ranges.map((r) => r.start);
@@ -85,6 +86,11 @@ function Detail() {
                     <CardText>Description: {summary.description}</CardText>
                     <CardText>Location: {summary.mapLocation}</CardText>
                     <CardText>Summary: {summary.summary}</CardText>
+                    <SequenceViewer
+                        sequence={
+                            "AAAAAAACCCCCCCCCGGGGGGGGGTTTTTTTTTTTCCCCCCCCCGGGGGGGGGG"
+                        }
+                    />
 
                     <div className="row">
                         <div className="col-lg-6">

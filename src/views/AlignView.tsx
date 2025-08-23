@@ -1,11 +1,11 @@
-import { Card } from "react-bootstrap";
+import { Card, Form, InputGroup } from "react-bootstrap";
 import Header from "../Components/Header";
 import { label_bases } from "../const/label_bases";
 import { nucleotideColors } from "../const/nucleotideColors";
 import Plot from "react-plotly.js";
-import { align } from "../const/align";
+import { align } from "../types/align";
 
-function Align() {
+function AlignView() {
     const sequence_pattern = align.pattern_align;
     const sequence_subject = align.subject_align;
 
@@ -42,6 +42,14 @@ function Align() {
                 text="subtitle."
                 imageSrc="../../public/gene.png"
             />
+            <InputGroup className="mb-3">
+                <InputGroup.Text>Pattern</InputGroup.Text>
+                <Form.Control value={sequence_pattern} as="textarea" />
+            </InputGroup>
+            <InputGroup className="mb-3">
+                <InputGroup.Text>Subject</InputGroup.Text>
+                <Form.Control  value={sequence_subject} as="textarea" />
+            </InputGroup>
             <Card.Body>
                 <Plot
                     data={[
@@ -88,4 +96,4 @@ function Align() {
     );
 }
 
-export default Align;
+export default AlignView;

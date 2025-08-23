@@ -1,12 +1,12 @@
 import { Card } from "react-bootstrap";
 import Header from "../Components/Header";
 
-function Home() {
+function ProteinView() {
     return (
         <Card className="p-3 my-3">
             <Header
-                title="v i t a m i n a"
-                text="Tema: Aplicación web para el análisis de datos genómicos relacionados con la Vitamina D, su estudio y caracterización."
+                title="Proteina"
+                text="3DMol."
                 imageSrc="../../public/gene.png"
             />
 
@@ -22,4 +22,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default ProteinView;

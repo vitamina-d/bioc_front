@@ -3,7 +3,7 @@ import Header from "../Components/Header";
 import ReadFile from "../Components/ReadFile";
 import { useState } from "react";
 
-function Upload() {
+function UploadView() {
     const [content, setContent] = useState<string>("");
 
     return (
@@ -18,4 +18,4 @@ function Upload() {
     );
 }
 
-export default Upload;
+export default UploadView;

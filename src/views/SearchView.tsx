@@ -8,7 +8,7 @@ import Header from "../Components/Header";
 import type { ResponseGetSequenceByRangePlumber } from "../types/ResponseGetSequenceByRangePlumber";
 import type { ResponseGetSequenceByRangePublic } from "../types/ResponseGetSequenceByRangePublic";
 
-function Search() {
+function SearchView() {
     const [start, setStart] = useState("100000");
     const [end, setEnd] = useState("100100");
     const [chr, setChr] = useState("");
@@ -60,4 +60,4 @@ function Search() {
     );
 }
 
-export default Search;
+export default SearchView;

@@ -3,7 +3,7 @@ import Dropdown from "./Dropdown";
 import InputRange from "./InputRange";
 import Button from "./Button";
 import { chromosomes } from "../const/chr";
-import { optionsRequest } from "../const/optionsRequest";
+import { optionsRequest } from "../const/optionsDropdownSeq";
 
 type Props = {
     submit: FormEventHandler;

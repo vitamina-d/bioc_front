@@ -1,23 +1,25 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navigation from "./Components/Navigation";
-import Search from "./views/Search";
-import Home from "./views/Home";
-import Sequence from "./views/Sequence";
-import Align from "./views/Align";
-import Upload from "./views/Upload";
+import SearchView from "./views/SearchView";
+import AboutView from "./views/AboutView";
+import HomeView from "./views/HomeView";
+import AlignView from "./views/AlignView";
+import UploadView from "./views/UploadView";
 import DetailView from "./views/DetailView";
+import ProteinView from "./views/ProteinView";
 
 function App() {
     return (
         <BrowserRouter>
             <Navigation />
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<HomeView />} />
                 <Route path="/detail" element={<DetailView />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/sequence" element={<Sequence />} />
-                <Route path="/align" element={<Align />} />
-                <Route path="/upload" element={<Upload />} />
+                <Route path="/search" element={<SearchView />} />
+                <Route path="/align" element={<AlignView />} />
+                <Route path="/upload" element={<UploadView />} />
+                <Route path="/protein" element={<ProteinView />} />
+                <Route path="/about" element={<AboutView />} />
             </Routes>
         </BrowserRouter>
     );

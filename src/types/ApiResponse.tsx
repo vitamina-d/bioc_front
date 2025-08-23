@@ -1,21 +1,21 @@
-export interface ApiResponse {
+export type ApiResponse = {
     status: string;
     time_secs: number;
     data: ResponseData;
 }
 
-export interface ResponseData {
+export type ResponseData = {
   nucleotides: Nucleotides;
   counter_CpG: number;
   CpG_ranges: CpGRange[];
 }
 
-export interface Nucleotides {
+export type Nucleotides = {
     labels: string[];
     counts: number[];
 }
 
-export interface CpGRange {
+export type CpGRange = {
   start: number;
   end: number;
   width: number;

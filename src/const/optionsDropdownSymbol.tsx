@@ -1,0 +1,25 @@
+export const optionsSymbol: string[] = [
+    "DHCR7",
+    "CYP2R1",
+    "CYP3A4",
+    "CYP24A1",
+    "CYP27A1",
+    "CYP27B1",
+    "GC",
+    "VDR",
+    "RXRA",
+    //"RXRB",
+    "RXRG",
+    "CASR",
+    "PTH",
+    //"PTHR1",
+    "CALB1", // o_o
+    //"TRPV6",
+    "SLC24A5",
+    "SLC34A1",
+    "SLC34A3",
+    "SLC37A2",
+    "PKNOX2",
+    //"SLC45A2",
+    //"OCA2"
+];
