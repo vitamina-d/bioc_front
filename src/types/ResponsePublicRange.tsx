@@ -1,4 +1,4 @@
-export type ResponseGetSequenceByRangePublic = {
+export type ResponsePublicRange = {
   id: string;
   seq: string;
   query: string;

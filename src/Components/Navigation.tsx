@@ -1,13 +1,15 @@
-import { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 
-function Navigation() {
-    const [input, setInput] = useState<string>("idle");
+interface NavigationProps {
+    search: string;
+    setSearch: React.Dispatch<React.SetStateAction<string>>;
+}
 
+function Navigation({ search, setSearch }: NavigationProps) {
     return (
         <Navbar expand="lg" bg="light">
             <Container>
@@ -25,9 +27,6 @@ function Navigation() {
                     <Nav.Link as={Link} to="/home">
                         Home
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/detail">
-                        Detail
-                    </Nav.Link>
                     <Nav.Link as={Link} to="/search">
                         Search
                     </Nav.Link>
@@ -44,25 +43,34 @@ function Navigation() {
                         About
                     </Nav.Link>
                 </Nav>
-
-                <div className="input-group w-auto">
-                    <label className="input-group-text">input</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="inputSymbol"
-                        placeholder={input}
-                        onChange={(e) => setInput(e.target.value)}
-                    />
-                    <Button
-                        variant="light"                        
-                        onClick={() => alert(input)}
-                    >
-                        <svg width="16" height="16" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                        </svg>
-                    </Button>
-                </div>
+                <Form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        alert("BUSCAR " + search);
+                    }}
+                >
+                    <div className="input-group w-auto">
+                        <input
+                            type="text"
+                            className="form-control "
+                            id="inputSymbol"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                        <label className="input-group-text p-0">
+                            <Button
+                                variant="light"
+                                className="bg-light"
+                                type="submit"
+                                //onClick={() => alert(search)}
+                            >
+                                <svg width="16" height="16" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                                </svg>
+                            </Button>
+                        </label>
+                    </div>
+                </Form>
             </Container>
         </Navbar>
     );

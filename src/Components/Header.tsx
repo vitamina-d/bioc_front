@@ -7,7 +7,7 @@ interface HeaderProps {
 function Header(props: HeaderProps & { imageSrc?: string }) {
     const { title, text, imageSrc } = props;
     return (
-        <div className="d-flex align-items-start mb-2 p-3">
+        <div className="d-flex align-items-center p-3">
             {imageSrc && (
                 <img
                     src={imageSrc}

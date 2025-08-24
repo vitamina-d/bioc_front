@@ -1,7 +1,5 @@
-export type ResponseGetSummaryPublic = {
-  entrezId: string;
+export type ResponsePublicSummary = {
   name: string;
-  mapLocation: string;
   description: string;
   summary: string;
   scientificname: string;

@@ -4,30 +4,15 @@ import { response } from "../const/response";
 import type { Nucleotides } from "../types/ApiResponse";
 import PlotPie from "./Plots/PlotPie";
 import PlotBar from "./Plots/PlotBar";
-import { Button, Card, CardBody, CardText } from "react-bootstrap";
+import { Card, CardBody } from "react-bootstrap";
 import PlotIslandBar from "./Plots/PlotIslandBar";
 import PlotHistogram from "./Plots/PlotHistogram";
 import PlotScatter from "./Plots/PlotScatter";
-import type { ResponseGetSummaryPublic } from "../types/ResponseGetSummaryPublic";
-import { SummaryService } from "../services/PublicServices";
-import { useState } from "react";
-import Header from "./Header";
 import SequenceViewer from "./SequenceViewer";
 
 function Detail() {
     const xValues: number[] = response.data.CpG_ranges.map((r) => r.start);
     const nucleotides: Nucleotides = response.data.nucleotides;
-    const [entrez, setEntrez] = useState("1717");
-    const [symbol, setSymbol] = useState("DHCR7");
-    const [summary, setSummary] = useState<ResponseGetSummaryPublic>({
-        entrezId: "",
-        name: "",
-        mapLocation: "",
-        description: "",
-        summary: "",
-        scientificname: "",
-        taxId: 0,
-    });
     const atcg: Nucleotides = {
         labels: ["AT", "CG"],
         counts: [
@@ -40,52 +25,10 @@ function Detail() {
 
     const colors: string[] = label_bases.map((b) => nucleotideColors[b]);
 
-    //click button
-    const onClick = async () => {
-        console.log("SUMMARY");
-        console.log("ENTREZ: " + entrez + "| SYMBOL: " + symbol);
-        const res: ResponseGetSummaryPublic = await SummaryService(
-            entrez,
-            "gene"
-        );
-        console.log(res);
-        setSummary(res);
-    };
-
     return (
-        <div className="container my-4">
-            <div className="input-group mb-3 w-auto">
-                <label className="input-group-text">SYMBOL</label>
-                <input
-                    type="string"
-                    className="form-control"
-                    id="inputSymbol"
-                    placeholder={symbol}
-                    onChange={(e) => setSymbol(e.target.value)}
-                />
-                <Button onClick={() => alert(symbol)}>Buscar</Button>
-            </div>
-            <div className="input-group mb-3 w-auto">
-                <label className="input-group-text">ENTREZID</label>
-                <input
-                    type="string"
-                    className="form-control"
-                    id="inputEntrez"
-                    placeholder={entrez}
-                    onChange={(e) => setEntrez(e.target.value)}
-                />
-                <Button onClick={onClick}>Buscar</Button>
-            </div>
-
+        <div>
             <Card className="shadow">
-                <Header
-                    title={summary.name}
-                    text={`${summary.scientificname} (Tax ID: ${summary.taxId})`}
-                />
                 <CardBody>
-                    <CardText>Description: {summary.description}</CardText>
-                    <CardText>Location: {summary.mapLocation}</CardText>
-                    <CardText>Summary: {summary.summary}</CardText>
                     <SequenceViewer
                         sequence={
                             "AAAAAAACCCCCCCCCGGGGGGGGGTTTTTTTTTTTCCCCCCCCCGGGGGGGGGG"

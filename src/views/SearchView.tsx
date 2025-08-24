@@ -5,8 +5,8 @@ import SequenceViewer from "../Components/SequenceViewer";
 import { EnsemblService } from "../services/PublicServices";
 import { GetSequenceByRange } from "../services/PlumberServices";
 import Header from "../Components/Header";
-import type { ResponseGetSequenceByRangePlumber } from "../types/ResponseGetSequenceByRangePlumber";
-import type { ResponseGetSequenceByRangePublic } from "../types/ResponseGetSequenceByRangePublic";
+import type { ResponsePlumberRange } from "../types/ResponsePlumberRange";
+import type { ResponsePublicRange } from "../types/ResponsePublicRange";
 
 function SearchView() {
     const [start, setStart] = useState("100000");
@@ -21,15 +21,21 @@ function SearchView() {
 
         if (req === "ensembl") {
             console.log("PUBLIC: chr:", chr, "start", start, "end", end);
-            const response: ResponseGetSequenceByRangePublic =
-                await EnsemblService(chr, parseInt(start), parseInt(end));
+            const response: ResponsePublicRange = await EnsemblService(
+                chr,
+                parseInt(start),
+                parseInt(end)
+            );
             console.log(response);
             setData(response.seq);
         } else if (req === "bsgenome") {
             console.log("PLUMBER: chr:", chr, "start", start, "end", end);
 
-            const response: ResponseGetSequenceByRangePlumber =
-                await GetSequenceByRange(chr, parseInt(start), parseInt(end));
+            const response: ResponsePlumberRange = await GetSequenceByRange(
+                chr,
+                parseInt(start),
+                parseInt(end)
+            );
 
             console.log(response);
             setData(response.data.sequence);

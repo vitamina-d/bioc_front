@@ -1,20 +1,21 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useState } from "react";
 import Navigation from "./Components/Navigation";
-import SearchView from "./views/SearchView";
-import AboutView from "./views/AboutView";
 import HomeView from "./views/HomeView";
+import SearchView from "./views/SearchView";
 import AlignView from "./views/AlignView";
 import UploadView from "./views/UploadView";
-import DetailView from "./views/DetailView";
 import ProteinView from "./views/ProteinView";
+import AboutView from "./views/AboutView";
 
 function App() {
+    const [search, setSearch] = useState<string>("");
+
     return (
         <BrowserRouter>
-            <Navigation />
+            <Navigation search={search} setSearch={setSearch}/>
             <Routes>
                 <Route path="/home" element={<HomeView />} />
-                <Route path="/detail" element={<DetailView />} />
                 <Route path="/search" element={<SearchView />} />
                 <Route path="/align" element={<AlignView />} />
                 <Route path="/upload" element={<UploadView />} />

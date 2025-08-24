@@ -1,4 +1,4 @@
-export type ResponseGetSequenceByRangePlumber = {
+export type ResponsePlumberRange = {
   status: string;
   time_secs: number;
   data: {
