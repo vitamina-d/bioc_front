@@ -1,8 +1,8 @@
 import { CardBody, Col, ListGroup, Row } from "react-bootstrap";
-import type { ResponseGetSummaryPublic } from "../types/ResponsePublicSummary";
+import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 
 interface InfoNcbiProps {
-    data: ResponseGetSummaryPublic;
+    data: ResponsePublicSummary;
 }
 
 function InfoNcbi({ data }: InfoNcbiProps) {

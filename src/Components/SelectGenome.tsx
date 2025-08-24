@@ -1,9 +1,9 @@
 import { type FormEventHandler } from "react";
 import Dropdown from "./Dropdown";
 import InputRange from "./InputRange";
-import Button from "./Button";
 import { optionsChromosomes } from "../const/optionsChromosomes";
 import { optionsRequestRange } from "../const/optionsRequestRange";
+import { Button } from "react-bootstrap";
 
 type Props = {
     submit: FormEventHandler;
@@ -16,11 +16,10 @@ type Props = {
 };
 
 function SelectGenome({ submit, setChr, setReq, start, setStart, end, setEnd }: Props) {
-    const isLoading = false;
 
     return (
         <form onSubmit={submit}>
-            <div className="row">
+            <div className="row mx-1 ">
                 <div className="col-12 col-md">
                     <Dropdown setItem={setReq} options={optionsRequestRange}>Consulta a</Dropdown>
                 </div>
@@ -34,8 +33,8 @@ function SelectGenome({ submit, setChr, setReq, start, setStart, end, setEnd }: 
                     <InputRange number={end} setNumber={setEnd}>Hasta</InputRange>
                 </div>
                 <div className="col-12 col-md-auto">
-                    <Button isLoading={isLoading} onClick={submit}>
-                        {isLoading ? "Cargando..." : "Consulta"}
+                    <Button onClick={submit}>
+                        Search
                     </Button>
                 </div>
             </div>

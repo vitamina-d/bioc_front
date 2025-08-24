@@ -1,11 +1,14 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Card } from "react-bootstrap";
 import SelectGenome from "../Components/SelectGenome";
 import SequenceViewer from "../Components/SequenceViewer";
 import { EnsemblService } from "../services/PublicServices";
 import { GetSequenceByRange } from "../services/PlumberServices";
 import Header from "../Components/Header";
-import type { ResponsePlumberSequence } from "../types/ResponsePlumberSequence";
+import type {
+    DataPlumberSequence,
+    ResponsePlumberSequence,
+} from "../types/ResponsePlumberSequence";
 import type { ResponsePublicRange } from "../types/ResponsePublicRange";
 
 function SearchView() {
@@ -13,7 +16,17 @@ function SearchView() {
     const [end, setEnd] = useState("100100");
     const [chr, setChr] = useState("");
     const [req, setReq] = useState("");
-    const [data, setData] = useState("AAA");
+    const [data, setData] = useState(""); //DataPlumberSequence
+
+    const [dto, setDto] = useState<DataPlumberSequence | null>(null);
+
+    useEffect(() => {
+        setDto({
+            complete: true,
+            sequence: data,
+            sequence_length: data.length,
+        });
+    }, [data]);
 
     //click button
     const handleSubmit = async (event: FormEvent) => {
@@ -61,7 +74,7 @@ function SearchView() {
                 setReq={setReq}
                 submit={handleSubmit}
             />
-            <SequenceViewer sequence={data} />
+            {dto ? <SequenceViewer data={dto} /> : "" }
         </Card>
     );
 }
