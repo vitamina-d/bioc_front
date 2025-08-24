@@ -19,8 +19,8 @@ function PlotPie({ title, values, labels, colors }: PlotPieProps) {
                     marker: {
                         colors: colors,
                     },
-                    textinfo: "percent", // label+percent
-                    textposition: "outside",
+                    textinfo: "label+percent", // label+percent
+                    //textposition: "outside",
                     automargin: true,
                     showlegend: true,
                     hole: 0.5,
@@ -38,11 +38,10 @@ function PlotPie({ title, values, labels, colors }: PlotPieProps) {
                     x: 0.5,
                     y: 0,
                     xanchor: "center",
-                    
+                    yanchor: "top"
                 },
             }}
             useResizeHandler
-            style={{ width: "100%", height: "100%" }}
         />
     );
 }

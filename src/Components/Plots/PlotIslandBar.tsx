@@ -19,10 +19,12 @@ function PlotIslandBar({ title, x }: PlotIslandBarProps) {
                 title: {
                     text: title,
                 },
-                
+
                 yaxis: { visible: false },
+                autosize: true,
             }}
-            style={{ width: "100%" }}
+            style={{ width: "100%", height: "100%" }}
+            useResizeHandler
         />
     );
 }

@@ -2,8 +2,8 @@ import { type FormEventHandler } from "react";
 import Dropdown from "./Dropdown";
 import InputRange from "./InputRange";
 import Button from "./Button";
-import { chromosomes } from "../const/chr";
-import { optionsRequest } from "../const/optionsDropdownSeq";
+import { optionsChromosomes } from "../const/optionsChromosomes";
+import { optionsRequestRange } from "../const/optionsRequestRange";
 
 type Props = {
     submit: FormEventHandler;
@@ -22,10 +22,10 @@ function SelectGenome({ submit, setChr, setReq, start, setStart, end, setEnd }: 
         <form onSubmit={submit}>
             <div className="row">
                 <div className="col-12 col-md">
-                    <Dropdown setItem={setReq} options={optionsRequest}>Consulta a</Dropdown>
+                    <Dropdown setItem={setReq} options={optionsRequestRange}>Consulta a</Dropdown>
                 </div>
                 <div className="col-12 col-md">
-                    <Dropdown setItem={setChr} options={chromosomes}>Cromosoma</Dropdown>
+                    <Dropdown setItem={setChr} options={optionsChromosomes}>Cromosoma</Dropdown>
                 </div>
                 <div className="col-6 col-md">
                     <InputRange number={start} setNumber={setStart}>Desde</InputRange>

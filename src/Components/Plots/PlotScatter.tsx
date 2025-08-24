@@ -23,15 +23,17 @@ function PlotScatter({ title, x }: PlotScatterProps) {
                 },
 
                 xaxis: {
-                    title: "X",
+                    //title: "X",
                     showline: false,
                     showgrid: true,
-                    zeroline: false, 
+                    zeroline: false,
                 },
                 yaxis: { visible: false },
                 height: 300,
+                autosize: true,
             }}
-            style={{ width: "100%" }}
+            style={{ width: "100%", height: "100%" }}
+            useResizeHandler
         />
     );
 }

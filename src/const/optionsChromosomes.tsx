@@ -1,4 +1,4 @@
-export const chromosomes: { label: string; value: string }[] = [
+export const optionsChromosomes: { label: string; value: string }[] = [
     { label: "chr1", value: "1" },
     { label: "chr2", value: "2" },
     { label: "chr3", value: "3" },

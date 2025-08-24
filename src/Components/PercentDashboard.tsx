@@ -1,9 +1,67 @@
+import type {
+    DataPlumberPercent,
+    Nucleotides,
+} from "../types/ResponsePlumberPercent";
+import PlotPie from "./Plots/PlotPie";
+import { nucleotideColors } from "../const/nucleotideColors";
+import PlotIslandBar from "./Plots/PlotIslandBar";
+import PlotHistogram from "./Plots/PlotHistogram";
+import PlotScatter from "./Plots/PlotScatter";
+import { Carousel } from "react-bootstrap";
+
 type Props = {
-    sequence: string;
+    data: DataPlumberPercent;
 };
 
-function PercentDashboard({ sequence }: Props) {
-    return <div className="rounded my-3">{sequence && <h1>PERCENT</h1>}</div>;
+function PercentDashboard({ data }: Props) {
+    const nucleotides: Nucleotides = data.composition.nucleotides;
+    const values: number[] = Object.values(nucleotides);
+    const labels: string[] = Object.keys(nucleotides);
+
+    const par_labels: string[] = ["AC", "GT"];
+    const par_values: number[] = [
+        nucleotides.A + nucleotides.C,
+        nucleotides.G + nucleotides.T,
+    ];
+
+    const xValues: number[] = data.cpg_islands.ranges.map((r) => r.start);
+
+    return (
+        data && (
+            <Carousel variant="dark" slide={false}>
+                <Carousel.Item>
+                    <div className="row d-flex justify-content-center align-items-center">
+                        <div className="col-lg-6">
+                            <PlotPie
+                                title="Bases"
+                                values={values}
+                                labels={labels}
+                                colors={Object.values(nucleotideColors)}
+                            />
+                        </div>
+                        <div className="col-lg-6">
+                            <PlotPie
+                                title="AC GT"
+                                values={par_values}
+                                labels={par_labels}
+                                colors={Object.values(nucleotideColors)}
+                            />
+                        </div>
+                    </div>
+                </Carousel.Item>
+                <Carousel.Item>
+                    <PlotIslandBar title="CpG" x={xValues} />{" "}
+                </Carousel.Item>
+                <Carousel.Item>
+                    <PlotHistogram title="Histograma" x={xValues} />
+                </Carousel.Item>
+                <Carousel.Item>
+                    <PlotScatter title="Dispersion CpG" x={xValues} />
+                    ok
+                </Carousel.Item>
+            </Carousel>
+        )
+    );
 }
 
 export default PercentDashboard;

@@ -7,12 +7,23 @@ import type {
 } from "../types/ResponsePlumberDetail";
 import Searcher from "../Components/Searcher";
 import Info from "../Components/Info";
-import { GetDetail, GetSequence } from "../services/PlumberServices";
+import {
+    GetDetail,
+    GetPercent,
+    GetSequence,
+} from "../services/PlumberServices";
 import { SummaryService } from "../services/PublicServices";
-import type { ResponsePlumberSequence } from "../types/ResponsePlumberSequence";
+import type {
+    DataPlumberSequence,
+    ResponsePlumberSequence,
+} from "../types/ResponsePlumberSequence";
 import SequenceViewer from "../Components/SequenceViewer";
 import Header from "../Components/Header";
 import PercentDashboard from "../Components/PercentDashboard";
+import type {
+    DataPlumberPercent,
+    ResponsePlumberPercent,
+} from "../types/ResponsePlumberPercent";
 
 function HomeView() {
     const [input, setInput] = useState<string>("");
@@ -20,7 +31,8 @@ function HomeView() {
     const [detail, setDetail] = useState<DataPlumberDetail>();
     const [loading, setLoading] = useState<boolean>(false);
 
-    const [sequence, setSequence] = useState<string>();
+    const [sequence, setSequence] = useState<DataPlumberSequence>();
+    const [percent, setPercent] = useState<DataPlumberPercent>();
 
     //click en Searcher
     const handleClickSearch = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +63,12 @@ function HomeView() {
                 input,
                 true
             );
-            setSequence(seqRes.data.sequence);
+            const percentRes: ResponsePlumberPercent = await GetPercent(
+                seqRes.data.sequence
+            );
+            setSequence(seqRes.data);
+            setPercent(percentRes.data);
+            console.log(percentRes);
         } catch (err) {
             console.error(err);
         } finally {
@@ -84,15 +101,15 @@ function HomeView() {
                 ) : (
                     <></>
                 )}
-                {sequence ? (
+                {sequence || percent ? (
                     <Card className="shadow  my-3">
                         <Card.Body>
                             <Header
                                 title="Sequence"
                                 imageSrc={"/public/seq.png"}
                             />
-                            <SequenceViewer sequence={sequence} />
-                            <PercentDashboard sequence={sequence} />
+                            {sequence ? <SequenceViewer data={sequence} /> : ""}    
+                            {percent ? <PercentDashboard data={percent} /> : ""}
                         </Card.Body>
                     </Card>
                 ) : (

@@ -83,7 +83,7 @@ function Info({ dataPublic, dataPlumber }: InfoProps) {
                                 <Row>
                                     <Col xs={3}>Strand</Col>
                                     <Col xs={9}>
-                                        {dataPlumber.location.strand}
+                                        {dataPlumber.location.strand == "-" ? "3′ → 5′" : "5′ → 3′"}
                                     </Col>
                                 </Row>
                             </ListGroup.Item>

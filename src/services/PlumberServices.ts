@@ -3,7 +3,7 @@ import type { ResponsePlumberAlign } from "../types/ResponsePlumberAlign";
 import type { ResponsePlumberDetail } from "../types/ResponsePlumberDetail";
 import type { ResponsePlumberPercent } from "../types/ResponsePlumberPercent";
 
-const DOTNET_PLUMBER_URL: string = "https://localhost:32783/api/Plumber"; //api a R
+const DOTNET_PLUMBER_URL: string = "https://localhost:32783/api/Plumber";
 
 //https://localhost:32769/api/Plumber/detail?gene_symbol=${gene_symbol}
 
@@ -25,13 +25,17 @@ const GetSequence = async (
     return data;
 };
 
-//https://localhost:32769/api/Plumber/percent?sequence=${sequence}
+//https://localhost:32769/api/Plumber/percent?seq=${sequence}
 const GetPercent = async (
     sequence: string
 ): Promise<ResponsePlumberPercent> => {
-    const response = await fetch(
-        `${DOTNET_PLUMBER_URL}/percent?sequence=${sequence}`
-    );
+    const response = await fetch(`${DOTNET_PLUMBER_URL}/percent`, {
+        method: "POST",
+        body: JSON.stringify(sequence),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
     const data = await response.json();
     return data;
 };

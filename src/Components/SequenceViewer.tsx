@@ -1,32 +1,35 @@
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
+import type { DataPlumberSequence } from "../types/ResponsePlumberSequence";
 
 type Props = {
-    sequence: string;
+    data: DataPlumberSequence;
 };
 
-function SequenceViewer({ sequence }: Props) {
-    
+function SequenceViewer({ data }: Props) {
     const copySequence = () => {
-        navigator.clipboard.writeText(sequence);
-        console.log("copied: " + sequence);
+        navigator.clipboard.writeText(data.sequence);
+        console.log("copied: " + data);
     };
 
     return (
-        <div className="rounded my-3">
-            {sequence && (
-                <>
-                    <pre
-                        className="p-3 border rounded overflow-auto"
-                        style={{ maxHeight: "300px" }}
-                    >
-                        {sequence}
-                    </pre>
+        data && (
+            <div className=" mx-3">
+                <pre
+                    className="p-3 border rounded overflow-auto"
+                    style={{ overflowY: "auto" }}
+                >
+                    {data.sequence}
+                </pre>
+                <div className="d-flex justify-content-between">
                     <Button size="sm" variant="dark" onClick={copySequence}>
                         Copy
                     </Button>
-                </>
-            )}
-        </div>
+                    <Card.Text className="small fw-bold">
+                        Lenght: {data.sequence_length}
+                    </Card.Text>
+                </div>
+            </div>
+        )
     );
 }
 
