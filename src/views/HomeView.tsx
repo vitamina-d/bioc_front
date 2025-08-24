@@ -12,23 +12,24 @@ import { SummaryService } from "../services/PublicServices";
 import type { ResponsePlumberSequence } from "../types/ResponsePlumberSequence";
 import SequenceViewer from "../Components/SequenceViewer";
 import Header from "../Components/Header";
+import PercentDashboard from "../Components/PercentDashboard";
 
 function HomeView() {
     const [input, setInput] = useState<string>("");
-    const [data, setData] = useState<ResponsePublicSummary | undefined>();
-    const [detail, setDetail] = useState<DataPlumberDetail | undefined>();
+    const [data, setData] = useState<ResponsePublicSummary>();
+    const [detail, setDetail] = useState<DataPlumberDetail>();
     const [loading, setLoading] = useState<boolean>(false);
 
     const [sequence, setSequence] = useState<string>();
 
     //click en Searcher
-    const handleClickDetail = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleClickSearch = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         setLoading(true);
         setDetail(undefined);
         setData(undefined);
-
+        setSequence(undefined);
         try {
             const publicRes: ResponsePublicSummary = await SummaryService(
                 input
@@ -65,10 +66,10 @@ function HomeView() {
                     text={loading ? "Loading" : "Search"}
                     input={input}
                     setInput={setInput}
-                    onClick={handleClickDetail}
+                    onClick={handleClickSearch}
                 />
                 {!loading && (data || detail) ? (
-                    <Card className="shadow">
+                    <Card className="shadow p-3 my-3 mb-5">
                         <Info dataPublic={data} dataPlumber={detail} />
                         <Card.Text className="text-center">
                             <Button
@@ -84,9 +85,15 @@ function HomeView() {
                     <></>
                 )}
                 {sequence ? (
-                    <Card className="px-5 my-3 shadow">
-                        <Header title="Sequence" imageSrc={"/public/seq.png"} />
-                        <SequenceViewer sequence={sequence} />
+                    <Card className="shadow  my-3">
+                        <Card.Body>
+                            <Header
+                                title="Sequence"
+                                imageSrc={"/public/seq.png"}
+                            />
+                            <SequenceViewer sequence={sequence} />
+                            <PercentDashboard sequence={sequence} />
+                        </Card.Body>
                     </Card>
                 ) : (
                     ""

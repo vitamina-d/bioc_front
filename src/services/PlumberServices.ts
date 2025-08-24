@@ -1,8 +1,7 @@
-import type { ResponsePlumberRange } from "../types/ResponsePlumberRange";
+import type { ResponsePlumberSequence } from "../types/ResponsePlumberSequence";
 import type { ResponsePlumberAlign } from "../types/ResponsePlumberAlign";
 import type { ResponsePlumberDetail } from "../types/ResponsePlumberDetail";
 import type { ResponsePlumberPercent } from "../types/ResponsePlumberPercent";
-import type { ResponsePlumberSequence } from "../types/ResponsePlumberSequence";
 
 const DOTNET_PLUMBER_URL: string = "https://localhost:32783/api/Plumber"; //api a R
 
@@ -55,9 +54,9 @@ const GetSequenceByRange = async (
     chr: string,
     start: number,
     end: number
-): Promise<ResponsePlumberRange> => {
+): Promise<ResponsePlumberSequence> => {
     const response = await fetch(
-        `${DOTNET_PLUMBER_URL}/sequence_by_range?chrom=chr${chr}&start=${start}&end=${end}`
+        `${DOTNET_PLUMBER_URL}/sequence?chrom=chr${chr}&start=${start}&end=${end}`
     );
     const data = await response.json();
 

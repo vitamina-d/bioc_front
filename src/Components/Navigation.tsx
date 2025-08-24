@@ -11,7 +11,7 @@ interface NavigationProps {
 
 function Navigation({ search, setSearch }: NavigationProps) {
     return (
-        <Navbar expand="lg" bg="light">
+        <Navbar expand="lg" bg="light" sticky="top">
             <Container>
                 <Navbar.Brand as={Link} to="/home">
                     <img

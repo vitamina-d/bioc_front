@@ -5,7 +5,7 @@ import SequenceViewer from "../Components/SequenceViewer";
 import { EnsemblService } from "../services/PublicServices";
 import { GetSequenceByRange } from "../services/PlumberServices";
 import Header from "../Components/Header";
-import type { ResponsePlumberRange } from "../types/ResponsePlumberRange";
+import type { ResponsePlumberSequence } from "../types/ResponsePlumberSequence";
 import type { ResponsePublicRange } from "../types/ResponsePublicRange";
 
 function SearchView() {
@@ -31,7 +31,7 @@ function SearchView() {
         } else if (req === "bsgenome") {
             console.log("PLUMBER: chr:", chr, "start", start, "end", end);
 
-            const response: ResponsePlumberRange = await GetSequenceByRange(
+            const response: ResponsePlumberSequence = await GetSequenceByRange(
                 chr,
                 parseInt(start),
                 parseInt(end)
