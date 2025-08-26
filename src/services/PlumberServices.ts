@@ -46,9 +46,16 @@ const GetAlign = async (
     subject: string,
     global: boolean
 ): Promise<ResponsePlumberAlign> => {
+    
     const response = await fetch(
-        `${DOTNET_PLUMBER_URL}/align?pattern=${pattern}&subject=${subject}&global=${global}`
-    );
+        `${DOTNET_PLUMBER_URL}/align`, { 
+        method: "POST",
+        body: JSON.stringify({pattern : pattern, subject : subject, global : global }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    console.log(response);
     const data = await response.json();
     return data;
 };

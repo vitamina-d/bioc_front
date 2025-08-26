@@ -3,7 +3,7 @@ import Dropdown from "./Dropdown";
 import InputRange from "./InputRange";
 import { optionsChromosomes } from "../const/optionsChromosomes";
 import { optionsRequestRange } from "../const/optionsRequestRange";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 type Props = {
     submit: FormEventHandler;
@@ -18,7 +18,7 @@ type Props = {
 function SelectGenome({ submit, setChr, setReq, start, setStart, end, setEnd }: Props) {
 
     return (
-        <form onSubmit={submit}>
+        <Form onSubmit={submit}>
             <div className="row mx-1 ">
                 <div className="col-12 col-md">
                     <Dropdown setItem={setReq} options={optionsRequestRange}>Consulta a</Dropdown>
@@ -38,7 +38,7 @@ function SelectGenome({ submit, setChr, setReq, start, setStart, end, setEnd }: 
                     </Button>
                 </div>
             </div>
-        </form>
+        </Form>
     );
 }
 

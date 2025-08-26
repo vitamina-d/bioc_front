@@ -1,4 +1,11 @@
-import { Badge, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+    Badge,
+    Button,
+    Form,
+    InputGroup,
+    OverlayTrigger,
+    Tooltip,
+} from "react-bootstrap";
 import type { DataPlumberSequence } from "../types/ResponsePlumberSequence";
 
 type Props = {
@@ -6,7 +13,6 @@ type Props = {
 };
 
 function SequenceViewer({ data }: Props) {
-
     const copySequence = () => {
         navigator.clipboard.writeText(data.sequence);
         console.log("copied: " + data);
@@ -14,13 +20,18 @@ function SequenceViewer({ data }: Props) {
 
     return (
         data && (
-            <div className=" mx-3 pb-3 ">
-                <pre
-                    className="p-3 border rounded overflow-auto"
-                    style={{ overflowY: "auto" }}
-                >
-                    {data.sequence}
-                </pre>
+            <div className=" mx-3 pb-3 pt-3 ">
+                <InputGroup className="mb-3">
+                    <InputGroup.Text>Sequence</InputGroup.Text>
+                    <Form.Control
+                        className="py-1 px-2"
+                        as="textarea"
+                        rows={5}
+                        size="sm"
+                        value={data.sequence}
+                        readOnly
+                    />
+                </InputGroup>
                 <div className="d-flex justify-content-end	">
                     <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
                         <span className="d-inline-block">
