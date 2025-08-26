@@ -2,18 +2,32 @@ import Plot from "react-plotly.js";
 
 interface PlotHistogramProps {
     title: string;
-    x: number[];
+    values: number[];
+    lenght: number;
+    window: number;
 }
-
-function PlotHistogram({ title, x }: PlotHistogramProps) {
+//
+function PlotHistogram({ title, values, lenght, window }: PlotHistogramProps) {
     return (
         <Plot
             data={[
                 {
-                    x: x,
+                    x: values,
                     type: "histogram",
-                    histnorm: "probability density",
+                    histnorm: "percent",
                     marker: { opacity: 0.5 },
+                    xbins: {
+                        start: 0,
+                        end: lenght,
+                        size: window, 
+                    },
+                },
+                {
+                    x: values,
+                    y: values.map(() => -0.5),
+                    type: "scatter",
+                    mode: "lines+markers",
+                    marker: { size: 15, opacity: 0.1 },
                 },
             ]}
             layout={{
@@ -24,6 +38,14 @@ function PlotHistogram({ title, x }: PlotHistogramProps) {
                 yaxis: { visible: false },
                 height: 400,
                 autosize: true,
+
+
+                xaxis: {
+                    //title: "X",
+                    showline: false,
+                    showgrid: true,
+                    zeroline: false,
+                },
             }}
             style={{ width: "100%", height: "100%" }}
             useResizeHandler

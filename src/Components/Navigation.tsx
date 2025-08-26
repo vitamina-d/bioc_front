@@ -13,7 +13,7 @@ function Navigation({ search, setSearch }: NavigationProps) {
     return (
         <Navbar expand="lg" bg="light" sticky="top">
             <Container>
-                <Navbar.Brand as={Link} to="/home">
+                <Navbar.Brand as={Link} to="/">
                     <img
                         src={"../../public/gene.png"}
                         width="30"
@@ -27,8 +27,8 @@ function Navigation({ search, setSearch }: NavigationProps) {
                     <Nav.Link as={Link} to="/home">
                         Home
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/search">
-                        Search
+                    <Nav.Link as={Link} to="/range">
+                        Range
                     </Nav.Link>
                     <Nav.Link as={Link} to="/align">
                         Align

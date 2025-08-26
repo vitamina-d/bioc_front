@@ -16,7 +16,7 @@ function App() {
             <Navigation search={search} setSearch={setSearch}/>
             <Routes>
                 <Route path="/home" element={<HomeView />} />
-                <Route path="/search" element={<SearchView />} />
+                <Route path="/range" element={<SearchView />} />
                 <Route path="/align" element={<AlignView />} />
                 <Route path="/upload" element={<UploadView />} />
                 <Route path="/protein" element={<ProteinView />} />

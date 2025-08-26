@@ -9,7 +9,7 @@ function AlignView() {
     const type: PlotType = "heatmap";
     const y: Datum[] = ["pattern", "subject"];
 
-    const sequence_pattern = "GCC-T";
+    const sequence_pattern = "ACAGT"
     const sequence_subject = "AC-GT";
 
     const pattern_string: string[] = sequence_pattern.split("");

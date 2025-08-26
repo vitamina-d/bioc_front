@@ -1,14 +1,14 @@
-import type { ResponseGetSequenceByRangePublic } from "../types/ResponsePublicRange";
-import type { ResponseGetSummaryPublic } from "../types/ResponsePublicSummary";
+import type { ResponsePublicRange } from "../types/ResponsePublicRange";
+import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 
-const DOTNET_PUBLIC_URL: string = `https://localhost:32783/api/Public/`;
+const DOTNET_PUBLIC_URL: string = `https://localhost:32789/api/Public/`;
 
 //https://localhost:32773/api/Public/ensembl?chrom=${chr}&start=${start}&end=${end}`;
 const EnsemblService = async (
     chr: string,
     start: number,
     end: number
-): Promise<ResponseGetSequenceByRangePublic> => {
+): Promise<ResponsePublicRange> => {
     const url = `${DOTNET_PUBLIC_URL}ensembl?chrom=chr${chr}&start=${start}&end=${end}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -19,7 +19,7 @@ const EnsemblService = async (
 //https://localhost:32769/api/Public/summary?entrez=${entrez}&type=${gene}
 const SummaryService = async (
     entrez: string
-): Promise<ResponseGetSummaryPublic> => {
+): Promise<ResponsePublicSummary> => {
     const url = `${DOTNET_PUBLIC_URL}summary?entrez=${entrez}`;
     const response = await fetch(url);
     const data = await response.json();

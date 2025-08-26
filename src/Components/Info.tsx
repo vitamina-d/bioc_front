@@ -83,7 +83,9 @@ function Info({ dataPublic, dataPlumber }: InfoProps) {
                                 <Row>
                                     <Col xs={3}>Strand</Col>
                                     <Col xs={9}>
-                                        {dataPlumber.location.strand == "-" ? "3′ → 5′" : "5′ → 3′"}
+                                        {dataPlumber.location.strand == "-"
+                                            ? "3′ → 5′ (-)"
+                                            : "5′ → 3′ (+)"}
                                     </Col>
                                 </Row>
                             </ListGroup.Item>
@@ -104,30 +106,42 @@ function Info({ dataPublic, dataPlumber }: InfoProps) {
                                     </Col>
                                 </Row>
                             </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col xs={3}>Ensembl Id Gene</Col>
-                                    <Col xs={9}>
-                                        {dataPlumber.ensembl_id_gene}
-                                    </Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col xs={3}>Ensembl Id Protein</Col>
-                                    <Col xs={9}>
-                                        {dataPlumber.ensembl_id_protein}
-                                    </Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col xs={3}>UniProt IDs</Col>
-                                    <Col xs={9}>
-                                        {dataPlumber.uniprot_ids?.join(", ")}
-                                    </Col>
-                                </Row>
-                            </ListGroup.Item>
+                            {dataPlumber.ensembl_id_gene ? (
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col xs={3}>Ensembl Id Gene</Col>
+                                        <Col xs={9}>
+                                            {dataPlumber.ensembl_id_gene}
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                            ) : (
+                                ""
+                            )}
+                            {dataPlumber.ensembl_id_protein ? (
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col xs={3}>Ensembl Id Protein</Col>
+                                        <Col xs={9}>
+                                            {dataPlumber.ensembl_id_protein}
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                            ) : (
+                                ""
+                            )}
+                            {dataPlumber.uniprot_ids ? (
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col xs={3}>UniProt IDs</Col>
+                                        <Col xs={9}>
+                                            {dataPlumber.uniprot_ids?.join(", ")}
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                            ) : (
+                                ""
+                            )}
                         </>
                     ) : (
                         <></>

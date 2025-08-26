@@ -19,11 +19,11 @@ import type {
 } from "../types/ResponsePlumberSequence";
 import SequenceViewer from "../Components/SequenceViewer";
 import Header from "../Components/Header";
-import PercentDashboard from "../Components/PercentDashboard";
 import type {
     DataPlumberPercent,
     ResponsePlumberPercent,
 } from "../types/ResponsePlumberPercent";
+import PercentAccordion from "../Components/PercentAccordion";
 
 function HomeView() {
     const [input, setInput] = useState<string>("");
@@ -109,7 +109,7 @@ function HomeView() {
                                 imageSrc={"/public/seq.png"}
                             />
                             {sequence ? <SequenceViewer data={sequence} /> : ""}    
-                            {percent ? <PercentDashboard data={percent} /> : ""}
+                            {percent ? <PercentAccordion data={percent} /> : ""}
                         </Card.Body>
                     </Card>
                 ) : (

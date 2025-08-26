@@ -33,7 +33,7 @@ function SelectGenome({ submit, setChr, setReq, start, setStart, end, setEnd }: 
                     <InputRange number={end} setNumber={setEnd}>Hasta</InputRange>
                 </div>
                 <div className="col-12 col-md-auto">
-                    <Button onClick={submit}>
+                    <Button variant="light" onClick={submit}>
                         Search
                     </Button>
                 </div>
