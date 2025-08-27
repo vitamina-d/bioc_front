@@ -2,11 +2,9 @@ import type { ResponsePlumberSequence } from "../types/ResponsePlumberSequence";
 import type { ResponsePlumberAlign } from "../types/ResponsePlumberAlign";
 import type { ResponsePlumberDetail } from "../types/ResponsePlumberDetail";
 import type { ResponsePlumberPercent } from "../types/ResponsePlumberPercent";
-
-const DOTNET_PLUMBER_URL: string = "https://localhost:32789/api/Plumber";
+import { DOTNET_PLUMBER_URL } from "../config/constant";
 
 //https://localhost:32769/api/Plumber/detail?gene_symbol=${gene_symbol}
-
 const GetDetail = async (value: string): Promise<ResponsePlumberDetail> => {
     const response = await fetch(`${DOTNET_PLUMBER_URL}/detail?entrez=${value}`);
     const data = await response.json();

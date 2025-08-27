@@ -1,35 +1,13 @@
 import { Card } from "react-bootstrap";
 import Header from "../Components/Header";
-import { label_bases } from "../const/label_bases";
-import type { Datum } from "plotly.js";
 import PlotAlign from "../Components/Plots/PlotAlign";
-import Alineador from "../Components/Alineador";
 import { useState } from "react";
 import type { ResponsePlumberAlign } from "../types/ResponsePlumberAlign";
+import InfoAlign from "../Components/InfoAlign";
+import AlignSequences from "../Components/AlignSequences";
 
 function AlignView() {
     const [align, setAlign] = useState<ResponsePlumberAlign>();
-    const filas: Datum[] = ["pattern", "subject"];
-    let matriz: Datum[][] | undefined;
-
-    if(align) {
-        const sequence_pattern = align.data.pattern_align;
-        const sequence_subject = align.data.subject_align;
-        const pattern_string: string[] = sequence_pattern.split("");
-        const subject_string: string[] = sequence_subject.split("");
-
-        ///////////////////////////////////////////////////////////////////////////////
-        const pattern_number: number[] = pattern_string.map((nuc) => {
-            const idx = label_bases.indexOf(nuc);
-            return idx == -1 ? 4 : idx;
-        });
-        const subject_number: number[] = subject_string.map((nuc) => {
-            const idx = label_bases.indexOf(nuc);
-            return idx == -1 ? 4 : idx;
-        });
-        matriz = [pattern_number, subject_number]; //0A 1T 2C 3G 4-
-    }
-
 
     return (
         <Card className="p-3 my-3 ">
@@ -38,11 +16,15 @@ function AlignView() {
                 text="subtitle."
                 imageSrc="../../public/gene.png"
             />
-            <Alineador setAlign={setAlign} />
-
-            {matriz ? <PlotAlign filas={filas} matriz={matriz} />: ""}
-
-            
+            <AlignSequences setAlign={setAlign} />
+            {align ? (
+                <>
+                    <PlotAlign data={align.data} />
+                    <InfoAlign data={align.data} />
+                </>
+            ) : (
+                ""
+            )}
         </Card>
     );
 }

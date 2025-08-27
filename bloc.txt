@@ -4,6 +4,8 @@ TAREAS: https://trello.com/b/7RpIuSQF/vitamina
 
 https://igv.org/web/release/3.4.1/examples/cram-vcf.html 
 
+https://www.youtube.com/watch?v=yIr_1CasXkM&ab_channel=HolaMundo
+
 BOOTSTRAP:
     https://getbootstrap.com/docs/5.3/components/buttons/ 
     https://bootstrapshuffle.com/classes?search=border
@@ -17,10 +19,17 @@ https://3dmol.csb.pitt.edu/doc/tutorial-embeddable.html
 
 /*
 d-flex
-    justify-content-start	
-    justify-content-end	
-    justify-content-center	
-    justify-content-between	
-    justify-content-around	
-    justify-content-evenly
+    HORIZONTAL
+        justify-content-start	
+        justify-content-end	
+        justify-content-center	
+        justify-content-between	
+        justify-content-around	
+        justify-content-evenly
+    VERTICAL
+        align-items-start
+        align-items-end	
+        align-items-center
+        align-items-baseline
+        align-items-stretch
 */

@@ -1,14 +1,14 @@
 import type { ColorScale, Datum } from "plotly.js";
 import Plot from "react-plotly.js";
 import { nucleotideColors } from "../../const/nucleotideColors";
+import type { DataPlumberAlign } from "../../types/ResponsePlumberAlign";
+import { label_bases } from "../../const/label_bases";
 
-interface PlotAlignProps {
-    filas: Datum[];
-    matriz: Datum[][];
+interface Props {
+    data: DataPlumberAlign;
 }
 
-function PlotAlign({ filas, matriz }: PlotAlignProps) {
-
+function PlotAlign({ data }: Props) {
     const colorScale: ColorScale = [
         [0 / 4, nucleotideColors["A"]],
         [1 / 4, nucleotideColors["T"]],
@@ -20,13 +20,33 @@ function PlotAlign({ filas, matriz }: PlotAlignProps) {
     const tickVals: Datum[] = [0, 1, 2, 3, 4];
     const tickText: Datum[] = ["A", "T", "C", "G", "-"];
 
+    const filas: Datum[] = ["pattern", "subject"];
+
+    const sequence_pattern = data.pattern_align;
+    const sequence_subject = data.subject_align;
+    const pattern_string: string[] = sequence_pattern.split("");
+    const subject_string: string[] = sequence_subject.split("");
+
+    ///////////////////////////////////////////////////////////////////////////////
+    const pattern_number: number[] = pattern_string.map((nuc) => {
+        const idx = label_bases.indexOf(nuc);
+        return idx == -1 ? 4 : idx;
+    });
+    const subject_number: number[] = subject_string.map((nuc) => {
+        const idx = label_bases.indexOf(nuc);
+        return idx == -1 ? 4 : idx;
+    });
+
+    const matriz_number: Datum[][] = [pattern_number, subject_number]; //0A 1T 2C 3G 4-
+    const matriz_string: string[][] = [pattern_string, subject_string]; //0A 1T 2C 3G 4-
+
     return (
         <Plot
             data={[
                 {
                     //x: pattern.length,
                     y: filas,
-                    z: matriz,
+                    z: matriz_number,
                     zmin: 0,
                     zmax: 4,
                     type: "heatmap",
@@ -39,23 +59,25 @@ function PlotAlign({ filas, matriz }: PlotAlignProps) {
                     },
                     hoverinfo: "text",
                     hovertext: "text",
-                    text: "text",
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    text: matriz_string as any,
+                    texttemplate: "%{text}",
                 },
             ]}
             layout={{
                 title: {
-                    text: "Alineamiento de secuencias",
+                    text: "Plot Align",
                 },
                 xaxis: {
                     title: {
-                        text: "Posicion",
+                        text: "Position",
                     },
                     rangeslider: { visible: true },
                     //autorange: true,
                 },
                 yaxis: {
                     title: {
-                        text: "Secuencia",
+                        text: "Sequences",
                     },
                 },
                 height: 400,

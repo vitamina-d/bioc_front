@@ -101,7 +101,7 @@ function HomeView() {
                 ) : (
                     <></>
                 )}
-                {sequence || percent ? (
+                {sequence || percent ? ( //scrollIntoView
                     <Card className="shadow  my-3">
                         <Card.Body>
                             <Header

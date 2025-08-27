@@ -4,7 +4,7 @@ export type ResponsePlumberAlign = {
   data: DataPlumberAlign;
 };
 
-type DataPlumberAlign = {
+export type DataPlumberAlign = {
   score: number;
   gapOpening: number;
   gapExtension: number;

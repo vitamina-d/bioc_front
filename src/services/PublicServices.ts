@@ -1,7 +1,6 @@
 import type { ResponsePublicRange } from "../types/ResponsePublicRange";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-
-const DOTNET_PUBLIC_URL: string = `https://localhost:32789/api/Public/`;
+import { DOTNET_PUBLIC_URL } from "../config/constant";
 
 //https://localhost:32773/api/Public/ensembl?chrom=${chr}&start=${start}&end=${end}`;
 const EnsemblService = async (

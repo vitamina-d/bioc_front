@@ -13,7 +13,7 @@ function TextArea({ title, sequence, setSequence }: Props) {
             <Form.Control
                 className="py-1 px-2"
                 as="textarea"
-                rows={5}
+                rows={4}
                 size="sm"
                 value={sequence.toLocaleUpperCase()}
                 onChange={(e) => setSequence(e.target.value)}
