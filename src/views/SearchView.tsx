@@ -5,26 +5,24 @@ import SequenceViewer from "../Components/SequenceViewer";
 import { EnsemblService } from "../services/PublicServices";
 import { GetSequenceByRange } from "../services/PlumberServices";
 import Header from "../Components/Header";
-import type {
-    DataPlumberSequence,
-    ResponsePlumberSequence,
-} from "../types/ResponsePlumberSequence";
 import type { ResponsePublicRange } from "../types/ResponsePublicRange";
+import type { DataSequence, ResponsePlumber } from "../types/ResponsePlumber";
 
 function SearchView() {
     const [start, setStart] = useState("100000");
     const [end, setEnd] = useState("100100");
     const [chr, setChr] = useState("");
     const [req, setReq] = useState("");
-    const [data, setData] = useState(""); //DataPlumberSequence
+    const [data, setData] = useState(""); //DataSequence
 
-    const [dto, setDto] = useState<DataPlumberSequence | null>(null);
+    const [dto, setDto] = useState<DataSequence | null>(null);
 
     useEffect(() => {
         setDto({
+            entrez: "",
             complete: true,
-            sequence: data,
             sequence_length: data.length,
+            sequence: data,
         });
     }, [data]);
 
@@ -44,11 +42,8 @@ function SearchView() {
         } else if (req === "bsgenome") {
             console.log("PLUMBER: chr:", chr, "start", start, "end", end);
 
-            const response: ResponsePlumberSequence = await GetSequenceByRange(
-                chr,
-                parseInt(start),
-                parseInt(end)
-            );
+            const response: ResponsePlumber<DataSequence> =
+                await GetSequenceByRange(chr, parseInt(start), parseInt(end));
 
             console.log(response);
             setData(response.data.sequence);
@@ -74,7 +69,7 @@ function SearchView() {
                 setReq={setReq}
                 submit={handleSubmit}
             />
-            {dto ? <SequenceViewer data={dto} /> : "" }
+            {dto ? <SequenceViewer data={dto} /> : ""}
         </Card>
     );
 }

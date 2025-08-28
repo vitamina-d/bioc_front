@@ -1,26 +1,31 @@
 import { Button } from "react-bootstrap";
-import type { ResponsePlumberAlign } from "../types/ResponsePlumberAlign";
 import { GetAlign } from "../services/PlumberServices";
 import { useState, type FormEvent } from "react";
 import TextArea from "./TextArea";
+import type { DataAlign, ResponsePlumber } from "../types/ResponsePlumber";
 
 interface Props {
     setAlign: React.Dispatch<
-        React.SetStateAction<ResponsePlumberAlign | undefined>
+        React.SetStateAction<ResponsePlumber<DataAlign> | undefined>
     >;
 }
 
 function AlignSequences({ setAlign }: Props) {
     const [pattern, setPattern] = useState<string>("");
     const [subject, setSubject] = useState<string>("");
-    const global = true;
+    const type = "global"; // "local" "overlap"
+    const gapOpening = -1;
+    const gapExtension = -2;
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        const response: ResponsePlumberAlign = await GetAlign(
+        const response: ResponsePlumber<DataAlign> = await GetAlign(
+            //body
             pattern,
             subject,
-            global
+            type,
+            gapOpening,
+            gapExtension
         );
         setAlign(response);
         console.log(response);

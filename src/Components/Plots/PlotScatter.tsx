@@ -2,16 +2,16 @@ import Plot from "react-plotly.js";
 
 interface PlotScatterProps {
     title: string;
-    x: number[];
+    values: number[];
 }
 
-function PlotScatter({ title, x }: PlotScatterProps) {
+function PlotScatter({ title, values }: PlotScatterProps) {
     return (
         <Plot
             data={[
                 {
-                    x: x,
-                    y: x.map(() => 0),
+                    x: values,
+                    y: values.map(() => 0),
                     type: "scatter",
                     mode: "lines+markers",
                     marker: { size: 12, opacity: 0.1 },

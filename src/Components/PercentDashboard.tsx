@@ -1,16 +1,13 @@
-import type {
-    DataPlumberPercent,
-    Nucleotides,
-} from "../types/ResponsePlumberPercent";
 import PlotPie from "./Plots/PlotPie";
 import { nucleotideColors } from "../const/nucleotideColors";
 import PlotIslandBar from "./Plots/PlotIslandBar";
 import PlotHistogram from "./Plots/PlotHistogram";
 import PlotScatter from "./Plots/PlotScatter";
 import { Carousel } from "react-bootstrap";
+import type { DataPercent, Nucleotides } from "../types/ResponsePlumber";
 
 type Props = {
-    data: DataPlumberPercent;
+    data: DataPercent;
 };
 
 function PercentDashboard({ data }: Props) {
@@ -24,7 +21,7 @@ function PercentDashboard({ data }: Props) {
         nucleotides.G + nucleotides.T,
     ];
 
-    const xValues: number[] = data.cpg_islands.ranges.map((r) => r.start);
+    const xValues: number[] = data.cpg_islands.start;
 
     return (
         data && (
@@ -53,11 +50,10 @@ function PercentDashboard({ data }: Props) {
                     <PlotIslandBar title="CpG" x={xValues} />{" "}
                 </Carousel.Item>
                 <Carousel.Item>
-                    <PlotHistogram title="Histograma" x={xValues} />
+                    <PlotHistogram title="Histograma" values={xValues} lenght={values.length} window={200} />
                 </Carousel.Item>
                 <Carousel.Item>
-                    <PlotScatter title="Dispersion CpG" x={xValues} />
-                    ok
+                    <PlotScatter title="Dispersion CpG" values={xValues} />
                 </Carousel.Item>
             </Carousel>
         )

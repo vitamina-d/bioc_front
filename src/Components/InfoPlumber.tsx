@@ -1,8 +1,8 @@
 import { CardBody, Col, ListGroup, Row } from "react-bootstrap";
-import type { DataPlumberDetail } from "../types/ResponsePlumberDetail";
+import type { DataFullDetail } from "../types/ResponsePlumber";
 
 interface InfoPlumberProps {
-    data: DataPlumberDetail;
+    data: DataFullDetail;
 }
 
 function InfoPlumber({ data }: InfoPlumberProps) {
@@ -12,8 +12,8 @@ function InfoPlumber({ data }: InfoPlumberProps) {
             <ListGroup variant="flush">
                 <ListGroup.Item>
                     <Row>
-                        <Col xs={3}>Type</Col>
-                        <Col xs={9}>{data.type}</Col>
+                        <Col xs={3}>Genetype</Col>
+                        <Col xs={9}>{data.genetype}</Col>
                     </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>

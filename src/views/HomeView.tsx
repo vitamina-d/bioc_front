@@ -1,38 +1,27 @@
 import { useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import type {
-    DataPlumberDetail,
-    ResponsePlumberDetail,
-} from "../types/ResponsePlumberDetail";
 import Searcher from "../Components/Searcher";
 import Info from "../Components/Info";
 import {
-    GetDetail,
+    GetFullDetail,
     GetPercent,
     GetSequence,
 } from "../services/PlumberServices";
 import { SummaryService } from "../services/PublicServices";
-import type {
-    DataPlumberSequence,
-    ResponsePlumberSequence,
-} from "../types/ResponsePlumberSequence";
 import SequenceViewer from "../Components/SequenceViewer";
 import Header from "../Components/Header";
-import type {
-    DataPlumberPercent,
-    ResponsePlumberPercent,
-} from "../types/ResponsePlumberPercent";
 import PercentAccordion from "../Components/PercentAccordion";
+import type { DataFullDetail, DataPercent, DataSequence, ResponsePlumber } from "../types/ResponsePlumber";
 
 function HomeView() {
     const [input, setInput] = useState<string>("");
     const [data, setData] = useState<ResponsePublicSummary>();
-    const [detail, setDetail] = useState<DataPlumberDetail>();
+    const [detail, setDetail] = useState<DataFullDetail>();
     const [loading, setLoading] = useState<boolean>(false);
 
-    const [sequence, setSequence] = useState<DataPlumberSequence>();
-    const [percent, setPercent] = useState<DataPlumberPercent>();
+    const [sequence, setSequence] = useState<DataSequence>();
+    const [percent, setPercent] = useState<DataPercent>();
 
     //click en Searcher
     const handleClickSearch = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -47,7 +36,7 @@ function HomeView() {
                 input
             );
             setData(publicRes);
-            const plumberRes: ResponsePlumberDetail = await GetDetail(input);
+            const plumberRes: ResponsePlumber<DataFullDetail> = await GetFullDetail(input);
             setDetail(plumberRes.data);
         } catch (err) {
             console.error(err);
@@ -59,11 +48,11 @@ function HomeView() {
     //click en +
     const handleClickSequence = async () => {
         try {
-            const seqRes: ResponsePlumberSequence = await GetSequence(
+            const seqRes: ResponsePlumber<DataSequence> = await GetSequence(
                 input,
                 true
             );
-            const percentRes: ResponsePlumberPercent = await GetPercent(
+            const percentRes: ResponsePlumber<DataPercent> = await GetPercent(
                 seqRes.data.sequence
             );
             setSequence(seqRes.data);

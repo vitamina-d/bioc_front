@@ -2,12 +2,12 @@ import { Card } from "react-bootstrap";
 import Header from "../Components/Header";
 import PlotAlign from "../Components/Plots/PlotAlign";
 import { useState } from "react";
-import type { ResponsePlumberAlign } from "../types/ResponsePlumberAlign";
 import InfoAlign from "../Components/InfoAlign";
 import AlignSequences from "../Components/AlignSequences";
+import type { DataAlign, ResponsePlumber } from "../types/ResponsePlumber";
 
 function AlignView() {
-    const [align, setAlign] = useState<ResponsePlumberAlign>();
+    const [align, setAlign] = useState<ResponsePlumber<DataAlign>>();
 
     return (
         <Card className="p-3 my-3 ">

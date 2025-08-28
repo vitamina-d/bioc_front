@@ -1,10 +1,10 @@
 import { CardBody, Col, ListGroup, Row } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import type { DataPlumberDetail } from "../types/ResponsePlumberDetail";
+import type { DataFullDetail } from "../types/ResponsePlumber";
 
 interface InfoProps {
     dataPublic?: ResponsePublicSummary;
-    dataPlumber?: DataPlumberDetail;
+    dataPlumber?: DataFullDetail;
 }
 
 function Info({ dataPublic, dataPlumber }: InfoProps) {
@@ -25,7 +25,7 @@ function Info({ dataPublic, dataPlumber }: InfoProps) {
                 <div>
                     {dataPublic || dataPlumber ? (
                         <h5 className="card-title mb-1">
-                            {dataPublic?.name || dataPlumber?.entrezID}
+                            {dataPublic?.name || dataPlumber?.entrez}
                         </h5>
                     ) : (
                         ""
@@ -62,7 +62,7 @@ function Info({ dataPublic, dataPlumber }: InfoProps) {
                             <ListGroup.Item>
                                 <Row>
                                     <Col xs={3}>Type</Col>
-                                    <Col xs={9}>{dataPlumber.type}</Col>
+                                    <Col xs={9}>{dataPlumber.genetype}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>

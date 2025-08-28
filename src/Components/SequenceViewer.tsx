@@ -6,10 +6,10 @@ import {
     OverlayTrigger,
     Tooltip,
 } from "react-bootstrap";
-import type { DataPlumberSequence } from "../types/ResponsePlumberSequence";
+import type { DataSequence } from "../types/ResponsePlumber";
 
 type Props = {
-    data: DataPlumberSequence;
+    data: DataSequence;
 };
 
 function SequenceViewer({ data }: Props) {
@@ -63,13 +63,3 @@ function SequenceViewer({ data }: Props) {
 }
 
 export default SequenceViewer;
-
-/*
-d-flex
-    justify-content-start	
-    justify-content-end	
-    justify-content-center	
-    justify-content-between	
-    justify-content-around	
-    justify-content-evenly
-*/

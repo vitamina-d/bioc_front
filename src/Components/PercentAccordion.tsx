@@ -1,14 +1,11 @@
-import type {
-    DataPlumberPercent,
-    Nucleotides,
-} from "../types/ResponsePlumberPercent";
 import PlotPie from "./Plots/PlotPie";
 import { nucleotideColors } from "../const/nucleotideColors";
 import PlotHistogram from "./Plots/PlotHistogram";
 import { Accordion } from "react-bootstrap";
+import type { DataPercent, Nucleotides } from "../types/ResponsePlumber";
 
 type Props = {
-    data: DataPlumberPercent;
+    data: DataPercent;
 };
 
 function PercentAccordion({ data }: Props) {
@@ -16,13 +13,16 @@ function PercentAccordion({ data }: Props) {
     const values: number[] = Object.values(nucleotides);
     const labels: string[] = Object.keys(nucleotides);
 
+    const other:number = nucleotides.other;
+    console.log(other);
+
     const par_labels: string[] = ["AC", "GT"];
     const par_values: number[] = [
         nucleotides.A + nucleotides.C,
         nucleotides.G + nucleotides.T,
     ];
     const lenght: number = data.composition.length;
-    const island: number[] = data.cpg_islands.ranges.map((r) => r.start);
+    const island: number[] = data.cpg_islands.start;
 
     return (
         data && (

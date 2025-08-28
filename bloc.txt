@@ -17,19 +17,18 @@ https://plotly.com/javascript/reference/heatmap/
 3dmol
 https://3dmol.csb.pitt.edu/doc/tutorial-embeddable.html
 
-/*
 d-flex
-    HORIZONTAL
-        justify-content-start	
-        justify-content-end	
-        justify-content-center	
-        justify-content-between	
-        justify-content-around	
-        justify-content-evenly
-    VERTICAL
-        align-items-start
-        align-items-end	
-        align-items-center
-        align-items-baseline
-        align-items-stretch
-*/
+    HORIZONTAL: justify-content
+        -start	
+        -end	
+        -center	
+        -between	
+        -around	
+        -evenly
+    VERTICAL: align-items
+        -start
+        -end	
+        -center
+        -baseline
+        -stretch
+
