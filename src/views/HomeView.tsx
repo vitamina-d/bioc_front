@@ -1,12 +1,8 @@
 import { useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import Searcher from "../Components/Searcher";
 import {
-    GetDetail,
     GetFullDetail,
-    GetPercent,
-    GetSequence,
 } from "../services/PlumberServices";
 import { SummaryService } from "../services/PublicServices";
 import SequenceViewer from "../Components/SequenceViewer";
@@ -22,108 +18,52 @@ import type {
 import InfoDetail from "../Components/InfoDetail";
 import ModalFullDetail from "../Components/ModalFullDetail";
 
-function HomeView() {
-    const [input, setInput] = useState<string>("");
-    const [publicData, setPublicData] = useState<ResponsePublicSummary>();
-    const [detail, setDetail] = useState<DataDetail>();
-    const [fullDetail, setFullDetail] = useState<DataFullDetail>();
-    const [loading, setLoading] = useState<boolean>(false);
+interface HomeProps {
+    detail: DataDetail | null;
+}
 
-    const [sequence, setSequence] = useState<DataSequence>();
-    const [percent, setPercent] = useState<DataPercent>();
+function HomeView({ detail }: HomeProps) {    
+    const [publicData, setPublicData] = useState<ResponsePublicSummary>();
+    const [fullDetail, setFullDetail] = useState<DataFullDetail>();
+
+    const [sequence, setSequence] = useState<DataSequence | null>(null);
+    const [percent, setPercent] = useState<DataPercent| null>(null);
 
     const [modalShow, setModalShow] = useState(false);
-
-    //click en Searcher DETAIL BREVE
-    const searchDetail = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log(detail);
-
-        setLoading(true);
-        setDetail(undefined);
-        setPublicData(undefined);
-        setSequence(undefined);
-        try {
-            const plumberRes: ResponsePlumber<DataDetail> = await GetDetail(
-                input
-            );
-            setDetail(plumberRes.data);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
+    
+    if (!detail) return <Card className="p-3 my-3 ">No hay detalle para mostrar</Card>;
+    const entrez = detail.entrez;
 
     //click en Searcher
     const searchFullDetail = async () => {
-        setLoading(true);
         setFullDetail(undefined);
         setPublicData(undefined);
-        setSequence(undefined);
         try {
             const publicRes: ResponsePublicSummary = await SummaryService(
-                input
+                entrez
             );
             console.log(publicRes);
             setPublicData(publicRes);
             const plumberRes: ResponsePlumber<DataFullDetail> =
-                await GetFullDetail(input);
+                await GetFullDetail(entrez);
             console.log(plumberRes.data);
             setFullDetail(plumberRes.data);
             setModalShow(true);
         } catch (err) {
             console.error(err);
         } finally {
-            setLoading(false);
+            console.error("FINALLY");
         }
     };
 
-    //click en +
-    const handleClickSequence = async () => {
-        try {
-            const seqRes: ResponsePlumber<DataSequence> = await GetSequence(
-                input,
-                true
-            );
-            const percentRes: ResponsePlumber<DataPercent> = await GetPercent(
-                seqRes.data.sequence
-            );
-            setSequence(seqRes.data);
-            setPercent(percentRes.data);
-            console.log(percentRes);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     return (
         <Card className="p-3 my-3 ">
+            <Header title="Gene" imageSrc="../../public/gene.png" />
             <Card.Body>
-                <Searcher
-                    text={loading ? "Loading" : "Search"}
-                    input={input}
-                    setInput={setInput}
-                    onSubmit={searchDetail}
-                    //onClick={searchFullDetail}
-                />
-                {!loading && detail ? (
-                    <>
-                        <InfoDetail data={detail} onClick={searchFullDetail} />
-                        <Button
-                            variant="outline-dark"
-                            className="m-2 mb-3"
-                            onClick={handleClickSequence}
-                        >
-                            GET Sequence
-                        </Button>
-                    </>
-                ) : (
-                    <></>
-                )}
+                <InfoDetail data={detail} getFull={searchFullDetail} setSequence={setSequence} setPercent={setPercent}  />
                 
+
                 {sequence || percent ? ( //scrollIntoView
                     <Card className="shadow  my-3">
                         <Card.Body>
@@ -140,11 +80,11 @@ function HomeView() {
                 )}
             </Card.Body>
             <ModalFullDetail
-                    modalShow={modalShow}
-                    setModalShow={setModalShow}
-                    dataPlumber={fullDetail}
-                    dataPublic={publicData}
-                />
+                modalShow={modalShow}
+                setModalShow={setModalShow}
+                dataPlumber={fullDetail}
+                dataPublic={publicData}
+            />
         </Card>
     );
 }

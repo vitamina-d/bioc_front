@@ -8,15 +8,17 @@ import UploadView from "./views/UploadView";
 import ProteinView from "./views/ProteinView";
 import AboutView from "./views/AboutView";
 import ComplementView from "./views/ComplementView";
+import type { DataDetail } from "./types/ResponsePlumber";
 
 function App() {
     const [search, setSearch] = useState<string>("");
+    const [detail, setDetail] = useState<DataDetail | null>(null); //{ entrez: "0", genename: "", genetype: "", symbol: "", alias: []} );
 
     return (
         <BrowserRouter>
-            <Navigation search={search} setSearch={setSearch}/>
+            <Navigation search={search} setSearch={setSearch} setDetail={setDetail}/>
             <Routes>
-                <Route path="/home" element={<HomeView />} />
+                <Route path="/home" element={<HomeView detail={detail} />} />
                 <Route path="/range" element={<SearchView />} />
                 <Route path="/align" element={<AlignView />} />
                 <Route path="/upload" element={<UploadView />} />

@@ -2,32 +2,34 @@ import { Button, Form } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { DataDetail, ResponsePlumber } from "../types/ResponsePlumber";
 import { GetDetail } from "../services/PlumberServices";
-import { useState } from "react";
 
 interface NavigationProps {
     search: string;
     setSearch: React.Dispatch<React.SetStateAction<string>>;
+    setDetail: React.Dispatch<React.SetStateAction<DataDetail | null>>;
 }
 
-function Navigation({ search, setSearch }: NavigationProps) {
-    const [detail, setDetail] = useState<DataDetail>();
+function Navigation({ search, setSearch, setDetail }: NavigationProps) {
+    const navigate = useNavigate();
 
     //click en Searcher DETAIL BREVE
     const searchDetail = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("SEARCH: ", search, "DETAIL: ", detail);
-
-        setDetail(undefined);
+        console.log("SEARCH: ", search);
 
         try {
             const plumberRes: ResponsePlumber<DataDetail> = await GetDetail(
                 search
             );
             setDetail(plumberRes.data);
+            if (plumberRes.code == 200) {
+                navigate("/home");
+            }
         } catch (err) {
+            setDetail(null);
             console.error(err);
         } finally {
             console.error("finally");
