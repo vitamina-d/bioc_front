@@ -1,15 +1,15 @@
-import { CardBody, Col, ListGroup, Row } from "react-bootstrap";
+import { Card, CardBody, Col, ListGroup, Row } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import type { DataFullDetail } from "../types/ResponsePlumber";
 
-interface InfoProps {
+interface InfoFullProps {
     dataPublic?: ResponsePublicSummary;
     dataPlumber?: DataFullDetail;
 }
 
-function Info({ dataPublic, dataPlumber }: InfoProps) {
+function InfoFull({ dataPublic, dataPlumber }: InfoFullProps) {
     return (
-        <>
+        <Card className="shadow p-3 my-3 mb-5">
             <div className="d-flex align-items-center mb-2 p-3">
                 <img
                     src="/public/chromosome.png"
@@ -135,7 +135,9 @@ function Info({ dataPublic, dataPlumber }: InfoProps) {
                                     <Row>
                                         <Col xs={3}>UniProt IDs</Col>
                                         <Col xs={9}>
-                                            {dataPlumber.uniprot_ids?.join(", ")}
+                                            {dataPlumber.uniprot_ids?.join(
+                                                ", "
+                                            )}
                                         </Col>
                                     </Row>
                                 </ListGroup.Item>
@@ -148,8 +150,8 @@ function Info({ dataPublic, dataPlumber }: InfoProps) {
                     )}
                 </ListGroup>
             </CardBody>
-        </>
+        </Card>
     );
 }
 
-export default Info;
+export default InfoFull;

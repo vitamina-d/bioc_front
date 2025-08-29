@@ -7,6 +7,7 @@ import AlignView from "./views/AlignView";
 import UploadView from "./views/UploadView";
 import ProteinView from "./views/ProteinView";
 import AboutView from "./views/AboutView";
+import ComplementView from "./views/ComplementView";
 
 function App() {
     const [search, setSearch] = useState<string>("");
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/upload" element={<UploadView />} />
                 <Route path="/protein" element={<ProteinView />} />
                 <Route path="/about" element={<AboutView />} />
+                <Route path="/complement" element={<ComplementView />} />
             </Routes>
         </BrowserRouter>
     );

@@ -21,6 +21,7 @@ export type DataComplement = {
 export type DataDetail = {
     entrez: string;
     symbol: string;
+    genename: string;
     genetype: string;
     alias?: string[];
 };

@@ -5,12 +5,12 @@ interface SearcherProps {
     text: string;
     input: string;
     setInput: React.Dispatch<React.SetStateAction<string>>;
-    onClick: FormEventHandler;
+    onSubmit: FormEventHandler;
 }
 
-function Searcher({ text, input, setInput, onClick }: SearcherProps) {
+function Searcher({ text, input, setInput, onSubmit }: SearcherProps) {
     return (
-        <Form onSubmit={(e) => onClick(e)}>
+        <Form onSubmit={(e) => onSubmit(e)}>
             <div className="input-group mb-3 w-auto">
                 <label className="input-group-text">INPUT</label>
                 <input

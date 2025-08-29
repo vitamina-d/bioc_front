@@ -1,4 +1,5 @@
 import { type ChangeEvent } from "react";
+import TextArea from "./TextArea";
 
 type Props = {
     content: string;
@@ -22,14 +23,23 @@ function ReadFile({ content, setContent }: Props) {
     return (
         <div>
             {content && (
-                <pre
-                    className="my-3 p-3 bg-light rounded border overflow-auto"
-                    style={{
-                        maxHeight: "300px",
-                    }}
-                >
-                    {content}
-                </pre>
+                <>
+                    {/*
+                    <pre
+                        className="my-3 p-3 bg-light rounded border overflow-auto"
+                        style={{
+                            maxHeight: "300px",
+                        }}
+                    >
+                        {content}
+                    </pre>
+                    */}
+                    <TextArea
+                        title="name"
+                        sequence={content}
+                        setSequence={setContent}
+                    />
+                </>
             )}
             <input type="file" accept=".fasta" onChange={handleFileChange} />
         </div>

@@ -3,6 +3,9 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
+import type { DataDetail, ResponsePlumber } from "../types/ResponsePlumber";
+import { GetDetail } from "../services/PlumberServices";
+import { useState } from "react";
 
 interface NavigationProps {
     search: string;
@@ -10,6 +13,27 @@ interface NavigationProps {
 }
 
 function Navigation({ search, setSearch }: NavigationProps) {
+    const [detail, setDetail] = useState<DataDetail>();
+
+    //click en Searcher DETAIL BREVE
+    const searchDetail = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log("SEARCH: ", search, "DETAIL: ", detail);
+
+        setDetail(undefined);
+
+        try {
+            const plumberRes: ResponsePlumber<DataDetail> = await GetDetail(
+                search
+            );
+            setDetail(plumberRes.data);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            console.error("finally");
+        }
+    };
+
     return (
         <Navbar expand="lg" bg="light" sticky="top">
             <Container>
@@ -39,16 +63,14 @@ function Navigation({ search, setSearch }: NavigationProps) {
                     <Nav.Link as={Link} to="/protein">
                         Protein
                     </Nav.Link>
+                    <Nav.Link as={Link} to="/complement">
+                        Complement
+                    </Nav.Link>
                     <Nav.Link as={Link} to="/about">
                         About
                     </Nav.Link>
                 </Nav>
-                <Form
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        alert("BUSCAR " + search);
-                    }}
-                >
+                <Form onSubmit={(e) => searchDetail(e)}>
                     <div className="input-group w-auto">
                         <input
                             type="text"

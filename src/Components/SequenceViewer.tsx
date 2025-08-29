@@ -1,12 +1,11 @@
 import {
     Badge,
     Button,
-    Form,
-    InputGroup,
     OverlayTrigger,
     Tooltip,
 } from "react-bootstrap";
 import type { DataSequence } from "../types/ResponsePlumber";
+import TextArea from "./TextArea";
 
 type Props = {
     data: DataSequence;
@@ -21,17 +20,11 @@ function SequenceViewer({ data }: Props) {
     return (
         data && (
             <div className=" mx-3 pb-3 pt-3 ">
-                <InputGroup className="mb-3">
-                    <InputGroup.Text>Sequence</InputGroup.Text>
-                    <Form.Control
-                        className="py-1 px-2"
-                        as="textarea"
-                        rows={5}
-                        size="sm"
-                        value={data.sequence}
-                        readOnly
-                    />
-                </InputGroup>
+                <TextArea
+                    title="Sequence"
+                    sequence={data.sequence}
+                    readOnly={true}
+                />
                 <div className="d-flex justify-content-end	">
                     <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
                         <span className="d-inline-block">

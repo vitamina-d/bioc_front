@@ -14,4 +14,5 @@ export const nucleotideColors: Record<string, string> = {
   T: bootstrap_colors.warning,
   C: bootstrap_colors.success,
   G: bootstrap_colors.danger,
+  other: bootstrap_colors.secondary
 };
