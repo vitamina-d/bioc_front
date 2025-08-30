@@ -3,6 +3,7 @@ import { GetAlign } from "../services/PlumberServices";
 import { useState, type FormEvent } from "react";
 import TextArea from "./TextArea";
 import type { DataAlign, ResponsePlumber } from "../types/ResponsePlumber";
+import DotPlot from "./Plots/DotPlot";
 
 interface Props {
     setAlign: React.Dispatch<
@@ -13,12 +14,15 @@ interface Props {
 function AlignSequences({ setAlign }: Props) {
     const [pattern, setPattern] = useState<string>("");
     const [subject, setSubject] = useState<string>("");
-    const type = "global"; // "local" "overlap"
-    const gapOpening = -1;
-    const gapExtension = -2;
+    const type: string = "global"; // "local" "overlap"
+    const gapOpening: number = -1;
+    const gapExtension: number = -2;
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
+        console.log("ALINEAR");
+        console.log("pattern:", pattern, "subject:", subject, "type:", type);
+
         const response: ResponsePlumber<DataAlign> = await GetAlign(
             //body
             pattern,
@@ -28,21 +32,25 @@ function AlignSequences({ setAlign }: Props) {
             gapExtension
         );
         setAlign(response);
-        console.log(response);
+        console.log(response.data);
     };
 
     return (
         <>
-            <TextArea
-                title="Pattern"
-                sequence={pattern}
-                setSequence={setPattern}
-            />
-            <TextArea
-                title="Subject"
-                sequence={subject}
-                setSequence={setSubject}
-            />
+            <div className="d-flex justify-content-between">
+                <TextArea
+                    title="Pattern"
+                    sequence={pattern}
+                    setSequence={setPattern}
+                />
+                <TextArea
+                    title="Subject"
+                    sequence={subject}
+                    setSequence={setSubject}
+                />
+            <DotPlot pattern={pattern} subject={subject} />
+            </div>
+
             <div className="d-flex justify-content-end">
                 <Button onClick={handleSubmit} variant="light">
                     Search

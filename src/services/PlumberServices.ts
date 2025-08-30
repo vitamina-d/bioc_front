@@ -1,5 +1,13 @@
 import { DOTNET_PLUMBER_URL } from "../config/constant";
-import type { DataAlign, DataComplement, DataDetail, DataFullDetail, DataPercent, DataSequence, ResponsePlumber } from "../types/ResponsePlumber";
+import type {
+    DataAlign,
+    DataComplement,
+    DataDetail,
+    DataFullDetail,
+    DataPercent,
+    DataSequence,
+    ResponsePlumber,
+} from "../types/ResponsePlumber";
 
 //https://localhost:32769/api/Plumber/align
 const GetAlign = async (
@@ -7,13 +15,17 @@ const GetAlign = async (
     subject: string,
     type: string, //#* @param type "global", "local", "overlap"
     gapOpening: number,
-    gapExtension: number,
+    gapExtension: number
 ): Promise<ResponsePlumber<DataAlign>> => {
-    
-    const response = await fetch(
-        `${DOTNET_PLUMBER_URL}/align`, { 
+    const response = await fetch(`${DOTNET_PLUMBER_URL}/align`, {
         method: "POST",
-        body: JSON.stringify({pattern : pattern, subject : subject, type : type, gapOpening : gapOpening, gapExtension : gapExtension }),
+        body: JSON.stringify({
+            pattern: pattern,
+            subject: subject,
+            type: type,
+            gapOpening: gapOpening,
+            gapExtension: gapExtension,
+        }),
         headers: {
             "Content-Type": "application/json",
         },
@@ -27,13 +39,15 @@ const GetAlign = async (
 const GetComplement = async (
     seq: string,
     to_reverse: boolean,
-    to_complement: boolean, 
+    to_complement: boolean
 ): Promise<ResponsePlumber<DataComplement>> => {
-    
-    const response = await fetch(
-        `${DOTNET_PLUMBER_URL}/complement`, { 
+    const response = await fetch(`${DOTNET_PLUMBER_URL}/complement`, {
         method: "POST",
-        body: JSON.stringify({seq : seq, to_reverse : to_reverse, to_complement : to_complement }),
+        body: JSON.stringify({
+            seq: seq,
+            to_reverse: to_reverse,
+            to_complement: to_complement,
+        }),
         headers: {
             "Content-Type": "application/json",
         },
@@ -44,19 +58,26 @@ const GetComplement = async (
 };
 
 //https://localhost:32789/api/Plumber/detail?value=slos&full=false
-const GetDetail = async (value: string): Promise<ResponsePlumber<DataDetail>> => {
+const GetDetail = async (
+    value: string
+): Promise<ResponsePlumber<DataDetail>> => {
     const full = false;
-    const response = await fetch(`${DOTNET_PLUMBER_URL}/detail?value=${value}&full=${full}`);
+    const response = await fetch(
+        `${DOTNET_PLUMBER_URL}/detail?value=${value}&full=${full}`
+    );
     const data = await response.json();
     return data;
 };
-const GetFullDetail = async (value: string): Promise<ResponsePlumber<DataFullDetail>> => {
+const GetFullDetail = async (
+    value: string
+): Promise<ResponsePlumber<DataFullDetail>> => {
     const full = true;
-    const response = await fetch(`${DOTNET_PLUMBER_URL}/detail?value=${value}&full=${full}`);
+    const response = await fetch(
+        `${DOTNET_PLUMBER_URL}/detail?value=${value}&full=${full}`
+    );
     const data = await response.json();
     return data;
 };
-
 
 //https://localhost:32789/api/Plumber/percent
 const GetPercent = async (
@@ -95,7 +116,7 @@ const GetSequenceByRange = async (
     );
     const data = await response.json();
     console.log(response);
-    console.log(data); 
+    console.log(data);
     return data;
 };
 
@@ -108,6 +129,13 @@ const getMessage = async (msg: string): Promise<string> => {
     return data;
 };
 
-export { GetAlign, GetComplement, GetDetail, GetFullDetail, GetPercent, GetSequence, GetSequenceByRange, getMessage };
-
-    
+export {
+    GetAlign,
+    GetComplement,
+    GetDetail,
+    GetFullDetail,
+    GetPercent,
+    GetSequence,
+    GetSequenceByRange,
+    getMessage,
+};

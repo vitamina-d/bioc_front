@@ -1,11 +1,10 @@
 import type { ColorScale, Datum } from "plotly.js";
 import Plot from "react-plotly.js";
 import { nucleotideColors } from "../../const/nucleotideColors";
-import type { DataPlumberAlign } from "../../types/ResponsePlumberAlign";
-import { label_bases } from "../../const/label_bases";
+import type { DataAlign } from "../../types/ResponsePlumber";
 
 interface Props {
-    data: DataPlumberAlign;
+    data: DataAlign;
 }
 
 function PlotAlign({ data }: Props) {
@@ -22,23 +21,24 @@ function PlotAlign({ data }: Props) {
 
     const filas: Datum[] = ["pattern", "subject"];
 
-    const sequence_pattern = data.pattern_align;
-    const sequence_subject = data.subject_align;
+    const sequence_pattern: string = data.pattern_align;
+    const sequence_subject: string = data.subject_align;
     const pattern_string: string[] = sequence_pattern.split("");
     const subject_string: string[] = sequence_subject.split("");
 
     ///////////////////////////////////////////////////////////////////////////////
     const pattern_number: number[] = pattern_string.map((nuc) => {
-        const idx = label_bases.indexOf(nuc);
-        return idx == -1 ? 4 : idx;
+        const idx = tickText.indexOf(nuc);
+        return idx;
     });
     const subject_number: number[] = subject_string.map((nuc) => {
-        const idx = label_bases.indexOf(nuc);
-        return idx == -1 ? 4 : idx;
+        const idx = tickText.indexOf(nuc);
+        return idx;
     });
-
+    
     const matriz_number: Datum[][] = [pattern_number, subject_number]; //0A 1T 2C 3G 4-
     const matriz_string: string[][] = [pattern_string, subject_string]; //0A 1T 2C 3G 4-
+    console.log(matriz_number)
 
     return (
         <Plot

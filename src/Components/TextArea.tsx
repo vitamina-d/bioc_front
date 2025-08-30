@@ -31,7 +31,7 @@ function TextArea({
                 as="textarea"
                 rows={rows}
                 size="sm"
-                value={sequence.toLocaleUpperCase()}
+                value={sequence.toUpperCase()}
                 readOnly={readOnly}
                 onChange={
                     readOnly || !setSequence
