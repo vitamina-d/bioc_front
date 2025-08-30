@@ -13,7 +13,7 @@ export type DataAlign = {
 };
 
 export type DataComplement = {
-    seq: string;
+    sequence: string;
     to_reverse: boolean;
     to_complement: boolean;
 };

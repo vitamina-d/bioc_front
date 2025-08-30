@@ -18,7 +18,7 @@ function AlignSequences({ setAlign }: Props) {
     const gapOpening: number = -1;
     const gapExtension: number = -2;
 
-    const handleSubmit = async (event: FormEvent) => {
+    const handleOnClick = async (event: FormEvent) => {
         event.preventDefault();
         console.log("ALINEAR");
         console.log("pattern:", pattern, "subject:", subject, "type:", type);
@@ -52,8 +52,8 @@ function AlignSequences({ setAlign }: Props) {
             </div>
 
             <div className="d-flex justify-content-end">
-                <Button onClick={handleSubmit} variant="light">
-                    Search
+                <Button onClick={handleOnClick} variant="light">
+                    ALIGN
                 </Button>
             </div>
         </>

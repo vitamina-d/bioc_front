@@ -14,14 +14,8 @@ function TextArea({
     readOnly = false,
 }: Props) {
 
-    let rows = 6;
-    const lineCount = sequence.split("\n").length;
-    console.log("lineCount", lineCount)
-    if (lineCount == 1) {
-        rows =  Math.min(sequence.length / 200, 15);
-    } else {
-        rows = Math.min(Math.max(lineCount, 6), 15);
-    } 
+    const rows = 6;
+    //const lineCount = sequence.split("\n").length;
 
     return (
         <InputGroup className="mb-3">
