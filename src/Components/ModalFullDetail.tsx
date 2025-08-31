@@ -64,51 +64,43 @@ function ModalFullDetail({
                                     <Row>
                                         <Col xs={3}>Cytogenetic Location</Col>
                                         <Col xs={9}>
-                                            {dataPlumber.location.citogenetic}{" "}
+                                            {dataPlumber.citogenetic}{" "}
                                         </Col>
                                     </Row>
                                 </ListGroup.Item>
-                                <ListGroup.Item>
-                                    <Row>
-                                        <Col xs={3}>Chromosome</Col>
-                                        <Col xs={9}>
-                                            {dataPlumber.location.chr}
-                                        </Col>
-                                    </Row>
-                                </ListGroup.Item>
-                                <ListGroup.Item>
-                                    <Row>
-                                        <Col xs={3}>Strand</Col>
-                                        <Col xs={9}>
-                                            {dataPlumber.location.strand == "-"
-                                                ? "3′ → 5′ (-)"
-                                                : "5′ → 3′ (+)"}
-                                        </Col>
-                                    </Row>
-                                </ListGroup.Item>
-                                <ListGroup.Item>
-                                    <Row>
-                                        <Col xs={3}>Range</Col>
-                                        <Col xs={9}>
-                                            {dataPlumber.location.start} –{" "}
-                                            {dataPlumber.location.end}
-                                        </Col>
-                                    </Row>
-                                </ListGroup.Item>
-                                <ListGroup.Item>
-                                    <Row>
-                                        <Col xs={3}>Length</Col>
-                                        <Col xs={9}>
-                                            {dataPlumber.location.length}
-                                        </Col>
-                                    </Row>
-                                </ListGroup.Item>
+                                {dataPlumber.location.map((range, idx) => (
+                                    <>
+                                        <ListGroup.Item key={idx}>
+                                            <Row>
+                                                <Col xs={3}>
+                                                    Location {`${idx+1}`}
+                                                </Col>
+                                                <Col xs={9}>
+                                                    {`${range.seqnames}: ${
+                                                        range.start
+                                                    } to ${
+                                                        range.end
+                                                    } | Lenght: ${
+                                                        range.length
+                                                    } | Strand: ${
+                                                        range.strand == "-"
+                                                            ? "Strand: 3′ → 5′ (-)"
+                                                            : "Strand: 5′ → 3′ (+)"
+                                                    }`}
+                                                </Col>
+                                            </Row>
+                                        </ListGroup.Item>
+                                    </>
+                                ))}
+
                                 {dataPlumber.ensembl_id_gene ? (
                                     <ListGroup.Item>
                                         <Row>
                                             <Col xs={3}>Ensembl Id Gene</Col>
                                             <Col xs={9}>
-                                                {dataPlumber.ensembl_id_gene}
+                                                {dataPlumber.ensembl_id_gene?.join(
+                                                    ", "
+                                                )}
                                             </Col>
                                         </Row>
                                     </ListGroup.Item>
@@ -120,7 +112,9 @@ function ModalFullDetail({
                                         <Row>
                                             <Col xs={3}>Ensembl Id Protein</Col>
                                             <Col xs={9}>
-                                                {dataPlumber.ensembl_id_protein}
+                                                {dataPlumber.ensembl_id_protein?.join(
+                                                    ", "
+                                                )}
                                             </Col>
                                         </Row>
                                     </ListGroup.Item>
@@ -148,7 +142,13 @@ function ModalFullDetail({
                     </ListGroup>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => setModalShow(false)}>Close</Button>
+                    <Button
+                        className="font-base"
+                        variant={"secondary"}
+                        onClick={() => setModalShow(false)}
+                    >
+                        Close
+                    </Button>
                 </Modal.Footer>
             </Modal>
         </>

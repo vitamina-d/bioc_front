@@ -13,18 +13,16 @@ function SearchView() {
     const [end, setEnd] = useState("100100");
     const [chr, setChr] = useState("");
     const [req, setReq] = useState("");
-    const [data, setData] = useState(""); //DataSequence
-
-    const [dto, setDto] = useState<DataSequence | null>(null);
+    const [sequence, setSequence] = useState("");
 
     useEffect(() => {
-        setDto({
+        /*setDataSequence({
             entrez: "",
             complete: true,
-            sequence_length: data.length,
-            sequence: data,
-        });
-    }, [data]);
+            sequence_length: sequence.length,
+            sequence: sequence,
+        });*/
+    }, [sequence]);
 
     //click button
     const handleSubmit = async (event: FormEvent) => {
@@ -38,7 +36,7 @@ function SearchView() {
                 parseInt(end)
             );
             console.log(response);
-            setData(response.seq);
+            setSequence(response.seq);
         } else if (req === "bsgenome") {
             console.log("PLUMBER: chr:", chr, "start", start, "end", end);
 
@@ -46,9 +44,9 @@ function SearchView() {
                 await GetSequenceByRange(chr, parseInt(start), parseInt(end));
 
             console.log(response);
-            setData(response.data.sequence);
+            setSequence(response.data.sequence);
         } else {
-            setData("ABC");
+            setSequence("E R R O R");
         }
     };
 
@@ -69,7 +67,15 @@ function SearchView() {
                 setReq={setReq}
                 submit={handleSubmit}
             />
-            {dto ? <SequenceViewer data={dto} /> : ""}
+            <div className=" mx-3 pb-3 pt-3 ">
+                <SequenceViewer
+                    sequence={sequence}
+                    title={"Sequence"}
+                    setSequence={setSequence}
+                    readonly={true}
+                    clear={true}
+                />
+            </div>
         </Card>
     );
 }

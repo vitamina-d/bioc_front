@@ -1,8 +1,8 @@
 import { Button, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import { GetComplement } from "../services/PlumberServices";
 import { useState, type FormEvent } from "react";
-import TextArea from "./TextArea";
 import type { DataComplement, ResponsePlumber } from "../types/ResponsePlumber";
+import SequenceViewer from "./SequenceViewer";
 
 function ComplementSequences() {
     const [sequence, setSequence] = useState<string>("");
@@ -57,19 +57,21 @@ function ComplementSequences() {
             </div>
             <div className="d-flex justify-content-between">
                 <div className="flex-fill me-2">
-                    {" "}
-                    <TextArea
-                        title="Sequence"
+                    <SequenceViewer
                         sequence={sequence}
+                        title={"Sequence"}
                         setSequence={setSequence}
+                        readonly={false}
+                        clear={true}
                     />
                 </div>
                 <div className="flex-fill ms-2">
-                    {" "}
-                    <TextArea
-                        title="Output"
+                    <SequenceViewer
                         sequence={output}
-                        readOnly={true}
+                        title={"Output"}
+                        setSequence={setOutput}
+                        readonly={true}
+                        clear={true}
                     />
                 </div>
             </div>

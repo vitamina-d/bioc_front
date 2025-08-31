@@ -1,7 +1,7 @@
 import Plot from "react-plotly.js";
 
 interface PlotPieProps {
-    title: string;
+    title?: string;
     values: number[];
     labels: string[];
     colors: string[];
@@ -10,9 +10,7 @@ interface PlotPieProps {
 function PlotPie({ title, values, labels, colors }: PlotPieProps) {
     return (
         <div
-      className="d-flex justify-content-center"
-      style={{ width: "100%", maxWidth: "400px", margin: "0 auto" }}
-    >
+        >
             <Plot
                 data={[
                     {
@@ -24,7 +22,7 @@ function PlotPie({ title, values, labels, colors }: PlotPieProps) {
                             colors: colors,
                         },
                         textinfo: "label+percent", // label+percent
-                        //textposition: "outside",
+                        textposition: "inside",
                         //automargin: true,
                         showlegend: true,
                         hole: 0.5,
@@ -36,8 +34,8 @@ function PlotPie({ title, values, labels, colors }: PlotPieProps) {
                         text: title,
                     },
                     autosize: true,
-                    height: 300,
-                    showlegend: true,
+                    //height: 300,
+                    showlegend: false,
                     legend: {
                         orientation: "h",
                         x: 0.5,
@@ -45,8 +43,16 @@ function PlotPie({ title, values, labels, colors }: PlotPieProps) {
                         xanchor: "center",
                         yanchor: "top",
                     },
+                    margin: {
+                        l: 0,
+                        r: 0,
+                        b: 0,
+                        t: 0,
+                    },
+                    //paper_bgcolor: "rgb(254, 247, 234)",
                 }}
-                useResizeHandler style={{ width: "100%", height: "100%" }}
+                useResizeHandler
+                style={{ width: "100%", height: "100%" }}
             />{" "}
         </div>
     );

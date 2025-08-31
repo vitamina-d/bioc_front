@@ -27,16 +27,16 @@ export type DataDetail = {
 };
 
 export type DataFullDetail = DataDetail & {
-    location: Location;
-    ensembl_id_gene: string;
+    location: Location[];
+    ensembl_id_gene: string[];
     ensembl_id_protein: string[];
     uniprot_ids: string[];
+    citogenetic: string;
 };
 
 type Location = {
-    citogenetic: string;
     strand: string; //+ o -
-    chr: string;
+    seqnames: string;
     start: number;
     end: number;
     length: number;

@@ -1,9 +1,9 @@
 import { Button } from "react-bootstrap";
 import { GetAlign } from "../services/PlumberServices";
 import { useState, type FormEvent } from "react";
-import TextArea from "./TextArea";
 import type { DataAlign, ResponsePlumber } from "../types/ResponsePlumber";
 import DotPlot from "./Plots/DotPlot";
+import SequenceViewer from "./SequenceViewer";
 
 interface Props {
     setAlign: React.Dispatch<
@@ -37,25 +37,33 @@ function AlignSequences({ setAlign }: Props) {
 
     return (
         <>
-            <div className="d-flex justify-content-between">
-                <TextArea
-                    title="Pattern"
-                    sequence={pattern}
-                    setSequence={setPattern}
-                />
-                <TextArea
-                    title="Subject"
-                    sequence={subject}
-                    setSequence={setSubject}
-                />
-            <DotPlot pattern={pattern} subject={subject} />
-            </div>
-
             <div className="d-flex justify-content-end">
-                <Button onClick={handleOnClick} variant="light">
+                <Button onClick={handleOnClick} size="sm" variant="outline-dark" className="mb-2">
                     ALIGN
                 </Button>
             </div>
+            <div className="d-flex gap-3">
+                <div className="flex-fill">
+                    <SequenceViewer
+                        sequence={pattern}
+                        title={"Pattern"}
+                        setSequence={setPattern}
+                        readonly={false}
+                        clear={true}
+                    />
+                </div>
+                <div className="flex-fill">
+                    <SequenceViewer
+                        sequence={subject}
+                        title={"Subject"}
+                        setSequence={setSubject}
+                        readonly={false}
+                        clear={true}
+                    />
+                </div>
+            </div>
+            <DotPlot pattern={pattern} subject={subject} />
+
         </>
     );
 }

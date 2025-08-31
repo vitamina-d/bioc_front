@@ -2,21 +2,13 @@ import { Form, InputGroup } from "react-bootstrap";
 
 type Props = {
     title: string;
+    rows: number;
     sequence: string;
     setSequence?: React.Dispatch<React.SetStateAction<string>>;
     readOnly?: boolean;
 };
 
-function TextArea({
-    title,
-    sequence,
-    setSequence,
-    readOnly = false,
-}: Props) {
-
-    const rows = 6;
-    //const lineCount = sequence.split("\n").length;
-
+function TextArea({ title, rows, sequence, setSequence, readOnly }: Props) {
     return (
         <InputGroup className="mb-3">
             <InputGroup.Text>{title}</InputGroup.Text>

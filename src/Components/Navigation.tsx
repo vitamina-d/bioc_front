@@ -18,6 +18,7 @@ function Navigation({ search, setSearch, setDetail }: NavigationProps) {
     //click en Searcher DETAIL BREVE
     const searchDetail = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setDetail(null);
         console.log("SEARCH: ", search);
 
         try {
@@ -39,7 +40,7 @@ function Navigation({ search, setSearch, setDetail }: NavigationProps) {
     return (
         <Navbar expand="lg" bg="light" sticky="top">
             <Container>
-                <Navbar.Brand as={Link} to="/">
+                <Navbar.Brand as={Link} to="/home">
                     <img
                         src={"../../public/gene.png"}
                         width="30"
@@ -50,9 +51,6 @@ function Navigation({ search, setSearch, setDetail }: NavigationProps) {
                     v i t a m i n a
                 </Navbar.Brand>
                 <Nav className="me-auto">
-                    <Nav.Link as={Link} to="/home">
-                        Home
-                    </Nav.Link>
                     <Nav.Link as={Link} to="/range">
                         Range
                     </Nav.Link>

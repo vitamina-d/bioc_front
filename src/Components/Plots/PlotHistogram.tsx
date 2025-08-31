@@ -19,7 +19,7 @@ function PlotHistogram({ title, values, lenght, window }: PlotHistogramProps) {
                     xbins: {
                         start: 0,
                         end: lenght,
-                        size: window, 
+                        size: window,
                     },
                 },
                 {
@@ -36,15 +36,26 @@ function PlotHistogram({ title, values, lenght, window }: PlotHistogramProps) {
                 },
                 bargap: 0.05,
                 yaxis: { visible: false },
-                height: 400,
+                //height: 400,
                 autosize: true,
-
-
                 xaxis: {
                     //title: "X",
                     showline: false,
                     showgrid: true,
                     zeroline: false,
+                },
+                legend: {
+                    orientation: "h",
+                    x: 0.5,
+                    y: -0.3,
+                    xanchor: "center",
+                    yanchor: "top",
+                },
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 0,
+                    t: 0,
                 },
             }}
             style={{ width: "100%", height: "100%" }}

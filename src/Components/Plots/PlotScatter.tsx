@@ -31,6 +31,7 @@ function PlotScatter({ title, values }: PlotScatterProps) {
                 yaxis: { visible: false },
                 height: 300,
                 autosize: true,
+                
             }}
             style={{ width: "100%", height: "100%" }}
             useResizeHandler

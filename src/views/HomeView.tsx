@@ -3,87 +3,130 @@ import { Card } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import {
     GetFullDetail,
+    GetPercent,
+    GetSequence,
 } from "../services/PlumberServices";
 import { SummaryService } from "../services/PublicServices";
-import SequenceViewer from "../Components/SequenceViewer";
 import Header from "../Components/Header";
-import PercentAccordion from "../Components/PercentAccordion";
 import type {
     DataDetail,
     DataFullDetail,
     DataPercent,
     DataSequence,
+    //DataSequence,
     ResponsePlumber,
 } from "../types/ResponsePlumber";
 import InfoDetail from "../Components/InfoDetail";
 import ModalFullDetail from "../Components/ModalFullDetail";
+import ModalSequence from "../Components/ModalSequence";
+import SequenceViewer from "../Components/SequenceViewer";
 
 interface HomeProps {
     detail: DataDetail | null;
 }
 
-function HomeView({ detail }: HomeProps) {    
-    const [publicData, setPublicData] = useState<ResponsePublicSummary>();
+function HomeView({ detail }: HomeProps) {
+    const [summary, setSummary] = useState<ResponsePublicSummary>();
     const [fullDetail, setFullDetail] = useState<DataFullDetail>();
 
-    const [sequence, setSequence] = useState<DataSequence | null>(null);
-    const [percent, setPercent] = useState<DataPercent| null>(null);
+    const [dataPercent, setDataPercent] = useState<DataPercent | null>(null);
+    const [dataSequence, setDataSequence] = useState<DataSequence | null>(null);
 
-    const [modalShow, setModalShow] = useState(false);
-    
-    if (!detail) return <Card className="p-3 my-3 ">No hay detalle para mostrar</Card>;
+    const [modalDetailShow, setModalDetailShow] = useState(false);
+    const [modalChartShow, setModalChartShow] = useState(false);
+
+    if (!detail) return <></>;
     const entrez = detail.entrez;
 
     //click en Searcher
     const searchFullDetail = async () => {
         setFullDetail(undefined);
-        setPublicData(undefined);
+        setSummary(undefined);
         try {
             const publicRes: ResponsePublicSummary = await SummaryService(
                 entrez
             );
             console.log(publicRes);
-            setPublicData(publicRes);
+            setSummary(publicRes);
             const plumberRes: ResponsePlumber<DataFullDetail> =
                 await GetFullDetail(entrez);
-            console.log(plumberRes.data);
+            console.log(plumberRes);
             setFullDetail(plumberRes.data);
-            setModalShow(true);
+            setModalDetailShow(true);
         } catch (err) {
             console.error(err);
         } finally {
-            console.error("FINALLY");
+            console.error("FINALLY SummaryService GetFullDetail");
         }
     };
-
-
+    //click en +
+    const handleClickSequence = async () => {
+        try {
+            const seqRes: ResponsePlumber<DataSequence> = await GetSequence(
+                entrez,
+                true
+            );
+            console.log(seqRes);
+            setDataSequence(seqRes.data);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            console.error("FINALLY GetSequence");
+        }
+    };
+    //click en +
+    const handleClickPercent = async () => {
+        try {
+            const seqRes: ResponsePlumber<DataSequence> = await GetSequence(
+                entrez,
+                true
+            );
+            const percentRes: ResponsePlumber<DataPercent> = await GetPercent(
+                seqRes.data.sequence
+            );
+            console.log(percentRes);
+            console.log(seqRes);
+            setDataSequence(seqRes.data);
+            setDataPercent(percentRes.data);
+            setModalChartShow(true);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            console.error("FINALLY GetSequence GetPercent");
+        }
+    };
     return (
         <Card className="p-3 my-3 ">
             <Header title="Gene" imageSrc="../../public/gene.png" />
             <Card.Body>
-                <InfoDetail data={detail} getFull={searchFullDetail} setSequence={setSequence} setPercent={setPercent}  />
-                
-
-                {sequence || percent ? ( //scrollIntoView
-                    <Card className="shadow  my-3">
-                        <Card.Body>
-                            <Header
-                                title="Sequence"
-                                imageSrc={"/public/seq.png"}
-                            />
-                            {sequence ? <SequenceViewer data={sequence} /> : ""}
-                            {percent ? <PercentAccordion data={percent} /> : ""}
-                        </Card.Body>
-                    </Card>
+                <InfoDetail
+                    data={detail}
+                    getFull={searchFullDetail}
+                    getSequence={handleClickSequence}
+                    getPercent={handleClickPercent}
+                />
+                {dataSequence ? (
+                    <SequenceViewer
+                        title={"Sequence"}
+                        sequence={dataSequence.sequence}
+                        readonly={true}
+                        clear={false}
+                    />
                 ) : (
                     ""
                 )}
             </Card.Body>
             <ModalFullDetail
-                modalShow={modalShow}
-                setModalShow={setModalShow}
+                modalShow={modalDetailShow}
+                setModalShow={setModalDetailShow}
                 dataPlumber={fullDetail}
-                dataPublic={publicData}
+                dataPublic={summary}
+            />
+            <ModalSequence
+                modalShow={modalChartShow}
+                setModalShow={setModalChartShow}
+                dataSequence={dataSequence}
+                dataPercent={dataPercent}
             />
         </Card>
     );
