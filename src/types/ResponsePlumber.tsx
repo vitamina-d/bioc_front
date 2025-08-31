@@ -69,6 +69,14 @@ export type DataSequence = {
     sequence: string;
 };
 
+export type DataStats = {
+    complete: boolean;
+    sequence: string;
+    length: number;
+    nucleotides: Nucleotides;
+    cpg_islands: CPG;
+};
+
 export type DataTable = {
     count: number;
     table: Id[];

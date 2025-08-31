@@ -6,6 +6,7 @@ import type {
     DataFullDetail,
     DataPercent,
     DataSequence,
+    DataStats,
     ResponsePlumber,
 } from "../types/ResponsePlumber";
 
@@ -105,6 +106,19 @@ const GetSequence = async (
     const data = await response.json();
     return data;
 };
+
+//https://localhost:32789/api/Plumber/sequence?value=slos&complete=true
+const GetStats = async (
+    entrez: string,
+    complete: boolean
+): Promise<ResponsePlumber<DataStats>> => {
+    const response = await fetch(
+        `${DOTNET_PLUMBER_URL}/stats?entrez=${entrez}&complete=${complete}`
+    );
+    const data = await response.json();
+    return data;
+};
+
 //https://localhost:32789/api/Plumber/sequence_by_range?chrom=11&start=100&end=200
 const GetSequenceByRange = async (
     chr: string, //11, X, Y
@@ -136,6 +150,7 @@ export {
     GetFullDetail,
     GetPercent,
     GetSequence,
+    GetStats,
     GetSequenceByRange,
     getMessage,
 };

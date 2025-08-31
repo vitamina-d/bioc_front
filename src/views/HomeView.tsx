@@ -1,25 +1,20 @@
 import { useState } from "react";
 import { Card } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import {
-    GetFullDetail,
-    GetPercent,
-    GetSequence,
-} from "../services/PlumberServices";
+import { GetFullDetail, GetStats } from "../services/PlumberServices";
 import { SummaryService } from "../services/PublicServices";
 import Header from "../Components/Header";
 import type {
     DataDetail,
     DataFullDetail,
-    DataPercent,
-    DataSequence,
+    DataStats,
     //DataSequence,
     ResponsePlumber,
 } from "../types/ResponsePlumber";
 import InfoDetail from "../Components/InfoDetail";
 import ModalFullDetail from "../Components/ModalFullDetail";
-import ModalSequence from "../Components/ModalSequence";
 import SequenceViewer from "../Components/SequenceViewer";
+import PercentPlots from "../Components/PercentPlots";
 
 interface HomeProps {
     detail: DataDetail | null;
@@ -29,11 +24,9 @@ function HomeView({ detail }: HomeProps) {
     const [summary, setSummary] = useState<ResponsePublicSummary>();
     const [fullDetail, setFullDetail] = useState<DataFullDetail>();
 
-    const [dataPercent, setDataPercent] = useState<DataPercent | null>(null);
-    const [dataSequence, setDataSequence] = useState<DataSequence | null>(null);
+    const [dataStats, setDataStats] = useState<DataStats | null>(null);
 
     const [modalDetailShow, setModalDetailShow] = useState(false);
-    const [modalChartShow, setModalChartShow] = useState(false);
 
     if (!detail) return <></>;
     const entrez = detail.entrez;
@@ -59,42 +52,25 @@ function HomeView({ detail }: HomeProps) {
             console.error("FINALLY SummaryService GetFullDetail");
         }
     };
+
     //click en +
-    const handleClickSequence = async () => {
+    const handleClickStats = async () => {
         try {
-            const seqRes: ResponsePlumber<DataSequence> = await GetSequence(
+            const seqAndStats: ResponsePlumber<DataStats> = await GetStats(
                 entrez,
                 true
             );
-            console.log(seqRes);
-            setDataSequence(seqRes.data);
+            console.log(seqAndStats);
+            console.log(seqAndStats.data);
+
+            setDataStats(seqAndStats.data);
         } catch (err) {
             console.error(err);
         } finally {
             console.error("FINALLY GetSequence");
         }
     };
-    //click en +
-    const handleClickPercent = async () => {
-        try {
-            const seqRes: ResponsePlumber<DataSequence> = await GetSequence(
-                entrez,
-                true
-            );
-            const percentRes: ResponsePlumber<DataPercent> = await GetPercent(
-                seqRes.data.sequence
-            );
-            console.log(percentRes);
-            console.log(seqRes);
-            setDataSequence(seqRes.data);
-            setDataPercent(percentRes.data);
-            setModalChartShow(true);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            console.error("FINALLY GetSequence GetPercent");
-        }
-    };
+
     return (
         <Card className="p-3 my-3 ">
             <Header title="Gene" imageSrc="../../public/gene.png" />
@@ -102,16 +78,19 @@ function HomeView({ detail }: HomeProps) {
                 <InfoDetail
                     data={detail}
                     getFull={searchFullDetail}
-                    getSequence={handleClickSequence}
-                    getPercent={handleClickPercent}
+                    getSequence={handleClickStats}
                 />
-                {dataSequence ? (
-                    <SequenceViewer
-                        title={"Sequence"}
-                        sequence={dataSequence.sequence}
-                        readonly={true}
-                        clear={false}
-                    />
+                {dataStats ? (
+                    <>
+                        <SequenceViewer
+                            title={"Sequence"}
+                            sequence={dataStats.sequence}
+                            readonly={true}
+                            clear={false}
+                        />
+
+                        <PercentPlots dataStats={dataStats} />
+                    </>
                 ) : (
                     ""
                 )}
@@ -121,12 +100,6 @@ function HomeView({ detail }: HomeProps) {
                 setModalShow={setModalDetailShow}
                 dataPlumber={fullDetail}
                 dataPublic={summary}
-            />
-            <ModalSequence
-                modalShow={modalChartShow}
-                setModalShow={setModalChartShow}
-                dataSequence={dataSequence}
-                dataPercent={dataPercent}
             />
         </Card>
     );

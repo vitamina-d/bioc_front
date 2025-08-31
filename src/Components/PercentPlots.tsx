@@ -1,14 +1,14 @@
 import PlotPie from "./Plots/PlotPie";
 import { nucleotideColors } from "../const/nucleotideColors";
 import PlotHistogram from "./Plots/PlotHistogram";
-import type { DataPercent, Nucleotides } from "../types/ResponsePlumber";
+import type { DataStats, Nucleotides } from "../types/ResponsePlumber";
 
 type Props = {
-    dataPercent: DataPercent;
+    dataStats: DataStats;
 };
 
-function PercentPlots({ dataPercent }: Props) {
-    const nucleotides: Nucleotides = dataPercent.composition.nucleotides;
+function PercentPlots({ dataStats }: Props) {
+    const nucleotides: Nucleotides = dataStats.nucleotides;
     const values: number[] = Object.values(nucleotides);
     const labels: string[] = Object.keys(nucleotides);
 
@@ -20,8 +20,8 @@ function PercentPlots({ dataPercent }: Props) {
         nucleotides.A + nucleotides.C,
         nucleotides.G + nucleotides.T,
     ];
-    const lenght: number = dataPercent.composition.length;
-    const island: number[] = dataPercent.cpg_islands.start;
+    const lenght: number = dataStats.length;
+    const island: number[] = dataStats.cpg_islands.start;
 
     return (
         <>

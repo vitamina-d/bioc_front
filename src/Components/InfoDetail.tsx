@@ -6,10 +6,9 @@ interface InfoDetailProps {
     data: DataDetail;
     getFull: React.MouseEventHandler<HTMLButtonElement>;
     getSequence: React.MouseEventHandler<HTMLButtonElement>;
-    getPercent: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function InfoDetail({ data, getFull, getSequence, getPercent }: InfoDetailProps) {
+function InfoDetail({ data, getFull, getSequence }: InfoDetailProps) {
     return (
         data && (
             <>
@@ -44,20 +43,13 @@ function InfoDetail({ data, getFull, getSequence, getPercent }: InfoDetailProps)
                                     textHover={"Detail"}
                                     typeIcon={"binocular"}
                                     onClick={getFull}
-                                    variant="outline-success"
+                                    variant="outline-dark"
                                     size="lg"
                                 />
                                 <ButtonOverlay
                                     textHover={"Sequence"}
                                     typeIcon={"finger"}
                                     onClick={getSequence}
-                                    variant="outline-primary"
-                                    size="lg"
-                                />
-                                <ButtonOverlay
-                                    textHover={"Dashboard"}
-                                    typeIcon={"pie"}
-                                    onClick={getPercent}
                                     variant="outline-primary"
                                     size="lg"
                                 />
