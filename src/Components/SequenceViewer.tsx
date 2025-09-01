@@ -1,20 +1,20 @@
 import TextArea from "./TextArea";
 import ButtonOverlay from "./ButtonOverlay";
+import type { ButtonProps } from "react-bootstrap";
 
 type Props = {
     title: string;
     sequence: string;
     setSequence?: React.Dispatch<React.SetStateAction<string>>;
     readonly: boolean;
-    clear: boolean;
-};
+} & ButtonProps;
 
 function SequenceViewer({
     title,
     sequence,
     setSequence,
     readonly,
-    clear,
+    ...prop
 }: Props) {
     const copySequence = () => {
         navigator.clipboard.writeText(sequence);
@@ -38,17 +38,13 @@ function SequenceViewer({
                     size="sm"
                     variant="outline-dark"
                 />
-                {clear&&setSequence ? (
-                    <ButtonOverlay
-                        textHover={"Clear"}
-                        onClick={() => setSequence("")}
-                        typeIcon="backspace"
-                        size="sm"
-                        variant="outline-dark"
-                    />
-                ) : (
-                    ""
-                )}
+                <ButtonOverlay
+                    textHover={"Clear"}
+                    typeIcon="backspace"
+                    size="sm"
+                    variant="outline-dark"
+                    {...prop}
+                />
             </div>
         </div>
     );

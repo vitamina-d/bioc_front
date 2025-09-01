@@ -1,12 +1,12 @@
 import Plot from "react-plotly.js";
 import type { Nucleotides } from "../../types/ResponsePlumber";
 
-interface PlotSunburstProps {
+type Props = {
     title?: string;
     nucleotides: Nucleotides;
 }
 
-function PlotSunburst({ title, nucleotides }: PlotSunburstProps) {
+function PlotSunburst({ title, nucleotides }: Props) {
 
     const total_AC: number = nucleotides.A + nucleotides.C;
     const total_GT: number = nucleotides.G + nucleotides.T;

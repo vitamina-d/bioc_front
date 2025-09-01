@@ -16,11 +16,11 @@ import ModalFullDetail from "../Components/ModalFullDetail";
 import SequenceViewer from "../Components/SequenceViewer";
 import PercentPlots from "../Components/PercentPlots";
 
-interface HomeProps {
+type Props = {
     detail: DataDetail | null;
 }
 
-function HomeView({ detail }: HomeProps) {
+function HomeView({ detail }: Props) {
     const [summary, setSummary] = useState<ResponsePublicSummary>();
     const [fullDetail, setFullDetail] = useState<DataFullDetail>();
 
@@ -86,7 +86,7 @@ function HomeView({ detail }: HomeProps) {
                             title={"Sequence"}
                             sequence={dataStats.sequence}
                             readonly={true}
-                            clear={false}
+
                         />
 
                         <PercentPlots dataStats={dataStats} />

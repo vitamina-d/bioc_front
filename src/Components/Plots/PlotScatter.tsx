@@ -1,11 +1,11 @@
 import Plot from "react-plotly.js";
 
-interface PlotScatterProps {
+type Props = {
     title: string;
     values: number[];
 }
 
-function PlotScatter({ title, values }: PlotScatterProps) {
+function PlotScatter({ title, values }: Props) {
     return (
         <Plot
             data={[

@@ -1,12 +1,13 @@
-import { Button, Modal } from "react-bootstrap";
+/*import { Button, Modal } from "react-bootstrap";
 import type { DataPercent, DataSequence } from "../types/ResponsePlumber";
 import PercentPlots from "./PercentPlots";
 
-interface ModalProps {
+type Props = {
     modalShow: boolean;
     setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
     dataPercent: DataPercent | null;
     dataSequence: DataSequence | null;
+
 }
 
 function ModalSequence({
@@ -14,7 +15,7 @@ function ModalSequence({
     setModalShow,
     dataPercent,
     dataSequence,
-}: ModalProps) {
+}: Props) {
     return (
         <>
             <Modal
@@ -42,7 +43,7 @@ function ModalSequence({
                 </Modal.Header>
                 <Modal.Body className="mx-3 small">
                     {dataPercent && dataSequence ? (
-                        <PercentPlots dataPercent={dataPercent} />
+                        <PercentPlots dataStats={dataStats} />
                     ) : (
                         ""
                     )}
@@ -62,3 +63,4 @@ function ModalSequence({
 }
 
 export default ModalSequence;
+*/

@@ -5,7 +5,7 @@ import type { DataAlign, ResponsePlumber } from "../types/ResponsePlumber";
 import DotPlot from "./Plots/DotPlot";
 import SequenceViewer from "./SequenceViewer";
 
-interface Props {
+type Props = {
     setDataAlign: React.Dispatch<React.SetStateAction<DataAlign | undefined>>;
 }
 
@@ -51,7 +51,7 @@ function AlignSequences({ setDataAlign }: Props) {
                         title={"Pattern"}
                         setSequence={setPattern}
                         readonly={false}
-                        clear={true}
+                        onClick={() => setPattern("")}
                     />
                 </div>
                 <div className="flex-fill">
@@ -60,7 +60,7 @@ function AlignSequences({ setDataAlign }: Props) {
                         title={"Subject"}
                         setSequence={setSubject}
                         readonly={false}
-                        clear={true}
+                        onClick={() => setSubject("")}
                     />
                 </div>
             </div>

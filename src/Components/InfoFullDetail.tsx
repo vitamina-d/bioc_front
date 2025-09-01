@@ -2,12 +2,12 @@ import { Card, CardBody, Col, ListGroup, Row } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import type { DataFullDetail } from "../types/ResponsePlumber";
 
-interface InfoFullProps {
+type Props = {
     dataPublic?: ResponsePublicSummary;
     dataPlumber?: DataFullDetail;
-}
+};
 
-function InfoFull({ dataPublic, dataPlumber }: InfoFullProps) {
+function InfoFull({ dataPublic, dataPlumber }: Props) {
     return (
         <Card className="shadow p-3 my-3 mb-5">
             <div className="d-flex align-items-center mb-2 p-3">
@@ -68,44 +68,50 @@ function InfoFull({ dataPublic, dataPlumber }: InfoFullProps) {
                             <ListGroup.Item>
                                 <Row>
                                     <Col xs={3}>Cytogenetic Location</Col>
-                                    <Col xs={9}>
-                                        {dataPlumber.location.citogenetic}{" "}
-                                    </Col>
+                                    <Col xs={9}>{dataPlumber.citogenetic}</Col>
                                 </Row>
                             </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col xs={3}>Chromosome</Col>
-                                    <Col xs={9}>{dataPlumber.location.chr}</Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col xs={3}>Strand</Col>
-                                    <Col xs={9}>
-                                        {dataPlumber.location.strand == "-"
-                                            ? "3′ → 5′ (-)"
-                                            : "5′ → 3′ (+)"}
-                                    </Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col xs={3}>Range</Col>
-                                    <Col xs={9}>
-                                        {dataPlumber.location.start} –{" "}
-                                        {dataPlumber.location.end}
-                                    </Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col xs={3}>Length</Col>
-                                    <Col xs={9}>
-                                        {dataPlumber.location.length}
-                                    </Col>
-                                </Row>
-                            </ListGroup.Item>
+
+                            {dataPlumber.location.map((item) => (
+                                <>
+                                    <ListGroup.Item>
+                                        <Row>
+                                            <Col xs={3}>Chromosome</Col>
+                                            <Col xs={9}>
+                                                {item.seqnames}
+                                            </Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                    <ListGroup.Item>
+                                        <Row>
+                                            <Col xs={3}>Strand</Col>
+                                            <Col xs={9}>
+                                                {item.strand ==
+                                                "-"
+                                                    ? "3′ → 5′ (-)"
+                                                    : "5′ → 3′ (+)"}
+                                            </Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                    <ListGroup.Item>
+                                        <Row>
+                                            <Col xs={3}>Range</Col>
+                                            <Col xs={9}>
+                                                {item.start} –{" "}
+                                                {item.end}
+                                            </Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                    <ListGroup.Item>
+                                        <Row>
+                                            <Col xs={3}>Length</Col>
+                                            <Col xs={9}>
+                                                {item.length}
+                                            </Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                </>
+                            ))}
                             {dataPlumber.ensembl_id_gene ? (
                                 <ListGroup.Item>
                                     <Row>

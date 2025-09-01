@@ -1,11 +1,11 @@
 import Plot from "react-plotly.js";
 
-interface PlotIslandBarProps {
+type Props = {
     title: string;
     x: number[];
 }
 
-function PlotIslandBar({ title, x }: PlotIslandBarProps) {
+function PlotIslandBar({ title, x }: Props) {
     return (
         <Plot
             data={[

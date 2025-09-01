@@ -1,13 +1,13 @@
 import Plot from "react-plotly.js";
 
-interface PlotHistogramProps {
+type Props = {
     title: string;
     values: number[];
     lenght: number;
     window: number;
 }
 //
-function PlotHistogram({ title, values, lenght, window }: PlotHistogramProps) {
+function PlotHistogram({ title, values, lenght, window }: Props) {
     return (
         <Plot
             data={[

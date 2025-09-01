@@ -1,13 +1,13 @@
 import Plot from "react-plotly.js";
 
-interface PlotBarProps {
+type Props = {
     title: string;
     x: string[];
     y: number[];
     colors: string[];
 }
 
-function PlotBar({ title, x, y, colors }: PlotBarProps) {
+function PlotBar({ title, x, y, colors }: Props) {
     return (
         <Plot
             data={[

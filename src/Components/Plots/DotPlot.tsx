@@ -1,6 +1,6 @@
 import Plot from "react-plotly.js";
 
-interface Props {
+type Props = {
     pattern: string;
     subject: string;
 }

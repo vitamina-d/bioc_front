@@ -2,13 +2,13 @@ import { CardBody, Col, Row } from "react-bootstrap";
 import type { DataDetail } from "../types/ResponsePlumber";
 import ButtonOverlay from "./ButtonOverlay";
 
-interface InfoDetailProps {
+type Props = {
     data: DataDetail;
     getFull: React.MouseEventHandler<HTMLButtonElement>;
     getSequence: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function InfoDetail({ data, getFull, getSequence }: InfoDetailProps) {
+function InfoDetail({ data, getFull, getSequence }: Props) {
     return (
         data && (
             <>

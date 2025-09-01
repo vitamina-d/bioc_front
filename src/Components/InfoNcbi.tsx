@@ -1,11 +1,11 @@
 import { CardBody, Col, ListGroup, Row } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 
-interface InfoNcbiProps {
+type Props = {
     data: ResponsePublicSummary;
 }
 
-function InfoNcbi({ data }: InfoNcbiProps) {
+function InfoNcbi({ data }: Props) {
     return (
         <>
             <div className="d-flex align-items-center mb-2 p-3">

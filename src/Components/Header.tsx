@@ -1,10 +1,10 @@
 
-interface HeaderProps {
+type Props = {
     title: string;
     text?: string;
 }
 
-function Header(props: HeaderProps & { imageSrc?: string }) {
+function Header(props: Props & { imageSrc?: string }) {
     const { title, text, imageSrc } = props;
     return (
         <div className="d-flex align-items-center p-3">

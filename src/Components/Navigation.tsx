@@ -6,13 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 import type { DataDetail, ResponsePlumber } from "../types/ResponsePlumber";
 import { GetDetail } from "../services/PlumberServices";
 
-interface NavigationProps {
+type Props = {
     search: string;
     setSearch: React.Dispatch<React.SetStateAction<string>>;
     setDetail: React.Dispatch<React.SetStateAction<DataDetail | null>>;
 }
 
-function Navigation({ search, setSearch, setDetail }: NavigationProps) {
+function Navigation({ search, setSearch, setDetail }: Props) {
     const navigate = useNavigate();
 
     //click en Searcher DETAIL BREVE
@@ -32,9 +32,7 @@ function Navigation({ search, setSearch, setDetail }: NavigationProps) {
         } catch (err) {
             setDetail(null);
             console.error(err);
-        } finally {
-            console.error("finally");
-        }
+        } 
     };
 
     return (
@@ -90,6 +88,7 @@ function Navigation({ search, setSearch, setDetail }: NavigationProps) {
                                 variant="light"
                                 className="bg-light"
                                 type="submit"
+                                disabled={search == ""}
                                 //onClick={() => alert(search)}
                             >
                                 <svg width="16" height="16" viewBox="0 0 16 16">

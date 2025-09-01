@@ -1,11 +1,11 @@
 import { CardBody, Col, ListGroup, Row } from "react-bootstrap";
 import type { DataFullDetail } from "../types/ResponsePlumber";
 
-interface InfoPlumberProps {
+type Props = {
     data: DataFullDetail;
 }
 
-function InfoPlumber({ data }: InfoPlumberProps) {
+function InfoPlumber({ data }: Props) {
     console.log(data);
     return (
         <CardBody>

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Button, Modal } from "react-bootstrap";
 
-interface ModalProps {
+type Props = {
     modalShow: boolean;
     setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
     child: ReactNode;
@@ -11,7 +11,7 @@ function ModalBasic({
     modalShow,
     setModalShow,
     child
-}: ModalProps) {
+}: Props) {
     return (
         <>
             <Modal

@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { Card } from "react-bootstrap";
 import SelectGenome from "../Components/SelectGenome";
 import SequenceViewer from "../Components/SequenceViewer";
@@ -14,15 +14,6 @@ function RangeView() {
     const [chr, setChr] = useState("");
     const [req, setReq] = useState("");
     const [sequence, setSequence] = useState("");
-
-    useEffect(() => {
-        /*setDataSequence({
-            entrez: "",
-            complete: true,
-            sequence_length: sequence.length,
-            sequence: sequence,
-        });*/
-    }, [sequence]);
 
     //click button
     const handleSubmit = async (event: FormEvent) => {
@@ -73,7 +64,7 @@ function RangeView() {
                     title={"Sequence"}
                     setSequence={setSequence}
                     readonly={true}
-                    clear={true}
+                    onClick={() => setSequence("")}
                 />
             </div>
         </Card>

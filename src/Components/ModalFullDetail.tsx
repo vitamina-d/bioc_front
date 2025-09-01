@@ -2,7 +2,7 @@ import { Button, Col, ListGroup, Modal, Row } from "react-bootstrap";
 import type { DataFullDetail } from "../types/ResponsePlumber";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 
-interface ModalProps {
+type Props = {
     modalShow: boolean;
     setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
     dataPlumber?: DataFullDetail;
@@ -14,7 +14,7 @@ function ModalFullDetail({
     setModalShow,
     dataPlumber,
     dataPublic,
-}: ModalProps) {
+}: Props) {
     return (
         <>
             <Modal

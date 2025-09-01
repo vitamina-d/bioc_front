@@ -1,13 +1,13 @@
 import Plot from "react-plotly.js";
 
-interface PlotPieProps {
+type Props = {
     title?: string;
     values: number[];
     labels: string[];
     colors: string[];
 }
 
-function PlotPie({ title, values, labels, colors }: PlotPieProps) {
+function PlotPie({ title, values, labels, colors }: Props) {
     return (
         <div
         >

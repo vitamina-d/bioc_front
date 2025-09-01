@@ -1,6 +1,6 @@
 import { Button, Form } from "react-bootstrap";
 import { GetComplement } from "../services/PlumberServices";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import type { DataComplement, ResponsePlumber } from "../types/ResponsePlumber";
 import SequenceViewer from "./SequenceViewer";
 
@@ -10,9 +10,11 @@ function ComplementSequences() {
     const [toReverse, setToReverse] = useState(false);
     const [toComplement, setToComplement] = useState(false);
 
-    const handleOnClick = async (event: FormEvent) => {
-        event.preventDefault();
+    useEffect(() => {
+        handleReverseComplement();
+    }, [toReverse, toComplement]);
 
+    const handleReverseComplement = async () => {
         const response: ResponsePlumber<DataComplement> = await GetComplement(
             //body
             sequence,
@@ -47,35 +49,6 @@ function ComplementSequences() {
                         }
                     />
                 </Form>
-                {/*
-                
-                <ToggleButtonGroup type="checkbox">
-                    <ToggleButton
-                        id="tbg-check-1"
-                        value={1}
-                        variant={toReverse ? "success" : "secondary"}
-                        size="sm"
-                        checked={toReverse}
-                        onChange={(e) => setToReverse(e.currentTarget.checked)}
-                        className={toReverse ? "" : "border"}
-                    >
-                        Reverse
-                    </ToggleButton>
-                    <ToggleButton
-                        id="tbg-check-2"
-                        value={2}
-                        variant={toComplement ? "success" : "secondary"}
-                        size="sm"
-                        checked={toComplement}
-                        onChange={(e) =>
-                            setToComplement(e.currentTarget.checked)
-                        }
-                        className={toComplement ? "" : "border"}
-                    >
-                        Complement
-                    </ToggleButton>
-                </ToggleButtonGroup>
-                    */}
             </div>
             <div className="d-flex justify-content-between">
                 <div className="flex-fill me-2">
@@ -84,7 +57,10 @@ function ComplementSequences() {
                         title={"Sequence"}
                         setSequence={setSequence}
                         readonly={false}
-                        clear={true}
+                        onClick={() => {
+                            setOutput("");
+                            setSequence("");
+                        }}
                     />
                 </div>
                 <div className="flex-fill ms-2">
@@ -93,12 +69,12 @@ function ComplementSequences() {
                         title={"Output"}
                         setSequence={setOutput}
                         readonly={true}
-                        clear={true}
+                        onClick={() => setSequence("")}
                     />
                 </div>
             </div>
             <div className="d-flex justify-content-end">
-                <Button onClick={handleOnClick} variant="light">
+                <Button onClick={handleReverseComplement} variant="light">
                     GET
                 </Button>
             </div>

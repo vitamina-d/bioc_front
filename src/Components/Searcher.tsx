@@ -1,14 +1,15 @@
 import type { FormEventHandler } from "react";
 import { Button, Form } from "react-bootstrap";
+import type { ButtonProps } from "react-bootstrap";
 
-interface SearcherProps {
+type SearcherProps = {
     text: string;
     input: string;
     setInput: React.Dispatch<React.SetStateAction<string>>;
     onSubmit: FormEventHandler<HTMLFormElement>;
-}
+} & ButtonProps;
 
-function Searcher({ text, input, setInput, onSubmit }: SearcherProps) {
+function Searcher({ text, input, setInput, onSubmit, ...prop }: SearcherProps) {
     return (
         <div className="row mx-1 ">
             <Form onSubmit={(e) => onSubmit(e)}>
@@ -25,8 +26,9 @@ function Searcher({ text, input, setInput, onSubmit }: SearcherProps) {
                     <label className="input-group-text p-0">
                         <Button
                             variant="light"
-                            className="bg-light"
                             type="submit"
+                            className="rounded-0"
+                            {...prop}
                         >
                             {text}
                         </Button>
