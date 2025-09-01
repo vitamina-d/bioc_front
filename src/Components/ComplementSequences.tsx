@@ -1,4 +1,4 @@
-import { Button, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { GetComplement } from "../services/PlumberServices";
 import { useState, type FormEvent } from "react";
 import type { DataComplement, ResponsePlumber } from "../types/ResponsePlumber";
@@ -28,6 +28,27 @@ function ComplementSequences() {
     return (
         <>
             <div className="d-flex justify-content-end mb-2">
+                <Form>
+                    {" "}
+                    <Form.Check
+                        type="switch"
+                        id="reverse-switch"
+                        label="Reverse"
+                        checked={toReverse}
+                        onChange={(e) => setToReverse(e.currentTarget.checked)}
+                    />
+                    <Form.Check
+                        type="switch"
+                        id="complement-switch"
+                        label="Complement"
+                        checked={toComplement}
+                        onChange={(e) =>
+                            setToComplement(e.currentTarget.checked)
+                        }
+                    />
+                </Form>
+                {/*
+                
                 <ToggleButtonGroup type="checkbox">
                     <ToggleButton
                         id="tbg-check-1"
@@ -54,6 +75,7 @@ function ComplementSequences() {
                         Complement
                     </ToggleButton>
                 </ToggleButtonGroup>
+                    */}
             </div>
             <div className="d-flex justify-content-between">
                 <div className="flex-fill me-2">

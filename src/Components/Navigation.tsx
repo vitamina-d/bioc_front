@@ -51,8 +51,17 @@ function Navigation({ search, setSearch, setDetail }: NavigationProps) {
                     v i t a m i n a
                 </Navbar.Brand>
                 <Nav className="me-auto">
+                    <Nav.Link as={Link} to="/home">
+                        Home
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/search">
+                        Search
+                    </Nav.Link>
                     <Nav.Link as={Link} to="/range">
                         Range
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/complement">
+                        Complement
                     </Nav.Link>
                     <Nav.Link as={Link} to="/align">
                         Align
@@ -62,9 +71,6 @@ function Navigation({ search, setSearch, setDetail }: NavigationProps) {
                     </Nav.Link>
                     <Nav.Link as={Link} to="/protein">
                         Protein
-                    </Nav.Link>
-                    <Nav.Link as={Link} to="/complement">
-                        Complement
                     </Nav.Link>
                     <Nav.Link as={Link} to="/about">
                         About

@@ -7,16 +7,13 @@ import { GetSequenceByRange } from "../services/PlumberServices";
 import Header from "../Components/Header";
 import type { ResponsePublicRange } from "../types/ResponsePublicRange";
 import type { DataSequence, ResponsePlumber } from "../types/ResponsePlumber";
-import Searcher from "../Components/Searcher";
 
-function SearchView() {
+function RangeView() {
     const [start, setStart] = useState("100000");
     const [end, setEnd] = useState("100100");
     const [chr, setChr] = useState("");
     const [req, setReq] = useState("");
     const [sequence, setSequence] = useState("");
-
-    const [input, setInput] = useState("");
 
     useEffect(() => {
         /*setDataSequence({
@@ -27,11 +24,8 @@ function SearchView() {
         });*/
     }, [sequence]);
 
-    const submitSearch = async (event: FormEvent) => {
-        event.preventDefault();
-        alert(input);
-    };
-    const submitRange = async (event: FormEvent) => {
+    //click button
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
 
         if (req === "ensembl") {
@@ -59,16 +53,11 @@ function SearchView() {
     return (
         <Card className="p-3 my-3 ">
             <Header
-                title="Searcher"
+                title="Buscar Gen"
                 text="Ingrese la fuente, cromosoma y rango para consultar la secuencia."
                 imageSrc="../../public/gene.png"
             />
-            <Searcher
-                text={"Search"}
-                input={input}
-                setInput={setInput}
-                onSubmit={submitSearch}
-            />
+
             <SelectGenome
                 setChr={setChr}
                 start={start}
@@ -76,7 +65,7 @@ function SearchView() {
                 end={end}
                 setEnd={setEnd}
                 setReq={setReq}
-                submit={submitRange}
+                submit={handleSubmit}
             />
             <div className=" mx-3 pb-3 pt-3 ">
                 <SequenceViewer
@@ -91,4 +80,4 @@ function SearchView() {
     );
 }
 
-export default SearchView;
+export default RangeView;

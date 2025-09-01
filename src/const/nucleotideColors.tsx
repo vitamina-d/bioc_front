@@ -1,4 +1,4 @@
-const bootstrap_colors = {
+export const bootstrap_colors = {
     primary: "#0d6efd",
     warning: "#ffc107",
     dark: "#212529",

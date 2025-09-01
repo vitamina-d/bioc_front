@@ -14,7 +14,7 @@ function AlignSequences({ setDataAlign }: Props) {
     const [subject, setSubject] = useState<string>("");
     const type: string = "global"; // "local" "overlap"
     const gapOpening: number = 1;
-    const gapExtension: number = 2;
+    const gapExtension: number = 1;
 
     const handleOnClick = async (event: FormEvent) => {
         event.preventDefault();

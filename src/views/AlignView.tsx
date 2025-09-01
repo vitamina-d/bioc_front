@@ -2,9 +2,9 @@ import { Card } from "react-bootstrap";
 import Header from "../Components/Header";
 import PlotAlign from "../Components/Plots/PlotAlign";
 import { useState } from "react";
-import InfoAlign from "../Components/InfoAlign";
 import AlignSequences from "../Components/AlignSequences";
 import type { DataAlign } from "../types/ResponsePlumber";
+import ButtonBadge from "../Components/ButtonBadge";
 
 function AlignView() {
     const [dataAlign, setDataAlign] = useState<DataAlign>();
@@ -20,7 +20,12 @@ function AlignView() {
             {dataAlign ? (
                 <>
                     <PlotAlign data={dataAlign} />
-                    <InfoAlign data={dataAlign} />
+                    <div className="d-flex justify-content-end">
+                        <ButtonBadge
+                            text="Score"
+                            value={dataAlign.score.toString()}
+                        />
+                    </div>
                 </>
             ) : (
                 ""
