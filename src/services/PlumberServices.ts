@@ -15,8 +15,8 @@ const GetAlign = async (
     pattern: string,
     subject: string,
     type: string, //#* @param type "global", "local", "overlap"
-    gapOpening: number,
-    gapExtension: number
+    gapOpening: number, // >=0
+    gapExtension: number // >=0
 ): Promise<ResponsePlumber<DataAlign>> => {
     const response = await fetch(`${DOTNET_PLUMBER_URL}/align`, {
         method: "POST",

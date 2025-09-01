@@ -4,10 +4,10 @@ import PlotAlign from "../Components/Plots/PlotAlign";
 import { useState } from "react";
 import InfoAlign from "../Components/InfoAlign";
 import AlignSequences from "../Components/AlignSequences";
-import type { DataAlign, ResponsePlumber } from "../types/ResponsePlumber";
+import type { DataAlign } from "../types/ResponsePlumber";
 
 function AlignView() {
-    const [align, setAlign] = useState<ResponsePlumber<DataAlign>>();
+    const [dataAlign, setDataAlign] = useState<DataAlign>();
 
     return (
         <Card className="p-3 my-3 ">
@@ -16,11 +16,11 @@ function AlignView() {
                 text="subtitle."
                 imageSrc="../../public/gene.png"
             />
-            <AlignSequences setAlign={setAlign} />
-            {align ? (
+            <AlignSequences setDataAlign={setDataAlign} />
+            {dataAlign ? (
                 <>
-                    <PlotAlign data={align.data} />
-                    <InfoAlign data={align.data} />
+                    <PlotAlign data={dataAlign} />
+                    <InfoAlign data={dataAlign} />
                 </>
             ) : (
                 ""

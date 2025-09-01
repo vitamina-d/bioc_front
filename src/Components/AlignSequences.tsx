@@ -6,22 +6,19 @@ import DotPlot from "./Plots/DotPlot";
 import SequenceViewer from "./SequenceViewer";
 
 interface Props {
-    setAlign: React.Dispatch<
-        React.SetStateAction<ResponsePlumber<DataAlign> | undefined>
-    >;
+    setDataAlign: React.Dispatch<React.SetStateAction<DataAlign | undefined>>;
 }
 
-function AlignSequences({ setAlign }: Props) {
+function AlignSequences({ setDataAlign }: Props) {
     const [pattern, setPattern] = useState<string>("");
     const [subject, setSubject] = useState<string>("");
     const type: string = "global"; // "local" "overlap"
-    const gapOpening: number = -1;
-    const gapExtension: number = -2;
+    const gapOpening: number = 1;
+    const gapExtension: number = 2;
 
     const handleOnClick = async (event: FormEvent) => {
         event.preventDefault();
-        console.log("ALINEAR");
-        console.log("pattern:", pattern, "subject:", subject, "type:", type);
+        console.log("ALINEAR pattern:", pattern, "subject:", subject, "type:", type);
 
         const response: ResponsePlumber<DataAlign> = await GetAlign(
             //body
@@ -31,14 +28,19 @@ function AlignSequences({ setAlign }: Props) {
             gapOpening,
             gapExtension
         );
-        setAlign(response);
-        console.log(response.data);
+        console.log(response);
+        setDataAlign(response.data);
     };
 
     return (
         <>
             <div className="d-flex justify-content-end">
-                <Button onClick={handleOnClick} size="sm" variant="outline-dark" className="mb-2">
+                <Button
+                    onClick={handleOnClick}
+                    size="sm"
+                    variant="outline-dark"
+                    className="mb-2"
+                >
                     ALIGN
                 </Button>
             </div>
@@ -63,7 +65,6 @@ function AlignSequences({ setAlign }: Props) {
                 </div>
             </div>
             <DotPlot pattern={pattern} subject={subject} />
-
         </>
     );
 }

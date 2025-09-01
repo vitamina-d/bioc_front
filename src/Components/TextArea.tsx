@@ -17,12 +17,10 @@ function TextArea({ title, rows, sequence, setSequence, readOnly }: Props) {
                 as="textarea"
                 rows={rows}
                 size="sm"
-                value={sequence.toUpperCase()}
+                value={sequence}
                 readOnly={readOnly}
                 onChange={
-                    readOnly || !setSequence
-                        ? undefined
-                        : (e) => setSequence(e.target.value)
+                    setSequence ? (e) => setSequence(e.target.value) : undefined
                 }
             />
         </InputGroup>
