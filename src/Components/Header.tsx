@@ -4,8 +4,7 @@ type Props = {
     text?: string;
 }
 
-function Header(props: Props & { imageSrc?: string }) {
-    const { title, text, imageSrc } = props;
+function Header({ title, text, imageSrc }: Props & { imageSrc?: string }) {
     return (
         <div className="d-flex align-items-center p-3">
             {imageSrc && (

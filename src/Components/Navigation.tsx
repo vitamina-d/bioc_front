@@ -4,17 +4,18 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import type { DataDetail, ResponsePlumber } from "../types/ResponsePlumber";
-import { GetDetail } from "../services/PlumberServices";
+import { GetAutocomplete, GetDetail } from "../services/PlumberServices";
 
 type Props = {
     search: string;
     setSearch: React.Dispatch<React.SetStateAction<string>>;
     setDetail: React.Dispatch<React.SetStateAction<DataDetail | null>>;
-}
+};
 
 function Navigation({ search, setSearch, setDetail }: Props) {
     const navigate = useNavigate();
 
+        
     //click en Searcher DETAIL BREVE
     const searchDetail = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -27,12 +28,22 @@ function Navigation({ search, setSearch, setDetail }: Props) {
             );
             setDetail(plumberRes.data);
             if (plumberRes.code == 200) {
-                navigate("/home");
+                navigate("/search");
             }
         } catch (err) {
-            setDetail(null);
             console.error(err);
-        } 
+        }
+    };
+
+    //AUTOCOMPLETE
+    const autocomplete = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        setSearch(e.target.value);
+        console.log("AUTOCOMPLETE: ", search);
+        if (search.trimStart().length > 0 && search.trimEnd().length > 0) {
+            const alias: ResponsePlumber<string[]> = await GetAutocomplete(search);
+            console.log("SEARCH: ", search, " --> AUTOCOMPLETE RESPONSE DATA: ", alias.data);
+        }
     };
 
     return (
@@ -74,14 +85,14 @@ function Navigation({ search, setSearch, setDetail }: Props) {
                         About
                     </Nav.Link>
                 </Nav>
-                <Form onSubmit={(e) => searchDetail(e)}>
+                <Form onSubmit={searchDetail}>
                     <div className="input-group w-auto">
                         <input
                             type="text"
                             className="form-control "
                             id="inputSymbol"
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={autocomplete}
                         />
                         <label className="input-group-text p-0">
                             <Button

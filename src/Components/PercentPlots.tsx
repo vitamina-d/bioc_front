@@ -3,15 +3,14 @@ import type { DataStats, Nucleotides } from "../types/ResponsePlumber";
 import PlotSunburst from "./Plots/PlotSunburst";
 
 type Props = {
-    dataStats: DataStats;
+    dataStats: DataStats | null;
 };
 
 function PercentPlots({ dataStats }: Props) {
+    if (!dataStats) {
+        return;
+    }
     const nucleotides: Nucleotides = dataStats.nucleotides;
-
-    const other: number = nucleotides.other;
-    console.log(other);
-
     const lenght: number = dataStats.length;
     const island: number[] = dataStats.cpg_islands.start;
 

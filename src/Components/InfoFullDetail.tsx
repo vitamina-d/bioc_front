@@ -9,44 +9,11 @@ type Props = {
 
 function InfoFull({ dataPublic, dataPlumber }: Props) {
     return (
-        <Card className="shadow p-3 my-3 mb-5">
-            <div className="d-flex align-items-center mb-2 p-3">
-                <img
-                    src="/public/chromosome.png"
-                    alt="icono"
-                    className="me-2 rounded-circle"
-                    style={{
-                        width: "40px",
-                        height: "40px",
-                        objectFit: "cover",
-                    }}
-                />
-
-                <div>
-                    {dataPublic || dataPlumber ? (
-                        <h5 className="card-title mb-1">
-                            {dataPublic?.name || dataPlumber?.entrez}
-                        </h5>
-                    ) : (
-                        ""
-                    )}
-                    {dataPublic ? (
-                        <p className="card-text text-muted ">{`${dataPublic.scientificname} (Tax ID: ${dataPublic.taxId})`}</p>
-                    ) : (
-                        ""
-                    )}
-                </div>
-            </div>
+        <Card>
             <CardBody>
                 <ListGroup variant="flush">
                     {dataPublic ? (
                         <>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col xs={3}>Description</Col>
-                                    <Col xs={9}>{dataPublic.description}</Col>
-                                </Row>
-                            </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col xs={3}>Summary</Col>
@@ -61,52 +28,28 @@ function InfoFull({ dataPublic, dataPlumber }: Props) {
                         <>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col xs={3}>Type</Col>
-                                    <Col xs={9}>{dataPlumber.genetype}</Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
                                     <Col xs={3}>Cytogenetic Location</Col>
                                     <Col xs={9}>{dataPlumber.citogenetic}</Col>
                                 </Row>
                             </ListGroup.Item>
 
-                            {dataPlumber.location.map((item) => (
+                            {dataPlumber.location.map((range, idx) => (
                                 <>
-                                    <ListGroup.Item>
+                                    <ListGroup.Item key={idx}>
                                         <Row>
-                                            <Col xs={3}>Chromosome</Col>
-                                            <Col xs={9}>
-                                                {item.seqnames}
+                                            <Col xs={3}>
+                                                Location {`${idx + 1}`}
                                             </Col>
-                                        </Row>
-                                    </ListGroup.Item>
-                                    <ListGroup.Item>
-                                        <Row>
-                                            <Col xs={3}>Strand</Col>
                                             <Col xs={9}>
-                                                {item.strand ==
-                                                "-"
-                                                    ? "3′ → 5′ (-)"
-                                                    : "5′ → 3′ (+)"}
-                                            </Col>
-                                        </Row>
-                                    </ListGroup.Item>
-                                    <ListGroup.Item>
-                                        <Row>
-                                            <Col xs={3}>Range</Col>
-                                            <Col xs={9}>
-                                                {item.start} –{" "}
-                                                {item.end}
-                                            </Col>
-                                        </Row>
-                                    </ListGroup.Item>
-                                    <ListGroup.Item>
-                                        <Row>
-                                            <Col xs={3}>Length</Col>
-                                            <Col xs={9}>
-                                                {item.length}
+                                                {`${range.seqnames}: ${
+                                                    range.start
+                                                } to ${range.end} | Lenght: ${
+                                                    range.length
+                                                } | Strand: ${
+                                                    range.strand == "-"
+                                                        ? "Strand: 3′ → 5′ (-)"
+                                                        : "Strand: 5′ → 3′ (+)"
+                                                }`}
                                             </Col>
                                         </Row>
                                     </ListGroup.Item>
@@ -150,6 +93,18 @@ function InfoFull({ dataPublic, dataPlumber }: Props) {
                             ) : (
                                 ""
                             )}
+
+                            <ListGroup.Item>
+                                <Row>
+                                    <Col xs={12}>
+                                        {dataPublic ? (
+                                            <p className="card-text text-muted ">{`${dataPublic.scientificname} (Tax ID: ${dataPublic.taxId})`}</p>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Col>
+                                </Row>
+                            </ListGroup.Item>
                         </>
                     ) : (
                         <></>

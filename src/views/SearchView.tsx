@@ -1,22 +1,42 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { Button, Card, Dropdown, Form } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import SequenceViewer from "../Components/SequenceViewer";
-import { GetComplement, GetSequenceByRange } from "../services/PlumberServices";
+import {
+    GetComplement,
+    GetFullDetail,
+    GetSequenceByRange,
+    GetStats,
+} from "../services/PlumberServices";
 import Header from "../Components/Header";
 import type {
     DataComplement,
+    DataDetail,
+    DataFullDetail,
     DataSequence,
+    DataStats,
     ResponsePlumber,
 } from "../types/ResponsePlumber";
 import Searcher from "../Components/Searcher";
 import InputRange from "../Components/InputRange";
-import { optionsChromosomes } from "../const/optionsChromosomes";
+import DropdownChr from "../Components/DropdownChr";
+import InfoDetail from "../Components/InfoDetail";
+import { SummaryService } from "../services/PublicServices";
+import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
+import PercentPlots from "../Components/PercentPlots";
+import ModalBasic from "../Components/ModalBasic";
+import InfoFullDetail from "../Components/InfoFullDetail";
 
-function SearchView() {
+type Props = {
+    detail: DataDetail | null;
+};
+
+function SearchView({ detail }: Props) {
+    const [entrez, setEntrez] = useState("");
+
     //RANGE
     const [start, setStart] = useState("100000");
     const [end, setEnd] = useState("100100");
-    const [chr, setChr] = useState<string>("");
+    const [chr, setChr] = useState<string | null>(null);
     const [sequence, setSequence] = useState<string>("");
 
     //SEARCH
@@ -29,10 +49,30 @@ function SearchView() {
 
     ///OPTION
 
+    /////HOME
+    const [summary, setSummary] = useState<ResponsePublicSummary>();
+    const [fullDetail, setFullDetail] = useState<DataFullDetail>();
+    const [dataStats, setDataStats] = useState<DataStats | null>(null);
+    //const [modalDetailShow, setModalDetailShow] = useState(false);
+    const [modalShow, setModalShow] = useState(false);
+
     useEffect(() => {
         handleReverseComplement();
     }, [toReverse, toComplement]);
 
+    useEffect(() => {
+        if (detail) {
+            setEntrez(detail.entrez);
+            setFullDetail(undefined);
+            setSummary(undefined);
+            setSequence("");
+            setModalShow(true);
+            setDataStats(null)
+            console.log("useEffect set entrez");
+        }
+    }, [detail]);
+
+    //COMPLEMENT
     const handleReverseComplement = async () => {
         if (sequence != "") {
             const response: ResponsePlumber<DataComplement> =
@@ -41,7 +81,7 @@ function SearchView() {
             console.log(response.data);
         }
     };
-
+    //TO DO
     const submitSearch = async (event: FormEvent) => {
         event.preventDefault();
         alert(input);
@@ -51,6 +91,10 @@ function SearchView() {
 
         console.log("PLUMBER: chr:", chr, "start", start, "end", end);
 
+        if (!chr) {
+            alert("chr");
+            return;
+        }
         const response: ResponsePlumber<DataSequence> =
             await GetSequenceByRange(chr, parseInt(start), parseInt(end));
 
@@ -59,122 +103,184 @@ function SearchView() {
     };
 
     //clear
-    const onClickSequence = () => {
+    const clearSequence = () => {
         setToReverse(false);
         setToComplement(false);
         setOutput("");
         setSequence("");
     };
-    const onClickOutput = () => {
+    const clearOutput = () => {
         setToReverse(false);
         setToComplement(false);
         setOutput("");
     };
 
-    return (
-        <Card className="p-3 my-3 ">
-            <Header
-                title="Searcher"
-                text="Ingrese la fuente, cromosoma y rango para consultar la secuencia."
-                imageSrc="../../public/gene.png"
-            />
-            <Searcher
-                text={"Search"}
-                input={input}
-                setInput={setInput}
-                onSubmit={submitSearch}
-                disabled={sequence == ""}
-            />
+    /////// lo de home view
+    //click en Searcher
+    const searchFullDetail = async () => {
+        console.log("searchFullDetail, input:  ", input, " entrez: ", entrez);
 
-            <Form onSubmit={submitRange}>
-                <div className="row mx-1 ">
-                    <div className="col">
-                        <div className="input-group">
-                            <label className="input-group-text ">
-                                Chromosome
-                            </label>
-                            <Dropdown className="border rounded-end  w-auto">
-                                <Dropdown.Toggle
-                                    variant="light"
-                                    id="dropdown-chr"
-                                    className="w-auto"
-                                >
-                                    {chr ? `Chr${chr}` : ""}
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    {optionsChromosomes.map((opt) => (
-                                        <Dropdown.Item
-                                            key={opt.value}
-                                            onClick={() => setChr(opt.value)}
-                                        >
-                                            {opt.label}
-                                        </Dropdown.Item>
-                                    ))}
-                                </Dropdown.Menu>
-                            </Dropdown>
+        try {
+            const publicRes: ResponsePublicSummary = await SummaryService(
+                entrez
+            );
+            console.log(publicRes);
+            setSummary(publicRes);
+            const plumberRes: ResponsePlumber<DataFullDetail> =
+                await GetFullDetail(entrez);
+            console.log(plumberRes);
+            setFullDetail(plumberRes.data);
+
+            // setModalDetailShow(true);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            console.error("FINALLY SummaryService GetFullDetail");
+        }
+    };
+
+    //click en +
+    const handleClickStats = async () => {
+        try {
+            const seqAndStats: ResponsePlumber<DataStats> = await GetStats(
+                entrez,
+                true
+            );
+            console.log(seqAndStats);
+            console.log(seqAndStats.data);
+            setModalShow(false);
+            setDataStats(seqAndStats.data);
+            if (seqAndStats.data) {
+                setSequence(seqAndStats.data.sequence);
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            console.error("FINALLY GetSequence");
+        }
+    };
+
+    return (
+        <>
+            <Card className="p-3 my-3 ">
+                <Header
+                    title={detail ? detail.symbol : "Search"}
+                    text={detail ? detail.entrez : "Gene"}
+                    imageSrc="../../public/gene.png"
+                />
+
+                <Searcher
+                    text={"Search"}
+                    input={input}
+                    setInput={setInput}
+                    onSubmit={submitSearch}
+                    disabled={input == ""}
+                />
+
+                <Form onSubmit={submitRange}>
+                    <div className="row mx-1 ">
+                        <div className="col">
+                            <DropdownChr chr={chr} setChr={setChr} />
+                        </div>
+                        <div className="col">
+                            <InputRange number={start} setNumber={setStart}>
+                                Desde
+                            </InputRange>
+                        </div>
+                        <div className="col">
+                            <InputRange number={end} setNumber={setEnd}>
+                                Hasta
+                            </InputRange>
+                        </div>
+
+                        <div className="col-auto">
+                            <Button
+                                variant="light"
+                                className="border"
+                                onClick={submitRange}
+                            >
+                                Search
+                            </Button>
                         </div>
                     </div>
-                    <div className="col">
-                        <InputRange number={start} setNumber={setStart}>
-                            Desde
-                        </InputRange>
-                    </div>
-                    <div className="col">
-                        <InputRange number={end} setNumber={setEnd}>
-                            Hasta
-                        </InputRange>
-                    </div>
-
-                    <div className="col-auto">
-                        <Button
-                            variant="light"
-                            className="border"
-                            onClick={submitRange}
-                        >
-                            Search
-                        </Button>
-                    </div>
-                </div>
-            </Form>
-
-            <div className=" mx-3 pb-3 pt-3 ">
-                <Form>
-                    {" "}
-                    <Form.Check
-                        type="switch"
-                        id="reverse-switch"
-                        label="Reverse"
-                        checked={toReverse}
-                        onChange={(e) => setToReverse(e.currentTarget.checked)}
-                        disabled={sequence == ""}
-                    />
-                    <Form.Check
-                        type="switch"
-                        id="complement-switch"
-                        label="Complement"
-                        checked={toComplement}
-                        onChange={(e) =>
-                            setToComplement(e.currentTarget.checked)
-                        }
-                        disabled={sequence == ""}
-                    />
                 </Form>
-                <SequenceViewer
-                    sequence={sequence}
-                    title={"Sequence"}
-                    setSequence={setSequence}
-                    readonly={false}
-                    onClick={onClickSequence}
-                />
-                <SequenceViewer
-                    sequence={output}
-                    title={"Output"}
-                    setSequence={setOutput}
-                    readonly={true}
-                    onClick={onClickOutput}
-                />
-            </div>
-        </Card>
+
+                <div className=" mx-3 pb-0 ">
+                    <Form>
+                        {" "}
+                        <Form.Check
+                            type="switch"
+                            id="reverse-switch"
+                            label="Reverse"
+                            checked={toReverse}
+                            onChange={(e) =>
+                                setToReverse(e.currentTarget.checked)
+                            }
+                            disabled={sequence == ""}
+                        />
+                        <Form.Check
+                            type="switch"
+                            id="complement-switch"
+                            label="Complement"
+                            checked={toComplement}
+                            onChange={(e) =>
+                                setToComplement(e.currentTarget.checked)
+                            }
+                            disabled={sequence == ""}
+                        />
+                    </Form>
+                    <SequenceViewer
+                        title={"Sequence"}
+                        sequence={sequence}
+                        setSequence={setSequence}
+                        readonly={false}
+                        onClick={clearSequence}
+                    />
+                    <SequenceViewer
+                        title={"Output"}
+                        sequence={output}
+                        setSequence={setOutput}
+                        readonly={true}
+                        onClick={clearOutput}
+                    />
+                </div>
+                <PercentPlots dataStats={dataStats} />
+            </Card>
+            {/*<ModalFullDetail
+                modalShow={modalDetailShow}
+                setModalShow={setModalDetailShow}
+                dataPlumber={fullDetail}
+                dataPublic={summary}
+            />*/}
+            <ModalBasic
+                modalShow={modalShow}
+                setModalShow={setModalShow}
+                titleChild={
+                    summary || fullDetail ? (
+                        <span>{summary?.name || fullDetail?.entrez}</span>
+                    ) : (
+                        "Gene"
+                    )
+                }
+                bodyChild={
+                    <>
+                        <InfoDetail
+                            data={detail}
+                            getFull={searchFullDetail}
+                            getStats={handleClickStats}
+                        />
+                        {summary || fullDetail ? (
+                            <InfoFullDetail
+                                dataPlumber={fullDetail}
+                                dataPublic={summary}
+                            />
+                        ) : (
+                            ""
+                        )}
+                    </>
+                }
+            />
+        </>
     );
 }
 

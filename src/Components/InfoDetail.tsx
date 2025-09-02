@@ -3,12 +3,12 @@ import type { DataDetail } from "../types/ResponsePlumber";
 import ButtonOverlay from "./ButtonOverlay";
 
 type Props = {
-    data: DataDetail;
+    data: DataDetail | null;
     getFull: React.MouseEventHandler<HTMLButtonElement>;
-    getSequence: React.MouseEventHandler<HTMLButtonElement>;
+    getStats: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function InfoDetail({ data, getFull, getSequence }: Props) {
+function InfoDetail({ data, getFull, getStats }: Props) {
     return (
         data && (
             <>
@@ -49,7 +49,7 @@ function InfoDetail({ data, getFull, getSequence }: Props) {
                                 <ButtonOverlay
                                     textHover={"Sequence"}
                                     typeIcon={"finger"}
-                                    onClick={getSequence}
+                                    onClick={getStats}
                                     variant="outline-primary"
                                     size="lg"
                                 />

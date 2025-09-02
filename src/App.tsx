@@ -21,7 +21,7 @@ function App() {
             <Routes>
                 <Route path="/home" element={<HomeView detail={detail} />} />
                 <Route path="/range" element={<RangeView />} />
-                <Route path="/search" element={<SearchView />} />
+                <Route path="/search" element={<SearchView detail={detail}/>} />
                 <Route path="/align" element={<AlignView />} />
                 <Route path="/upload" element={<UploadView />} />
                 <Route path="/complement" element={<ComplementView />} />

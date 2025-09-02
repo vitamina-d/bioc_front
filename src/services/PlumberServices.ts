@@ -35,7 +35,15 @@ const GetAlign = async (
     const data = await response.json();
     return data;
 };
-
+const GetAutocomplete = async (
+    value: string
+): Promise<ResponsePlumber<string[]>> => {
+    const response = await fetch(
+        `${DOTNET_PLUMBER_URL}/autocomplete?input=${value}`
+    );
+    const data = await response.json();
+    return data;
+};
 //https://localhost:32769/api/Plumber/align
 const GetComplement = async (
     seq: string,
@@ -145,6 +153,7 @@ const getMessage = async (msg: string): Promise<string> => {
 
 export {
     GetAlign,
+    GetAutocomplete,
     GetComplement,
     GetDetail,
     GetFullDetail,

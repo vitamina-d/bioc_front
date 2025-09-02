@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+/*import type { ReactNode } from "react";
 
 type optionsReq = {
     label: string,
@@ -36,3 +36,4 @@ function Dropdown({ children, setItem, options }: Props) {
 
 export default Dropdown;
 
+*/

@@ -78,7 +78,7 @@ function HomeView({ detail }: Props) {
                 <InfoDetail
                     data={detail}
                     getFull={searchFullDetail}
-                    getSequence={handleClickStats}
+                    getStats={handleClickStats}
                 />
                 {dataStats ? (
                     <>

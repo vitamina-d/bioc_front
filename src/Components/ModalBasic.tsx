@@ -4,13 +4,15 @@ import { Button, Modal } from "react-bootstrap";
 type Props = {
     modalShow: boolean;
     setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
-    child: ReactNode;
+    titleChild: ReactNode;
+    bodyChild: ReactNode;
 }
 
 function ModalBasic({
     modalShow,
     setModalShow,
-    child
+    titleChild,
+    bodyChild
 }: Props) {
     return (
         <>
@@ -33,11 +35,11 @@ function ModalBasic({
                                 height: "40px",
                                 objectFit: "cover",
                             }}
-                        />{" "}
-                        TITLE
+                        />{titleChild}
+                        
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="mx-3 small">{child}</Modal.Body>
+                <Modal.Body className="mx-3 small">{bodyChild}</Modal.Body>
                 <Modal.Footer>
                     <Button
                         className="font-base"
