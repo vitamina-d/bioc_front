@@ -29,20 +29,20 @@ function SequenceViewer({
                 rows={4}
                 setSequence={setSequence}
             />
-            <div className="d-flex justify-content-end">
+            <div className="d-flex justify-content-end pb-2">
                 <ButtonOverlay
                     textHover={"Copy"}
                     sequence={sequence}
                     onClick={copySequence}
                     typeIcon={"copy"}
                     size="sm"
-                    variant="outline-dark"
+                    variant="outline-secondary"
                 />
                 <ButtonOverlay
                     textHover={"Clear"}
                     typeIcon="backspace"
                     size="sm"
-                    variant="outline-dark"
+                    variant="outline-secondary"
                     {...prop}
                 />
             </div>

@@ -1,10 +1,11 @@
-import { Button, Form } from "react-bootstrap";
+import { Button, Dropdown, Form } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import type { DataDetail, ResponsePlumber } from "../types/ResponsePlumber";
 import { GetAutocomplete, GetDetail } from "../services/PlumberServices";
+import { useState } from "react";
 
 type Props = {
     search: string;
@@ -14,8 +15,8 @@ type Props = {
 
 function Navigation({ search, setSearch, setDetail }: Props) {
     const navigate = useNavigate();
+    const [desplegable, setDesplegable] = useState<string[]>([]);
 
-        
     //click en Searcher DETAIL BREVE
     const searchDetail = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -41,8 +42,16 @@ function Navigation({ search, setSearch, setDetail }: Props) {
         setSearch(e.target.value);
         console.log("AUTOCOMPLETE: ", search);
         if (search.trimStart().length > 0 && search.trimEnd().length > 0) {
-            const alias: ResponsePlumber<string[]> = await GetAutocomplete(search);
-            console.log("SEARCH: ", search, " --> AUTOCOMPLETE RESPONSE DATA: ", alias.data);
+            const alias: ResponsePlumber<string[]> = await GetAutocomplete(
+                search
+            );
+            console.log(
+                "SEARCH: ",
+                search,
+                " --> AUTOCOMPLETE RESPONSE DATA: ",
+                alias.data
+            );
+            setDesplegable(alias.data);
         }
     };
 
@@ -89,11 +98,45 @@ function Navigation({ search, setSearch, setDetail }: Props) {
                     <div className="input-group w-auto">
                         <input
                             type="text"
-                            className="form-control "
+                            className="form-control font-monospace text-muted text-small"
                             id="inputSymbol"
                             value={search}
                             onChange={autocomplete}
+                            placeholder="alias . . ."
                         />
+
+                        {
+                            ////DESPLEGABLE//////////////////////////////////////////
+                            desplegable.length > 0 && search && (
+                                <Dropdown
+                                    className="position-absolute "
+                                    style={{
+                                        top: "100%",
+                                    }}
+                                >
+                                    <div
+                                        className="bg-white border rounded shadow-sm font-monospace text-muted text-small"
+                                        style={{
+                                            maxHeight: "200px",
+                                            overflowY: "auto",
+                                        }}
+                                    >
+                                        {desplegable.map((elem, i) => (
+                                            <Dropdown.Item
+                                                key={i}
+                                                onClick={() => {
+                                                    setSearch(elem);
+                                                    setDesplegable([]);
+                                                }}
+                                            >
+                                                {elem}
+                                            </Dropdown.Item>
+                                        ))}{" "}
+                                    </div>
+                                </Dropdown>
+                            )
+                        }
+
                         <label className="input-group-text p-0">
                             <Button
                                 variant="light"
