@@ -3,11 +3,13 @@ import Plot from "react-plotly.js";
 type Props = {
     pattern: string;
     subject: string;
+    maxLenght: number;
 }
 
-function DotPlot({ pattern, subject }: Props) {
-    const pattern_string: string[] = pattern.split("");
-    const subject_string: string[] = subject.split("");
+function DotPlot({ pattern, subject, maxLenght }: Props) {
+
+    const pattern_string: string[] = pattern.split("").slice(0, maxLenght);
+    const subject_string: string[] = subject.split("").slice(0, maxLenght);
 
     const match_x: number[] = [];
     const match_y: number[] = [];

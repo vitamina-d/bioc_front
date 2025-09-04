@@ -28,9 +28,10 @@ import InfoFullDetail from "../Components/InfoFullDetail";
 
 type Props = {
     detail: DataDetail | null;
+    setDetail: React.Dispatch<React.SetStateAction<DataDetail | null>>;
 };
 
-function SearchView({ detail }: Props) {
+function SearchView({ detail, setDetail }: Props) {
     const [entrez, setEntrez] = useState("");
 
     //RANGE
@@ -67,7 +68,7 @@ function SearchView({ detail }: Props) {
             setSummary(undefined);
             setSequence("");
             setModalShow(true);
-            setDataStats(null)
+            setDataStats(null);
             console.log("useEffect set entrez");
         }
     }, [detail]);
@@ -108,6 +109,10 @@ function SearchView({ detail }: Props) {
         setToComplement(false);
         setOutput("");
         setSequence("");
+        setSummary(undefined);
+        setFullDetail(undefined);
+        setDataStats(null);
+        setDetail(null);
     };
     const clearOutput = () => {
         setToReverse(false);
@@ -244,14 +249,8 @@ function SearchView({ detail }: Props) {
                         onClick={clearOutput}
                     />
                 </div>
-                <PercentPlots dataStats={dataStats} />
+                {dataStats ? <PercentPlots dataStats={dataStats} /> : ""}
             </Card>
-            {/*<ModalFullDetail
-                modalShow={modalDetailShow}
-                setModalShow={setModalDetailShow}
-                dataPlumber={fullDetail}
-                dataPublic={summary}
-            />*/}
             <ModalBasic
                 modalShow={modalShow}
                 setModalShow={setModalShow}

@@ -64,7 +64,7 @@ function AlignSequences({ setDataAlign }: Props) {
                     />
                 </div>
             </div>
-            <DotPlot pattern={pattern} subject={subject} />
+            <DotPlot pattern={pattern} subject={subject} maxLenght={100}  />
         </>
     );
 }
