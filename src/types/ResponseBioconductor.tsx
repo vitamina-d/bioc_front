@@ -34,7 +34,7 @@ export type DataFullDetail = DataDetail & {
     citogenetic: string;
 };
 
-type Location = {
+export type Location = {
     strand: string; //+ o -
     seqnames: string;
     start: number;
@@ -46,14 +46,17 @@ export type DataPercent = {
     composition: Composition;
     cpg_islands: CPG;
 };
+
 export type Composition = {
     length: number;
     nucleotides: Nucleotides;
 };
+
 export type CPG = {
     count: number;
     start: number[];
 };
+
 export type Nucleotides = {
     A: number;
     C: number;
@@ -85,4 +88,4 @@ export type DataTable = {
 export type Id = {
     ENTREZID: string;
     SYMBOL: string;
-  }
+}

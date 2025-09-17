@@ -43,11 +43,11 @@ function NavSearcher({ search, setSearch, setDetail }: Props) {
         console.log("SEARCH: ", search);
 
         try {
-            const plumberRes: ResponseBioconductor<DataDetail> =
+            const response: ResponseBioconductor<DataDetail> =
                 await GetDetail(search);
-            setDetail(plumberRes.data);
-            if (plumberRes.code == 200) {
-                navigate("/search");
+            setDetail(response.data);
+            if (response.code == 200) {
+                navigate("/home");
             }
         } catch (err) {
             console.error(err);

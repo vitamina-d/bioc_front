@@ -1,14 +1,11 @@
 import { CardBody, Col, Row } from "react-bootstrap";
 import type { DataDetail } from "../types/ResponseBioconductor";
-import ButtonOverlay from "./ButtonOverlay";
 
 type Props = {
     data: DataDetail | null;
-    getFull: React.MouseEventHandler<HTMLButtonElement>;
-    getStats: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-function InfoDetail({ data, getFull, getStats }: Props) {
+function InfoDetail({ data }: Props) {
     return (
         data && (
             <>
@@ -18,11 +15,8 @@ function InfoDetail({ data, getFull, getStats }: Props) {
                             <div>Entrez</div>
                             <div className="text-muted">{data.entrez}</div>
                         </Col>
-                        <Col lg={2} className="text-center">
-                            <div>Genetype</div>
-                            <div className="text-muted ">{data.genetype}</div>
-                        </Col>
-                        <Col lg={3} className="text-center">
+
+                        <Col lg={5} className="text-center">
                             <div>Genename</div>
                             <div className="text-muted ">{data.genename}</div>
                         </Col>
@@ -30,29 +24,10 @@ function InfoDetail({ data, getFull, getStats }: Props) {
                             <div>Symbol</div>
                             <div className="text-muted ">{data.symbol}</div>
                         </Col>
-                        <Col lg={3} className="text-center">
+                        <Col lg={5} className="text-center">
                             <div>Alias</div>
                             <div className="text-muted ">
                                 {data.alias ? data.alias.join(", ") : "—"}
-                            </div>
-                        </Col>
-                        <Col lg={2} className="text-center">
-                            <div>Action</div>
-                            <div className="d-flex justify-content-center">
-                                <ButtonOverlay
-                                    textHover={"Detail"}
-                                    typeIcon={"binocular"}
-                                    onClick={getFull}
-                                    variant="outline-dark"
-                                    size="lg"
-                                />
-                                <ButtonOverlay
-                                    textHover={"Sequence"}
-                                    typeIcon={"finger"}
-                                    onClick={getStats}
-                                    variant="outline-primary"
-                                    size="lg"
-                                />
                             </div>
                         </Col>
                     </Row>

@@ -3,9 +3,7 @@ import { Button, Card, Form } from "react-bootstrap";
 import SequenceViewer from "../Components/SequenceViewer";
 import {
     GetComplement,
-    GetFullDetail,
     GetSequenceByRange,
-    GetStats,
 } from "../services/BioconductorServices";
 import Header from "../Components/Header";
 import type {
@@ -20,7 +18,6 @@ import Searcher from "../Components/Searcher";
 import InputRange from "../Components/InputRange";
 import DropdownChr from "../Components/DropdownChr";
 import InfoDetail from "../Components/InfoDetail";
-import { SummaryService } from "../services/PublicServices";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import PercentPlots from "../Components/PercentPlots";
 import ModalBasic from "../Components/ModalBasic";
@@ -32,7 +29,6 @@ type Props = {
 };
 
 function SearchView({ detail, setDetail }: Props) {
-    const [entrez, setEntrez] = useState("");
 
     //RANGE
     const [start, setStart] = useState("100000");
@@ -63,7 +59,6 @@ function SearchView({ detail, setDetail }: Props) {
 
     useEffect(() => {
         if (detail) {
-            setEntrez(detail.entrez);
             setFullDetail(undefined);
             setSummary(undefined);
             setSequence("");
@@ -120,58 +115,13 @@ function SearchView({ detail, setDetail }: Props) {
         setOutput("");
     };
 
-    /////// lo de home view
-    //click en Searcher
-    const searchFullDetail = async () => {
-        console.log("searchFullDetail, input:  ", input, " entrez: ", entrez);
-
-        try {
-            const publicRes: ResponsePublicSummary = await SummaryService(
-                entrez
-            );
-            console.log(publicRes);
-            setSummary(publicRes);
-            const plumberRes: ResponseBioconductor<DataFullDetail> =
-                await GetFullDetail(entrez);
-            console.log(plumberRes);
-            setFullDetail(plumberRes.data);
-
-            // setModalDetailShow(true);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            console.error("FINALLY SummaryService GetFullDetail");
-        }
-    };
-
-    //click en +
-    const handleClickStats = async () => {
-        try {
-            const seqAndStats: ResponseBioconductor<DataStats> = await GetStats(
-                entrez,
-                true
-            );
-            console.log(seqAndStats);
-            console.log(seqAndStats.data);
-            setModalShow(false);
-            setDataStats(seqAndStats.data);
-            if (seqAndStats.data) {
-                setSequence(seqAndStats.data.sequence);
-            }
-        } catch (err) {
-            console.error(err);
-        } finally {
-            console.error("FINALLY GetSequence");
-        }
-    };
-
     return (
         <>
             <Card className="p-3 my-3 ">
                 <Header
                     title={detail ? detail.symbol : "Search"}
                     text={detail ? detail.entrez : "Gene"}
-                    imageSrc="../../public/gene.png"
+                    imageSrc="../../public/chromosome.png"
                 />
 
                 <Searcher
@@ -263,11 +213,7 @@ function SearchView({ detail, setDetail }: Props) {
                 }
                 bodyChild={
                     <>
-                        <InfoDetail
-                            data={detail}
-                            getFull={searchFullDetail}
-                            getStats={handleClickStats}
-                        />
+                        <InfoDetail data={detail} />
                         {summary || fullDetail ? (
                             <InfoFullDetail
                                 dataPlumber={fullDetail}

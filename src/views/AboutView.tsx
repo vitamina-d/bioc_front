@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import Header from "../Components/Header";
 
 function AboutView() {
@@ -9,6 +9,17 @@ function AboutView() {
                 text="Tema: Aplicación web para el análisis de datos genómicos relacionados con la Vitamina D, su estudio y caracterización."
                 imageSrc="../../public/gene.png"
             />
+            <Card.Body>
+                <Row>
+                    <Col>1 of 2</Col>
+                    <Col>1 of 2</Col>
+                </Row>
+                <Row>
+                    <Col>1 of 2</Col>
+                    <Col>1 of 2</Col>
+                    <Col>1 of 2</Col>
+                </Row>
+            </Card.Body>
         </Card>
     );
 }

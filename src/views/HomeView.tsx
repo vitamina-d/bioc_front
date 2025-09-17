@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Card } from "react-bootstrap";
+import { Card, CardHeader } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import { GetFullDetail, GetStats } from "../services/BioconductorServices";
 import { SummaryService } from "../services/PublicServices";
-import Header from "../Components/Header";
 import type {
     DataDetail,
     DataFullDetail,
@@ -12,9 +11,10 @@ import type {
     ResponseBioconductor,
 } from "../types/ResponseBioconductor";
 import InfoDetail from "../Components/InfoDetail";
-import ModalFullDetail from "../Components/ModalFullDetail";
 import SequenceViewer from "../Components/SequenceViewer";
 import PercentPlots from "../Components/PercentPlots";
+import ButtonOverlay from "../Components/ButtonOverlay";
+import InfoFullDetail from "../Components/InfoFullDetail";
 
 type Props = {
     detail: DataDetail | null;
@@ -23,38 +23,31 @@ type Props = {
 function HomeView({ detail }: Props) {
     const [summary, setSummary] = useState<ResponsePublicSummary>();
     const [fullDetail, setFullDetail] = useState<DataFullDetail>();
-
     const [dataStats, setDataStats] = useState<DataStats | null>(null);
 
-    const [modalDetailShow, setModalDetailShow] = useState(false);
-
+    //ultimos consultados
     if (!detail) return <></>;
     const entrez = detail.entrez;
 
-    //click en Searcher
-    const searchFullDetail = async () => {
+    const getFull = async () => {
         setFullDetail(undefined);
         setSummary(undefined);
         try {
-            const publicRes: ResponsePublicSummary = await SummaryService(
+            const publicResponse: ResponsePublicSummary = await SummaryService(
                 entrez
             );
-            console.log(publicRes);
-            setSummary(publicRes);
-            const plumberRes: ResponseBioconductor<DataFullDetail> =
+            console.log(publicResponse);
+            setSummary(publicResponse);
+            const biocResponse: ResponseBioconductor<DataFullDetail> =
                 await GetFullDetail(entrez);
-            console.log(plumberRes);
-            setFullDetail(plumberRes.data);
-            setModalDetailShow(true);
+            console.log(biocResponse);
+            setFullDetail(biocResponse.data);
         } catch (err) {
             console.error(err);
-        } finally {
-            console.error("FINALLY SummaryService GetFullDetail");
         }
     };
 
-    //click en +
-    const handleClickStats = async () => {
+    const getStats = async () => {
         try {
             const seqAndStats: ResponseBioconductor<DataStats> = await GetStats(
                 entrez,
@@ -66,20 +59,50 @@ function HomeView({ detail }: Props) {
             setDataStats(seqAndStats.data);
         } catch (err) {
             console.error(err);
-        } finally {
-            console.error("FINALLY GetSequence");
         }
     };
 
     return (
-        <Card className="p-3 my-3 ">
-            <Header title="Gene" imageSrc="../../public/gene.png" />
+        <Card className=" font-monospace text-muted text-small">
+            <CardHeader>
+                <div className="d-flex align-items-center p-3">
+                    <img
+                        src="../../public/chromosome.png"
+                        alt="icono"
+                        className="me-2 rounded-circle"
+                        style={{
+                            width: "40px",
+                            height: "40px",
+                            objectFit: "cover",
+                        }}
+                    />
+                    <div>
+                        <h5 className="card-title mb-1">
+                            {detail ? detail.symbol : "Search"}
+                        </h5>
+                        <p className="card-text text-muted ">
+                            {detail ? detail.genetype : "Gene"}
+                        </p>
+                    </div>
+                    <ButtonOverlay
+                        textHover={"Detail"}
+                        typeIcon={"binocular"}
+                        onClick={getFull}
+                        variant="outline-dark"
+                        size="lg"
+                    />
+                    <ButtonOverlay
+                        textHover={"Sequence"}
+                        typeIcon={"finger"}
+                        onClick={getStats}
+                        variant="outline-primary"
+                        size="lg"
+                    />
+                </div>
+            </CardHeader>
             <Card.Body>
-                <InfoDetail
-                    data={detail}
-                    getFull={searchFullDetail}
-                    getStats={handleClickStats}
-                />
+                <InfoDetail data={detail} />
+                <InfoFullDetail dataPublic={summary} dataPlumber={fullDetail} />
                 {dataStats ? (
                     <>
                         <SequenceViewer
@@ -94,12 +117,6 @@ function HomeView({ detail }: Props) {
                     ""
                 )}
             </Card.Body>
-            <ModalFullDetail
-                modalShow={modalDetailShow}
-                setModalShow={setModalDetailShow}
-                dataPlumber={fullDetail}
-                dataPublic={summary}
-            />
         </Card>
     );
 }

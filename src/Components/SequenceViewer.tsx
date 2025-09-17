@@ -1,6 +1,6 @@
 import TextArea from "./TextArea";
 import ButtonOverlay from "./ButtonOverlay";
-import type { ButtonProps } from "react-bootstrap";
+import { Stack, type ButtonProps } from "react-bootstrap";
 
 type Props = {
     title: string;
@@ -21,7 +21,7 @@ function SequenceViewer({
     };
 
     return (
-        <div className="d-flex flex-column">
+        <Stack className="d-flex flex-column">
             <TextArea
                 title={title}
                 sequence={sequence}
@@ -29,7 +29,11 @@ function SequenceViewer({
                 rows={4}
                 setSequence={setSequence}
             />
-            <div className="d-flex justify-content-end pb-2">
+            <Stack
+                direction="horizontal"
+                gap={2}
+                className="justify-content-end pb-2"
+            >
                 <ButtonOverlay
                     textHover={"Copy"}
                     sequence={sequence}
@@ -45,8 +49,8 @@ function SequenceViewer({
                     variant="outline-secondary"
                     {...prop}
                 />
-            </div>
-        </div>
+            </Stack>
+        </Stack>
     );
 }
 
