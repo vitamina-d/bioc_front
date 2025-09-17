@@ -4,7 +4,7 @@ import PlotIslandBar from "./Plots/PlotIslandBar";
 import PlotHistogram from "./Plots/PlotHistogram";
 import PlotScatter from "./Plots/PlotScatter";
 import { Carousel } from "react-bootstrap";
-import type { DataPercent, Nucleotides } from "../types/ResponseBioconductor";
+import type { DataPercent, Nucleotides } from "../types/ResponsePlumber";
 
 type Props = {
     data: DataPercent;

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Button, Dropdown, Form } from "react-bootstrap";
 import type {
-    DataDetail,
-    ResponseBioconductor,
-} from "../types/ResponseBioconductor";
+    ResponsePlumber,
+} from "../types/ResponsePlumber";
 import { GetAutocomplete, GetDetail } from "../services/BioconductorServices";
 import { useNavigate } from "react-router-dom";
+import type { DataDetail } from "../types/DataPlumber";
 
 type Props = {
     search: string;
@@ -23,7 +23,7 @@ function NavSearcher({ search, setSearch, setDetail }: Props) {
         setSearch(e.target.value);
         console.log("AUTOCOMPLETE: ", search);
         if (search.trimStart().length > 0 && search.trimEnd().length > 0) {
-            const alias: ResponseBioconductor<string[]> = await GetAutocomplete(
+            const alias: ResponsePlumber<string[]> = await GetAutocomplete(
                 search
             );
             console.log(
@@ -43,8 +43,9 @@ function NavSearcher({ search, setSearch, setDetail }: Props) {
         console.log("SEARCH: ", search);
 
         try {
-            const response: ResponseBioconductor<DataDetail> =
-                await GetDetail(search);
+            const response: ResponsePlumber<DataDetail> = await GetDetail(
+                search
+            );
             setDetail(response.data);
             if (response.code == 200) {
                 navigate("/home");

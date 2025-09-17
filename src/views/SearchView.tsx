@@ -6,14 +6,14 @@ import {
     GetSequenceByRange,
 } from "../services/BioconductorServices";
 import Header from "../Components/Header";
+import type { ResponsePlumber } from "../types/ResponsePlumber";
 import type {
     DataComplement,
     DataDetail,
     DataFullDetail,
     DataSequence,
     DataStats,
-    ResponseBioconductor,
-} from "../types/ResponseBioconductor";
+} from "../types/DataPlumber";
 import Searcher from "../Components/Searcher";
 import InputRange from "../Components/InputRange";
 import DropdownChr from "../Components/DropdownChr";
@@ -29,7 +29,6 @@ type Props = {
 };
 
 function SearchView({ detail, setDetail }: Props) {
-
     //RANGE
     const [start, setStart] = useState("100000");
     const [end, setEnd] = useState("100100");
@@ -71,7 +70,7 @@ function SearchView({ detail, setDetail }: Props) {
     //COMPLEMENT
     const handleReverseComplement = async () => {
         if (sequence != "") {
-            const response: ResponseBioconductor<DataComplement> =
+            const response: ResponsePlumber<DataComplement> =
                 await GetComplement(sequence, toReverse, toComplement);
             setOutput(response.data.sequence);
             console.log(response.data);
@@ -91,7 +90,7 @@ function SearchView({ detail, setDetail }: Props) {
             alert("chr");
             return;
         }
-        const response: ResponseBioconductor<DataSequence> =
+        const response: ResponsePlumber<DataSequence> =
             await GetSequenceByRange(chr, parseInt(start), parseInt(end));
 
         console.log(response);

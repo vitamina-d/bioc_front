@@ -7,7 +7,7 @@ import UploadView from "./views/UploadView";
 import ProteinView from "./views/ProteinView";
 import AboutView from "./views/AboutView";
 import ComplementView from "./views/ComplementView";
-import type { DataDetail } from "./types/ResponseBioconductor";
+import type { DataDetail } from "./types/ResponsePlumber";
 import RangeView from "./views/RangeView";
 import SearchView from "./views/SearchView";
 

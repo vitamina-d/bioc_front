@@ -2,7 +2,7 @@ import PlotPie from "./Plots/PlotPie";
 import { nucleotideColors } from "../const/nucleotideColors";
 import PlotHistogram from "./Plots/PlotHistogram";
 import { Accordion } from "react-bootstrap";
-import type { DataPercent, Nucleotides } from "../types/ResponseBioconductor";
+import type { DataPercent, Nucleotides } from "../types/ResponsePlumber";
 
 type Props = {
     data: DataPercent;

@@ -1,5 +1,5 @@
 import { Button, Col, ListGroup, Modal, Row } from "react-bootstrap";
-import type { DataFullDetail } from "../types/ResponseBioconductor";
+import type { DataFullDetail } from "../types/ResponsePlumber";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 
 type Props = {

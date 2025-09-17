@@ -1,5 +1,5 @@
 import Plot from "react-plotly.js";
-import type { Nucleotides } from "../../types/ResponseBioconductor";
+import type { Nucleotides } from "../../types/ResponsePlumber";
 
 type Props = {
     title?: string;

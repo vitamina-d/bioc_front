@@ -1,11 +1,3 @@
-export type ResponseBioconductor<T> = {
-    code: number;
-    message: string;
-    datetime: string;
-    time_secs: number;
-    data: T;
-};
-
 export type DataAlign = {
     score: number;
     pattern_align: string;

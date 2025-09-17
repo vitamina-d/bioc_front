@@ -3,13 +3,12 @@ import { Card, CardHeader } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import { GetFullDetail, GetStats } from "../services/BioconductorServices";
 import { SummaryService } from "../services/PublicServices";
+import type { ResponsePlumber } from "../types/ResponsePlumber";
 import type {
     DataDetail,
     DataFullDetail,
     DataStats,
-    //DataSequence,
-    ResponseBioconductor,
-} from "../types/ResponseBioconductor";
+} from "../types/DataPlumber";
 import InfoDetail from "../Components/InfoDetail";
 import SequenceViewer from "../Components/SequenceViewer";
 import PercentPlots from "../Components/PercentPlots";
@@ -38,7 +37,7 @@ function HomeView({ detail }: Props) {
             );
             console.log(publicResponse);
             setSummary(publicResponse);
-            const biocResponse: ResponseBioconductor<DataFullDetail> =
+            const biocResponse: ResponsePlumber<DataFullDetail> =
                 await GetFullDetail(entrez);
             console.log(biocResponse);
             setFullDetail(biocResponse.data);
@@ -49,7 +48,7 @@ function HomeView({ detail }: Props) {
 
     const getStats = async () => {
         try {
-            const seqAndStats: ResponseBioconductor<DataStats> = await GetStats(
+            const seqAndStats: ResponsePlumber<DataStats> = await GetStats(
                 entrez,
                 true
             );

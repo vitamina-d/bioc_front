@@ -1,5 +1,5 @@
 import { CardBody, Col, Row } from "react-bootstrap";
-import type { DataDetail } from "../types/ResponseBioconductor";
+import type { DataDetail } from "../types/ResponsePlumber";
 
 type Props = {
     data: DataDetail | null;

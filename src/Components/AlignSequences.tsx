@@ -1,9 +1,10 @@
 import { Button } from "react-bootstrap";
 import { GetAlign } from "../services/BioconductorServices";
 import { useState, type FormEvent } from "react";
-import type { DataAlign, ResponseBioconductor } from "../types/ResponseBioconductor";
+import type { ResponsePlumber } from "../types/ResponsePlumber";
 import DotPlot from "./Plots/DotPlot";
 import SequenceViewer from "./SequenceViewer";
+import type { DataAlign } from "../types/DataPlumber";
 
 type Props = {
     setDataAlign: React.Dispatch<React.SetStateAction<DataAlign | undefined>>;
@@ -27,7 +28,7 @@ function AlignSequences({ setDataAlign }: Props) {
             type
         );
 
-        const response: ResponseBioconductor<DataAlign> = await GetAlign(
+        const response: ResponsePlumber<DataAlign> = await GetAlign(
             //body
             pattern,
             subject,

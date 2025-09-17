@@ -4,10 +4,8 @@ import SelectGenome from "../Components/SelectGenome";
 import SequenceViewer from "../Components/SequenceViewer";
 import { GetSequenceByRange } from "../services/BioconductorServices";
 import Header from "../Components/Header";
-import type {
-    DataSequence,
-    ResponseBioconductor,
-} from "../types/ResponseBioconductor";
+import type { ResponsePlumber } from "../types/ResponsePlumber";
+import type { DataSequence } from "../types/DataPlumber";
 
 function RangeView() {
     const [start, setStart] = useState("100000");
@@ -24,7 +22,7 @@ function RangeView() {
             alert("chr");
             return;
         }
-        const response: ResponseBioconductor<DataSequence> =
+        const response: ResponsePlumber<DataSequence> =
             await GetSequenceByRange(chr, parseInt(start), parseInt(end));
 
         console.log(response);
