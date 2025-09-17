@@ -1,7 +1,10 @@
 import { Button, Form } from "react-bootstrap";
-import { GetComplement } from "../services/PlumberServices";
+import { GetComplement } from "../services/BioconductorServices";
 import { useEffect, useState } from "react";
-import type { DataComplement, ResponsePlumber } from "../types/ResponsePlumber";
+import type {
+    DataComplement,
+    ResponseBioconductor,
+} from "../types/ResponseBioconductor";
 import SequenceViewer from "./SequenceViewer";
 
 function ComplementSequences() {
@@ -15,7 +18,7 @@ function ComplementSequences() {
     }, [toReverse, toComplement]);
 
     const handleReverseComplement = async () => {
-        const response: ResponsePlumber<DataComplement> = await GetComplement(
+        const response: ResponseBioconductor<DataComplement> = await GetComplement(
             //body
             sequence,
             toReverse,

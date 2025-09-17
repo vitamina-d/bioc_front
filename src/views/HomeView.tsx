@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import { GetFullDetail, GetStats } from "../services/PlumberServices";
+import { GetFullDetail, GetStats } from "../services/BioconductorServices";
 import { SummaryService } from "../services/PublicServices";
 import Header from "../Components/Header";
 import type {
@@ -9,8 +9,8 @@ import type {
     DataFullDetail,
     DataStats,
     //DataSequence,
-    ResponsePlumber,
-} from "../types/ResponsePlumber";
+    ResponseBioconductor,
+} from "../types/ResponseBioconductor";
 import InfoDetail from "../Components/InfoDetail";
 import ModalFullDetail from "../Components/ModalFullDetail";
 import SequenceViewer from "../Components/SequenceViewer";
@@ -18,7 +18,7 @@ import PercentPlots from "../Components/PercentPlots";
 
 type Props = {
     detail: DataDetail | null;
-}
+};
 
 function HomeView({ detail }: Props) {
     const [summary, setSummary] = useState<ResponsePublicSummary>();
@@ -41,7 +41,7 @@ function HomeView({ detail }: Props) {
             );
             console.log(publicRes);
             setSummary(publicRes);
-            const plumberRes: ResponsePlumber<DataFullDetail> =
+            const plumberRes: ResponseBioconductor<DataFullDetail> =
                 await GetFullDetail(entrez);
             console.log(plumberRes);
             setFullDetail(plumberRes.data);
@@ -56,7 +56,7 @@ function HomeView({ detail }: Props) {
     //click en +
     const handleClickStats = async () => {
         try {
-            const seqAndStats: ResponsePlumber<DataStats> = await GetStats(
+            const seqAndStats: ResponseBioconductor<DataStats> = await GetStats(
                 entrez,
                 true
             );
@@ -86,7 +86,6 @@ function HomeView({ detail }: Props) {
                             title={"Sequence"}
                             sequence={dataStats.sequence}
                             readonly={true}
-
                         />
 
                         <PercentPlots dataStats={dataStats} />

@@ -1,11 +1,14 @@
 import type { ColorScale, Datum } from "plotly.js";
 import Plot from "react-plotly.js";
-import { bootstrap_colors, nucleotideColors } from "../../const/nucleotideColors";
-import type { DataAlign } from "../../types/ResponsePlumber";
+import {
+    bootstrap_colors,
+    nucleotideColors,
+} from "../../const/nucleotideColors";
+import type { DataAlign } from "../../types/ResponseBioconductor";
 
 type Props = {
     data: DataAlign;
-}
+};
 
 function PlotAlign({ data }: Props) {
     const colorScale: ColorScale = [

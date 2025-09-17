@@ -1,5 +1,5 @@
 import { Button, Col, ListGroup, Modal, Row } from "react-bootstrap";
-import type { DataFullDetail } from "../types/ResponsePlumber";
+import type { DataFullDetail } from "../types/ResponseBioconductor";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
     setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
     dataPlumber?: DataFullDetail;
     dataPublic?: ResponsePublicSummary;
-}
+};
 
 function ModalFullDetail({
     modalShow,
@@ -73,7 +73,7 @@ function ModalFullDetail({
                                         <ListGroup.Item key={idx}>
                                             <Row>
                                                 <Col xs={3}>
-                                                    Location {`${idx+1}`}
+                                                    Location {`${idx + 1}`}
                                                 </Col>
                                                 <Col xs={9}>
                                                     {`${range.seqnames}: ${

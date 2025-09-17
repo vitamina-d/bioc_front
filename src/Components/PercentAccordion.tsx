@@ -2,7 +2,7 @@ import PlotPie from "./Plots/PlotPie";
 import { nucleotideColors } from "../const/nucleotideColors";
 import PlotHistogram from "./Plots/PlotHistogram";
 import { Accordion } from "react-bootstrap";
-import type { DataPercent, Nucleotides } from "../types/ResponsePlumber";
+import type { DataPercent, Nucleotides } from "../types/ResponseBioconductor";
 
 type Props = {
     data: DataPercent;
@@ -13,7 +13,7 @@ function PercentAccordion({ data }: Props) {
     const values: number[] = Object.values(nucleotides);
     const labels: string[] = Object.keys(nucleotides);
 
-    const other:number = nucleotides.other;
+    const other: number = nucleotides.other;
     console.log(other);
 
     const par_labels: string[] = ["AC", "GT"];

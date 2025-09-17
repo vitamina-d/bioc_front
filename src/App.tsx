@@ -7,7 +7,7 @@ import UploadView from "./views/UploadView";
 import ProteinView from "./views/ProteinView";
 import AboutView from "./views/AboutView";
 import ComplementView from "./views/ComplementView";
-import type { DataDetail } from "./types/ResponsePlumber";
+import type { DataDetail } from "./types/ResponseBioconductor";
 import RangeView from "./views/RangeView";
 import SearchView from "./views/SearchView";
 
@@ -17,11 +17,20 @@ function App() {
 
     return (
         <BrowserRouter>
-            <Navigation search={search} setSearch={setSearch} setDetail={setDetail} />
+            <Navigation
+                search={search}
+                setSearch={setSearch}
+                setDetail={setDetail}
+            />
             <Routes>
                 <Route path="/home" element={<HomeView detail={detail} />} />
                 <Route path="/range" element={<RangeView />} />
-                <Route path="/search" element={<SearchView detail={detail} setDetail={setDetail} />} />
+                <Route
+                    path="/search"
+                    element={
+                        <SearchView detail={detail} setDetail={setDetail} />
+                    }
+                />
                 <Route path="/align" element={<AlignView />} />
                 <Route path="/upload" element={<UploadView />} />
                 <Route path="/complement" element={<ComplementView />} />

@@ -1,18 +1,18 @@
 import { CardBody, Col, Row } from "react-bootstrap";
-import type { DataDetail } from "../types/ResponsePlumber";
+import type { DataDetail } from "../types/ResponseBioconductor";
 import ButtonOverlay from "./ButtonOverlay";
 
 type Props = {
     data: DataDetail | null;
     getFull: React.MouseEventHandler<HTMLButtonElement>;
     getStats: React.MouseEventHandler<HTMLButtonElement>;
-}
+};
 
 function InfoDetail({ data, getFull, getStats }: Props) {
     return (
         data && (
             <>
-                <CardBody className="mb-3" >
+                <CardBody className="mb-3">
                     <Row>
                         <Col lg={1} className="text-center">
                             <div>Entrez</div>

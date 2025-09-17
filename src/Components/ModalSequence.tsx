@@ -1,5 +1,5 @@
 /*import { Button, Modal } from "react-bootstrap";
-import type { DataPercent, DataSequence } from "../types/ResponsePlumber";
+import type { DataPercent, DataSequence } from "../types/ResponseBioconductor";
 import PercentPlots from "./PercentPlots";
 
 type Props = {

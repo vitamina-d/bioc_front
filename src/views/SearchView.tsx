@@ -6,7 +6,7 @@ import {
     GetFullDetail,
     GetSequenceByRange,
     GetStats,
-} from "../services/PlumberServices";
+} from "../services/BioconductorServices";
 import Header from "../Components/Header";
 import type {
     DataComplement,
@@ -14,8 +14,8 @@ import type {
     DataFullDetail,
     DataSequence,
     DataStats,
-    ResponsePlumber,
-} from "../types/ResponsePlumber";
+    ResponseBioconductor,
+} from "../types/ResponseBioconductor";
 import Searcher from "../Components/Searcher";
 import InputRange from "../Components/InputRange";
 import DropdownChr from "../Components/DropdownChr";
@@ -76,7 +76,7 @@ function SearchView({ detail, setDetail }: Props) {
     //COMPLEMENT
     const handleReverseComplement = async () => {
         if (sequence != "") {
-            const response: ResponsePlumber<DataComplement> =
+            const response: ResponseBioconductor<DataComplement> =
                 await GetComplement(sequence, toReverse, toComplement);
             setOutput(response.data.sequence);
             console.log(response.data);
@@ -96,7 +96,7 @@ function SearchView({ detail, setDetail }: Props) {
             alert("chr");
             return;
         }
-        const response: ResponsePlumber<DataSequence> =
+        const response: ResponseBioconductor<DataSequence> =
             await GetSequenceByRange(chr, parseInt(start), parseInt(end));
 
         console.log(response);
@@ -131,7 +131,7 @@ function SearchView({ detail, setDetail }: Props) {
             );
             console.log(publicRes);
             setSummary(publicRes);
-            const plumberRes: ResponsePlumber<DataFullDetail> =
+            const plumberRes: ResponseBioconductor<DataFullDetail> =
                 await GetFullDetail(entrez);
             console.log(plumberRes);
             setFullDetail(plumberRes.data);
@@ -147,7 +147,7 @@ function SearchView({ detail, setDetail }: Props) {
     //click en +
     const handleClickStats = async () => {
         try {
-            const seqAndStats: ResponsePlumber<DataStats> = await GetStats(
+            const seqAndStats: ResponseBioconductor<DataStats> = await GetStats(
                 entrez,
                 true
             );

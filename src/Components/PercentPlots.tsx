@@ -1,5 +1,5 @@
 import PlotHistogram from "./Plots/PlotHistogram";
-import type { DataStats, Nucleotides } from "../types/ResponsePlumber";
+import type { DataStats, Nucleotides } from "../types/ResponseBioconductor";
 import PlotSunburst from "./Plots/PlotSunburst";
 
 type Props = {
@@ -7,7 +7,6 @@ type Props = {
 };
 
 function PercentPlots({ dataStats }: Props) {
-    
     const nucleotides: Nucleotides = dataStats.nucleotides;
     const lenght: number = dataStats.length;
     const island: number[] = dataStats.cpg_islands.start;

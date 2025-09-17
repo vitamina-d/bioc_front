@@ -1,9 +1,9 @@
-import type { DataAlign } from "../types/ResponsePlumber";
+import type { DataAlign } from "../types/ResponseBioconductor";
 import ButtonBadge from "./ButtonBadge";
 
 type Props = {
     data: DataAlign;
-}
+};
 
 function InfoAlign({ data }: Props) {
     return (

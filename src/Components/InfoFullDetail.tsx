@@ -1,6 +1,6 @@
 import { Card, CardBody, Col, ListGroup, Row } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import type { DataFullDetail } from "../types/ResponsePlumber";
+import type { DataFullDetail } from "../types/ResponseBioconductor";
 
 type Props = {
     dataPublic?: ResponsePublicSummary;

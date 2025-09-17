@@ -4,7 +4,7 @@ import PlotIslandBar from "./Plots/PlotIslandBar";
 import PlotHistogram from "./Plots/PlotHistogram";
 import PlotScatter from "./Plots/PlotScatter";
 import { Carousel } from "react-bootstrap";
-import type { DataPercent, Nucleotides } from "../types/ResponsePlumber";
+import type { DataPercent, Nucleotides } from "../types/ResponseBioconductor";
 
 type Props = {
     data: DataPercent;
@@ -50,7 +50,12 @@ function PercentDashboard({ data }: Props) {
                     <PlotIslandBar title="CpG" x={xValues} />{" "}
                 </Carousel.Item>
                 <Carousel.Item>
-                    <PlotHistogram title="Histograma" values={xValues} lenght={values.length} window={200} />
+                    <PlotHistogram
+                        title="Histograma"
+                        values={xValues}
+                        lenght={values.length}
+                        window={200}
+                    />
                 </Carousel.Item>
                 <Carousel.Item>
                     <PlotScatter title="Dispersion CpG" values={xValues} />

@@ -1,9 +1,9 @@
 import { CardBody, Col, ListGroup, Row } from "react-bootstrap";
-import type { DataFullDetail } from "../types/ResponsePlumber";
+import type { DataFullDetail } from "../types/ResponseBioconductor";
 
 type Props = {
     data: DataFullDetail;
-}
+};
 
 function InfoPlumber({ data }: Props) {
     console.log(data);

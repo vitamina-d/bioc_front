@@ -2,9 +2,12 @@ import { useState, type FormEvent } from "react";
 import { Card } from "react-bootstrap";
 import SelectGenome from "../Components/SelectGenome";
 import SequenceViewer from "../Components/SequenceViewer";
-import { GetSequenceByRange } from "../services/PlumberServices";
+import { GetSequenceByRange } from "../services/BioconductorServices";
 import Header from "../Components/Header";
-import type { DataSequence, ResponsePlumber } from "../types/ResponsePlumber";
+import type {
+    DataSequence,
+    ResponseBioconductor,
+} from "../types/ResponseBioconductor";
 
 function RangeView() {
     const [start, setStart] = useState("100000");
@@ -21,7 +24,7 @@ function RangeView() {
             alert("chr");
             return;
         }
-        const response: ResponsePlumber<DataSequence> =
+        const response: ResponseBioconductor<DataSequence> =
             await GetSequenceByRange(chr, parseInt(start), parseInt(end));
 
         console.log(response);

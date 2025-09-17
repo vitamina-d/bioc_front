@@ -1,4 +1,4 @@
-export type ResponsePlumber<T> = {
+export type ResponseBioconductor<T> = {
     code: number;
     message: string;
     datetime: string;

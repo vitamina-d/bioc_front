@@ -1,20 +1,37 @@
 import Plot from "react-plotly.js";
-import type { Nucleotides } from "../../types/ResponsePlumber";
+import type { Nucleotides } from "../../types/ResponseBioconductor";
 
 type Props = {
     title?: string;
     nucleotides: Nucleotides;
-}
+};
 
 function PlotSunburst({ title, nucleotides }: Props) {
-
     const total_AC: number = nucleotides.A + nucleotides.C;
     const total_GT: number = nucleotides.G + nucleotides.T;
     const total: number = total_AC + total_GT + nucleotides.other;
 
     const labels: string[] = ["Total", "AC", "A", "C", "GT", "G", "T", "Other"];
-    const parents: string[] = ["", "Total", "AC", "AC", "Total", "GT", "GT", "Total"];
-    const values: number[] = [total, total_AC, nucleotides.A, nucleotides.C, total_GT, nucleotides.G, nucleotides.T, nucleotides.other];
+    const parents: string[] = [
+        "",
+        "Total",
+        "AC",
+        "AC",
+        "Total",
+        "GT",
+        "GT",
+        "Total",
+    ];
+    const values: number[] = [
+        total,
+        total_AC,
+        nucleotides.A,
+        nucleotides.C,
+        total_GT,
+        nucleotides.G,
+        nucleotides.T,
+        nucleotides.other,
+    ];
 
     return (
         <div>
@@ -28,9 +45,7 @@ function PlotSunburst({ title, nucleotides }: Props) {
                         opacity: 0.9,
                         marker: {
                             line: { width: 2 },
-                            colors: [
-                                
-                            ],
+                            colors: [],
                         },
                         branchvalues: "total",
                     },

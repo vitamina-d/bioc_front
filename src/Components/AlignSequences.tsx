@@ -1,13 +1,13 @@
 import { Button } from "react-bootstrap";
-import { GetAlign } from "../services/PlumberServices";
+import { GetAlign } from "../services/BioconductorServices";
 import { useState, type FormEvent } from "react";
-import type { DataAlign, ResponsePlumber } from "../types/ResponsePlumber";
+import type { DataAlign, ResponseBioconductor } from "../types/ResponseBioconductor";
 import DotPlot from "./Plots/DotPlot";
 import SequenceViewer from "./SequenceViewer";
 
 type Props = {
     setDataAlign: React.Dispatch<React.SetStateAction<DataAlign | undefined>>;
-}
+};
 
 function AlignSequences({ setDataAlign }: Props) {
     const [pattern, setPattern] = useState<string>("");
@@ -18,9 +18,16 @@ function AlignSequences({ setDataAlign }: Props) {
 
     const handleOnClick = async (event: FormEvent) => {
         event.preventDefault();
-        console.log("ALINEAR pattern:", pattern, "subject:", subject, "type:", type);
+        console.log(
+            "ALINEAR pattern:",
+            pattern,
+            "subject:",
+            subject,
+            "type:",
+            type
+        );
 
-        const response: ResponsePlumber<DataAlign> = await GetAlign(
+        const response: ResponseBioconductor<DataAlign> = await GetAlign(
             //body
             pattern,
             subject,
@@ -64,7 +71,7 @@ function AlignSequences({ setDataAlign }: Props) {
                     />
                 </div>
             </div>
-            <DotPlot pattern={pattern} subject={subject} maxLenght={100}  />
+            <DotPlot pattern={pattern} subject={subject} maxLenght={100} />
         </>
     );
 }
