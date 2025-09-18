@@ -1,4 +1,4 @@
-export type Report = {
+export type BlastxReport = {
     program: string;
     version: string;
     reference: string;
