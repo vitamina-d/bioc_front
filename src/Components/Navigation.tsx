@@ -2,8 +2,8 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
-import type { DataDetail } from "../types/ResponsePlumber";
 import NavSearcher from "./NavSearcher";
+import type { DataDetail } from "../types/DataPlumber";
 
 type Props = {
     search: string;
@@ -32,20 +32,14 @@ function Navigation({ search, setSearch, setDetail }: Props) {
                     <Nav.Link as={Link} to="/search">
                         Search
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/range">
-                        Range
-                    </Nav.Link>
-                    <Nav.Link as={Link} to="/complement">
-                        Complement
-                    </Nav.Link>
                     <Nav.Link as={Link} to="/align">
                         Align
                     </Nav.Link>
                     <Nav.Link as={Link} to="/upload">
                         Upload
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/protein">
-                        Protein
+                    <Nav.Link as={Link} to="/blastx">
+                        Blastx
                     </Nav.Link>
                     <Nav.Link as={Link} to="/about">
                         About

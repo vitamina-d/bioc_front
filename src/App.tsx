@@ -6,10 +6,9 @@ import AlignView from "./views/AlignView";
 import UploadView from "./views/UploadView";
 import ProteinView from "./views/ProteinView";
 import AboutView from "./views/AboutView";
-import ComplementView from "./views/ComplementView";
-import RangeView from "./views/RangeView";
 import SearchView from "./views/SearchView";
 import type { DataDetail } from "./types/DataPlumber";
+import BlastxView from "./views/BlastxView";
 
 function App() {
     const [search, setSearch] = useState<string>("");
@@ -24,7 +23,6 @@ function App() {
             />
             <Routes>
                 <Route path="/home" element={<HomeView detail={detail} />} />
-                <Route path="/range" element={<RangeView />} />
                 <Route
                     path="/search"
                     element={
@@ -33,8 +31,8 @@ function App() {
                 />
                 <Route path="/align" element={<AlignView />} />
                 <Route path="/upload" element={<UploadView />} />
-                <Route path="/complement" element={<ComplementView />} />
                 <Route path="/protein" element={<ProteinView />} />
+                <Route path="/blastx" element={<BlastxView />} />
                 <Route path="/about" element={<AboutView />} />
             </Routes>
         </BrowserRouter>

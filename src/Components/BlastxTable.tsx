@@ -1,25 +1,23 @@
-import { Badge, Table } from "react-bootstrap";
+import { Badge, Button, Collapse, Table } from "react-bootstrap";
 import type { BlastxReport } from "../types/DataBlastx";
-import Header from "./Header";
 import BlastxStat from "./BlastxStat";
+import { useState } from "react";
 
 type Props = {
     data?: BlastxReport;
 };
 
 function BlastxTable({ data }: Props) {
+    const [openRow, setOpenRow] = useState<number | null>(null);
+
     const hits = data?.results.search.hits;
     const stat = data?.results.search.stat;
-console.log(data);
+    console.log(data);
+
     return (
         hits &&
         stat && (
             <>
-                <Header
-                    title="Blastx"
-                    text="Hits"
-                    imageSrc="../../public/search-gene.png"
-                />
                 <Table bordered hover>
                     <thead>
                         <tr>
@@ -30,13 +28,11 @@ console.log(data);
                             <th>Evalue</th>
                             <th>Identity</th>
                             <th>Positive</th>
-                            {/*<th>Query</th>
-                            <th>Hit</th>
-                            <th>Midline</th>*/}
                             <th>Description</th>
                             <th>Taxid</th>
                             <th>Specie</th>
                             <th>PDB ID</th>
+                            <th>HSP</th>
                         </tr>
                     </thead>
                     <tbody
@@ -45,7 +41,7 @@ console.log(data);
                             marginBottom: "8px",
                         }}
                     >
-                        {hits.map((hit) => {
+                        {hits.map((hit, idx) => {
                             const text = hit.description[0].title;
                             const description = text
                                 .split(",")[1]
@@ -54,44 +50,162 @@ console.log(data);
                             const match = text.match(/\[(.*?)\]/); //corchetes
                             const especie = match ? match[1] : null;
 
-                            const pdbChains = new Map<string, string[]>();
-
-                            hit.description.forEach((item) => {
-                                //2QRO_C
-                                const [pdbId, chain] =
-                                    item.accession.split("_");
-                                if (!pdbChains.has(pdbId)) {
-                                    pdbChains.set(pdbId, []);
-                                }
-                                pdbChains.get(pdbId)!.push(chain);
-                            });
                             return (
-                                <tr key={hit.num}>
-                                    <td>{hit.num}</td>
-                                    <td>{hit.len}</td>
-                                    {hit.hsps.map((hsp) => (
-                                        <>
-                                            <td>{hsp.bit_score}</td>
-                                            <td>{hsp.score}</td>
-                                            <td>{hsp.evalue}</td>
-                                            <td>{hsp.identity}</td>
-                                            <td>{hsp.positive}</td>
-                                            {/*<td>{hsp.qseq}</td>
-                                            <td>{hsp.hseq}</td>
-                                            <td>{hsp.midline}</td>*/}
-                                        </>
-                                    ))}
-                                    <td>{description}</td>
-                                    <td>{hit.description[0].taxid}</td>
-                                    <td>{especie}</td>
-                                    <td>
-                                        {hit.description.map((item) => (
-                                            <Badge className="ms-1" bg="dark">
-                                                {item.accession}
-                                            </Badge>
+                                <>
+                                    {" "}
+                                    <tr key={hit.num}>
+                                        <td>{hit.num}</td>
+                                        <td>{hit.len}</td>
+                                        {hit.hsps.map((hsp) => (
+                                            <>
+                                                <td>{hsp.bit_score}</td>
+                                                <td>{hsp.score}</td>
+                                                <td>{hsp.evalue}</td>
+                                                <td>{hsp.identity}</td>
+                                                <td>{hsp.positive}</td>
+                                            </>
                                         ))}
-                                    </td>
-                                </tr>
+                                        <td>{description}</td>
+                                        <td>{hit.description[0].taxid}</td>
+                                        <td>{especie}</td>
+                                        <td>
+                                            {hit.description.map((item) => (
+                                                <Badge
+                                                    className="ms-1"
+                                                    bg="dark"
+                                                >
+                                                    {item.accession}
+                                                </Badge>
+                                            ))}
+                                        </td>
+                                        <td>
+                                            <Button
+                                                size="sm"
+                                                onClick={() =>
+                                                    setOpenRow(
+                                                        openRow === idx
+                                                            ? null
+                                                            : idx
+                                                    )
+                                                }
+                                            >
+                                                {openRow === idx
+                                                    ? "Hide"
+                                                    : "Show"}
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            colSpan={12}
+                                            className="border-0 p-0"
+                                        >
+                                            <Collapse in={openRow === idx}>
+                                                <Table bordered hover>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sequence</th>
+                                                            <th>Align</th>
+                                                            <th>Range</th>
+                                                            <th>Frame</th>
+                                                            <th>Gaps</th>
+                                                            <th>Align Len</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {hit.hsps.map((hsp) => (
+                                                            <>
+                                                                <tr>
+                                                                    <td>
+                                                                        Query
+                                                                    </td>
+                                                                    <td
+                                                                        style={{
+                                                                            fontFamily:
+                                                                                "monospace",
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            hsp.qseq
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        {
+                                                                            hsp.query_from
+                                                                        }
+                                                                        -
+                                                                        {
+                                                                            hsp.query_to
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        {
+                                                                            hsp.query_frame
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        {
+                                                                            hsp.gaps
+                                                                        }
+                                                                    </td>
+                                                                    <td>-</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        Midline
+                                                                    </td>
+                                                                    <td
+                                                                        style={{
+                                                                            fontFamily:
+                                                                                "monospace",
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            hsp.midline
+                                                                        }
+                                                                    </td>
+                                                                    <td>-</td>
+                                                                    <td>-</td>
+                                                                    <td>-</td>
+                                                                    <td>
+                                                                        {
+                                                                            hsp.align_len
+                                                                        }
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Hit</td>
+                                                                    <td
+                                                                        style={{
+                                                                            fontFamily:
+                                                                                "monospace",
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            hsp.hseq
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        {
+                                                                            hsp.hit_from
+                                                                        }
+                                                                        -
+                                                                        {
+                                                                            hsp.hit_to
+                                                                        }
+                                                                    </td>
+                                                                    <td>-</td>
+                                                                    <td>-</td>
+                                                                    <td>-</td>
+                                                                </tr>
+                                                            </>
+                                                        ))}
+                                                    </tbody>
+                                                </Table>
+                                            </Collapse>
+                                        </td>
+                                    </tr>
+                                </>
                             );
                         })}
                     </tbody>
