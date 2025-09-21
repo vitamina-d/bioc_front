@@ -17,7 +17,7 @@ https://plotly.com/javascript/reference/heatmap/
 3dmol
 https://3dmol.csb.pitt.edu/doc/tutorial-embeddable.html
 
-d-flex justify-content-evenly
+d-flex justify-content-between
     HORIZONTAL: justify-content
         -start	
         -end	

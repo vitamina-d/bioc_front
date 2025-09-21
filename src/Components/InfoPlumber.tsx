@@ -1,5 +1,5 @@
 import { CardBody, Col, ListGroup, Row } from "react-bootstrap";
-import type { DataFullDetail } from "../types/ResponsePlumber";
+import type { DataFullDetail } from "../types/DataPlumber";
 
 type Props = {
     data: DataFullDetail;
@@ -19,35 +19,39 @@ function InfoPlumber({ data }: Props) {
                 <ListGroup.Item>
                     <Row>
                         <Col xs={3}>Cytogenetic Location</Col>
-                        <Col xs={9}>{data.location.citogenetic} </Col>
+                        <Col xs={9}>{data.citogenetic} </Col>
                     </Row>
                 </ListGroup.Item>
-                <ListGroup.Item>
-                    <Row>
-                        <Col xs={3}>Chromosome</Col>
-                        <Col xs={9}>{data.location.chr}</Col>
-                    </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                    <Row>
-                        <Col xs={3}>Strand</Col>
-                        <Col xs={9}>{data.location.strand}</Col>
-                    </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                    <Row>
-                        <Col xs={3}>Range</Col>
-                        <Col xs={9}>
-                            {data.location.start} – {data.location.end}
-                        </Col>
-                    </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                    <Row>
-                        <Col xs={3}>Length</Col>
-                        <Col xs={9}>{data.location.length}</Col>
-                    </Row>
-                </ListGroup.Item>
+                {data.location.map((item) => (
+                    <>
+                        <ListGroup.Item>
+                            <Row>
+                                <Col xs={3}>Chromosome</Col>
+                                <Col xs={9}>{item.seqnames}</Col>
+                            </Row>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            <Row>
+                                <Col xs={3}>Strand</Col>
+                                <Col xs={9}>{item.strand}</Col>
+                            </Row>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            <Row>
+                                <Col xs={3}>Range</Col>
+                                <Col xs={9}>
+                                    {item.start} – {item.end}
+                                </Col>
+                            </Row>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            <Row>
+                                <Col xs={3}>Length</Col>
+                                <Col xs={9}>{item.length}</Col>
+                            </Row>
+                        </ListGroup.Item>
+                    </>
+                ))}
                 <ListGroup.Item>
                     <Row>
                         <Col xs={3}>Ensembl Id Gene</Col>

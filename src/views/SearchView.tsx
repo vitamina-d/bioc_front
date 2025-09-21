@@ -10,18 +10,13 @@ import type { ResponsePlumber } from "../types/ResponsePlumber";
 import type {
     DataComplement,
     DataDetail,
-    DataFullDetail,
     DataSequence,
     DataStats,
 } from "../types/DataPlumber";
 import Searcher from "../Components/Searcher";
 import InputRange from "../Components/InputRange";
 import DropdownChr from "../Components/DropdownChr";
-import InfoDetail from "../Components/InfoDetail";
-import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import PercentPlots from "../Components/PercentPlots";
-import ModalBasic from "../Components/ModalBasic";
-import InfoFullDetail from "../Components/InfoFullDetail";
 
 type Props = {
     detail: DataDetail | null;
@@ -46,11 +41,7 @@ function SearchView({ detail, setDetail }: Props) {
     ///OPTION
 
     /////HOME
-    const [summary, setSummary] = useState<ResponsePublicSummary>();
-    const [fullDetail, setFullDetail] = useState<DataFullDetail>();
     const [dataStats, setDataStats] = useState<DataStats | null>(null);
-    //const [modalDetailShow, setModalDetailShow] = useState(false);
-    const [modalShow, setModalShow] = useState(false);
 
     useEffect(() => {
         handleReverseComplement();
@@ -58,10 +49,7 @@ function SearchView({ detail, setDetail }: Props) {
 
     useEffect(() => {
         if (detail) {
-            setFullDetail(undefined);
-            setSummary(undefined);
             setSequence("");
-            setModalShow(true);
             setDataStats(null);
             console.log("useEffect set entrez");
         }
@@ -103,8 +91,6 @@ function SearchView({ detail, setDetail }: Props) {
         setToComplement(false);
         setOutput("");
         setSequence("");
-        setSummary(undefined);
-        setFullDetail(undefined);
         setDataStats(null);
         setDetail(null);
     };
@@ -118,9 +104,9 @@ function SearchView({ detail, setDetail }: Props) {
         <>
             <Card className="p-3 my-3 ">
                 <Header
-                    title={detail ? detail.symbol : "Search"}
-                    text={detail ? detail.entrez : "Gene"}
-                    imageSrc="../../public/chromosome.png"
+                    title="Search"
+                    text="Gene"
+                    imageSrc="../../public/search-gene.png"
                 />
 
                 <Searcher
@@ -190,6 +176,7 @@ function SearchView({ detail, setDetail }: Props) {
                         readonly={false}
                         onClick={clearSequence}
                     />
+
                     <SequenceViewer
                         title={"Output"}
                         sequence={output}
@@ -200,30 +187,6 @@ function SearchView({ detail, setDetail }: Props) {
                 </div>
                 {dataStats ? <PercentPlots dataStats={dataStats} /> : ""}
             </Card>
-            <ModalBasic
-                modalShow={modalShow}
-                setModalShow={setModalShow}
-                titleChild={
-                    summary || fullDetail ? (
-                        <span>{summary?.name || fullDetail?.entrez}</span>
-                    ) : (
-                        "Gene"
-                    )
-                }
-                bodyChild={
-                    <>
-                        <InfoDetail data={detail} />
-                        {summary || fullDetail ? (
-                            <InfoFullDetail
-                                dataPlumber={fullDetail}
-                                dataPublic={summary}
-                            />
-                        ) : (
-                            ""
-                        )}
-                    </>
-                }
-            />
         </>
     );
 }

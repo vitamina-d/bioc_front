@@ -1,5 +1,5 @@
 import { CardBody, Col, Row } from "react-bootstrap";
-import type { DataDetail } from "../types/ResponsePlumber";
+import type { DataDetail } from "../types/DataPlumber";
 
 type Props = {
     data: DataDetail | null;
@@ -15,8 +15,11 @@ function InfoDetail({ data }: Props) {
                             <div>Entrez</div>
                             <div className="text-muted">{data.entrez}</div>
                         </Col>
-
-                        <Col lg={5} className="text-center">
+                        <Col lg={2} className="text-center">
+                            <div>Genetype</div>
+                            <div className="text-muted ">{data.genetype}</div>
+                        </Col>
+                        <Col lg={4} className="text-center">
                             <div>Genename</div>
                             <div className="text-muted ">{data.genename}</div>
                         </Col>
@@ -24,7 +27,7 @@ function InfoDetail({ data }: Props) {
                             <div>Symbol</div>
                             <div className="text-muted ">{data.symbol}</div>
                         </Col>
-                        <Col lg={5} className="text-center">
+                        <Col lg={4} className="text-center">
                             <div>Alias</div>
                             <div className="text-muted ">
                                 {data.alias ? data.alias.join(", ") : "—"}

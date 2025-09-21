@@ -3,8 +3,8 @@ import Header from "../Components/Header";
 import PlotAlign from "../Components/Plots/PlotAlign";
 import { useState } from "react";
 import AlignSequences from "../Components/AlignSequences";
-import type { DataAlign } from "../types/ResponsePlumber";
 import ButtonBadge from "../Components/ButtonBadge";
+import type { DataAlign } from "../types/DataPlumber";
 
 function AlignView() {
     const [dataAlign, setDataAlign] = useState<DataAlign>();

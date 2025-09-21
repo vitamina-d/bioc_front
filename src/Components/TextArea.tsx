@@ -13,7 +13,7 @@ function TextArea({ title, rows, sequence, setSequence, readOnly }: Props) {
         <InputGroup className="mb-3">
             <InputGroup.Text>{title}</InputGroup.Text>
             <Form.Control
-                className="py-1 px-2 font-monospace" // bg-light
+                className="py-1 px-2 font-monospace text-muted "
                 as="textarea"
                 rows={rows}
                 size="sm"

@@ -3,8 +3,6 @@ import { useState } from "react";
 import Navigation from "./Components/Navigation";
 import HomeView from "./views/HomeView";
 import AlignView from "./views/AlignView";
-import UploadView from "./views/UploadView";
-import ProteinView from "./views/ProteinView";
 import AboutView from "./views/AboutView";
 import SearchView from "./views/SearchView";
 import type { DataDetail } from "./types/DataPlumber";
@@ -30,8 +28,6 @@ function App() {
                     }
                 />
                 <Route path="/align" element={<AlignView />} />
-                <Route path="/upload" element={<UploadView />} />
-                <Route path="/protein" element={<ProteinView />} />
                 <Route path="/blastx" element={<BlastxView />} />
                 <Route path="/about" element={<AboutView />} />
             </Routes>

@@ -4,7 +4,7 @@ import {
     bootstrap_colors,
     nucleotideColors,
 } from "../../const/nucleotideColors";
-import type { DataAlign } from "../../types/ResponsePlumber";
+import type { DataAlign } from "../../types/DataPlumber";
 
 type Props = {
     data: DataAlign;

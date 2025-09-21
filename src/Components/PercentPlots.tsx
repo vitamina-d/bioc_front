@@ -1,5 +1,5 @@
+import type { DataStats, Nucleotides } from "../types/DataPlumber";
 import PlotHistogram from "./Plots/PlotHistogram";
-import type { DataStats, Nucleotides } from "../types/ResponsePlumber";
 import PlotSunburst from "./Plots/PlotSunburst";
 import { Col, Row } from "react-bootstrap";
 

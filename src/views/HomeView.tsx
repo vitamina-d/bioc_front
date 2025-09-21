@@ -10,10 +10,10 @@ import type {
     DataStats,
 } from "../types/DataPlumber";
 import InfoDetail from "../Components/InfoDetail";
-import SequenceViewer from "../Components/SequenceViewer";
 import PercentPlots from "../Components/PercentPlots";
 import ButtonOverlay from "../Components/ButtonOverlay";
 import InfoFullDetail from "../Components/InfoFullDetail";
+import SequenceShow from "../Components/SequenceShow";
 
 type Props = {
     detail: DataDetail | null;
@@ -79,9 +79,6 @@ function HomeView({ detail }: Props) {
                         <h5 className="card-title mb-1">
                             {detail ? detail.symbol : "Search"}
                         </h5>
-                        <p className="card-text text-muted ">
-                            {detail ? detail.genetype : "Gene"}
-                        </p>
                     </div>
                     <ButtonOverlay
                         textHover={"Detail"}
@@ -104,11 +101,7 @@ function HomeView({ detail }: Props) {
                 <InfoFullDetail dataPublic={summary} dataPlumber={fullDetail} />
                 {dataStats ? (
                     <>
-                        <SequenceViewer
-                            title={"Sequence"}
-                            sequence={dataStats.sequence}
-                            readonly={true}
-                        />
+                        <SequenceShow sequence={dataStats.sequence} />
 
                         <PercentPlots dataStats={dataStats} />
                     </>

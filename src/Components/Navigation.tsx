@@ -35,9 +35,6 @@ function Navigation({ search, setSearch, setDetail }: Props) {
                     <Nav.Link as={Link} to="/align">
                         Align
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/upload">
-                        Upload
-                    </Nav.Link>
                     <Nav.Link as={Link} to="/blastx">
                         Blastx
                     </Nav.Link>

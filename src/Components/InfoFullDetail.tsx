@@ -1,6 +1,6 @@
 import { Col, ListGroup, Row } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import type { DataFullDetail } from "../types/ResponsePlumber";
+import type { DataFullDetail } from "../types/DataPlumber";
 
 type Props = {
     dataPublic?: ResponsePublicSummary;

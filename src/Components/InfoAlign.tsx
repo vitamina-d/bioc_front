@@ -1,4 +1,4 @@
-import type { DataAlign } from "../types/ResponsePlumber";
+import type { DataAlign } from "../types/DataPlumber";
 import ButtonBadge from "./ButtonBadge";
 
 type Props = {

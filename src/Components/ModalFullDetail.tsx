@@ -1,6 +1,6 @@
 import { Button, Col, ListGroup, Modal, Row } from "react-bootstrap";
-import type { DataFullDetail } from "../types/ResponsePlumber";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
+import type { DataFullDetail } from "../types/DataPlumber";
 
 type Props = {
     modalShow: boolean;
