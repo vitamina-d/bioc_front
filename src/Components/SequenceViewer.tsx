@@ -1,7 +1,7 @@
 import TextArea from "./TextArea";
 import ButtonOverlay from "./ButtonOverlay";
 import { Stack, type ButtonProps } from "react-bootstrap";
-import type { ChangeEvent } from "react";
+import FileUp from "./FileUp";
 
 type Props = {
     title: string;
@@ -21,19 +21,6 @@ function SequenceViewer({
         navigator.clipboard.writeText(sequence);
     };
 
-    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length > 0) {
-            const file = event.target.files[0];
-
-            const reader = new FileReader();
-            reader.readAsText(file);
-            reader.onload = (e) => {
-                const text = e.target?.result as string;
-                setSequence(text);
-            };
-        }
-    };
-
     return (
         <Stack className="d-flex flex-column">
             <TextArea
@@ -48,9 +35,9 @@ function SequenceViewer({
                 gap={2}
                 className="d-flex justify-content-between pb-2"
             >
-                <input type="file" accept=".fasta" onChange={handleFileChange} />
-                <div className="d-flex justify-content-end"
->
+                <div className="d-flex justify-content-end">
+                    {readonly ? <></> : <FileUp setSequence={setSequence} />}
+                    
                     <ButtonOverlay
                         textHover={"Copy"}
                         sequence={sequence}
@@ -65,7 +52,7 @@ function SequenceViewer({
                         size="sm"
                         variant="outline-secondary"
                         {...prop}
-                        />
+                    />
                 </div>
             </Stack>
         </Stack>

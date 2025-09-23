@@ -38,6 +38,9 @@ function Navigation({ search, setSearch, setDetail }: Props) {
                     <Nav.Link as={Link} to="/blastx">
                         Blastx
                     </Nav.Link>
+                    <Nav.Link as={Link} to="/protein">
+                        Protein
+                    </Nav.Link>
                     <Nav.Link as={Link} to="/about">
                         About
                     </Nav.Link>

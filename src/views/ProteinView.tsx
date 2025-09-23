@@ -1,4 +1,3 @@
-                { /*
 import { Card } from "react-bootstrap";
 import Header from "../Components/Header";
 
@@ -24,4 +23,3 @@ function ProteinView() {
 }
 
 export default ProteinView;
-    */}

@@ -1,4 +1,4 @@
-export type TypesIcon = "copy" | "backspace" | "binocular" | "info" | "finger" | "pie";
+export type TypesIcon = "copy" | "backspace" | "binocular" | "info" | "finger" | "pie" | "upload";
 
 type IconPaths = Record<TypesIcon, string[]>;
 
@@ -24,6 +24,9 @@ export const iconPaths: IconPaths = {
     ],
     pie: [
         "M15.985 8.5H8.207l-5.5 5.5a8 8 0 0 0 13.277-5.5zM2 13.292A8 8 0 0 1 7.5.015v7.778zM8.5.015V7.5h7.485A8 8 0 0 0 8.5.015",
+    ],
+    upload: [
+        "M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M7.5 6.707 6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0z",
     ],
 
 };

@@ -18,7 +18,7 @@ function BlastxTable({ data }: Props) {
         hits &&
         stat && (
             <>
-                <Table bordered hover>
+                <Table className="font-monospace fontsize-sm" bordered hover responsive >
                     <thead>
                         <tr>
                             <th>Hit</th>
@@ -35,12 +35,7 @@ function BlastxTable({ data }: Props) {
                             <th>HSP</th>
                         </tr>
                     </thead>
-                    <tbody
-                        style={{
-                            fontFamily: "monospace",
-                            marginBottom: "8px",
-                        }}
-                    >
+                    <tbody>
                         {hits.map((hit, idx) => {
                             const text = hit.description[0].title;
                             const description = text
@@ -71,6 +66,7 @@ function BlastxTable({ data }: Props) {
                                         <td>
                                             {hit.description.map((item) => (
                                                 <Badge
+                                                
                                                     className="ms-1"
                                                     bg="dark"
                                                 >

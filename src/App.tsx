@@ -7,6 +7,7 @@ import AboutView from "./views/AboutView";
 import SearchView from "./views/SearchView";
 import type { DataDetail } from "./types/DataPlumber";
 import BlastxView from "./views/BlastxView";
+import ProteinView from "./views/ProteinView";
 
 function App() {
     const [search, setSearch] = useState<string>("");
@@ -29,6 +30,7 @@ function App() {
                 />
                 <Route path="/align" element={<AlignView />} />
                 <Route path="/blastx" element={<BlastxView />} />
+                <Route path="/protein" element={<ProteinView />} />
                 <Route path="/about" element={<AboutView />} />
             </Routes>
         </BrowserRouter>

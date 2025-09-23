@@ -116,7 +116,7 @@ function SearchView({ detail, setDetail }: Props) {
                     onSubmit={submitSearch}
                     disabled={input == ""}
                 />
-
+    {/* range */}
                 <Form onSubmit={submitRange}>
                     <div className="row mx-1 ">
                         <div className="col">
@@ -145,8 +145,9 @@ function SearchView({ detail, setDetail }: Props) {
                     </div>
                 </Form>
 
-                <div className=" mx-3 pb-0 ">
-                    <Form>
+    {/* reverse complement */}
+                <div className="mt-3  mx-3 pb-0">
+                    <Form className=" d-flex justify-content-start">
                         {" "}
                         <Form.Check
                             type="switch"
@@ -169,6 +170,11 @@ function SearchView({ detail, setDetail }: Props) {
                             disabled={sequence == ""}
                         />
                     </Form>
+                </div>
+
+    {/* textareas */}
+
+                <div className=" mx-3 pb-0">
                     <SequenceViewer
                         title={"Sequence"}
                         sequence={sequence}

@@ -8,7 +8,7 @@ type Props = {
 
 function SequenceShow({ sequence }: Props) {
     let row = Math.round(sequence.length / 125);
-    row = Math.min(row, 20)
+    row = Math.max(Math.min(row, 20), 4);
     const copySequence = () => {
         navigator.clipboard.writeText(sequence);
     };
