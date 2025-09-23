@@ -1,2 +1,2 @@
-export type FastaDict = Record<string, string>; // header,seq
+export type FastaDictionary = Record<string, string>; // header,seq
 

@@ -2,8 +2,9 @@ import TextArea from "./TextArea";
 import ButtonOverlay from "./ButtonOverlay";
 import { Stack, type ButtonProps } from "react-bootstrap";
 import FileUp from "./FileUp";
-import type { FastaDict } from "../types/FastaDictionary";
+import type { FastaDictionary } from "../types/FastaDictionary";
 import { useState } from "react";
+import FastaReadTable from "./FastaReadTable";
 
 type Props = {
     title: string;
@@ -19,12 +20,15 @@ function SequenceViewer({
     readonly,
     ...prop
 }: Props) {
-    const [dictionary, setDictionary] = useState<FastaDict>({});
+    const [dictionary, setDictionary] = useState<FastaDictionary>({});
+    const [showFileTable, setShowFileTable] = useState<boolean>(false);
 
     const copySequence = () => {
         navigator.clipboard.writeText(sequence);
     };
     console.log(dictionary);
+
+
 
     return (
         <Stack className="d-flex flex-column">
@@ -35,13 +39,14 @@ function SequenceViewer({
                 rows={4}
                 setSequence={setSequence}
             />
+            
             <Stack
                 direction="horizontal"
                 gap={2}
                 className="d-flex justify-content-between pb-2"
             >
                 <div className="d-flex justify-content-end">
-                    {readonly  ? <></> : <FileUp setDictionary={setDictionary} />}
+                    {readonly  ? <></> : <FileUp setShowTable={setShowFileTable} setDictionary={setDictionary} />}
                     
                     <ButtonOverlay
                         textHover={"Copy"}
@@ -60,6 +65,7 @@ function SequenceViewer({
                     />
                 </div>
             </Stack>
+            {dictionary  ? <FastaReadTable showTable={showFileTable} dictionary={dictionary}  /> : <></> }
         </Stack>
     );
 }

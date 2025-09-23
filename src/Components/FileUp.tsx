@@ -1,13 +1,14 @@
 import { useState, type ChangeEvent } from "react";
 import { Badge, Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Icon } from "./Icon";
-import type { FastaDict } from "../types/FastaDictionary";
+import type { FastaDictionary } from "../types/FastaDictionary";
 
 type Props = {
-    setDictionary: React.Dispatch<React.SetStateAction<FastaDict>>;
+    setDictionary: React.Dispatch<React.SetStateAction<FastaDictionary>>;
+    setShowTable: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function FileUp({ setDictionary }: Props) {
+function FileUp({ setDictionary, setShowTable }: Props) {
     const [name, setName] = useState<string>("");
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +18,7 @@ function FileUp({ setDictionary }: Props) {
             //console.log(file);
             console.log(file.name);
 
-            const dictionary: FastaDict = {};
+            const dictionary: FastaDictionary = {};
 
             const reader = new FileReader();
             reader.readAsText(file);
@@ -44,6 +45,7 @@ function FileUp({ setDictionary }: Props) {
                 });
                 console.log(dictionary); ///!!!
                 setDictionary(dictionary);
+                setShowTable(true);
             };
         }
     };
