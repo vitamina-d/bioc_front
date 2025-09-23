@@ -1,59 +1,49 @@
 import { useState, type ChangeEvent } from "react";
 import { Badge, Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Icon } from "./Icon";
+import type { FastaDict } from "../types/FastaDictionary";
 
 type Props = {
-    setSequence: React.Dispatch<React.SetStateAction<string>>;
+    setDictionary: React.Dispatch<React.SetStateAction<FastaDict>>;
 };
-type FastaDict = Record<string, string>; // header,seq
 
-function FileUp({ setSequence }: Props) {
+function FileUp({ setDictionary }: Props) {
     const [name, setName] = useState<string>("");
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             const file = event.target.files[0];
             setName(file.name);
-            console.log(file);
+            //console.log(file);
             console.log(file.name);
+
+            const dictionary: FastaDict = {};
 
             const reader = new FileReader();
             reader.readAsText(file);
             reader.onload = (e) => {
-                const dictionary: FastaDict = {};
                 const text = e.target?.result as string;
-                console.log(text);
-                const headers: string[] = [];
-                const sequences: string[] = [];
+                //console.log(text);
 
-                //let seq: string = "";
-                let header:string = "";
+                let header: string = "";
                 text.split("\n").map((line) => {
                     line = line.trim();
+                    
                     if (line.startsWith(">")) {
                         header = line;
-                        dictionary[header] = "";
-                        // guardo la seq
-                       /* if (seq) {
-                            sequences.push(seq);
-                            seq = "";
-                        }
-                        headers.push(line);*/
-
-                    } else if (line && header) {
+                        dictionary[header] = ""; //inicio el header
+                    } else if (line.length < 1) {
+                        //nada
+                        return;
+                    } else {
+                        if (!header) {
+                            header = "unnamed";
+                        } 
                         dictionary[header] += line;
-                        //seq = seq.concat(line);
                     }
                 });
-                /*si quedo sin guardar
-                if (seq) {
-                    sequences.push(seq);
-                    seq = "";
-                }
-                console.log(headers);
-                console.log(sequences);
-                console.log(seq);*/
-                console.log(dictionary);
+                console.log(dictionary); ///!!!
+                setDictionary(dictionary);
             };
         }
     };
