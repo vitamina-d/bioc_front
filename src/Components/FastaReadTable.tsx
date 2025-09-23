@@ -24,10 +24,24 @@ function FastaReadTable({ dictionary, showTable }: Props) {
     };
 
     const selectAll = () => {
+        if (selected.length < headers.length ) {
+            setSelected(headers);
+        } else {
+            setSelected([]);
+        }
+    };
+    const checkAll = () => {
+        if (selected.length == headers.length ) {
+            return true;
+        } else {
+            return false;
+        }
+    };        
+
+    const onClick = () => {
         //
         alert("select all");
     };
-
     return (
         showTable && (
             <>
@@ -45,6 +59,7 @@ function FastaReadTable({ dictionary, showTable }: Props) {
                             <th>
                                 <Form.Check
                                     type="checkbox"
+                                    checked={checkAll()}
                                     onChange={() => selectAll()}
                                 />
                             </th>
@@ -75,23 +90,16 @@ function FastaReadTable({ dictionary, showTable }: Props) {
                         ))}
                     </tbody>
                 </Table>
-                <Button size="sm"> Show selected </Button>
-                {/* <ul className="list-group font-monospace small">
-                     <li  className="py-1 list-group-item small" >Headers</li>
-                    {headers.map((head) => (
-                        <li
-                            style={{ cursor: "pointer" }}
-                            onClick={() => selectHeader(head)}
-                            key={head}
-                            className={`py-0 list-group-item small list-group-item-action ${
-                                //hover
-                                selected.includes(head) ? "active" : ""
-                            }`}
-                        >
-                            {`${head} (length = ${dictionary[head].length})`}
-                        </li>
-                    ))}
-                </ul>*/}
+                <div className="d-flex justify-content-end">
+                    <Button
+                        onClick={onClick}
+                        size="sm"
+                        variant="outline-dark"
+                        className="mb-2"
+                    >
+                        Show selected
+                    </Button>
+                </div>
             </>
         )
     );
