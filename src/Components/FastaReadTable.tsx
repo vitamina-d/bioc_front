@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 type Props = {
     dictionary: FastaDictionary;
     showTable: boolean;
+    setSequence: React.Dispatch<React.SetStateAction<string>>
 };
 
-function FastaReadTable({ dictionary, showTable }: Props) {
+function FastaReadTable({ dictionary, showTable, setSequence }: Props) {
     const headers = Object.keys(dictionary);
     const [selected, setSelected] = useState<string[]>([]);
 
@@ -38,10 +39,11 @@ function FastaReadTable({ dictionary, showTable }: Props) {
         }
     };        
 
-    const onClick = () => {
-        //
-        alert("select all");
+    const showSelectedSequences = () => {
+        const sequence = selected.map((header) => dictionary[header]).join("");
+        setSequence(sequence);
     };
+
     return (
         showTable && (
             <>
@@ -92,7 +94,7 @@ function FastaReadTable({ dictionary, showTable }: Props) {
                 </Table>
                 <div className="d-flex justify-content-end">
                     <Button
-                        onClick={onClick}
+                        onClick={showSelectedSequences}
                         size="sm"
                         variant="outline-dark"
                         className="mb-2"

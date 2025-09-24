@@ -39,6 +39,7 @@ function FileUp({ setDictionary, setShowTable }: Props) {
                     } else {
                         if (!header) {
                             header = "unnamed";
+                            dictionary[header] = "";
                         } 
                         dictionary[header] += line;
                     }

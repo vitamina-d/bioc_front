@@ -65,7 +65,7 @@ function SequenceViewer({
                     />
                 </div>
             </Stack>
-            {dictionary  ? <FastaReadTable showTable={showFileTable} dictionary={dictionary}  /> : <></> }
+            {dictionary ? <FastaReadTable setSequence={setSequence} showTable={showFileTable} dictionary={dictionary}  /> : <></> }
         </Stack>
     );
 }
