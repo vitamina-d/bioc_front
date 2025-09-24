@@ -9,6 +9,7 @@ type Props = {
 };
 
 function TextArea({ title, rows, sequence, setSequence, readOnly }: Props) {
+    
     return (
         <InputGroup className="mb-3">
             <InputGroup.Text>{title}</InputGroup.Text>

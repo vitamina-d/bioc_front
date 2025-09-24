@@ -15,7 +15,7 @@ function ComplementSequences() {
 
     useEffect(() => {
         handleReverseComplement();
-    }, [toReverse, toComplement]);
+    }, [toReverse, toComplement, sequence]);
 
     const handleReverseComplement = async () => {
         console.log("handleReverseComplement")

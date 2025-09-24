@@ -28,8 +28,6 @@ function SequenceViewer({
     };
     console.log(dictionary);
 
-
-
     return (
         <Stack className="d-flex flex-column">
             <TextArea
@@ -61,7 +59,7 @@ function SequenceViewer({
                         typeIcon="backspace"
                         size="sm"
                         variant="outline-secondary"
-                        {...prop}
+                        {...prop} // onclick
                     />
                 </div>
             </Stack>
