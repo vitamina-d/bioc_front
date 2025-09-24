@@ -18,6 +18,7 @@ function ComplementSequences() {
     }, [toReverse, toComplement]);
 
     const handleReverseComplement = async () => {
+        console.log("handleReverseComplement")
         const response: ResponsePlumber<DataComplement> =
             await GetComplement(
                 //body
