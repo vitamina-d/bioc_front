@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import SequenceViewer from "../Components/SequenceViewer";
 import {
     GetComplement,
@@ -101,99 +101,95 @@ function SearchView({ detail, setDetail }: Props) {
     };
 
     return (
-        <>
-            <Card className="p-3 my-3 ">
-                <Header
-                    title="Search"
-                    text="Gene"
-                    imageSrc="../../public/search-gene.png"
-                />
+        <div className="row mx-1 ">
+            <Header
+                title="Search"
+                text="Gene"
+                imageSrc="../../public/search-gene.png"
+            />
 
-                <Searcher
-                    text={"Search"}
-                    input={input}
-                    setInput={setInput}
-                    onSubmit={submitSearch}
-                    disabled={input == ""}
-                />
-    {/* range */}
-                <Form onSubmit={submitRange}>
-                    <div className="row mx-1 ">
-                        <div className="col">
-                            <DropdownChr chr={chr} setChr={setChr} />
-                        </div>
-                        <div className="col">
-                            <InputRange number={start} setNumber={setStart}>
-                                Desde
-                            </InputRange>
-                        </div>
-                        <div className="col">
-                            <InputRange number={end} setNumber={setEnd}>
-                                Hasta
-                            </InputRange>
-                        </div>
-
-                        <div className="col-auto">
-                            <Button
-                                variant="light"
-                                className="border"
-                                onClick={submitRange}
-                            >
-                                Search
-                            </Button>
-                        </div>
+            <Searcher
+                text={"Search"}
+                input={input}
+                setInput={setInput}
+                onSubmit={submitSearch}
+                disabled={input == ""}
+            />
+            {/* range */}
+            <Form onSubmit={submitRange}>
+                <div className="row mx-1 ">
+                    <div className="col">
+                        <DropdownChr chr={chr} setChr={setChr} />
                     </div>
+                    <div className="col">
+                        <InputRange number={start} setNumber={setStart}>
+                            Desde
+                        </InputRange>
+                    </div>
+                    <div className="col">
+                        <InputRange number={end} setNumber={setEnd}>
+                            Hasta
+                        </InputRange>
+                    </div>
+
+                    <div className="col-auto">
+                        <Button
+                            variant="light"
+                            className="border"
+                            onClick={submitRange}
+                        >
+                            Search
+                        </Button>
+                    </div>
+                </div>
+            </Form>
+
+            {/* reverse complement */}
+            <div className="mt-3  mx-3 pb-0">
+                <Form className=" d-flex justify-content-start">
+                    {" "}
+                    <Form.Check
+                        type="switch"
+                        id="reverse-switch"
+                        label="Reverse"
+                        checked={toReverse}
+                        onChange={(e) => setToReverse(e.currentTarget.checked)}
+                        disabled={sequence == ""}
+                    />
+                    <Form.Check
+                        type="switch"
+                        id="complement-switch"
+                        label="Complement"
+                        checked={toComplement}
+                        onChange={(e) =>
+                            setToComplement(e.currentTarget.checked)
+                        }
+                        disabled={sequence == ""}
+                    />
                 </Form>
+            </div>
 
-    {/* reverse complement */}
-                <div className="mt-3  mx-3 pb-0">
-                    <Form className=" d-flex justify-content-start">
-                        {" "}
-                        <Form.Check
-                            type="switch"
-                            id="reverse-switch"
-                            label="Reverse"
-                            checked={toReverse}
-                            onChange={(e) =>
-                                setToReverse(e.currentTarget.checked)
-                            }
-                            disabled={sequence == ""}
-                        />
-                        <Form.Check
-                            type="switch"
-                            id="complement-switch"
-                            label="Complement"
-                            checked={toComplement}
-                            onChange={(e) =>
-                                setToComplement(e.currentTarget.checked)
-                            }
-                            disabled={sequence == ""}
-                        />
-                    </Form>
-                </div>
+            {/* textareas */}
 
-    {/* textareas */}
+            <div className=" mx-3 pb-0">
+                <SequenceViewer
+                    title={"Sequence"}
+                    sequence={sequence}
+                    setSequence={setSequence}
+                    readonly={false}
+                    onClick={clearSequence}
+                />
 
-                <div className=" mx-3 pb-0">
-                    <SequenceViewer
-                        title={"Sequence"}
-                        sequence={sequence}
-                        setSequence={setSequence}
-                        readonly={false}
-                        onClick={clearSequence}
-                    />
-
-                    <SequenceViewer
-                        title={"Output"}
-                        sequence={output}
-                        setSequence={setOutput}
-                        readonly={true}
-                        onClick={clearOutput}
-                    />
-                </div>
-                {dataStats ? <PercentPlots dataStats={dataStats} /> : ""}
-            </Card>
-        </>
+                <SequenceViewer
+                    title={"Output"}
+                    sequence={output}
+                    setSequence={setOutput}
+                    readonly={true}
+                    onClick={clearOutput}
+                />
+            </div>
+            {dataStats ? <PercentPlots dataStats={dataStats} /> : ""}
+        </div>
     );
 }
 

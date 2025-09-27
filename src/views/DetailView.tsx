@@ -19,13 +19,14 @@ type Props = {
     detail: DataDetail | null;
 };
 
-function HomeView({ detail }: Props) {
+function DetailView({ detail }: Props) {
+    
     const [summary, setSummary] = useState<ResponsePublicSummary>();
     const [fullDetail, setFullDetail] = useState<DataFullDetail>();
     const [dataStats, setDataStats] = useState<DataStats | null>(null);
 
     //ultimos consultados
-    if (!detail) return <></>;
+    if (!detail) return <>Nothing found, search again</>;
     const entrez = detail.entrez;
 
     const getFull = async () => {
@@ -113,4 +114,4 @@ function HomeView({ detail }: Props) {
     );
 }
 
-export default HomeView;
+export default DetailView;

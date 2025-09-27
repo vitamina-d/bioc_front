@@ -3,6 +3,9 @@ import type { BlastxReport } from "../types/DataBlastx";
 import type { ResponsePlumber } from "../types/ResponsePlumber";
 import { PostBlastx } from "../services/BlastServices";
 import { useState, type FormEvent } from "react";
+import FileUp from "./FileUp";
+import type { FastaDictionary } from "../types/FastaDictionary";
+import FastaReadTable from "./FastaReadTable";
 
 type Props = {
     setBlastx: React.Dispatch<React.SetStateAction<BlastxReport | null>>;
@@ -10,10 +13,15 @@ type Props = {
 
 function BlastxSearcher({ setBlastx }: Props) {
     const [query, setQuery] = useState<string>("");
+    /////
+        const [dictionary, setDictionary] = useState<FastaDictionary>({});
+        const [showFileTable, setShowFileTable] = useState<boolean>(false);
+    //////
 
     const fetchData = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const response: ResponsePlumber<BlastxReport> = await PostBlastx(query);
+        console.log("QUERY: ", query)
+        const response: ResponsePlumber<BlastxReport> = await PostBlastx(query.trim());
         setBlastx(response.data);
     };
 
@@ -45,7 +53,8 @@ function BlastxSearcher({ setBlastx }: Props) {
                     </label>
                 </div>
             </Form>
-            SELECCIONAR ARCHIVO
+            <FileUp setShowTable={setShowFileTable} setDictionary={setDictionary} />
+            {dictionary ? <FastaReadTable setSequence={setQuery} showTable={showFileTable} dictionary={dictionary}  /> : <></> }
         </div>
     );
 }

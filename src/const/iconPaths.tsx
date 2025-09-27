@@ -1,4 +1,13 @@
-export type TypesIcon = "copy" | "backspace" | "binocular" | "info" | "finger" | "pie" | "upload";
+export type TypesIcon =
+    | "copy"
+    | "backspace"
+    | "binocular"
+    | "info"
+    | "finger"
+    | "pie"
+    | "upload"
+    | "burger"
+    | "search";
 
 type IconPaths = Record<TypesIcon, string[]>;
 
@@ -28,5 +37,10 @@ export const iconPaths: IconPaths = {
     upload: [
         "M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M7.5 6.707 6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0z",
     ],
-
+    burger: [
+        "M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5",
+    ],
+    search: [
+        "M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0",
+    ],
 };

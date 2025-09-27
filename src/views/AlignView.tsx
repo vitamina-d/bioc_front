@@ -1,4 +1,3 @@
-import { Card } from "react-bootstrap";
 import Header from "../Components/Header";
 import PlotAlign from "../Components/Plots/PlotAlign";
 import { useState } from "react";
@@ -10,7 +9,7 @@ function AlignView() {
     const [dataAlign, setDataAlign] = useState<DataAlign>();
 
     return (
-        <Card className="p-3 my-3 ">
+        <div className="row mx-1 ">
             <Header
                 title="Alinear"
                 text="subtitle."
@@ -30,7 +29,7 @@ function AlignView() {
             ) : (
                 ""
             )}
-        </Card>
+        </div>
     );
 }
 

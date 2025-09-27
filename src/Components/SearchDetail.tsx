@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { Button, Dropdown, Form } from "react-bootstrap";
-import type {
-    ResponsePlumber,
-} from "../types/ResponsePlumber";
+import type { ResponsePlumber } from "../types/ResponsePlumber";
 import { GetAutocomplete, GetDetail } from "../services/BioconductorServices";
 import { useNavigate } from "react-router-dom";
 import type { DataDetail } from "../types/DataPlumber";
+import { Icon } from "./Icon";
 
 type Props = {
-    search: string;
-    setSearch: React.Dispatch<React.SetStateAction<string>>;
     setDetail: React.Dispatch<React.SetStateAction<DataDetail | null>>;
+    setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function NavSearcher({ search, setSearch, setDetail }: Props) {
+function SearchDetail({ setDetail, setModalShow }: Props) {
+    const [search, setSearch] = useState<string>("");
+
     const [desplegable, setDesplegable] = useState<string[]>([]);
     const navigate = useNavigate();
 
@@ -36,9 +36,10 @@ function NavSearcher({ search, setSearch, setDetail }: Props) {
         }
     };
 
-    //click en Searcher DETAIL BREVE
+    //click en Searcher DETAIL BREVE - submit
     const searchDetail = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setModalShow(false);
         setDetail(null);
         console.log("SEARCH: ", search);
 
@@ -48,10 +49,10 @@ function NavSearcher({ search, setSearch, setDetail }: Props) {
             );
             setDetail(response.data);
             if (response.code == 200) {
-                navigate("/home");
+                navigate("/detail");
             }
-        } catch (err) {
-            console.error(err);
+        } catch {
+            navigate("notfound");
         }
     };
     return (
@@ -105,9 +106,7 @@ function NavSearcher({ search, setSearch, setDetail }: Props) {
                         type="submit"
                         disabled={search == ""}
                     >
-                        <svg width="16" height="16" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                        </svg>
+                        <Icon type={"search"} />
                     </Button>
                 </label>
             </div>
@@ -115,4 +114,4 @@ function NavSearcher({ search, setSearch, setDetail }: Props) {
     );
 }
 
-export default NavSearcher;
+export default SearchDetail;

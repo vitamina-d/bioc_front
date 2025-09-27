@@ -15,10 +15,8 @@ function BlastxTable({ data }: Props) {
     console.log(data);
 
     return (
-        hits &&
-        stat && (
             <>
-                <Table className="font-monospace fontsize-sm" bordered hover responsive >
+                {hits ? <Table className="font-monospace fontsize-sm" bordered hover responsive >
                     <thead>
                         <tr>
                             <th>Hit</th>
@@ -31,8 +29,8 @@ function BlastxTable({ data }: Props) {
                             <th>Description</th>
                             <th>Taxid</th>
                             <th>Specie</th>
-                            <th>PDB ID</th>
-                            <th>HSP</th>
+                            <th>PDB ID TODO</th>
+                            <th>More</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -101,7 +99,7 @@ function BlastxTable({ data }: Props) {
                                                     <thead>
                                                         <tr>
                                                             <th>Sequence</th>
-                                                            <th>Align</th>
+                                                            <th>Align TODO</th>
                                                             <th>Range</th>
                                                             <th>Frame</th>
                                                             <th>Gaps</th>
@@ -205,16 +203,12 @@ function BlastxTable({ data }: Props) {
                             );
                         })}
                     </tbody>
-                </Table>
-                <BlastxStat data={stat} />
+                </Table> : <p>NO HITS </p>
+                }
+                {stat ? <BlastxStat data={stat} />  : ""}
             </>
         )
-    );
+    ;
 }
 
 export default BlastxTable;
-/*
-                           
-                            
- 
-*/
