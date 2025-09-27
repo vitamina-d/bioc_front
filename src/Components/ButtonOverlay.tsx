@@ -7,10 +7,10 @@ type Props = {
     sequence?: string;
     typeIcon: TypesIcon;
 } & ButtonProps;
-
+//className="d-flex justify-content-end ms-2"
 function ButtonOverlay({ textHover, sequence, typeIcon, ...prop }: Props) {
     return (
-        <div className="d-flex justify-content-end ms-2">
+        <div >
             <OverlayTrigger overlay={<Tooltip>{textHover}</Tooltip>}>
                 <span className="d-inline-block">
                     <Button

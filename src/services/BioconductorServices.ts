@@ -4,6 +4,7 @@ import type {
     DataAlign,
     DataComplement,
     DataDetail,
+    DataEntrez,
     DataFullDetail,
     DataPercent,
     DataSequence,
@@ -151,6 +152,17 @@ const getMessage = async (msg: string): Promise<string> => {
     return data;
 };
 
+const getEntrez = async (value: string): Promise<ResponsePlumber<DataEntrez>> => {
+    console.log(value)
+    const response = await fetch(
+        `${DOTNET_BIOCONDUCTOR_URL}/entrez/${value}`
+    );
+    console.log(response)
+    const data = await response.json();
+    console.log(data)
+    return data;
+};
+
 export {
     GetAlign,
     GetAutocomplete,
@@ -162,4 +174,5 @@ export {
     GetStats,
     GetSequenceByRange,
     getMessage,
+    getEntrez
 };

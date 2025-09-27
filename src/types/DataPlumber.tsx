@@ -75,9 +75,13 @@ export type DataStats = {
 export type DataTable = {
     count: number;
     table: Id[];
-}
+};
 
 export type Id = {
     ENTREZID: string;
     SYMBOL: string;
-}
+};
+
+export type DataEntrez = {
+    entrez: string;
+};

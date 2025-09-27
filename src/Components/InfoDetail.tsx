@@ -1,16 +1,18 @@
 import { CardBody, Col, Row } from "react-bootstrap";
 import type { DataDetail } from "../types/DataPlumber";
+import type { ReactNode } from "react";
 
 type Props = {
     data: DataDetail | null;
+    children:ReactNode;
 };
 
-function InfoDetail({ data }: Props) {
+function InfoDetail({ data, children }: Props) {
     return (
         data && (
             <>
                 <CardBody className="mb-3">
-                    <Row>
+                    <Row  className="d-flex align-items-center">
                         <Col lg={1} className="text-center">
                             <div>Entrez</div>
                             <div className="text-muted">{data.entrez}</div>
@@ -27,10 +29,16 @@ function InfoDetail({ data }: Props) {
                             <div>Symbol</div>
                             <div className="text-muted ">{data.symbol}</div>
                         </Col>
-                        <Col lg={4} className="text-center">
+                        <Col lg={3} className="text-center">
                             <div>Alias</div>
                             <div className="text-muted ">
                                 {data.alias ? data.alias.join(", ") : "—"}
+                            </div>
+                        </Col>
+                        <Col lg={1} className="text-center">
+                            <div>More</div>
+                            <div>
+                                {children}
                             </div>
                         </Col>
                     </Row>

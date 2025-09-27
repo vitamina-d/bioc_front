@@ -1,62 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardHeader } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import { GetFullDetail, GetStats } from "../services/BioconductorServices";
+import { GetDetail, GetFullDetail } from "../services/BioconductorServices";
 import { SummaryService } from "../services/PublicServices";
 import type { ResponsePlumber } from "../types/ResponsePlumber";
-import type {
-    DataDetail,
-    DataFullDetail,
-    DataStats,
-} from "../types/DataPlumber";
+import type { DataDetail, DataFullDetail } from "../types/DataPlumber";
 import InfoDetail from "../Components/InfoDetail";
-import PercentPlots from "../Components/PercentPlots";
 import ButtonOverlay from "../Components/ButtonOverlay";
 import InfoFullDetail from "../Components/InfoFullDetail";
-import SequenceShow from "../Components/SequenceShow";
+import { useParams } from "react-router-dom";
 
-type Props = {
-    detail: DataDetail | null;
-};
-
-function DetailView({ detail }: Props) {
-    
+function DetailView() {
+    const { entrezId } = useParams();
+    const [detail, setDetail] = useState<DataDetail | null>(null);
     const [summary, setSummary] = useState<ResponsePublicSummary>();
     const [fullDetail, setFullDetail] = useState<DataFullDetail>();
-    const [dataStats, setDataStats] = useState<DataStats | null>(null);
 
-    //ultimos consultados
-    if (!detail) return <>Nothing found, search again</>;
-    const entrez = detail.entrez;
+    useEffect(() => {
+        const fetchDetail = async () => {
+            console.log("PARAMS", entrezId);
+            try {
+                const response = await GetDetail(entrezId!); //! existe
+                setDetail(response.data);
+            } catch {
+                console.log("no se encontro");
+            }
+        };
+        fetchDetail();
+    }, [entrezId]);
 
     const getFull = async () => {
         setFullDetail(undefined);
         setSummary(undefined);
         try {
-            const publicResponse: ResponsePublicSummary = await SummaryService(
-                entrez
+            const publicRes: ResponsePublicSummary = await SummaryService(
+                entrezId!
             );
-            console.log(publicResponse);
-            setSummary(publicResponse);
+            console.log(publicRes);
+            setSummary(publicRes);
             const biocResponse: ResponsePlumber<DataFullDetail> =
-                await GetFullDetail(entrez);
+                await GetFullDetail(entrezId!);
             console.log(biocResponse);
             setFullDetail(biocResponse.data);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    const getStats = async () => {
-        try {
-            const seqAndStats: ResponsePlumber<DataStats> = await GetStats(
-                entrez,
-                true
-            );
-            console.log(seqAndStats);
-            console.log(seqAndStats.data);
-
-            setDataStats(seqAndStats.data);
         } catch (err) {
             console.error(err);
         }
@@ -65,7 +50,7 @@ function DetailView({ detail }: Props) {
     return (
         <Card className=" font-monospace text-muted text-small">
             <CardHeader>
-                <div className="d-flex align-items-center p-3">
+                <div className=" ps-2 pt-1 d-flex align-items-center">
                     <img
                         src="../../public/chromosome.png"
                         alt="icono"
@@ -76,39 +61,23 @@ function DetailView({ detail }: Props) {
                             objectFit: "cover",
                         }}
                     />
-                    <div>
-                        <h5 className="card-title mb-1">
-                            {detail ? detail.symbol : "Search"}
-                        </h5>
-                    </div>
+                    <h5 className="card-title mb-1">find:{entrezId}</h5>
+                </div>
+            </CardHeader>
+            <Card.Body>
+                {/* DETAIL COMUN */}
+                <InfoDetail data={detail}>
                     <ButtonOverlay
-                        textHover={"Detail"}
+                        textHover={"FullDetail"}
                         typeIcon={"binocular"}
                         onClick={getFull}
                         variant="outline-secondary"
                         size="lg"
                     />
-                    <ButtonOverlay
-                        textHover={"Sequence"}
-                        typeIcon={"finger"}
-                        onClick={getStats}
-                        variant="outline-primary"
-                        size="lg"
-                    />
-                </div>
-            </CardHeader>
-            <Card.Body>
-                <InfoDetail data={detail} />
-                <InfoFullDetail dataPublic={summary} dataPlumber={fullDetail} />
-                {dataStats ? (
-                    <>
-                        <SequenceShow sequence={dataStats.sequence} />
+                </InfoDetail>
 
-                        <PercentPlots dataStats={dataStats} />
-                    </>
-                ) : (
-                    ""
-                )}
+                {/* MAS DETAIL */}
+                <InfoFullDetail dataPublic={summary} dataPlumber={fullDetail} />
             </Card.Body>
         </Card>
     );

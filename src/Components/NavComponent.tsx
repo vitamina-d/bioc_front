@@ -1,6 +1,5 @@
 import Navbar from "react-bootstrap/Navbar";
 import SearchDetail from "./SearchDetail";
-import type { DataDetail } from "../types/DataPlumber";
 import OffCanvasComponent from "./OffCanvasComponent";
 import { Button, Nav } from "react-bootstrap";
 import { Icon } from "./Icon";
@@ -8,15 +7,11 @@ import { useState } from "react";
 import ModalSearch from "./ModalSearch";
 import { Link, useLocation } from "react-router-dom";
 
-type Props = {
-    setDetail: React.Dispatch<React.SetStateAction<DataDetail | null>>;
-};
-
-function NavComponent({ setDetail }: Props) {
+function NavComponent() {
     const location = useLocation();
     const [showOffCanva, setShowOffCanva] = useState(false);
     const [modalShow, setModalShow] = useState(false);
-    const page: string = location.pathname;
+    const namePage: string = location.pathname;
 
     return (
         <Navbar className="d-flex" expand="lg" bg="dark" sticky="top">
@@ -33,7 +28,7 @@ function NavComponent({ setDetail }: Props) {
                     >
                         <Icon type={"burger"} />
                     </Button>
-                    <Nav.Link className="text-white " as={Link} to="/search">
+                    <Nav.Link className="text-white " as={Link} to="/home">
                         <img
                             src={"../../public/gene.png"}
                             width="30"
@@ -41,7 +36,7 @@ function NavComponent({ setDetail }: Props) {
                             className="d-inline-block mx-3"
                             alt="Logo"
                         />
-                        {page}
+                        {namePage}
                     </Nav.Link>
                 </div>
                 <div className="  pe-2 pt-1 d-flex">
@@ -55,10 +50,7 @@ function NavComponent({ setDetail }: Props) {
                 </div>
             </div>
             <ModalSearch modalShow={modalShow} setModalShow={setModalShow}>
-                <SearchDetail
-                    setDetail={setDetail}
-                    setModalShow={setModalShow}
-                />{" "}
+                <SearchDetail />
             </ModalSearch>
         </Navbar>
     );

@@ -15,14 +15,11 @@ function App() {
 
     return (
         <BrowserRouter>
-            <NavComponent setDetail={setDetail} />
+            <NavComponent />
             <Routes>
+                <Route path="/detail/:entrezId" element={<DetailView />} />
                 <Route
-                    path="/detail"
-                    element={<DetailView detail={detail} />}
-                />
-                <Route
-                    path="/search"
+                    path="/home"
                     element={
                         <SearchView detail={detail} setDetail={setDetail} />
                     }

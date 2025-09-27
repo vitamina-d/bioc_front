@@ -4,16 +4,13 @@ import { Link } from "react-router-dom";
 
 type Props = {
     setShowOffCanva: React.Dispatch<React.SetStateAction<boolean>>;
-} 
+};
 
 function Navigation({ setShowOffCanva }: Props) {
     return (
-        <Navbar expand={false} >
+        <Navbar expand={false}>
             <Nav onClick={() => setShowOffCanva(false)}>
-                <Nav.Link className="text-white" as={Link} to="/detail">
-                    Detail
-                </Nav.Link>
-                <Nav.Link className="text-white" as={Link} to="/search">
+                <Nav.Link className="text-white" as={Link} to="/home">
                     Search
                 </Nav.Link>
                 <Nav.Link className="text-white" as={Link} to="/align">

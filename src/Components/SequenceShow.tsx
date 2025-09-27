@@ -4,11 +4,13 @@ import { Stack } from "react-bootstrap";
 
 type Props = {
     sequence: string;
+    row?:number;
 };
 
-function SequenceShow({ sequence }: Props) {
-    let row = Math.round(sequence.length / 125);
-    row = Math.max(Math.min(row, 20), 4);
+function SequenceShow({ sequence, row }: Props) {
+    
+    let calculateRow = Math.round(sequence.length / 125);
+    calculateRow = Math.max(Math.min(calculateRow, 20), 4);
     const copySequence = () => {
         navigator.clipboard.writeText(sequence);
     };
@@ -19,7 +21,7 @@ function SequenceShow({ sequence }: Props) {
                 title={"Sequence"}
                 sequence={sequence}
                 readOnly={true}
-                rows={row}
+                rows={row ? row : calculateRow}
             />
             <Stack
                 direction="horizontal"

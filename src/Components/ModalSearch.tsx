@@ -17,7 +17,7 @@ function ModalSearch({ modalShow, setModalShow, children }: Props) {
                 contentClassName="p-3 font-monospace text-small"
             >
                 <Modal.Header closeButton onClick={() => setModalShow(false)}>
-                    Search
+                    Search Detail
                 </Modal.Header>
                 <Modal.Body className="mx-3 small">{children}</Modal.Body>
                 <Modal.Footer>
