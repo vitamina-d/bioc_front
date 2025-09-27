@@ -85,7 +85,7 @@ function DetailView({ detail }: Props) {
                         textHover={"Detail"}
                         typeIcon={"binocular"}
                         onClick={getFull}
-                        variant="outline-dark"
+                        variant="outline-secondary"
                         size="lg"
                     />
                     <ButtonOverlay

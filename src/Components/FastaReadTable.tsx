@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 type Props = {
     dictionary: FastaDictionary;
     showTable: boolean;
-    setSequence: React.Dispatch<React.SetStateAction<string>>
+    setSequence: React.Dispatch<React.SetStateAction<string>>;
 };
 
 function FastaReadTable({ dictionary, showTable, setSequence }: Props) {
@@ -25,22 +25,23 @@ function FastaReadTable({ dictionary, showTable, setSequence }: Props) {
     };
 
     const selectAll = () => {
-        if (selected.length < headers.length ) {
+        if (selected.length < headers.length) {
             setSelected(headers);
         } else {
             setSelected([]);
         }
     };
     const checkAll = () => {
-        if (selected.length == headers.length ) {
+        if (selected.length == headers.length) {
             return true;
         } else {
             return false;
         }
-    };        
+    };
 
     const showSelectedSequences = () => {
-        const sequence = selected.map((header) => dictionary[header]).join("");
+        const inOrder = headers.filter((header) => selected.includes(header));
+        const sequence = inOrder.map((header) => dictionary[header]).join("");
         setSequence(sequence);
     };
 

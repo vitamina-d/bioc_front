@@ -34,7 +34,7 @@ function BlastxTable({ data }: Props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {hits.map((hit, idx) => {
+                        {hits.map((hit, hit_idx) => {
                             const text = hit.description[0].title;
                             const description = text
                                 .split(",")[1]
@@ -49,14 +49,14 @@ function BlastxTable({ data }: Props) {
                                     <tr key={hit.num}>
                                         <td>{hit.num}</td>
                                         <td>{hit.len}</td>
-                                        {hit.hsps.map((hsp) => (
-                                            <>
+                                        {hit.hsps.map((hsp, hsp_idx) => (
+                                            <div key={hsp_idx} >
                                                 <td>{hsp.bit_score}</td>
                                                 <td>{hsp.score}</td>
                                                 <td>{hsp.evalue}</td>
                                                 <td>{hsp.identity}</td>
                                                 <td>{hsp.positive}</td>
-                                            </>
+                                            </div>
                                         ))}
                                         <td>{description}</td>
                                         <td>{hit.description[0].taxid}</td>
@@ -64,7 +64,7 @@ function BlastxTable({ data }: Props) {
                                         <td>
                                             {hit.description.map((item) => (
                                                 <Badge
-                                                
+                                                    key={item.id}
                                                     className="ms-1"
                                                     bg="dark"
                                                 >
@@ -77,13 +77,13 @@ function BlastxTable({ data }: Props) {
                                                 size="sm"
                                                 onClick={() =>
                                                     setOpenRow(
-                                                        openRow === idx
+                                                        openRow === hit_idx
                                                             ? null
-                                                            : idx
+                                                            : hit_idx
                                                     )
                                                 }
                                             >
-                                                {openRow === idx
+                                                {openRow === hit_idx
                                                     ? "Hide"
                                                     : "Show"}
                                             </Button>
@@ -94,7 +94,7 @@ function BlastxTable({ data }: Props) {
                                             colSpan={12}
                                             className="border-0 p-0"
                                         >
-                                            <Collapse in={openRow === idx}>
+                                            <Collapse in={openRow === hit_idx}>
                                                 <Table bordered hover>
                                                     <thead>
                                                         <tr>

@@ -1,5 +1,6 @@
 import { CardBody, Col, ListGroup, Row } from "react-bootstrap";
 import type { DataFullDetail } from "../types/DataPlumber";
+import { Fragment } from "react/jsx-runtime";
 
 type Props = {
     data: DataFullDetail;
@@ -22,8 +23,8 @@ function InfoPlumber({ data }: Props) {
                         <Col xs={9}>{data.citogenetic} </Col>
                     </Row>
                 </ListGroup.Item>
-                {data.location.map((item) => (
-                    <>
+                {data.location.map((item, idx) => (
+                    <Fragment key={idx}>
                         <ListGroup.Item>
                             <Row>
                                 <Col xs={3}>Chromosome</Col>
@@ -50,7 +51,7 @@ function InfoPlumber({ data }: Props) {
                                 <Col xs={9}>{item.length}</Col>
                             </Row>
                         </ListGroup.Item>
-                    </>
+                    </Fragment>
                 ))}
                 <ListGroup.Item>
                     <Row>
