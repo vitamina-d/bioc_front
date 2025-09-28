@@ -40,14 +40,16 @@ function BlastxTable({ data }: Props) {
                             <th>Taxid</th>
                             <th>ACCESION</th>
 
-                            <th>Specie</th>
-                            <th>PDB ID BADGE</th>
                             <th>More</th>
                         </tr>
                     </thead>
                     <tbody>
                         {hits.map((hit, hit_idx) => {
-                            
+                            const chains: string[] = [];
+                            const names: string[] = [];
+                            const species: string[] = [];
+                            const taxids: number[] = [];
+                            const badges: string[] = [];
                             return (
                                 <>
                                     <tr key={hit.num}>
@@ -62,42 +64,51 @@ function BlastxTable({ data }: Props) {
                                                 <td>{hsp.positive}</td>
                                             </>
                                         ))}
-                                        {hit.description.map(
-                                            (item) => {
-                                                console.log("DESCRIPTION");
-                                                const list =
-                                                    item.title.split(",");
-                                                const chain: string = list[0];
-                                                const name: string = list[1]
-                                                    .split("[")[0]
-                                                    .trim();
-                                                const specie: string = list[1]
-                                                    .split(name)[1]
-                                                    .trim();
+                                        {hit.description.map((item) => {
+                                            console.log("DESCRIPTION");
+                                            //const list = item.title.split(",");
+                                            const chain: string = item.title.split(",")[0]; //ok
+                                            const name: string =  item.title
+                                            .replace(chain + ",", "")   // - chain
+                                            .replace(/\[.*?\]$/, "")    // - specie
+                                            .trim();
 
-                                                return (
-                                                    <>
-                                                        <td>{chain}</td>
-                                                        <td>{name}</td>
-                                                        <td>{specie}</td>
-                                                        <td>{item.taxid}</td>
-                                                        <td>
+                                            const corchetes = item.title.match(/\[(.*?)\]$/);
+                                            const specie = corchetes ? corchetes[1] : "";
+                                            //const specie: string = list[1].split(name)[1].trim();
+
+                                            if (!chains.includes(chain)) {
+                                                chains.push(chain);
+                                            }
+                                            if (!names.includes(name)) {
+                                                names.push(name);
+                                            }
+                                            if (!species.includes(specie)) {
+                                                species.push(specie);
+                                            }
+                                            if (!taxids.includes(item.taxid)) {
+                                                taxids.push(item.taxid);
+                                            }
+                                            if (!badges.includes(item.accession)) {
+                                                badges.push(item.accession);
+                                            }
+                                            return (<></>);
+                                        })}
+                                                    <td>{chains}</td>
+                                                    <td>{names}</td>
+                                                    <td>{species}</td>
+                                                    <td>{taxids}</td>
+                                                    <td>
+                                                        {badges.map((bg, id) => (
                                                             <Badge
-                                                                key={item.id}
+                                                                key={id}
                                                                 className="ms-1"
                                                                 bg="dark"
                                                             >
-                                                                {item.accession}
+                                                                {bg}
                                                             </Badge>
-                                                        </td>
-                                                    </>
-                                                );
-                                            }
-                                        )}
-
-
-                          
-                                       
+                                                        ))}
+                                                    </td>
                                         <td>
                                             <Button
                                                 size="sm"
