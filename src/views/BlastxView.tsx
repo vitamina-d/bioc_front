@@ -3,7 +3,6 @@ import Header from "../Components/Header";
 import type { BlastxReport } from "../types/DataBlastx";
 import { useState, type FormEvent } from "react";
 import BlastxTable from "../Components/BlastxTable";
-import BlastxSearch from "../Components/BlastxSearch";
 import SequenceViewer from "../Components/SequenceViewer";
 import type { ResponsePlumber } from "../types/ResponsePlumber";
 import { PostBlastx } from "../services/BlastServices";
@@ -18,6 +17,7 @@ function BlastxView() {
         const response: ResponsePlumber<BlastxReport> = await PostBlastx(
             sequence.trim()
         );
+        console.log(response)
         setBlastx(response.data);
     };
     return (
@@ -27,22 +27,21 @@ function BlastxView() {
                 text="Hits"
                 imageSrc="../../public/search-gene.png"
             />
-            <SequenceViewer
-                title={"Query"}
-                sequence={sequence}
-                setSequence={setSequence}
-                readonly={false}
-            />
             <Form onSubmit={fetchData}>
-                <Form.Control
-                    as="textarea"
-                    rows={5}
-                    value={sequence}
-                    onChange={(e) => setSequence(e.target.value)}
-                />
-                <Button type="submit">blastx</Button>
-            </Form>{" "}
-            <BlastxSearch setBlastx={setBlastx} />
+                <SequenceViewer
+                    title={"Query"}
+                    sequence={sequence}
+                    setSequence={setSequence}
+                    readonly={false}
+                >
+                    <div className="d-flex justify-content-end">
+                        <Button size={"sm"} type="submit">
+                            blastx
+                        </Button>
+                    </div>
+                </SequenceViewer>
+            </Form>
+           { /*<BlastxSearch setBlastx={setBlastx} />*/}
             <Card.Body>{blastx ? <BlastxTable data={blastx} /> : ""}</Card.Body>
         </div>
     );

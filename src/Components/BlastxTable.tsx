@@ -15,63 +15,89 @@ function BlastxTable({ data }: Props) {
     console.log(data);
 
     return (
-            <>
-                {hits ? <Table className="font-monospace fontsize-sm" bordered hover responsive >
+        <>
+            {hits ? (
+                <Table
+                    className="font-monospace fontsize-sm"
+                    bordered
+                    hover
+                    size="sm"
+                >
                     <thead>
                         <tr>
                             <th>Hit</th>
                             <th>Len</th>
+
                             <th>Bitscore</th>
                             <th>Score</th>
                             <th>Evalue</th>
                             <th>Identity</th>
                             <th>Positive</th>
-                            <th>Description</th>
-                            <th>Taxid</th>
+
+                            <th>Chain</th>
+                            <th>Name</th>
                             <th>Specie</th>
-                            <th>PDB ID TODO</th>
+                            <th>Taxid</th>
+                            <th>ACCESION</th>
+
+                            <th>Specie</th>
+                            <th>PDB ID BADGE</th>
                             <th>More</th>
                         </tr>
                     </thead>
                     <tbody>
                         {hits.map((hit, hit_idx) => {
-                            const text = hit.description[0].title;
-                            const description = text
-                                .split(",")[1]
-                                .split("[")[0]
-                                .trim();
-                            const match = text.match(/\[(.*?)\]/); //corchetes
-                            const especie = match ? match[1] : null;
-
+                            
                             return (
                                 <>
-                                    {" "}
                                     <tr key={hit.num}>
                                         <td>{hit.num}</td>
                                         <td>{hit.len}</td>
-                                        {hit.hsps.map((hsp, hsp_idx) => (
-                                            <div key={hsp_idx} >
+                                        {hit.hsps.map((hsp) => (
+                                            <>
                                                 <td>{hsp.bit_score}</td>
                                                 <td>{hsp.score}</td>
                                                 <td>{hsp.evalue}</td>
                                                 <td>{hsp.identity}</td>
                                                 <td>{hsp.positive}</td>
-                                            </div>
+                                            </>
                                         ))}
-                                        <td>{description}</td>
-                                        <td>{hit.description[0].taxid}</td>
-                                        <td>{especie}</td>
-                                        <td>
-                                            {hit.description.map((item) => (
-                                                <Badge
-                                                    key={item.id}
-                                                    className="ms-1"
-                                                    bg="dark"
-                                                >
-                                                    {item.accession}
-                                                </Badge>
-                                            ))}
-                                        </td>
+                                        {hit.description.map(
+                                            (item) => {
+                                                console.log("DESCRIPTION");
+                                                const list =
+                                                    item.title.split(",");
+                                                const chain: string = list[0];
+                                                const name: string = list[1]
+                                                    .split("[")[0]
+                                                    .trim();
+                                                const specie: string = list[1]
+                                                    .split(name)[1]
+                                                    .trim();
+
+                                                return (
+                                                    <>
+                                                        <td>{chain}</td>
+                                                        <td>{name}</td>
+                                                        <td>{specie}</td>
+                                                        <td>{item.taxid}</td>
+                                                        <td>
+                                                            <Badge
+                                                                key={item.id}
+                                                                className="ms-1"
+                                                                bg="dark"
+                                                            >
+                                                                {item.accession}
+                                                            </Badge>
+                                                        </td>
+                                                    </>
+                                                );
+                                            }
+                                        )}
+
+
+                          
+                                       
                                         <td>
                                             <Button
                                                 size="sm"
@@ -203,12 +229,13 @@ function BlastxTable({ data }: Props) {
                             );
                         })}
                     </tbody>
-                </Table> : <p>NO HITS </p>
-                }
-                {stat ? <BlastxStat data={stat} />  : ""}
-            </>
-        )
-    ;
+                </Table>
+            ) : (
+                <p>NO HITS </p>
+            )}
+            {stat ? <BlastxStat data={stat} /> : ""}
+        </>
+    );
 }
 
 export default BlastxTable;

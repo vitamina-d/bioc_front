@@ -48,51 +48,53 @@ function FastaReadTable({ dictionary, showTable, setSequence }: Props) {
     return (
         showTable && (
             <>
-                {" "}
-                <Table
-                    bordered
-                    hover
-                    size="sm"
-                    className="font-monospace small"
-                >
-                    <thead className="small">
-                        <tr className="text-center">
-                            <th>Header</th>
-                            <th>Length</th>
-                            <th>
-                                <Form.Check
-                                    type="checkbox"
-                                    checked={checkAll()}
-                                    onChange={() => selectAll()}
-                                />
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody className="small">
-                        {headers.map((header) => (
-                            <tr
-                                key={header}
-                                style={{ cursor: "pointer" }}
-                                onClick={() => selectHeader(header)}
-                            >
-                                <td>{header}</td>
-                                <td className="text-center">
-                                    {dictionary[header].length}
-                                </td>
-                                <td className="text-center">
+                <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                    <Table
+                        bordered
+                        hover
+                        size="sm"
+                        className="font-monospace small"
+                    >
+                        <thead className="small">
+                            <tr className="text-center">
+                                <th>Header</th>
+                                <th>Length</th>
+                                <th>
                                     <Form.Check
                                         type="checkbox"
-                                        checked={selected.includes(header)}
-                                        onChange={(e) => {
-                                            e.stopPropagation(); // evita que el click dispare dos veces selectHeader
-                                            selectHeader(header);
-                                        }}
+                                        checked={checkAll()}
+                                        onChange={() => selectAll()}
                                     />
-                                </td>
+                                </th>
                             </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                        </thead>
+
+                        <tbody className="small">
+                            {headers.map((header) => (
+                                <tr
+                                    key={header}
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => selectHeader(header)}
+                                >
+                                    <td>{header}</td>
+                                    <td className="text-center">
+                                        {dictionary[header].length}
+                                    </td>
+                                    <td className="text-center">
+                                        <Form.Check
+                                            type="checkbox"
+                                            checked={selected.includes(header)}
+                                            onChange={(e) => {
+                                                e.stopPropagation(); // evita que el click dispare dos veces selectHeader
+                                                selectHeader(header);
+                                            }}
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </div>
                 <div className="d-flex justify-content-end">
                     <Button
                         onClick={showSelectedSequences}
