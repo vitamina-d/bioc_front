@@ -1,7 +1,8 @@
-import { Badge, Button, Collapse, Table } from "react-bootstrap";
+import { Button, Collapse, Table } from "react-bootstrap";
 import type { BlastxReport } from "../types/DataBlastx";
 import BlastxStat from "./BlastxStat";
 import { useState } from "react";
+import BadgeProtein from "./BadgeProtein";
 
 type Props = {
     data?: BlastxReport;
@@ -67,14 +68,18 @@ function BlastxTable({ data }: Props) {
                                         {hit.description.map((item) => {
                                             console.log("DESCRIPTION");
                                             //const list = item.title.split(",");
-                                            const chain: string = item.title.split(",")[0]; //ok
-                                            const name: string =  item.title
-                                            .replace(chain + ",", "")   // - chain
-                                            .replace(/\[.*?\]$/, "")    // - specie
-                                            .trim();
+                                            const chain: string =
+                                                item.title.split(",")[0]; //ok
+                                            const name: string = item.title
+                                                .replace(chain + ",", "") // - chain
+                                                .replace(/\[.*?\]$/, "") // - specie
+                                                .trim();
 
-                                            const corchetes = item.title.match(/\[(.*?)\]$/);
-                                            const specie = corchetes ? corchetes[1] : "";
+                                            const corchetes =
+                                                item.title.match(/\[(.*?)\]$/);
+                                            const specie = corchetes
+                                                ? corchetes[1]
+                                                : "";
                                             //const specie: string = list[1].split(name)[1].trim();
 
                                             if (!chains.includes(chain)) {
@@ -89,26 +94,26 @@ function BlastxTable({ data }: Props) {
                                             if (!taxids.includes(item.taxid)) {
                                                 taxids.push(item.taxid);
                                             }
-                                            if (!badges.includes(item.accession)) {
+                                            if (
+                                                !badges.includes(item.accession)
+                                            ) {
                                                 badges.push(item.accession);
                                             }
-                                            return (<></>);
+                                            return <></>;
                                         })}
-                                                    <td>{chains}</td>
-                                                    <td>{names}</td>
-                                                    <td>{species}</td>
-                                                    <td>{taxids}</td>
-                                                    <td>
-                                                        {badges.map((bg, id) => (
-                                                            <Badge
-                                                                key={id}
-                                                                className="ms-1"
-                                                                bg="dark"
-                                                            >
-                                                                {bg}
-                                                            </Badge>
-                                                        ))}
-                                                    </td>
+                                        <td>{chains}</td>
+                                        <td>{names}</td>
+                                        <td>{species}</td>
+                                        <td>{taxids}</td>
+                                        <td>
+                                            {badges.map((bg) => {
+
+                                                console.log("BADGE envia -------------",bg)
+                                                return <BadgeProtein key={bg} 
+                                                    name={bg}
+                                                    ></BadgeProtein>
+                                                })}
+                                        </td>
                                         <td>
                                             <Button
                                                 size="sm"
