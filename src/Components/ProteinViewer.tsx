@@ -4,9 +4,11 @@ import * as $3Dmol from "3dmol";
 type Props = {
     pdbId: string;
     style?: "stick" | "cartoon" | "line" | "sphere"; //renderizado
+    chain?: string;
 };
 
-function MolstarViewer({ pdbId, style = "stick" }: Props) {
+function MolstarViewer({ pdbId, style = "stick", chain }: Props) {
+    console.log("received chain protein -------------------------- ", chain)
     const htmlElem = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

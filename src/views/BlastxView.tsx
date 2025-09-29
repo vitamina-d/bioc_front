@@ -1,4 +1,4 @@
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Container, Form } from "react-bootstrap";
 import Header from "../Components/Header";
 import type { BlastxReport } from "../types/DataBlastx";
 import { useState, type FormEvent } from "react";
@@ -17,11 +17,11 @@ function BlastxView() {
         const response: ResponsePlumber<BlastxReport> = await PostBlastx(
             sequence.trim()
         );
-        console.log(response)
+        console.log(response);
         setBlastx(response.data);
     };
     return (
-        <div className="row mx-1 ">
+        <Container fluid className="mt-3">
             <Header
                 title="Blastx"
                 text="Hits"
@@ -41,9 +41,9 @@ function BlastxView() {
                     </div>
                 </SequenceViewer>
             </Form>
-           { /*<BlastxSearch setBlastx={setBlastx} />*/}
+            {/*<BlastxSearch setBlastx={setBlastx} />*/}
             <Card.Body>{blastx ? <BlastxTable data={blastx} /> : ""}</Card.Body>
-        </div>
+        </Container>
     );
 }
 

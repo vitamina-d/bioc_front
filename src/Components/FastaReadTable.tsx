@@ -48,7 +48,7 @@ function FastaReadTable({ dictionary, showTable, setSequence }: Props) {
     return (
         showTable && (
             <>
-                <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                <div style={{ maxHeight: "300px", maxWidth:"fit-content", overflowY: "auto" }}>
                     <Table
                         bordered
                         hover

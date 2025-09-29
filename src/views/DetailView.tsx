@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, CardHeader } from "react-bootstrap";
+import { Card, CardHeader, Container } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import { GetDetail, GetFullDetail } from "../services/BioconductorServices";
 import { SummaryService } from "../services/PublicServices";
@@ -48,38 +48,43 @@ function DetailView() {
     };
 
     return (
-        <Card className=" font-monospace text-muted text-small">
-            <CardHeader>
-                <div className=" ps-2 pt-1 d-flex align-items-center">
-                    <img
-                        src="../../public/chromosome.png"
-                        alt="icono"
-                        className="me-2 rounded-circle"
-                        style={{
-                            width: "40px",
-                            height: "40px",
-                            objectFit: "cover",
-                        }}
-                    />
-                    <h5 className="card-title mb-1">find:{entrezId}</h5>
-                </div>
-            </CardHeader>
-            <Card.Body>
-                {/* DETAIL COMUN */}
-                <InfoDetail data={detail}>
-                    <ButtonOverlay
-                        textHover={"FullDetail"}
-                        typeIcon={"binocular"}
-                        onClick={getFull}
-                        variant="outline-secondary"
-                        size="lg"
-                    />
-                </InfoDetail>
+        <Container fluid className="mt-3">
+            <Card className=" font-monospace text-muted text-small">
+                <CardHeader>
+                    <div className=" ps-2 pt-1 d-flex align-items-center">
+                        <img
+                            src="../../public/chromosome.png"
+                            alt="icono"
+                            className="me-2 rounded-circle"
+                            style={{
+                                width: "40px",
+                                height: "40px",
+                                objectFit: "cover",
+                            }}
+                        />
+                        <h5 className="card-title mb-1">find:{entrezId}</h5>
+                    </div>
+                </CardHeader>
+                <Card.Body>
+                    {/* DETAIL COMUN */}
+                    <InfoDetail data={detail}>
+                        <ButtonOverlay
+                            textHover={"FullDetail"}
+                            typeIcon={"binocular"}
+                            onClick={getFull}
+                            variant="outline-secondary"
+                            size="lg"
+                        />
+                    </InfoDetail>
 
-                {/* MAS DETAIL */}
-                <InfoFullDetail dataPublic={summary} dataPlumber={fullDetail} />
-            </Card.Body>
-        </Card>
+                    {/* MAS DETAIL */}
+                    <InfoFullDetail
+                        dataPublic={summary}
+                        dataPlumber={fullDetail}
+                    />
+                </Card.Body>
+            </Card>
+        </Container>
     );
 }
 

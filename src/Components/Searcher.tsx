@@ -1,4 +1,3 @@
-import type { FormEventHandler } from "react";
 import { Button, Form } from "react-bootstrap";
 import type { ButtonProps } from "react-bootstrap";
 
@@ -6,13 +5,20 @@ type SearcherProps = {
     text: string;
     input: string;
     setInput: React.Dispatch<React.SetStateAction<string>>;
-    onSubmit: FormEventHandler<HTMLFormElement>;
+    onSubmit: () => void;
+    placeholder: string;
 } & ButtonProps;
 
-function Searcher({ text, input, setInput, onSubmit, ...prop }: SearcherProps) {
+function Searcher({ text, input, setInput, onSubmit, placeholder, ...prop }: SearcherProps) {
+
+    const handleSubmit =  (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); 
+        onSubmit();
+    };
+
     return (
         <div className="row mx-1 ">
-            <Form onSubmit={(e) => onSubmit(e)}>
+            <Form onSubmit={handleSubmit}>
                 <div className="input-group mb-3 w-auto">
                     <label className="input-group-text">INPUT</label>
                     <input
@@ -20,7 +26,7 @@ function Searcher({ text, input, setInput, onSubmit, ...prop }: SearcherProps) {
                         className="form-control"
                         id="inputEntrez"
                         value={input}
-                        placeholder="Ingresa alias, symbol o entrez"
+                        placeholder={placeholder}
                         onChange={(e) => setInput(e.target.value)}
                     />
                     <label className="input-group-text p-0">

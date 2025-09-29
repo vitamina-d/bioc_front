@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import SequenceViewer from "../Components/SequenceViewer";
 import {
     GetComplement,
@@ -64,11 +64,7 @@ function SearchView({ detail, setDetail }: Props) {
             console.log(response.data);
         }
     };
-    //TO DO
-    const submitSearch = async (event: FormEvent) => {
-        event.preventDefault();
-        alert(input);
-    };
+
     const submitRange = async (event: FormEvent) => {
         event.preventDefault();
 
@@ -101,7 +97,7 @@ function SearchView({ detail, setDetail }: Props) {
     };
 
     return (
-        <div className="row mx-1 ">
+        <Container fluid className="mt-3">
             <Header
                 title="Search"
                 text="Gene"
@@ -112,8 +108,9 @@ function SearchView({ detail, setDetail }: Props) {
                 text={"Search"}
                 input={input}
                 setInput={setInput}
-                onSubmit={submitSearch}
+                onSubmit={() => alert(input)}
                 disabled={input == ""}
+                placeholder="Ingresa alias, symbol o entrez?"
             />
             {/* range */}
             <Form onSubmit={submitRange}>
@@ -180,16 +177,16 @@ function SearchView({ detail, setDetail }: Props) {
                     onClick={clearSequence}
                 />
 
-                <SequenceViewer
+                {output && <SequenceViewer
                     title={"Output"}
                     sequence={output}
                     setSequence={setOutput}
                     readonly={true}
                     onClick={clearOutput}
-                />
+                />}
             </div>
             {dataStats ? <PercentPlots dataStats={dataStats} /> : ""}
-        </div>
+        </Container>
     );
 }
 
