@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap";
+import { Card, Container } from "react-bootstrap";
 import Header from "../Components/Header";
 import ProteinViewer from "../Components/ProteinViewer";
 import { useLocation } from "react-router-dom";
@@ -19,7 +19,7 @@ function ProteinView() {
     console.log(" proteinview recibe -------------- ID", id);
 
     return (
-        <div className="row mx-1 ">
+        <Container fluid className="mt-3">
             <Header
                 title="Proteina"
                 text="3DMol."
@@ -45,7 +45,7 @@ function ProteinView() {
                     </>
                 )}
             </Card.Body>
-        </div>
+        </Container>
     );
 }
 
