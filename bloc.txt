@@ -1,9 +1,5 @@
 npm run dev
 
-TAREAS: https://trello.com/b/7RpIuSQF/vitamina
-
-https://igv.org/web/release/3.4.1/examples/cram-vcf.html 
-
 https://www.youtube.com/watch?v=yIr_1CasXkM&ab_channel=HolaMundo
 
 BOOTSTRAP:
@@ -12,10 +8,11 @@ BOOTSTRAP:
 
 PLOT
 https://plotly.com/javascript/react/
-https://plotly.com/javascript/reference/heatmap/
 
 3dmol
 https://3dmol.csb.pitt.edu/doc/tutorial-embeddable.html
+
+https://docs.openprotein.ai/rest-api/fold.html
 
 d-flex justify-content-between
     HORIZONTAL: justify-content
