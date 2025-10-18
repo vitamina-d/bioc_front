@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+/*import type { ReactNode } from "react";
 import { Button, CardImg, Modal } from "react-bootstrap";
 
 type Props = {
@@ -15,7 +15,6 @@ function ModalBasic({
     bodyChild
 }: Props) {
     return (
-        <>
             <Modal
                 show={modalShow}
                 onHide={() => setModalShow(false)}
@@ -50,8 +49,8 @@ function ModalBasic({
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </>
     );
 }
 
 export default ModalBasic;
+*/

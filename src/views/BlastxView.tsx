@@ -6,11 +6,13 @@ import BlastxTable from "../Components/BlastxTable";
 import SequenceViewer from "../Components/SequenceViewer";
 import type { ResponsePlumber } from "../types/ResponsePlumber";
 import { PostBlastx } from "../services/BlastServices";
+import ModalResultBlastx from "../Components/ModalResultBlastx";
 
 function BlastxView() {
     const [blastx, setBlastx] = useState<BlastxReport | null>(null);
     const [sequence, setSequence] = useState<string>("");
-
+    const [modalShow, setModalShow] = useState<boolean>(false);
+    
     const fetchData = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log("QUERY: ", sequence);
@@ -19,7 +21,9 @@ function BlastxView() {
         );
         console.log(response);
         setBlastx(response.data);
+        setModalShow(true);
     };
+
     return (
         <Container fluid className="mt-3">
             <Header
@@ -35,14 +39,20 @@ function BlastxView() {
                     readonly={false}
                 >
                     <div className="d-flex justify-content-end">
-                        <Button size={"sm"} type="submit">
+                        <Button variant="secondary" size={"sm"} type="submit">
                             blastx
                         </Button>
                     </div>
                 </SequenceViewer>
             </Form>
+            
+            <ModalResultBlastx modalShow={modalShow} setModalShow={setModalShow}>
+                <Card.Body>
+                    {blastx ? <BlastxTable data={blastx} /> : ""}
+                </Card.Body>
+            </ModalResultBlastx>
             {/*<BlastxSearch setBlastx={setBlastx} />*/}
-            <Card.Body>{blastx ? <BlastxTable data={blastx} /> : ""}</Card.Body>
+            
         </Container>
     );
 }

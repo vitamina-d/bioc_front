@@ -133,15 +133,15 @@ function BlastxTable({ data }: Props) {
                                     </tr>
                                     <tr>
                                         <td
-                                            colSpan={12}
+                                            colSpan={15}
                                             className="border-0 p-0"
                                         >
-                                            <Collapse in={openRow === hit_idx}>
+                                            <Collapse in={openRow === hit_idx}  className="m-0">
                                                 <Table bordered hover>
                                                     <thead>
                                                         <tr>
                                                             <th>Sequence</th>
-                                                            <th>Align TODO</th>
+                                                            <th>Align</th>
                                                             <th>Range</th>
                                                             <th>Frame</th>
                                                             <th>Gaps</th>

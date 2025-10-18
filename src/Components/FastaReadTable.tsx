@@ -49,6 +49,7 @@ function FastaReadTable({ dictionary, showTable, setSequence }: Props) {
         showTable && (
             <>
                 <div style={{ maxHeight: "300px", maxWidth:"fit-content", overflowY: "auto" }}>
+                    <p>en un modal</p>
                     <Table
                         bordered
                         hover
@@ -95,7 +96,7 @@ function FastaReadTable({ dictionary, showTable, setSequence }: Props) {
                         </tbody>
                     </Table>
                 </div>
-                <div className="d-flex justify-content-end">
+                <div className="d-flex justify-content-start">
                     <Button
                         onClick={showSelectedSequences}
                         size="sm"
