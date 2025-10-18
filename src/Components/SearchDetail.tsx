@@ -31,7 +31,7 @@ function SearchDetail({setModalShow}:Props ) {
         if (entrez) {
             navigate(`/detail/${entrez}`);
         } else {
-            navigate("/notfound");
+            navigate("/404");
         }
     };
 

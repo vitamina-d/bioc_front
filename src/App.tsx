@@ -30,7 +30,7 @@ function App() {
                 <Route path="/blastx" element={<BlastxView />} />
                 <Route path="/protein" element={<ProteinView />} />
                 <Route path="/about" element={<AboutView />} />
-                <Route path="/notfound" element={<NotFoundView />} />
+                <Route path="/404" element={<NotFoundView />} />
             </Routes>
         </BrowserRouter>
     );
