@@ -14,7 +14,7 @@ function ModalSearch({ modalShow, setModalShow, children }: Props) {
                 show={modalShow}
                 onHide={() => setModalShow(false)}
                 size="sm"
-                contentClassName="p-3 font-monospace text-small"
+                contentClassName="p-3 text-small"
             >
                 <Modal.Header closeButton onClick={() => setModalShow(false)}>
                     Search Detail
@@ -23,7 +23,7 @@ function ModalSearch({ modalShow, setModalShow, children }: Props) {
                 <Modal.Footer>
                     <Button
                         className="font-base"
-                        variant={"dark"}
+                        variant={"secondary"}
                         onClick={() => setModalShow(false)}
                     >
                         Close

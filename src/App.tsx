@@ -9,19 +9,21 @@ import type { DataDetail } from "./types/DataPlumber";
 import BlastxView from "./views/BlastxView";
 import ProteinView from "./views/ProteinView";
 import NotFoundView from "./views/NotFoundView";
+import HomeView from "./views/HomeView";
 
 function App() {
-    const [detail, setDetail] = useState<DataDetail | null>(null); //{ entrez: "0", genename: "", genetype: "", symbol: "", alias: []} );
+    const [detail, setDetail] = useState<DataDetail | null>(null); 
 
     return (
         <BrowserRouter>
-            <NavComponent />
+            <NavComponent/>
             <Routes>
+                <Route path="/" element={<HomeView />} />
                 <Route path="/detail/:entrezId" element={<DetailView />} />
                 <Route
-                    path="/home"
+                    path="/search"
                     element={
-                        <SearchView detail={detail} setDetail={setDetail} />
+                        <SearchView detail={detail} setDetail={setDetail}  />
                     }
                 />
                 <Route path="/align" element={<AlignView />} />

@@ -103,7 +103,7 @@ function SearchView({ detail, setDetail }: Props) {
                 text="Gene"
                 imageSrc="../../public/search-gene.png"
             />
-
+{/* 
             <Searcher
                 text={"Search"}
                 input={input}
@@ -112,6 +112,7 @@ function SearchView({ detail, setDetail }: Props) {
                 disabled={input == ""}
                 placeholder="Ingresa alias, symbol o entrez?"
             />
+ */}
             {/* range */}
             <Form onSubmit={submitRange}>
                 <div className="row mx-1 ">

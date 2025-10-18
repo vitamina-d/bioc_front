@@ -6,7 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { Icon } from "./Icon";
 import type { DataEntrez } from "../types/DataPlumber";
 
-function SearchDetail() {
+type Props = {
+    setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function SearchDetail({setModalShow}:Props ) {
     const navigate = useNavigate();
     const [search, setSearch] = useState<string>("");
     const [desplegable, setDesplegable] = useState<string[]>([]);
@@ -14,6 +18,7 @@ function SearchDetail() {
     //click en Searcher DETAIL BREVE - submit
     const getEntrezByValue = async (e: React.FormEvent ) => {
         e.preventDefault();
+        setModalShow(false);
         console.log("el input es: ", search);
         const getEntrezByValue: ResponsePlumber<DataEntrez> = await getEntrez(
             search
@@ -49,14 +54,14 @@ function SearchDetail() {
                 <div className="input-group w-auto">
                     <input
                         type="text"
-                        className="form-control font-monospace text-muted text-small"
+                        className="form-control text-muted text-small"
                         id="inputSymbol"
                         value={search}
                         onChange={autocomplete}
-                        placeholder="alias . . ."
+                        placeholder="Ingrese alias"
                     />
 
-                    <Button variant="dark" type="submit">
+                    <Button variant="secondary" type="submit">
                         <Icon type={"search"} />
                     </Button>
                 </div>

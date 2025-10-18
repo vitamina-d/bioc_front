@@ -28,7 +28,7 @@ function NavComponent() {
                     >
                         <Icon type={"burger"} />
                     </Button>
-                    <Nav.Link className="text-white " as={Link} to="/home">
+                    <Nav.Link className="text-white " as={Link} to="/">
                         <img
                             src={"../../public/gene.png"}
                             width="30"
@@ -50,7 +50,7 @@ function NavComponent() {
                 </div>
             </div>
             <ModalSearch modalShow={modalShow} setModalShow={setModalShow}>
-                <SearchDetail />
+                <SearchDetail setModalShow={setModalShow} />
             </ModalSearch>
         </Navbar>
     );

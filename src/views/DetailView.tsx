@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, CardHeader, Container } from "react-bootstrap";
+import { Card, CardHeader, CardImg, Container } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import { GetDetail, GetFullDetail } from "../services/BioconductorServices";
 import { SummaryService } from "../services/PublicServices";
@@ -52,7 +52,7 @@ function DetailView() {
             <Card className=" font-monospace text-muted text-small">
                 <CardHeader>
                     <div className=" ps-2 pt-1 d-flex align-items-center">
-                        <img
+                        <CardImg
                             src="../../public/chromosome.png"
                             alt="icono"
                             className="me-2 rounded-circle"
@@ -65,6 +65,9 @@ function DetailView() {
                         <h5 className="card-title mb-1">find:{entrezId}</h5>
                     </div>
                 </CardHeader>
+                </Card>
+                <Card>
+                    
                 <Card.Body>
                     {/* DETAIL COMUN */}
                     <InfoDetail data={detail}>

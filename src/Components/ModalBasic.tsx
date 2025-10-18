@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, CardImg, Modal } from "react-bootstrap";
 
 type Props = {
     modalShow: boolean;
@@ -26,7 +26,7 @@ function ModalBasic({
             >
                 <Modal.Header closeButton onClick={() => setModalShow(false)}>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        <img
+                        <CardImg
                             src="/public/chromosome.png"
                             alt="icono"
                             className="me-2 rounded-circle"

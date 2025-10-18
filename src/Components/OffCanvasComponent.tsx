@@ -18,7 +18,7 @@ function OffCanvasComponent({ showOffCanva, setShowOffCanva }: Props) {
                 
             >
                 <Offcanvas.Header>
-                    <Offcanvas.Title>
+                    <Offcanvas.Title className="font-monospace">
                         <Button
                             variant="light"
                             className="bg-light"

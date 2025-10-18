@@ -1,3 +1,4 @@
+import { CardImg } from "react-bootstrap";
 
 type Props = {
     title: string;
@@ -8,7 +9,7 @@ function Header({ title, text, imageSrc }: Props & { imageSrc?: string }) {
     return (
         <div className="d-flex align-items-center p-3">
             {imageSrc && (
-                <img
+                <CardImg
                     src={imageSrc}
                     alt="icono"
                     className="me-2 rounded-circle"

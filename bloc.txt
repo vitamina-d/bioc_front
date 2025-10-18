@@ -1,5 +1,3 @@
-npm run dev
-
 https://www.youtube.com/watch?v=yIr_1CasXkM&ab_channel=HolaMundo
 
 BOOTSTRAP:
@@ -11,8 +9,6 @@ https://plotly.com/javascript/react/
 
 3dmol
 https://3dmol.csb.pitt.edu/doc/tutorial-embeddable.html
-
-https://docs.openprotein.ai/rest-api/fold.html
 
 d-flex justify-content-between
     HORIZONTAL: justify-content
