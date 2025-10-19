@@ -45,27 +45,6 @@ const GetAutocomplete = async (
     const data = await response.json();
     return data;
 };
-//https://localhost:32769/api/Plumber/align
-const GetComplement = async (
-    seq: string,
-    to_reverse: boolean,
-    to_complement: boolean
-): Promise<ResponsePlumber<DataComplement>> => {
-    const response = await fetch(`${DOTNET_BIOCONDUCTOR_URL}/complement`, {
-        method: "POST",
-        body: JSON.stringify({
-            seq: seq,
-            to_reverse: to_reverse,
-            to_complement: to_complement,
-        }),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-    console.log(response);
-    const data = await response.json();
-    return data;
-};
 
 //https://localhost:32789/api/Plumber/detail?value=slos&full=false
 const GetDetail = async (
@@ -166,7 +145,6 @@ const getEntrez = async (value: string): Promise<ResponsePlumber<DataEntrez>> =>
 export {
     GetAlign,
     GetAutocomplete,
-    GetComplement,
     GetDetail,
     GetFullDetail,
     GetPercent,

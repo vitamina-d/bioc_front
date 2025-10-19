@@ -4,7 +4,7 @@ import OffCanvasComponent from "./OffCanvasComponent";
 import { Button, Nav } from "react-bootstrap";
 import { Icon } from "./Icon";
 import { useState } from "react";
-import ModalSearch from "./ModalSearch";
+import ModalBasic from "./ModalBasic";
 import { Link, useLocation } from "react-router-dom";
 
 function NavComponent() {
@@ -49,9 +49,9 @@ function NavComponent() {
                     </Button>
                 </div>
             </div>
-            <ModalSearch modalShow={modalShow} setModalShow={setModalShow}>
+            <ModalBasic modalShow={modalShow} setModalShow={setModalShow} size={"sm"} title={"Search by alias"}>
                 <SearchDetail setModalShow={setModalShow} />
-            </ModalSearch>
+            </ModalBasic>
         </Navbar>
     );
 }

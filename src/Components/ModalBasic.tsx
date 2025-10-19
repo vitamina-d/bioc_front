@@ -1,56 +1,37 @@
-/*import type { ReactNode } from "react";
-import { Button, CardImg, Modal } from "react-bootstrap";
+import type { ReactNode } from "react";
+import { Button, Modal } from "react-bootstrap";
 
 type Props = {
     modalShow: boolean;
     setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
-    titleChild: ReactNode;
-    bodyChild: ReactNode;
-}
+    children: ReactNode;
+    size: "sm" | "lg" | "xl" | undefined;
+    title: string;
+};
 
-function ModalBasic({
-    modalShow,
-    setModalShow,
-    titleChild,
-    bodyChild
-}: Props) {
+function ModalBasic({ modalShow, setModalShow, size, title, children }: Props) {
     return (
-            <Modal
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-                size="xl"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-                contentClassName="p-3 font-monospace text-muted text-small"
-            >
-                <Modal.Header closeButton onClick={() => setModalShow(false)}>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        <CardImg
-                            src="/public/chromosome.png"
-                            alt="icono"
-                            className="me-2 rounded-circle"
-                            style={{
-                                width: "40px",
-                                height: "40px",
-                                objectFit: "cover",
-                            }}
-                        />{titleChild}
-                        
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="mx-3 small">{bodyChild}</Modal.Body>
-                <Modal.Footer>
-                    <Button
-                        className="font-base"
-                        variant={"secondary"}
-                        onClick={() => setModalShow(false)}
-                    >
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+        <Modal
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            size={size}
+            contentClassName="p-3 text-small"
+        >
+            <Modal.Header closeButton onClick={() => setModalShow(false)}>
+                {title}
+            </Modal.Header>
+            <Modal.Body className="mx-3 small">{children}</Modal.Body>
+            <Modal.Footer>
+                <Button
+                    className="font-base"
+                    variant={"secondary"}
+                    onClick={() => setModalShow(false)}
+                >
+                    Close
+                </Button>
+            </Modal.Footer>
+        </Modal>
     );
 }
 
 export default ModalBasic;
-*/

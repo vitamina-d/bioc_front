@@ -6,7 +6,7 @@ import BlastxTable from "../Components/BlastxTable";
 import SequenceViewer from "../Components/SequenceViewer";
 import type { ResponsePlumber } from "../types/ResponsePlumber";
 import { PostBlastx } from "../services/BlastServices";
-import ModalResultBlastx from "../Components/ModalResultBlastx";
+import ModalBasic from "../Components/ModalBasic";
 
 function BlastxView() {
     const [blastx, setBlastx] = useState<BlastxReport | null>(null);
@@ -25,10 +25,10 @@ function BlastxView() {
     };
 
     return (
-        <Container fluid className="mt-3">
+        <Container fluid className="mt-3 ">
             <Header
-                title="Blastx"
-                text="Hits"
+                title="blastx"
+                text="Ingrese una secuencia de nucleotidos. blastx traduce y compara contra una base de datos de proteínas."
                 imageSrc="../../public/search-gene.png"
             />
             <Form onSubmit={fetchData}>
@@ -40,17 +40,17 @@ function BlastxView() {
                 >
                     <div className="d-flex justify-content-end">
                         <Button variant="secondary" size={"sm"} type="submit">
-                            blastx
+                            get hits
                         </Button>
                     </div>
                 </SequenceViewer>
             </Form>
             
-            <ModalResultBlastx modalShow={modalShow} setModalShow={setModalShow}>
+            <ModalBasic modalShow={modalShow} setModalShow={setModalShow} size={"xl"} title={"Result blastx"}>
                 <Card.Body>
                     {blastx ? <BlastxTable data={blastx} /> : ""}
                 </Card.Body>
-            </ModalResultBlastx>
+            </ModalBasic>
             {/*<BlastxSearch setBlastx={setBlastx} />*/}
             
         </Container>

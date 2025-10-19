@@ -39,7 +39,12 @@ function AlignSequences({ setDataAlign }: Props) {
         console.log(response);
         setDataAlign(response.data);
     };
-
+    const clearPattern = () => {
+        setPattern("");
+    }
+    const clearSubject = () => {
+        setSubject("");
+    }
     return (
         <>
             <div className="d-flex justify-content-end">
@@ -59,7 +64,7 @@ function AlignSequences({ setDataAlign }: Props) {
                         title={"Pattern"}
                         setSequence={setPattern}
                         readonly={false}
-                        onClick={() => setPattern("")}
+                        onClick={clearPattern}
                     />
                 </div>
                 <div className="flex-fill">
@@ -68,7 +73,7 @@ function AlignSequences({ setDataAlign }: Props) {
                         title={"Subject"}
                         setSequence={setSubject}
                         readonly={false}
-                        onClick={() => setSubject("")}
+                        onClick={clearSubject}
                     />
                 </div>
             </div>

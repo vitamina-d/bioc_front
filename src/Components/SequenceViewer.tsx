@@ -4,7 +4,6 @@ import { Stack, type ButtonProps } from "react-bootstrap";
 import FileUp from "./FileUp";
 import type { FastaDictionary } from "../types/FastaDictionary";
 import { useState, type ReactNode } from "react";
-import FastaReadTable from "./FastaReadTable";
 
 type Props = {
     title: string;
@@ -49,8 +48,11 @@ function SequenceViewer({
                         <></>
                     ) : (
                         <FileUp
+                            showTable={showFileTable}
                             setShowTable={setShowFileTable}
+                            dictionary={dictionary}
                             setDictionary={setDictionary}
+                            setSequence={setSequence}
                         />
                     )}
 
@@ -74,16 +76,6 @@ function SequenceViewer({
                 </div>
             </Stack>
             {children}
-
-            {dictionary ? (
-                <FastaReadTable
-                    setSequence={setSequence}
-                    showTable={showFileTable}
-                    dictionary={dictionary}
-                />
-            ) : (
-                <></>
-            )}
         </Stack>
     );
 }

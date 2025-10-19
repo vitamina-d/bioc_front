@@ -1,22 +1,19 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import SequenceViewer from "../Components/SequenceViewer";
-import {
-    GetComplement,
-    GetSequenceByRange,
-} from "../services/BioconductorServices";
+import { GetSequenceByRange } from "../services/BioconductorServices";
 import Header from "../Components/Header";
 import type { ResponsePlumber } from "../types/ResponsePlumber";
 import type {
-    DataComplement,
     DataDetail,
     DataSequence,
     DataStats,
 } from "../types/DataPlumber";
-import Searcher from "../Components/Searcher";
 import InputRange from "../Components/InputRange";
 import DropdownChr from "../Components/DropdownChr";
 import PercentPlots from "../Components/PercentPlots";
+import { GetComplement } from "../services/PythonServices";
+import type { Sequence } from "../types/DataPython";
 
 type Props = {
     detail: DataDetail | null;
@@ -55,10 +52,10 @@ function SearchView({ detail, setDetail }: Props) {
         }
     }, [detail]);
 
-    //COMPLEMENT
+    //COMPLEMENT http://localhost:8081/api/Python/complement
     const handleReverseComplement = async () => {
         if (sequence != "") {
-            const response: ResponsePlumber<DataComplement> =
+            const response: ResponsePlumber<Sequence> =
                 await GetComplement(sequence, toReverse, toComplement);
             setOutput(response.data.sequence);
             console.log(response.data);

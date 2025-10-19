@@ -1,90 +1,69 @@
-import { useState, type ChangeEvent } from "react";
+import { useState } from "react";
 import { Badge, Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Icon } from "./Icon";
 import type { FastaDictionary } from "../types/FastaDictionary";
+import DragAndDrop from "./DragAndDrop";
+import ModalBasic from "./ModalBasic";
+import FastaReadTable from "./FastaReadTable";
 
 type Props = {
+    dictionary: FastaDictionary;
     setDictionary: React.Dispatch<React.SetStateAction<FastaDictionary>>;
+    showTable: boolean;
     setShowTable: React.Dispatch<React.SetStateAction<boolean>>;
+    setSequence: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function FileUp({ setDictionary, setShowTable }: Props) {
+function FileUp({ dictionary, setDictionary, showTable, setShowTable, setSequence }: Props) {
     const [name, setName] = useState<string>("");
+    const [modalShow, setModalShow] = useState<boolean>(false);
 
-    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length > 0) {
-            const file = event.target.files[0];
-            setName(file.name);
-            //console.log(file);
-            console.log(file.name);
-
-            const dictionary: FastaDictionary = {};
-
-            const reader = new FileReader();
-            reader.readAsText(file);
-            reader.onload = (e) => {
-                const text = e.target?.result as string;
-                //console.log(text);
-
-                let header: string = "";
-                text.split("\n").map((line) => {
-                    line = line.trim();
-                    
-                    if (line.startsWith(">")) {
-                        header = line;
-                        dictionary[header] = ""; //inicio el header
-                    } else if (line.length < 1) {
-                        //nada
-                        return;
-                    } else {
-                        if (!header) {
-                            header = "unnamed";
-                            dictionary[header] = "";
-                        } 
-                        dictionary[header] += line;
-                    }
-                });
-                console.log(dictionary); ///!!!
-                setDictionary(dictionary);
-                setShowTable(true);
-            };
-        }
-    };
-
+    const openModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        setModalShow(true);
+    }
+    
     return (
-        <Form>
-            <div className="d-flex justify-content-end ms-2">
-                <OverlayTrigger overlay={<Tooltip>{"Upload"}</Tooltip>}>
-                    <span className="d-inline-block">
-                        <Button
-                            className="align-items-center"
-                            size="sm"
-                            variant="outline-secondary"
-                            as="label"
-                            htmlFor="file-upload"
-                        >
-                            <div className="d-flex align-items-start">
-                                {name ? (
-                                    <Badge bg="secondary" className="me-2">
-                                        {name}{" "}
-                                    </Badge>
-                                ) : (
-                                    ""
-                                )}
-                                <Icon type={"upload"} />
-                            </div>
-                        </Button>
-                    </span>
-                </OverlayTrigger>
-            </div>
-            <Form.Control
-                id="file-upload"
-                type="file"
-                accept=".fasta"
-                onChange={handleFileChange}
-                className="d-none"
-            />
-        </Form>
+        <>
+            <Form>
+                <div className="d-flex justify-content-end mx-1">
+                    <OverlayTrigger overlay={<Tooltip>{"Upload"}</Tooltip>}>
+                        <span className="d-inline-block">
+                            <Button
+                                className="align-items-center"
+                                size="sm"
+                                variant="outline-secondary"
+                                onClick={openModal}
+                                >
+                                <div className="d-flex align-items-start">
+                                    {name ? (
+                                        <Badge bg="secondary" className="me-2">
+                                            {name}{" "}
+                                        </Badge>
+                                    ) : (
+                                        ""
+                                    )}
+                                    <Icon type={"upload"} />
+                                </div>
+                            </Button>
+                        </span>
+                    </OverlayTrigger>
+                </div>
+                
+            </Form>
+            <ModalBasic modalShow={modalShow} setModalShow={setModalShow} size={"lg"} title={"Upload File"}>
+                <>
+                    <DragAndDrop setName={setName} setDictionary={setDictionary} setShowTable={setShowTable} />
+                    <hr className="my-3" />
+                    {dictionary ? (
+                        <FastaReadTable
+                        setSequence={setSequence}
+                        showTable={showTable}
+                        dictionary={dictionary}
+                        /> ) : ( <></> )}
+                </>
+            </ModalBasic>
+        </>
     );
 }
 
