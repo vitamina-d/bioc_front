@@ -1,5 +1,5 @@
 import { ButtonGroup, Dropdown } from "react-bootstrap";
-import { optionsChromosomes } from "../const/optionsChromosomes";
+import { optionsChromosomes } from "../config/optionsChromosomes";
 
 type Props = {
     chr: string | null;

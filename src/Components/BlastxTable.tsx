@@ -1,14 +1,17 @@
 import { Button, Collapse, Table } from "react-bootstrap";
-import type { BlastxReport } from "../types/DataBlastx";
+import type { BlastxReport, Hit } from "../types/DataBlastx";
 import BlastxStat from "./BlastxStat";
 import { useState } from "react";
 import BadgeProtein from "./BadgeProtein";
+import { Icon } from "./Icon";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     data?: BlastxReport;
+    handleCompare: (frame:number) => void;
 };
 
-function BlastxTable({ data }: Props) {
+function BlastxTable({ data, handleCompare }: Props) {
     const [openRow, setOpenRow] = useState<number | null>(null);
 
     const hits = data?.results.search.hits;
@@ -35,13 +38,14 @@ function BlastxTable({ data }: Props) {
                             <th>Identity</th>
                             <th>Positive</th>
 
-                            <th>Chain</th>
+                            {/*<th>Chain</th>*/}
                             <th>Name</th>
                             <th>Specie</th>
                             <th>Taxid</th>
-                            <th>ACCESION</th>
+                            <th>PDB IDs</th>
 
                             <th>More</th>
+                            <th>Go To</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,7 +55,7 @@ function BlastxTable({ data }: Props) {
                             const species: string[] = [];
                             const taxids: number[] = [];
                             const badges: string[] = [];
-                            return (
+                            return ( //agregar key
                                 <>
                                     <tr key={hit.num}>
                                         <td>{hit.num}</td>
@@ -101,22 +105,20 @@ function BlastxTable({ data }: Props) {
                                             }
                                             return <></>;
                                         })}
-                                        <td>{chains}</td>
+                                        {/*<td>{chains}</td>*/}
                                         <td>{names}</td>
                                         <td>{species}</td>
                                         <td>{taxids}</td>
                                         <td>
                                             {badges.map((bg) => {
-
                                                 console.log("BADGE envia -------------",bg)
-                                                return <BadgeProtein key={bg} 
-                                                    name={bg}
-                                                    ></BadgeProtein>
+                                                return <BadgeProtein key={bg} name={bg} />
                                                 })}
                                         </td>
                                         <td>
                                             <Button
                                                 size="sm"
+                                                variant={openRow === hit_idx ? "secondary" : "success"}
                                                 onClick={() =>
                                                     setOpenRow(
                                                         openRow === hit_idx
@@ -126,8 +128,16 @@ function BlastxTable({ data }: Props) {
                                                 }
                                             >
                                                 {openRow === hit_idx
-                                                    ? "Hide"
-                                                    : "Show"}
+                                                    ? <Icon type="morev" /> //hide o show
+                                                    : <Icon type="moreh" /> }
+                                            </Button>
+                                        </td>
+                                        <td>
+                                            <Button
+                                                size="sm"
+                                                variant="primary"
+                                                onClick={() => handleCompare(hit.hsps[0].query_frame)}
+                                            > Compare
                                             </Button>
                                         </td>
                                     </tr>
@@ -137,8 +147,8 @@ function BlastxTable({ data }: Props) {
                                             className="border-0 p-0"
                                         >
                                             <Collapse in={openRow === hit_idx}  className="m-0">
-                                                <Table bordered hover>
-                                                    <thead>
+                                                <Table bordered hover variant="light" className="mb-2">
+                                                    <thead >
                                                         <tr>
                                                             <th>Sequence</th>
                                                             <th>Align</th>

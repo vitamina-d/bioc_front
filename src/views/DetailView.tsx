@@ -9,6 +9,7 @@ import InfoDetail from "../Components/InfoDetail";
 import ButtonOverlay from "../Components/ButtonOverlay";
 import InfoFullDetail from "../Components/InfoFullDetail";
 import { useParams } from "react-router-dom";
+import img from "../assets/chromosome.png"
 
 function DetailView() {
     const { entrezId } = useParams();
@@ -53,7 +54,7 @@ function DetailView() {
                 <CardHeader>
                     <div className=" ps-2 pt-1 d-flex align-items-center">
                         <CardImg
-                            src="../../public/chromosome.png"
+                            src={img}
                             alt="icono"
                             className="me-2 rounded-circle"
                             style={{

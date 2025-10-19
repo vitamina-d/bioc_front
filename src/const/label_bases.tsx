@@ -1,1 +1,0 @@
-export const label_bases: string[]= ["A", "T", "C", "G"];

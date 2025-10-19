@@ -1,4 +1,4 @@
-import { DOTNET_FOLD_URL } from "../config/constant";
+import { DOTNET_FOLD_URL } from "../config/urls";
 
 //http://localhost:8081/api/Folding/job/68e17d82e986d44f8b7e9e1b/rank_3/align/4quv
 const GetEstructureAlign = async ( pdbId: string, jobId: string, rank: string): Promise<string> => {

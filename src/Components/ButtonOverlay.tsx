@@ -1,6 +1,6 @@
 import { Badge, Button, OverlayTrigger, Tooltip, type ButtonProps } from "react-bootstrap";
 import { Icon } from "./Icon";
-import type { TypesIcon } from "../const/iconPaths";
+import type { TypesIcon } from "../config/iconPaths";
 
 type Props = {
     textHover: string;

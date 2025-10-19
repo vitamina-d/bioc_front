@@ -1,5 +1,5 @@
 import PlotPie from "./Plots/PlotPie";
-import { nucleotideColors } from "../const/nucleotideColors";
+import { nucleotideColors } from "../config/nucleotideColors";
 import PlotIslandBar from "./Plots/PlotIslandBar";
 import PlotHistogram from "./Plots/PlotHistogram";
 import PlotScatter from "./Plots/PlotScatter";

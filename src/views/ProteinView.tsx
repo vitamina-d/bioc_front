@@ -4,6 +4,7 @@ import ProteinViewer from "../Components/ProteinViewer";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import Searcher from "../Components/Searcher";
+import img from "../assets/gene.png"
 
 function ProteinView() {
     const location = useLocation();
@@ -23,7 +24,7 @@ function ProteinView() {
             <Header
                 title="Proteina"
                 text="3DMol."
-                imageSrc="../../public/gene.png"
+                imageSrc={img}
             />
             <Card.Body>
                 {pdbId ? (

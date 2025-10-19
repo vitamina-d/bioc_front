@@ -1,4 +1,4 @@
-import { DOTNET_BIOCONDUCTOR_URL } from "../config/constant";
+import { DOTNET_BIOCONDUCTOR_URL } from "../config/urls";
 import type { ResponsePlumber } from "../types/ResponsePlumber";
 import type {
     DataAlign,

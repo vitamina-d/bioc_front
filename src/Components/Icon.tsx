@@ -1,4 +1,4 @@
-import { iconPaths, type TypesIcon } from "../const/iconPaths";
+import { iconPaths, type TypesIcon } from "../config/iconPaths";
 
 
 type IconProps = {

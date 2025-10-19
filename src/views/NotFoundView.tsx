@@ -1,5 +1,6 @@
 import { Button, Card, CardImg, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import img from "../assets/search-gene.png"
 
 function NotFoundView() {
     const navigate = useNavigate();
@@ -8,7 +9,7 @@ function NotFoundView() {
         <Container fluid className="mt-3">
             <Card className="justify-content-center align-items-center p-3">
                 <CardImg
-                    src="../../public/search-gene.png"
+                    src={img}
                     alt="icono"
                     className="me-2 rounded-circle"
                     style={{ width: '150px', height: '150px', objectFit: 'cover' }}

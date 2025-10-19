@@ -1,4 +1,4 @@
-import { DOTNET_BLAST_URL } from "../config/constant";
+import { DOTNET_BLAST_URL } from "../config/urls";
 import type { BlastxReport } from "../types/DataBlastx";
 import type { ResponsePlumber } from "../types/ResponsePlumber";
 

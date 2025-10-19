@@ -1,5 +1,6 @@
 import { CardBody, CardImg, Col, ListGroup, Row } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
+import img from "../assets/chromosome.png"
 
 type Props = {
     data: ResponsePublicSummary;
@@ -10,7 +11,7 @@ function InfoNcbi({ data }: Props) {
         <>
             <div className="d-flex align-items-center mb-2 p-3">
                 <CardImg
-                    src="/public/chromosome.png"
+                    src={img}
                     alt="icono"
                     className="me-2 rounded-circle"
                     style={{

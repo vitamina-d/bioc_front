@@ -1,5 +1,5 @@
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import { DOTNET_PUBLIC_URL } from "../config/constant";
+import { DOTNET_PUBLIC_URL } from "../config/urls";
 
 //https://localhost:32769/api/Public/summary?entrez=${entrez}&type=${gene}
 const SummaryService = async (

@@ -6,6 +6,8 @@ import { Icon } from "./Icon";
 import { useState } from "react";
 import ModalBasic from "./ModalBasic";
 import { Link, useLocation } from "react-router-dom";
+import img from "../assets/gene.png"
+
 
 function NavComponent() {
     const location = useLocation();
@@ -30,7 +32,7 @@ function NavComponent() {
                     </Button>
                     <Nav.Link className="text-white " as={Link} to="/">
                         <img
-                            src={"../../public/gene.png"}
+                            src={img}
                             width="30"
                             height="30"
                             className="d-inline-block mx-3"

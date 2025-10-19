@@ -1,4 +1,4 @@
-import { DOTNET_PYTHON_URL } from "../config/constant";
+import { DOTNET_PYTHON_URL } from "../config/urls";
 import type { ResponsePlumber } from "../types/ResponsePlumber";
 import type { Sequence } from "../types/DataPython";
 
@@ -24,9 +24,26 @@ const GetComplement = async (
     return data;
 };
 
-
+const GetTranslate = async (
+    sequence: string,
+    frame: number
+): Promise<ResponsePlumber<Sequence>> => {
+    const response = await fetch(`${DOTNET_PYTHON_URL}/translate`, {
+        method: "POST",
+        body: JSON.stringify({
+            sequence: sequence,
+            frame: frame
+        }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    console.log(response);
+    const data = await response.json();
+    return data;
+};
 export {
     //GetAlign,
     GetComplement,
-    //GetTranslate
+    GetTranslate
 };

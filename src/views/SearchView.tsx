@@ -14,6 +14,7 @@ import DropdownChr from "../Components/DropdownChr";
 import PercentPlots from "../Components/PercentPlots";
 import { GetComplement } from "../services/PythonServices";
 import type { Sequence } from "../types/DataPython";
+import img from "../assets/search-gene.png"
 
 type Props = {
     detail: DataDetail | null;
@@ -98,7 +99,7 @@ function SearchView({ detail, setDetail }: Props) {
             <Header
                 title="Search"
                 text="Gene"
-                imageSrc="../../public/search-gene.png"
+                imageSrc={img}
             />
 {/* 
             <Searcher

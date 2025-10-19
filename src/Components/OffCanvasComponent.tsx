@@ -2,6 +2,8 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Navigation from "./Navigation";
 import { Button } from "react-bootstrap";
 import { Icon } from "./Icon";
+import img from "../assets/gene.png"
+
 
 type Props = {
     showOffCanva: boolean;
@@ -27,7 +29,7 @@ function OffCanvasComponent({ showOffCanva, setShowOffCanva }: Props) {
                             <Icon type={"burger"} />
                         </Button>
                         <img
-                            src={"../../public/gene.png"}
+                            src={img}
                             width="30"
                             height="30"
                             className="d-inline-block mx-3"
