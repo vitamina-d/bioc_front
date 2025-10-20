@@ -1,10 +1,9 @@
 import { Button, Collapse, Table } from "react-bootstrap";
-import type { BlastxReport, Hit } from "../types/DataBlastx";
+import type { BlastxReport } from "../types/DataBlastx";
 import BlastxStat from "./BlastxStat";
 import { useState } from "react";
 import BadgeProtein from "./BadgeProtein";
 import { Icon } from "./Icon";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
     data?: BlastxReport;
@@ -21,6 +20,7 @@ function BlastxTable({ data, handleCompare }: Props) {
     return (
         <>
             {hits ? (
+                <div className="table-responsive table-scroll-x">
                 <Table
                     className="font-monospace fontsize-sm"
                     bordered
@@ -256,6 +256,7 @@ function BlastxTable({ data, handleCompare }: Props) {
                         })}
                     </tbody>
                 </Table>
+                </div>
             ) : (
                 <p>NO HITS </p>
             )}
