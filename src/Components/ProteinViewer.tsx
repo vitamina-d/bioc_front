@@ -3,12 +3,11 @@ import * as $3Dmol from "3dmol";
 
 type Props = {
     pdbId: string;
+    prediction?: string;
     style?: "stick" | "cartoon" | "line" | "sphere"; //renderizado
-    chain?: string;
 };
 
-function MolstarViewer({ pdbId, style = "stick", chain }: Props) {
-    console.log("received chain protein -------------------------- ", chain)
+function MolstarViewer({ pdbId, prediction, style = "stick" }: Props) {
     const htmlElem = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -49,6 +48,11 @@ function MolstarViewer({ pdbId, style = "stick", chain }: Props) {
                 //viewer.addSurface($3Dmol.SurfaceType.SAS, {opacity:0.5, color:"blue"}, {chain:"A"});
                 //viewer.addSurface($3Dmol.SurfaceType.SES, {opacity:0.5, color:"green"}, {resi:100});
                 
+                //PREDICTION FILE PDB STRING
+                if (prediction) {
+                    viewer.addModel(prediction, "pdb");
+                    viewer.setStyle({ model: 1 }, { cartoon: { color: "red" } });                
+                }
                 viewer.zoomTo();
                 viewer.render();
             });

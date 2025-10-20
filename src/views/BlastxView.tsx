@@ -15,11 +15,13 @@ import type { ProteinRanks, ResponseStatus } from "../types/ResponseFolding";
 import { Icon } from "../Components/Icon";
 import imgns from "../assets/image.webp"
 import TableRanks from "../Components/TableRanks";
-
+import { useNavigate } from "react-router-dom";
 
 //https://neurosnap.ai/job/68e17d82e986d44f8b7e9e1b 
 
 function BlastxView() {
+    const navigate = useNavigate();
+
     const [blastx, setBlastx] = useState<BlastxReport | null>(null);
     const [sequence, setSequence] = useState<string>("");
     const [modalShow, setModalShow] = useState<boolean>(false);
@@ -105,9 +107,7 @@ function BlastxView() {
     //onClick del button rank seleccionado para visualizar la estructura
     const selectRankToCompare = async (rank: string) => {// el rank
         //job/{jobId}/rank_{rank}/align/{pdbId}
-        console.log("ALIGN: jobid ",jobId, ", rank: ", rank, "pdbId: ", pdbId)
-        const align: string = await GetAlignPrediction("68e17d82e986d44f8b7e9e1b", rank, pdbId);
-        console.log(align);
+        navigate("/protein", { state: { jobId: "68e17d82e986d44f8b7e9e1b", rank: rank, pdbId: pdbId } });
     }
 
     return (
