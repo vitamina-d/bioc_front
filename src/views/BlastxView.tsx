@@ -10,7 +10,7 @@ import ModalBasic from "../Components/ModalBasic";
 import { GetTranslate } from "../services/PythonServices";
 import type { Sequence } from "../types/DataPython";
 import img from "../assets/search-gene.png"
-import { GetRanksJob, InitJob, StatusJob } from "../services/FoldingServices";
+import { GetAlignPrediction, GetRanksJob, InitJob, StatusJob } from "../services/FoldingServices";
 import type { ProteinRanks, ResponseStatus } from "../types/ResponseFolding";
 import { Icon } from "../Components/Icon";
 import imgns from "../assets/image.webp"
@@ -30,6 +30,7 @@ function BlastxView() {
     const [statusJob, setStatusJob] = useState<string | null>(null);
     const [showButton, setShowButton] = useState<boolean>(true);
     const [ranks, setRanks] = useState<ProteinRanks | null>(null);
+    const [pdbId, setPdbId] = useState<string>("");
 
     //busca los hits de la secuencia de entrada
     const getBlastxReport = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -53,9 +54,12 @@ function BlastxView() {
     }
 
     //obtener traduccion segun el frame del hit seleccionado
-    const getTraduction = async (frame: number) => {
+    const getTraduction = async (frame: number, pdbId: string) => {// ya me traigo la referencia pdbid
         setModalShow(false);
         setFrame(frame);
+        //pdb|6JEH|B
+        console.log("PDBID -----> ", pdbId.split("|")[1])
+        setPdbId(pdbId.split("|")[1]); 
         const response: ResponsePlumber<Sequence> = await GetTranslate(sequence.trim(), frame);
         setProtein(response.data.sequence)
     }
@@ -75,7 +79,7 @@ function BlastxView() {
         setShowButton(false);
 
     }
-    //Actualiza el button de status
+    //Actualiza el status del button 
     const getStatus = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (!jobId) return; 
         event.preventDefault();
@@ -87,6 +91,7 @@ function BlastxView() {
         setStatusJob(status);
     }
 
+    //hace la consulta de los 5 ranks de prediccion de neurosnap
     const getRank = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (!jobId) return; 
         event.preventDefault();
@@ -95,6 +100,14 @@ function BlastxView() {
         const ranks: ProteinRanks = await GetRanksJob("68e17d82e986d44f8b7e9e1b");
         console.log(ranks); 
         setRanks(ranks);
+    }
+
+    //onClick del button rank seleccionado para visualizar la estructura
+    const selectRankToCompare = async (rank: string) => {// el rank
+        //job/{jobId}/rank_{rank}/align/{pdbId}
+        console.log("ALIGN: jobid ",jobId, ", rank: ", rank, "pdbId: ", pdbId)
+        const align: string = await GetAlignPrediction("68e17d82e986d44f8b7e9e1b", rank, pdbId);
+        console.log(align);
     }
 
     return (
@@ -139,6 +152,12 @@ function BlastxView() {
                 </CardHeader>
                 <Card.Body className="p-3">
                 <ListGroup className="mb-3 font-monospace" variant="flush">
+                    <ListGroup.Item>
+                        <Row>
+                            <Col xs={3}>FALTA</Col>
+                            <Col xs={9}>Agregar datos de donde vengo</Col>
+                        </Row>
+                    </ListGroup.Item>
                     <ListGroup.Item>
                         <Row>
                             <Col xs={3}>FRAME</Col>
@@ -209,7 +228,7 @@ function BlastxView() {
                                 <ListGroup.Item>
                                     <Row>
                                         <Col xs={3}>UNCERTAINTY</Col>
-                                        <Col xs={9}><TableRanks data={ranks}/></Col>
+                                        <Col xs={9}><TableRanks data={ranks} selectRankToCompare={selectRankToCompare} /></Col>
                                     </Row>
                                     <Row className="d-flex justify-content-center mt-3" >
                                         Select rank to compare structures.

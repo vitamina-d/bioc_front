@@ -41,4 +41,12 @@ const GetRanksJob = async ( jobId: string ): Promise<ProteinRanks> => {
     const json:ResponseRanks = await response.json();
     return json.prot1; //prot1 se envia en jobinit .net
 };
-export { GetEstructureAlign, InitJob, StatusJob, GetRanksJob };
+
+const GetAlignPrediction = async ( jobId: string, rank:string, pdbId: string ): Promise<string> => {
+    const response = await fetch(`${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/align/${pdbId}`);
+    console.log(response);
+    const pdbFile:string = await response.text()
+    return pdbFile; 
+};
+
+export { GetEstructureAlign, InitJob, StatusJob, GetRanksJob, GetAlignPrediction };

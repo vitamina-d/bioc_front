@@ -7,7 +7,7 @@ import { Icon } from "./Icon";
 
 type Props = {
     data?: BlastxReport;
-    handleCompare: (frame:number) => void;
+    handleCompare: (frame:number, pdbId:string) => void;
 };
 
 function BlastxTable({ data, handleCompare }: Props) {
@@ -20,9 +20,9 @@ function BlastxTable({ data, handleCompare }: Props) {
     return (
         <>
             {hits ? (
-                <div className="table-responsive table-scroll-x">
+                <div className="table-responsive">
                 <Table
-                    className="font-monospace fontsize-sm"
+                    className="font-monospace fontsize-sm table-responsive"
                     bordered
                     hover
                     size="sm"
@@ -136,7 +136,7 @@ function BlastxTable({ data, handleCompare }: Props) {
                                             <Button
                                                 size="sm"
                                                 variant="primary"
-                                                onClick={() => handleCompare(hit.hsps[0].query_frame)}
+                                                onClick={() => handleCompare(hit.hsps[0].query_frame, hit.description[0].id)}
                                             > Compare
                                             </Button>
                                         </td>
