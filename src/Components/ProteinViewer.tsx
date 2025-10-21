@@ -5,9 +5,10 @@ type Props = {
     pdbId: string;
     prediction?: string;
     style?: "stick" | "cartoon" | "line" | "sphere"; //renderizado
+    size?: "sm";
 };
 
-function ProteinViewer({ pdbId, prediction, style = "cartoon" }: Props) {
+function ProteinViewer({ size, pdbId, prediction, style = "cartoon" }: Props) {
     const htmlElem = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -68,7 +69,7 @@ function ProteinViewer({ pdbId, prediction, style = "cartoon" }: Props) {
     return (
         <div
             ref={htmlElem}
-            style={{ width: "100%", height: "400px", position: "relative" }}
+            style={{ width: "100%", height: size === "sm" ? "200px" : "400px", position: "relative" }}
         />
     );
 }

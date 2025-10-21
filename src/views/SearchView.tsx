@@ -11,13 +11,17 @@ import PercentPlots from "../Components/PercentPlots";
 import { GetComplement } from "../services/PythonServices";
 import type { Sequence } from "../types/DataPython";
 import img from "../assets/search-gene.png";
+import { useLocation } from "react-router-dom";
 
 type Props = {
-    detail: DataDetail | null;
-    setDetail: React.Dispatch<React.SetStateAction<DataDetail | null>>;
+    detail?: DataDetail | null;
+    setDetail?: React.Dispatch<React.SetStateAction<DataDetail | null>>;
 };
 
 function SearchView({ detail, setDetail }: Props) {
+    const location = useLocation();
+    const namePage: string = location.pathname;
+
     //RANGE
     const [start, setStart] = useState("100000");
     const [end, setEnd] = useState("100100");
@@ -80,12 +84,14 @@ function SearchView({ detail, setDetail }: Props) {
 
     //clear
     const clearSequence = () => {
+        setSequence("");
+        setOutput("");
         setToReverse(false);
         setToComplement(false);
-        setOutput("");
-        setSequence("");
         setDataStats(null);
-        setDetail(null);
+        if (setDetail) {
+            setDetail(null);
+        } 
     };
     const clearOutput = () => {
         setToReverse(false);
@@ -95,7 +101,7 @@ function SearchView({ detail, setDetail }: Props) {
 
     return (
         <Container fluid className="mt-3">
-            <Header title="Search" text="Gene" imageSrc={img} />
+            <Header title="Utilities" text="Sequences" imageSrc={img} />
             {/* 
             <Searcher
                 text={"Search"}
@@ -107,34 +113,37 @@ function SearchView({ detail, setDetail }: Props) {
             />
  */}
             {/* range */}
-            <Form onSubmit={submitRange}>
-                <div className="row mx-1 ">
-                    <div className="col">
-                        <DropdownChr chr={chr} setChr={setChr} />
-                    </div>
-                    <div className="col">
-                        <InputRange number={start} setNumber={setStart}>
-                            Desde
-                        </InputRange>
-                    </div>
-                    <div className="col">
-                        <InputRange number={end} setNumber={setEnd}>
-                            Hasta
-                        </InputRange>
-                    </div>
+            {namePage == "/" ? (
+                ""
+            ) : (
+                <Form onSubmit={submitRange}>
+                    <div className="row mx-1 ">
+                        <div className="col">
+                            <DropdownChr chr={chr} setChr={setChr} />
+                        </div>
+                        <div className="col">
+                            <InputRange number={start} setNumber={setStart}>
+                                Desde
+                            </InputRange>
+                        </div>
+                        <div className="col">
+                            <InputRange number={end} setNumber={setEnd}>
+                                Hasta
+                            </InputRange>
+                        </div>
 
-                    <div className="col-auto">
-                        <Button
-                            variant="light"
-                            className="border"
-                            onClick={submitRange}
-                        >
-                            Search
-                        </Button>
+                        <div className="col-auto">
+                            <Button
+                                variant="light"
+                                className="border"
+                                onClick={submitRange}
+                            >
+                                Search
+                            </Button>
+                        </div>
                     </div>
-                </div>
-            </Form>
-
+                </Form>
+            )}
             {/* reverse complement */}
             <div className="mt-3  mx-3 pb-0">
                 <Form className=" d-flex justify-content-start">

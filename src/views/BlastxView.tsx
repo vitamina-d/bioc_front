@@ -132,9 +132,7 @@ function BlastxView() {
         event.preventDefault();
         console.log("STATUS JOB");
         //const jobStatus: ResponseStatus = await StatusJob(jobId);
-        const ranks: ProteinRanks = await GetRanksJob(
-            "68e17d82e986d44f8b7e9e1b"
-        );
+        const ranks: ProteinRanks = await GetRanksJob(jobId);
         console.log(ranks);
         setRanks(ranks);
     };
