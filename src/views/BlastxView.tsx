@@ -30,14 +30,11 @@ import type { ProteinRanks, ResponseStatus } from "../types/ResponseFolding";
 import { Icon } from "../Components/Icon";
 import imgns from "../assets/image.webp";
 import TableRanks from "../Components/TableRanks";
-import { useNavigate } from "react-router-dom";
 import ProteinViewer from "../Components/ProteinViewer";
 
 //https://neurosnap.ai/job/68e17d82e986d44f8b7e9e1b
 
 function BlastxView() {
-    const navigate = useNavigate();
-
     const [blastx, setBlastx] = useState<BlastxReport | null>(null);
     const [sequence, setSequence] = useState<string>("");
     const [modalShow, setModalShow] = useState<boolean>(false);
@@ -58,11 +55,11 @@ function BlastxView() {
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         event.preventDefault();
-        console.log("QUERY: ", sequence);
+        //console.log("QUERY: ", sequence);
         const response: ResponsePlumber<BlastxReport> = await PostBlastx(
             sequence.trim()
         );
-        console.log(response);
+        //console.log(response);
         setBlastx(response.data);
         setModificable(false);
         setModalShow(true);
@@ -79,6 +76,12 @@ function BlastxView() {
     //obtener traduccion segun el frame del hit seleccionado
     const getTraduction = async (frame: number, pdbId: string) => {
         // ya me traigo la referencia pdbid
+        //limpiar
+        setFrame(null);
+        setJobId(null);
+        setStatusJob(null);
+        setShowButton(true);
+        
         setModalShow(false);
         setFrame(frame);
         //pdb|6JEH|B
@@ -101,9 +104,7 @@ function BlastxView() {
         console.log(response);
         setJobId(response);
         //const jobStatus: ResponseStatus = await StatusJob(response);
-        const jobStatus: ResponseStatus = await StatusJob(
-            "68e17d82e986d44f8b7e9e1b"
-        );
+        const jobStatus: ResponseStatus = await StatusJob(response); 
         const status = JSON.parse(jobStatus.status);
         console.log(status);
         setStatusJob(status);
@@ -117,9 +118,7 @@ function BlastxView() {
         event.preventDefault();
         console.log("STATUS JOB");
         //const jobStatus: ResponseStatus = await StatusJob(jobId);
-        const jobStatus: ResponseStatus = await StatusJob(
-            "68e17d82e986d44f8b7e9e1b"
-        );
+        const jobStatus: ResponseStatus = await StatusJob(jobId);
         const status = JSON.parse(jobStatus.status);
         console.log(status);
         setStatusJob(status);

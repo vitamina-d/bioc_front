@@ -74,6 +74,8 @@ function FileUp({
                             setSequence={setSequence}
                             showTable={showTable}
                             dictionary={dictionary}
+                            setModalShow={setModalShow}
+
                         />
                     ) : (
                         <></>

@@ -7,7 +7,7 @@ type Props = {
     style?: "stick" | "cartoon" | "line" | "sphere"; //renderizado
 };
 
-function MolstarViewer({ pdbId, prediction, style = "cartoon" }: Props) {
+function ProteinViewer({ pdbId, prediction, style = "cartoon" }: Props) {
     const htmlElem = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -34,7 +34,8 @@ function MolstarViewer({ pdbId, prediction, style = "cartoon" }: Props) {
                     console.log("Cantidad de cadenas:", chains.size);
                     //colorscheme que tipos colorear
                     //selector
-                    viewer.setStyle({}, { [style]: { color: "yellow" } });
+                    viewer.setStyle({ model: 0 }, { [style]: { color: "yellow" } }); // proteína de referencia
+
                     //mv.setStyle({[style]:{colorscheme:{prop:'ss',map:$3Dmol.ssColors.Jmol}}});
                     //mv.setStyle({chain:"A"}, {cartoon:{color:"spectrum"}});
                     //mv.setStyle({resn:"ATP"}, {stick:{color:"yellow"}});
@@ -54,11 +55,8 @@ function MolstarViewer({ pdbId, prediction, style = "cartoon" }: Props) {
 
                     //PREDICTION FILE PDB STRING
                     if (prediction) {
-                        viewer.addModel(prediction, "pdb");
-                        viewer.setStyle(
-                            { model: 1 },
-                            { cartoon: { color: "black" } }
-                        );
+                        viewer.addModel(prediction, "pdb"); 
+                        viewer.setStyle({ model: 1 }, { [style]: { color: "red" } }); 
                     }
                     viewer.zoomTo();
                     viewer.render();
@@ -75,7 +73,7 @@ function MolstarViewer({ pdbId, prediction, style = "cartoon" }: Props) {
     );
 }
 
-export default MolstarViewer;
+export default ProteinViewer;
 /*
 
     (method) GLViewer.setStyle(sel: $3Dmol.AtomSelectionSpec, style: $3Dmol.AtomStyleSpec): any (+1 overload)

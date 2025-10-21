@@ -15,19 +15,32 @@ function BlastxTable({ data, handleCompare }: Props) {
 
     const hits = data?.results.search.hits;
     const stat = data?.results.search.stat;
-    console.log(data);
+    //console.log(data);
 
     return (
         <>
             {hits ? (
-                <div className="table-responsive">
+                <div
+                    style={{
+                        overflowY: "auto",
+                        overflowX: "auto",
+                        maxHeight: "55vh",
+                    }}
+                >
                     <Table
-                        className="font-monospace fontsize-sm table-responsive"
+                        className="font-monospace fontsize-sm"
                         bordered
                         hover
                         size="sm"
                     >
-                        <thead>
+                        <thead
+                            style={{
+                                position: "sticky",
+                                top: 0,
+                                zIndex: 2,
+                                background: "white",
+                            }}
+                        >
                             <tr>
                                 <th>Hit</th>
                                 <th>Len</th>
@@ -71,7 +84,7 @@ function BlastxTable({ data, handleCompare }: Props) {
                                                 </>
                                             ))}
                                             {hit.description.map((item) => {
-                                                console.log("DESCRIPTION");
+                                                //console.log("DESCRIPTION");
                                                 //const list = item.title.split(",");
                                                 const chain: string =
                                                     item.title.split(",")[0]; //ok
@@ -118,10 +131,7 @@ function BlastxTable({ data, handleCompare }: Props) {
                                             <td>{taxids}</td>
                                             <td>
                                                 {badges.map((bg) => {
-                                                    console.log(
-                                                        "BADGE envia -------------",
-                                                        bg
-                                                    );
+                                                    //console.log("BADGE envia -------------",bg);
                                                     return (
                                                         <BadgeProtein
                                                             key={bg}

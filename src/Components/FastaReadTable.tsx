@@ -6,14 +6,20 @@ type Props = {
     dictionary: FastaDictionary;
     showTable: boolean;
     setSequence: React.Dispatch<React.SetStateAction<string>>;
+    setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function FastaReadTable({ dictionary, showTable, setSequence }: Props) {
+function FastaReadTable({
+    dictionary,
+    showTable,
+    setSequence,
+    setModalShow,
+}: Props) {
     const headers = Object.keys(dictionary);
     const [selected, setSelected] = useState<string[]>([]);
 
     useEffect(() => {
-        console.log("selected: ", selected);
+        //console.log("selected: ", selected);
     }, [selected]);
 
     const selectHeader = (header: string) => {
@@ -43,12 +49,28 @@ function FastaReadTable({ dictionary, showTable, setSequence }: Props) {
         const inOrder = headers.filter((header) => selected.includes(header));
         const sequence = inOrder.map((header) => dictionary[header]).join("");
         setSequence(sequence);
+        setModalShow(false);
     };
 
     return (
         showTable && (
             <>
-                <div style={{ maxHeight: "300px", overflow: "auto" }}>
+                <div className="d-flex justify-content-end mb-2">
+                    <Button
+                        onClick={showSelectedSequences}
+                        size="sm"
+                        variant="outline-dark"
+                    >
+                        Show selected
+                    </Button>
+                </div>
+                <div
+                    style={{
+                        overflowY: "auto",
+                        overflowX: "auto",
+                        maxHeight: "45vh",
+                    }}
+                >
                     <Table bordered hover className="font-monospace small">
                         <thead
                             style={{
@@ -96,16 +118,6 @@ function FastaReadTable({ dictionary, showTable, setSequence }: Props) {
                             ))}
                         </tbody>
                     </Table>
-                </div>
-                <div className="d-flex justify-content-end">
-                    <Button
-                        onClick={showSelectedSequences}
-                        size="sm"
-                        variant="outline-dark"
-                        className="mb-2"
-                    >
-                        Show selected
-                    </Button>
                 </div>
             </>
         )

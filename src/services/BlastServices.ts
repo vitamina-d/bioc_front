@@ -5,7 +5,7 @@ import type { ResponsePlumber } from "../types/ResponsePlumber";
 const PostBlastx = async (
     sequence: string
 ): Promise<ResponsePlumber<BlastxReport>> => {
-    console.log("blastx service");
+    //console.log("blastx service");
     const response = await fetch(`${DOTNET_BLAST_URL}/blastx`, {
         method: "POST",
         body: JSON.stringify({
@@ -15,8 +15,9 @@ const PostBlastx = async (
             "Content-Type": "application/json",
         },
     });
-    console.log(response);
+    //console.log(response);
     const data = await response.json();
+    //console.log(data);
     return data;
 };
 

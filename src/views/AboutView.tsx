@@ -1,12 +1,12 @@
 import { Button, Container } from "react-bootstrap";
 import Header from "../Components/Header";
-import { GetEstructureAlign } from "../services/FoldingServices";
+import { GetAlignPrediction } from "../services/FoldingServices";
 import img from "../assets/gene.png";
 
 function AboutView() {
     const getEstructure = async () => {
         try {
-            const response = await GetEstructureAlign(
+            const response = await GetAlignPrediction(
                 "4quv",
                 "68e17d82e986d44f8b7e9e1b",
                 "3"

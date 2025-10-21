@@ -27,7 +27,7 @@ function SequenceViewer({
     const copySequence = () => {
         navigator.clipboard.writeText(sequence);
     };
-    console.log(dictionary);
+    //console.log(dictionary);
 
     return (
         <Stack className="d-flex flex-column">

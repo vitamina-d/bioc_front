@@ -13,7 +13,7 @@ function BlastxStat({ data }: Props) {
                     style={{
                         border: "1px solid #ccc",
                     }}
-                    className="d-flex justify-content-evenly"
+                    className="d-flex justify-content-evenly mt-3"
                 >
                     <ButtonBadge
                         text={"db_len"}
