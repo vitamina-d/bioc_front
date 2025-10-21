@@ -1,7 +1,7 @@
-import { type ChangeEvent } from 'react';
-import { Button, Form } from 'react-bootstrap';
-import type { FastaDictionary } from '../types/FastaDictionary';
-import { Icon } from './Icon';
+import { type ChangeEvent } from "react";
+import { Button, Form } from "react-bootstrap";
+import type { FastaDictionary } from "../types/FastaDictionary";
+import { Icon } from "./Icon";
 
 type Props = {
     setName: React.Dispatch<React.SetStateAction<string>>;
@@ -9,8 +9,7 @@ type Props = {
     setShowTable: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function DragAndDrop({ setName, setDictionary, setShowTable }: Props) {
-
+function ModalBodyUpload({ setName, setDictionary, setShowTable }: Props) {
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             const file = event.target.files[0];
@@ -29,7 +28,7 @@ function DragAndDrop({ setName, setDictionary, setShowTable }: Props) {
                 let header: string = "";
                 text.split("\n").map((line) => {
                     line = line.trim();
-                    
+
                     if (line.startsWith(">")) {
                         header = line;
                         dictionary[header] = ""; //inicio el header
@@ -40,7 +39,7 @@ function DragAndDrop({ setName, setDictionary, setShowTable }: Props) {
                         if (!header) {
                             header = "unnamed";
                             dictionary[header] = "";
-                        } 
+                        }
                         dictionary[header] += line;
                     }
                 });
@@ -63,7 +62,7 @@ function DragAndDrop({ setName, setDictionary, setShowTable }: Props) {
                     onClick={() => handleFileChange}
                     as="label"
                     htmlFor="file-upload"
-                    >
+                >
                     <div className="d-flex align-items-start">
                         <Icon type={"upload"} />
                     </div>
@@ -76,9 +75,8 @@ function DragAndDrop({ setName, setDictionary, setShowTable }: Props) {
                     className="d-none"
                 />
             </Form>
-            
         </>
     );
 }
 
-export default DragAndDrop;
+export default ModalBodyUpload;

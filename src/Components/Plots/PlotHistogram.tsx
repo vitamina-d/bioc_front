@@ -5,7 +5,7 @@ type Props = {
     values: number[];
     lenght: number;
     window: number;
-}
+};
 //
 function PlotHistogram({ title, values, lenght, window }: Props) {
     return (

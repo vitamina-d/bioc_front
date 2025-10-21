@@ -10,13 +10,13 @@ type Props = {
     setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function SearchDetail({setModalShow}:Props ) {
+function SearchDetail({ setModalShow }: Props) {
     const navigate = useNavigate();
     const [search, setSearch] = useState<string>("");
     const [desplegable, setDesplegable] = useState<string[]>([]);
 
     //click en Searcher DETAIL BREVE - submit
-    const getEntrezByValue = async (e: React.FormEvent ) => {
+    const getEntrezByValue = async (e: React.FormEvent) => {
         e.preventDefault();
         setModalShow(false);
         console.log("el input es: ", search);
@@ -27,7 +27,7 @@ function SearchDetail({setModalShow}:Props ) {
         //getentrez
         const entrez = getEntrezByValue.data?.entrez;
         console.log("el entrez es: ", entrez);
-        
+
         if (entrez) {
             navigate(`/detail/${entrez}`);
         } else {
@@ -66,7 +66,8 @@ function SearchDetail({setModalShow}:Props ) {
                     </Button>
                 </div>
             </Form>
-            {////DESPLEGABLE//////////////////////////////////////////
+            {
+                ////DESPLEGABLE//////////////////////////////////////////
                 desplegable && (
                     <Dropdown
                         className="position-absolute "

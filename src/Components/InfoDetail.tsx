@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 type Props = {
     data: DataDetail | null;
-    children:ReactNode;
+    children: ReactNode;
 };
 
 function InfoDetail({ data, children }: Props) {
@@ -12,7 +12,7 @@ function InfoDetail({ data, children }: Props) {
         data && (
             <>
                 <CardBody className="mb-3">
-                    <Row  className="d-flex align-items-center">
+                    <Row className="d-flex align-items-center">
                         <Col lg={1} className="text-center">
                             <div>Entrez</div>
                             <div className="text-muted">{data.entrez}</div>
@@ -37,9 +37,7 @@ function InfoDetail({ data, children }: Props) {
                         </Col>
                         <Col lg={1} className="text-center">
                             <div>More</div>
-                            <div>
-                                {children}
-                            </div>
+                            <div>{children}</div>
                         </Col>
                     </Row>
                 </CardBody>

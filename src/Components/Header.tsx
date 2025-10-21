@@ -3,7 +3,7 @@ import { CardImg } from "react-bootstrap";
 type Props = {
     title: string;
     text?: string;
-}
+};
 
 function Header({ title, text, imageSrc }: Props & { imageSrc?: string }) {
     return (
@@ -13,7 +13,11 @@ function Header({ title, text, imageSrc }: Props & { imageSrc?: string }) {
                     src={imageSrc}
                     alt="icono"
                     className="me-2 rounded-circle"
-                    style={{ width: '40px', height: '40px', objectFit: 'cover' }}
+                    style={{
+                        width: "40px",
+                        height: "40px",
+                        objectFit: "cover",
+                    }}
                 />
             )}
             <div>
@@ -23,6 +27,5 @@ function Header({ title, text, imageSrc }: Props & { imageSrc?: string }) {
         </div>
     );
 }
-
 
 export default Header;

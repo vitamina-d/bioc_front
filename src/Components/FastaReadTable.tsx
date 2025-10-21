@@ -48,13 +48,16 @@ function FastaReadTable({ dictionary, showTable, setSequence }: Props) {
     return (
         showTable && (
             <>
-                <div style={{ maxHeight: "300px", overflow: "auto"}}>
-                    <Table
-                        bordered
-                        hover
-                        className="font-monospace small"
-                    >
-                        <thead style={{ position: "sticky", top: 0, zIndex: 2, background: "white" }}>
+                <div style={{ maxHeight: "300px", overflow: "auto" }}>
+                    <Table bordered hover className="font-monospace small">
+                        <thead
+                            style={{
+                                position: "sticky",
+                                top: 0,
+                                zIndex: 2,
+                                background: "white",
+                            }}
+                        >
                             <tr className="text-center">
                                 <th>Header</th>
                                 <th>Length</th>

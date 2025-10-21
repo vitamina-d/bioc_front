@@ -12,18 +12,18 @@ import NotFoundView from "./views/NotFoundView";
 import HomeView from "./views/HomeView";
 
 function App() {
-    const [detail, setDetail] = useState<DataDetail | null>(null); 
+    const [detail, setDetail] = useState<DataDetail | null>(null);
 
     return (
         <BrowserRouter>
-            <NavComponent/>
+            <NavComponent />
             <Routes>
                 <Route path="/" element={<HomeView />} />
                 <Route path="/detail/:entrezId" element={<DetailView />} />
                 <Route
                     path="/search"
                     element={
-                        <SearchView detail={detail} setDetail={setDetail}  />
+                        <SearchView detail={detail} setDetail={setDetail} />
                     }
                 />
                 <Route path="/align" element={<AlignView />} />

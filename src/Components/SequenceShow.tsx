@@ -4,11 +4,10 @@ import { Stack } from "react-bootstrap";
 
 type Props = {
     sequence: string;
-    row?:number;
+    row?: number;
 };
 
 function SequenceShow({ sequence, row }: Props) {
-    
     let calculateRow = Math.round(sequence.length / 125);
     calculateRow = Math.max(Math.min(calculateRow, 20), 4);
     const copySequence = () => {

@@ -1,4 +1,14 @@
-import { Button, Card, CardHeader, Col, Container, ListGroup, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+    Button,
+    Card,
+    CardHeader,
+    Col,
+    Container,
+    ListGroup,
+    OverlayTrigger,
+    Row,
+    Tooltip,
+} from "react-bootstrap";
 import Header from "../Components/Header";
 import type { BlastxReport } from "../types/DataBlastx";
 import { useState } from "react";
@@ -9,15 +19,21 @@ import { PostBlastx } from "../services/BlastServices";
 import ModalBasic from "../Components/ModalBasic";
 import { GetTranslate } from "../services/PythonServices";
 import type { Sequence } from "../types/DataPython";
-import img from "../assets/search-gene.png"
-import { GetAlignPrediction, GetRanksJob, InitJob, StatusJob } from "../services/FoldingServices";
+import img from "../assets/search-gene.png";
+import {
+    GetAlignPrediction,
+    GetRanksJob,
+    InitJob,
+    StatusJob,
+} from "../services/FoldingServices";
 import type { ProteinRanks, ResponseStatus } from "../types/ResponseFolding";
 import { Icon } from "../Components/Icon";
-import imgns from "../assets/image.webp"
+import imgns from "../assets/image.webp";
 import TableRanks from "../Components/TableRanks";
 import { useNavigate } from "react-router-dom";
+import ProteinViewer from "../Components/ProteinViewer";
 
-//https://neurosnap.ai/job/68e17d82e986d44f8b7e9e1b 
+//https://neurosnap.ai/job/68e17d82e986d44f8b7e9e1b
 
 function BlastxView() {
     const navigate = useNavigate();
@@ -33,9 +49,14 @@ function BlastxView() {
     const [showButton, setShowButton] = useState<boolean>(true);
     const [ranks, setRanks] = useState<ProteinRanks | null>(null);
     const [pdbId, setPdbId] = useState<string>("");
+    const [modalStructureShow, setModalStructureShow] =
+        useState<boolean>(false);
+    const [pdbString, setPdbString] = useState<string>("");
 
     //busca los hits de la secuencia de entrada
-    const getBlastxReport = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const getBlastxReport = async (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
         event.preventDefault();
         console.log("QUERY: ", sequence);
         const response: ResponsePlumber<BlastxReport> = await PostBlastx(
@@ -52,64 +73,90 @@ function BlastxView() {
         setModificable(true);
         setSequence("");
         setFrame(null);
-        setProtein("")
-    }
+        setProtein("");
+    };
 
     //obtener traduccion segun el frame del hit seleccionado
-    const getTraduction = async (frame: number, pdbId: string) => {// ya me traigo la referencia pdbid
+    const getTraduction = async (frame: number, pdbId: string) => {
+        // ya me traigo la referencia pdbid
         setModalShow(false);
         setFrame(frame);
         //pdb|6JEH|B
-        console.log("PDBID -----> ", pdbId.split("|")[1])
-        setPdbId(pdbId.split("|")[1]); 
-        const response: ResponsePlumber<Sequence> = await GetTranslate(sequence.trim(), frame);
-        setProtein(response.data.sequence)
-    }
+        console.log("PDBID -----> ", pdbId.split("|")[1]);
+        setPdbId(pdbId.split("|")[1]);
+        const response: ResponsePlumber<Sequence> = await GetTranslate(
+            sequence.trim(),
+            frame
+        );
+        setProtein(response.data.sequence);
+    };
 
     //inicia la prediccion en neurosnap y verifica el estado. oculta el button
-    const initJobPrediction = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const initJobPrediction = async (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
         event.preventDefault();
-        console.log("INIT JOB")
+        console.log("INIT JOB");
         const response: string = await InitJob(protein);
         console.log(response);
         setJobId(response);
         //const jobStatus: ResponseStatus = await StatusJob(response);
-        const jobStatus: ResponseStatus = await StatusJob("68e17d82e986d44f8b7e9e1b");
+        const jobStatus: ResponseStatus = await StatusJob(
+            "68e17d82e986d44f8b7e9e1b"
+        );
         const status = JSON.parse(jobStatus.status);
-        console.log(status); 
+        console.log(status);
         setStatusJob(status);
         setShowButton(false);
-
-    }
-    //Actualiza el status del button 
-    const getStatus = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        if (!jobId) return; 
+    };
+    //Actualiza el status del button
+    const getStatus = async (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        if (!jobId) return;
         event.preventDefault();
-        console.log("STATUS JOB")
+        console.log("STATUS JOB");
         //const jobStatus: ResponseStatus = await StatusJob(jobId);
-        const jobStatus: ResponseStatus = await StatusJob("68e17d82e986d44f8b7e9e1b");
+        const jobStatus: ResponseStatus = await StatusJob(
+            "68e17d82e986d44f8b7e9e1b"
+        );
         const status = JSON.parse(jobStatus.status);
-        console.log(status); 
+        console.log(status);
         setStatusJob(status);
-    }
+    };
 
     //hace la consulta de los 5 ranks de prediccion de neurosnap
-    const getRank = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        if (!jobId) return; 
+    const getRank = async (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        if (!jobId) return;
         event.preventDefault();
-        console.log("STATUS JOB")
+        console.log("STATUS JOB");
         //const jobStatus: ResponseStatus = await StatusJob(jobId);
-        const ranks: ProteinRanks = await GetRanksJob("68e17d82e986d44f8b7e9e1b");
-        console.log(ranks); 
+        const ranks: ProteinRanks = await GetRanksJob(
+            "68e17d82e986d44f8b7e9e1b"
+        );
+        console.log(ranks);
         setRanks(ranks);
-    }
+    };
 
     //onClick del button rank seleccionado para visualizar la estructura
-    const selectRankToCompare = async (rank: string) => {// el rank
+    const selectRankToCompare = async (rank: string) => {
+        // el rank
         //job/{jobId}/rank_{rank}/align/{pdbId}
-        navigate("/protein", { state: { jobId: "68e17d82e986d44f8b7e9e1b", rank: rank, pdbId: pdbId } });
-    }
-
+        console.log("ALIGN: jobid ", jobId, ", rank: ", rank, "pdbId: ", pdbId);
+        const align: string = await GetAlignPrediction(
+            "68e17d82e986d44f8b7e9e1b",
+            rank,
+            pdbId
+        );
+        console.log(align);
+        setPdbString(align);
+        setModalStructureShow(true);
+    };
+    //const goToProteinView = async (rank: string) => {// el rank
+    //    navigate("/protein", { state: { jobId: "68e17d82e986d44f8b7e9e1b", rank: rank, pdbId: pdbId } });
+    //}
     return (
         <Container fluid className="mt-3 ">
             <Header
@@ -125,124 +172,219 @@ function BlastxView() {
                 onClick={clearInput}
             >
                 <div className="d-flex justify-content-end">
-                    {modificable ? 
-                    <Button variant="secondary" size={"sm"} onClick={(event) => getBlastxReport(event)}>
-                        get hits
-                    </Button>
-                    :
-                    <Button variant="secondary" size={"sm"} onClick={() => setModalShow(true)}>
-                        show hits
-                    </Button>
-                    }
+                    {modificable ? (
+                        <Button
+                            variant="secondary"
+                            size={"sm"}
+                            onClick={(event) => getBlastxReport(event)}
+                        >
+                            get hits
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="secondary"
+                            size={"sm"}
+                            onClick={() => setModalShow(true)}
+                        >
+                            show hits
+                        </Button>
+                    )}
                 </div>
             </SequenceViewer>
-            
-            <ModalBasic modalShow={modalShow} setModalShow={setModalShow} size={"xl"} title={"Result blastx"}>
+
+            {/* MODAL RESULT BLAST */}
+            <ModalBasic
+                modalShow={modalShow}
+                setModalShow={setModalShow}
+                size={"xl"}
+                title={"Result blastx"}
+            >
                 <Card.Body>
-                    {blastx ? <BlastxTable data={blastx} handleCompare={getTraduction} /> : ""}
+                    {blastx ? (
+                        <BlastxTable
+                            data={blastx}
+                            handleCompare={getTraduction}
+                        />
+                    ) : (
+                        ""
+                    )}
                 </Card.Body>
             </ModalBasic>
-            {/*<BlastxSearch setBlastx={setBlastx} />*/}
-            
-            {frame != null ? 
-            <Card className="my-3">
-                <CardHeader className="pt-3">
-                    <img src={imgns} height={"30px"} width={"30px"} />
-                    Predict structure
-                </CardHeader>
-                <Card.Body className="p-3">
-                <ListGroup className="mb-3 font-monospace" variant="flush">
-                    <ListGroup.Item>
-                        <Row>
-                            <Col xs={3}>FALTA</Col>
-                            <Col xs={9}>Agregar datos de donde vengo</Col>
-                        </Row>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <Row>
-                            <Col xs={3}>FRAME</Col>
-                            <Col xs={9}>{frame}</Col>
-                        </Row>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <Row>
-                            <Col xs={3}>PROTEIN TRADUCTION</Col>
-                            <Col xs={9}>{protein}</Col>
-                        </Row>
-                    </ListGroup.Item>
-                    {showButton ?
-                        <div className="d-flex justify-content-end">
-                            <Button className="mt-3" variant="secondary" size={"sm"} onClick={initJobPrediction} >
-                                get prediction
-                            </Button>
-                        </div>
-                    : ""}
 
-                    {jobId && statusJob != null ? 
-                        <>
+            {/* SECTION PREDICT */}
+            {frame != null ? (
+                <Card className="my-3">
+                    <CardHeader className="pt-3">
+                        <img src={imgns} height={"30px"} width={"30px"} />
+                        Predict structure
+                    </CardHeader>
+                    <Card.Body className="p-3">
+                        <ListGroup
+                            className="mb-3 font-monospace"
+                            variant="flush"
+                        >
                             <ListGroup.Item>
                                 <Row>
-                                    <Col xs={3}>JOB ID</Col>
-                                    <Col xs={9}>{jobId}</Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col xs={3}>STATUS</Col>
+                                    <Col xs={3}>FALTA</Col>
                                     <Col xs={9}>
-                                        <OverlayTrigger overlay={<Tooltip>{"get status"}</Tooltip>}>
-                                            <span className="d-inline-block">
-                                                <Button
-                                                    size={"sm"} 
-                                                    variant={
-                                                        statusJob === "pending" ? "secondary" :
-                                                        statusJob === "running" ? "warning" :
-                                                        statusJob === "failed" ? "danger" :
-                                                        statusJob === "completed" ? "success" :
-                                                        "secondary" // defecto
-                                                    }
-                                                    onClick={getStatus}
-                                                >   
-                                                    <div className="d-flex align-items-center">
-                                                        <Icon type={"status"} />
-                                                        {statusJob}
-                                                    </div>
-                                                </Button>
-                                            </span>
-                                        </OverlayTrigger>
+                                        Agregar datos de donde vengo
                                     </Col>
                                 </Row>
                             </ListGroup.Item>
-                            {statusJob == "completed" && ranks == null ? 
-                                <div className="d-flex justify-content-center">
-                                    <Button 
+                            <ListGroup.Item>
+                                <Row>
+                                    <Col xs={3}>FRAME</Col>
+                                    <Col xs={9}>{frame}</Col>
+                                </Row>
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                <Row>
+                                    <Col xs={3}>PROTEIN TRADUCTION</Col>
+                                    <Col xs={9}>{protein}</Col>
+                                </Row>
+                            </ListGroup.Item>
+                            {showButton ? (
+                                <div className="d-flex justify-content-end">
+                                    <Button
                                         className="mt-3"
-                                        variant={"primary"} 
-                                        onClick={getRank}
+                                        variant="secondary"
+                                        size={"sm"}
+                                        onClick={initJobPrediction}
                                     >
-                                        GET RANKS
+                                        get prediction
                                     </Button>
-                                </div> : ""
-                            }
-                            {ranks != null ? 
-                                <ListGroup.Item>
-                                    <Row>
-                                        <Col xs={3}>UNCERTAINTY</Col>
-                                        <Col xs={9}><TableRanks data={ranks} selectRankToCompare={selectRankToCompare} /></Col>
-                                    </Row>
-                                    <Row className="d-flex justify-content-center mt-3" >
-                                        Select rank to compare structures.
-                                    </Row>
-                                </ListGroup.Item>
-                                
-                                : ""
-                            }
-                        </> 
-                    : "" }
-                </ListGroup>
-                </Card.Body>
-            </Card> 
-            : "" }
+                                </div>
+                            ) : (
+                                ""
+                            )}
+
+                            {jobId && statusJob != null ? (
+                                <>
+                                    <ListGroup.Item>
+                                        <Row>
+                                            <Col xs={3}>JOB ID</Col>
+                                            <Col xs={9}>{jobId}</Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                    <ListGroup.Item>
+                                        <Row>
+                                            <Col xs={3}>STATUS</Col>
+                                            <Col xs={9}>
+                                                <OverlayTrigger
+                                                    overlay={
+                                                        <Tooltip>
+                                                            {"get status"}
+                                                        </Tooltip>
+                                                    }
+                                                >
+                                                    <span className="d-inline-block">
+                                                        <Button
+                                                            size={"sm"}
+                                                            variant={
+                                                                statusJob ===
+                                                                "pending"
+                                                                    ? "secondary"
+                                                                    : statusJob ===
+                                                                      "running"
+                                                                    ? "warning"
+                                                                    : statusJob ===
+                                                                      "failed"
+                                                                    ? "danger"
+                                                                    : statusJob ===
+                                                                      "completed"
+                                                                    ? "success"
+                                                                    : "secondary" // defecto
+                                                            }
+                                                            onClick={getStatus}
+                                                        >
+                                                            <div className="d-flex align-items-center">
+                                                                <Icon
+                                                                    type={
+                                                                        "status"
+                                                                    }
+                                                                />
+                                                                {statusJob}
+                                                            </div>
+                                                        </Button>
+                                                    </span>
+                                                </OverlayTrigger>
+                                            </Col>
+                                        </Row>
+                                    </ListGroup.Item>
+
+                                    {statusJob == "completed" &&
+                                    ranks == null ? (
+                                        <div className="d-flex justify-content-center">
+                                            <Button
+                                                className="mt-3"
+                                                variant={"primary"}
+                                                onClick={getRank}
+                                            >
+                                                GET RANKS
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        ""
+                                    )}
+
+                                    {ranks != null ? (
+                                        <>
+                                            <ListGroup.Item>
+                                                <Row>
+                                                    <Col xs={3}>
+                                                        UNCERTAINTY
+                                                    </Col>
+                                                    <Col xs={9}>
+                                                        <TableRanks
+                                                            data={ranks}
+                                                            selectRankToCompare={
+                                                                selectRankToCompare
+                                                            }
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                                <Row className="d-flex justify-content-center mt-3">
+                                                    Select rank to compare
+                                                    structures.
+                                                </Row>
+                                            </ListGroup.Item>
+
+                                            {/* MODAL PROTEINS */}
+                                            <ModalBasic
+                                                modalShow={modalStructureShow}
+                                                setModalShow={
+                                                    setModalStructureShow
+                                                }
+                                                size={"xl"}
+                                                title={"Structures"}
+                                            >
+                                                <Card.Body>
+                                                    {pdbString ? (
+                                                        <ProteinViewer
+                                                            pdbId={pdbId}
+                                                            prediction={
+                                                                pdbString
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        ""
+                                                    )}
+                                                </Card.Body>
+                                            </ModalBasic>
+                                        </>
+                                    ) : (
+                                        ""
+                                    )}
+                                </>
+                            ) : (
+                                ""
+                            )}
+                        </ListGroup>
+                    </Card.Body>
+                </Card>
+            ) : (
+                ""
+            )}
         </Container>
     );
 }

@@ -9,10 +9,16 @@ type SearcherProps = {
     placeholder: string;
 } & ButtonProps;
 
-function Searcher({ text, input, setInput, onSubmit, placeholder, ...prop }: SearcherProps) {
-
-    const handleSubmit =  (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); 
+function Searcher({
+    text,
+    input,
+    setInput,
+    onSubmit,
+    placeholder,
+    ...prop
+}: SearcherProps) {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         onSubmit();
     };
 

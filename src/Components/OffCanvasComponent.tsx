@@ -2,8 +2,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Navigation from "./Navigation";
 import { Button } from "react-bootstrap";
 import { Icon } from "./Icon";
-import img from "../assets/gene.png"
-
+import img from "../assets/gene.png";
 
 type Props = {
     showOffCanva: boolean;
@@ -17,7 +16,6 @@ function OffCanvasComponent({ showOffCanva, setShowOffCanva }: Props) {
                 show={showOffCanva}
                 onHide={() => setShowOffCanva(false)}
                 className="bg-dark text-white"
-                
             >
                 <Offcanvas.Header>
                     <Offcanvas.Title className="font-monospace">

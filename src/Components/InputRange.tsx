@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 type Props = {
     children: ReactNode;
-    number: string; 
+    number: string;
     setNumber: React.Dispatch<React.SetStateAction<string>>;
 };
 

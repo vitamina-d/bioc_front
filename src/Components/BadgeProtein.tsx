@@ -8,7 +8,7 @@ type Props = {
 function BadgeProtein({ name }: Props) {
     const navigate = useNavigate();
     const onClick = () => {
-        console.log("badge protein envia --------------", name)
+        console.log("badge protein envia --------------", name);
         navigate("/protein", { state: { id: name } });
     };
 

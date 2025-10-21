@@ -3,7 +3,7 @@ import Plot from "react-plotly.js";
 type Props = {
     title: string;
     x: number[];
-}
+};
 
 function PlotIslandBar({ title, x }: Props) {
     return (

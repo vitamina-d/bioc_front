@@ -1,10 +1,10 @@
 import { CardBody, CardImg, Col, ListGroup, Row } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import img from "../assets/chromosome.png"
+import img from "../assets/chromosome.png";
 
 type Props = {
     data: ResponsePublicSummary;
-}
+};
 
 function InfoNcbi({ data }: Props) {
     return (

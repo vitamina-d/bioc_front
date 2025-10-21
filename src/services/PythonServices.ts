@@ -32,7 +32,7 @@ const GetTranslate = async (
         method: "POST",
         body: JSON.stringify({
             sequence: sequence,
-            frame: frame
+            frame: frame,
         }),
         headers: {
             "Content-Type": "application/json",
@@ -46,5 +46,5 @@ const GetTranslate = async (
 export {
     //GetAlign,
     GetComplement,
-    GetTranslate
+    GetTranslate,
 };

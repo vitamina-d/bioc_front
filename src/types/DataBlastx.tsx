@@ -9,7 +9,7 @@ export type BlastxReport = {
     results: {
         search: Search;
     };
-}
+};
 
 export type Params = {
     matrix: string;
@@ -19,7 +19,7 @@ export type Params = {
     filter: string;
     cbs: number;
     query_gencode: number;
-}
+};
 
 export type Search = {
     query_id: string;
@@ -28,26 +28,26 @@ export type Search = {
     hits: Hit[];
     stat: Stat;
     message: string;
-}
+};
 
 export type QueryMasking = {
     from: number;
     to: number;
-}
+};
 
 export type Hit = {
     num: number;
     description: Description[];
     len: number;
     hsps: Hsp[];
-}
+};
 
 export type Description = {
     id: string;
     accession: string;
     title: string;
     taxid: number;
-}
+};
 
 export type Hsp = {
     num: number;
@@ -66,7 +66,7 @@ export type Hsp = {
     qseq: string;
     hseq: string;
     midline: string;
-}
+};
 
 export type Stat = {
     db_num: number;
@@ -76,4 +76,4 @@ export type Stat = {
     kappa: number;
     lambda: number;
     entropy: number;
-}
+};

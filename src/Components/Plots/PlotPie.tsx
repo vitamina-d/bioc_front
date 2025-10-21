@@ -5,12 +5,11 @@ type Props = {
     values: number[];
     labels: string[];
     colors: string[];
-}
+};
 
 function PlotPie({ title, values, labels, colors }: Props) {
     return (
-        <div
-        >
+        <div>
             <Plot
                 data={[
                     {

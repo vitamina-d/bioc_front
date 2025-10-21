@@ -9,7 +9,7 @@ import InfoDetail from "../Components/InfoDetail";
 import ButtonOverlay from "../Components/ButtonOverlay";
 import InfoFullDetail from "../Components/InfoFullDetail";
 import { useParams } from "react-router-dom";
-import img from "../assets/chromosome.png"
+import img from "../assets/chromosome.png";
 
 function DetailView() {
     const { entrezId } = useParams();
@@ -66,9 +66,8 @@ function DetailView() {
                         <h5 className="card-title mb-1">find:{entrezId}</h5>
                     </div>
                 </CardHeader>
-                </Card>
-                <Card>
-                    
+            </Card>
+            <Card>
                 <Card.Body>
                     {/* DETAIL COMUN */}
                     <InfoDetail data={detail}>

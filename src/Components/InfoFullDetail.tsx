@@ -82,29 +82,35 @@ function InfoFull({ dataPublic, dataPlumber }: Props) {
                                         />
                                     </Col>
                                 </Row>
-                            {/* LOS STATS */}
-                            {dataStats ? (
-                                <Accordion className="mx-5 my-1" defaultActiveKey="0">
-                                    <Accordion.Item eventKey="0">
-                                        <Accordion.Header>
-                                            Sequence and Stats
-                                        </Accordion.Header>
-                                        <Accordion.Body>
-                                            <SequenceShow
-                                                row={4}
-                                                sequence={dataStats.sequence}
-                                            />
-                                            <PercentPlots dataStats={dataStats} />
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                </Accordion>
-                            ) : (
-                                ""
-                            )}
+                                {/* LOS STATS */}
+                                {dataStats ? (
+                                    <Accordion
+                                        className="mx-5 my-1"
+                                        defaultActiveKey="0"
+                                    >
+                                        <Accordion.Item eventKey="0">
+                                            <Accordion.Header>
+                                                Sequence and Stats
+                                            </Accordion.Header>
+                                            <Accordion.Body>
+                                                <SequenceShow
+                                                    row={4}
+                                                    sequence={
+                                                        dataStats.sequence
+                                                    }
+                                                />
+                                                <PercentPlots
+                                                    dataStats={dataStats}
+                                                />
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    </Accordion>
+                                ) : (
+                                    ""
+                                )}
                             </ListGroup.Item>
                         </>
                     ))}
-
 
                     {dataPlumber.ensembl_id_gene ? (
                         <ListGroup.Item>

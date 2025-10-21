@@ -4,12 +4,10 @@ import { optionsChromosomes } from "../config/optionsChromosomes";
 type Props = {
     chr: string | null;
     setChr: React.Dispatch<React.SetStateAction<string | null>>;
-    
 };
 
 function DropdownChr({ chr, setChr }: Props) {
-    return (            
-
+    return (
         <Dropdown className="w-100" drop={"down"} as={ButtonGroup}>
             <label className="input-group-text rounded-0 rounded-start">
                 Cromosome

@@ -131,14 +131,14 @@ const getMessage = async (msg: string): Promise<string> => {
     return data;
 };
 
-const getEntrez = async (value: string): Promise<ResponsePlumber<DataEntrez>> => {
-    console.log(value)
-    const response = await fetch(
-        `${DOTNET_BIOCONDUCTOR_URL}/entrez/${value}`
-    );
-    console.log(response)
+const getEntrez = async (
+    value: string
+): Promise<ResponsePlumber<DataEntrez>> => {
+    console.log(value);
+    const response = await fetch(`${DOTNET_BIOCONDUCTOR_URL}/entrez/${value}`);
+    console.log(response);
     const data = await response.json();
-    console.log(data)
+    console.log(data);
     return data;
 };
 
@@ -152,5 +152,5 @@ export {
     GetStats,
     GetSequenceByRange,
     getMessage,
-    getEntrez
+    getEntrez,
 };

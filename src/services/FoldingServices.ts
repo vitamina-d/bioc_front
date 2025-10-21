@@ -1,19 +1,28 @@
 import { DOTNET_FOLD_URL } from "../config/urls";
-import type { ProteinRanks, ResponseRanks, ResponseStatus } from "../types/ResponseFolding";
+import type {
+    ProteinRanks,
+    ResponseRanks,
+    ResponseStatus,
+} from "../types/ResponseFolding";
 
 //http://localhost:8081/api/Folding/job/68e17d82e986d44f8b7e9e1b/rank_3/align/4quv
-const GetEstructureAlign = async ( pdbId: string, jobId: string, rank: string): Promise<string> => {
-    console.log("folding service")
-    const response = await fetch(`${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/align/${pdbId}`);
+const GetEstructureAlign = async (
+    pdbId: string,
+    jobId: string,
+    rank: string
+): Promise<string> => {
+    console.log("folding service");
+    const response = await fetch(
+        `${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/align/${pdbId}`
+    );
     console.log(response);
     const data = await response.text();
     console.log(data);
     return data;
 };
 
-const InitJob = async (
-    aminoacid: string,
-): Promise<string> => { //jobId
+const InitJob = async (aminoacid: string): Promise<string> => {
+    //jobId
     const response = await fetch(`${DOTNET_FOLD_URL}/init`, {
         method: "POST",
         body: JSON.stringify({
@@ -28,25 +37,37 @@ const InitJob = async (
     return data;
 };
 
-const StatusJob = async ( jobId: string ): Promise<ResponseStatus> => {
+const StatusJob = async (jobId: string): Promise<ResponseStatus> => {
     const response = await fetch(`${DOTNET_FOLD_URL}/status/${jobId}`);
     console.log(response);
     const json = await response.json();
     return json;
 };
 
-const GetRanksJob = async ( jobId: string ): Promise<ProteinRanks> => {
+const GetRanksJob = async (jobId: string): Promise<ProteinRanks> => {
     const response = await fetch(`${DOTNET_FOLD_URL}/job/${jobId}/ranks`);
     console.log(response);
-    const json:ResponseRanks = await response.json();
+    const json: ResponseRanks = await response.json();
     return json.prot1; //prot1 se envia en jobinit .net
 };
 
-const GetAlignPrediction = async ( jobId: string, rank:string, pdbId: string ): Promise<string> => {
-    const response = await fetch(`${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/align/${pdbId}`);
+const GetAlignPrediction = async (
+    jobId: string,
+    rank: string,
+    pdbId: string
+): Promise<string> => {
+    const response = await fetch(
+        `${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/align/${pdbId}`
+    );
     console.log(response);
-    const pdbFile:string = await response.text()
-    return pdbFile; 
+    const pdbFile: string = await response.text();
+    return pdbFile;
 };
 
-export { GetEstructureAlign, InitJob, StatusJob, GetRanksJob, GetAlignPrediction };
+export {
+    GetEstructureAlign,
+    InitJob,
+    StatusJob,
+    GetRanksJob,
+    GetAlignPrediction,
+};

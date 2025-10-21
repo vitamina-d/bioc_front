@@ -5,7 +5,7 @@ type Props = {
     x: string[];
     y: number[];
     colors: string[];
-}
+};
 
 function PlotBar({ title, x, y, colors }: Props) {
     return (
@@ -24,7 +24,11 @@ function PlotBar({ title, x, y, colors }: Props) {
                 title: {
                     text: title,
                 },
-                xaxis: { title: { text: "" }, tickangle: -45, automargin: true },
+                xaxis: {
+                    title: { text: "" },
+                    tickangle: -45,
+                    automargin: true,
+                },
                 yaxis: { title: { text: "" }, automargin: true },
                 autosize: true,
                 height: 400,

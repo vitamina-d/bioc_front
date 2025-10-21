@@ -4,17 +4,13 @@ import SequenceViewer from "../Components/SequenceViewer";
 import { GetSequenceByRange } from "../services/BioconductorServices";
 import Header from "../Components/Header";
 import type { ResponsePlumber } from "../types/ResponsePlumber";
-import type {
-    DataDetail,
-    DataSequence,
-    DataStats,
-} from "../types/DataPlumber";
+import type { DataDetail, DataSequence, DataStats } from "../types/DataPlumber";
 import InputRange from "../Components/InputRange";
 import DropdownChr from "../Components/DropdownChr";
 import PercentPlots from "../Components/PercentPlots";
 import { GetComplement } from "../services/PythonServices";
 import type { Sequence } from "../types/DataPython";
-import img from "../assets/search-gene.png"
+import img from "../assets/search-gene.png";
 
 type Props = {
     detail: DataDetail | null;
@@ -56,8 +52,11 @@ function SearchView({ detail, setDetail }: Props) {
     //COMPLEMENT http://localhost:8081/api/Python/complement
     const handleReverseComplement = async () => {
         if (sequence != "") {
-            const response: ResponsePlumber<Sequence> =
-                await GetComplement(sequence, toReverse, toComplement);
+            const response: ResponsePlumber<Sequence> = await GetComplement(
+                sequence,
+                toReverse,
+                toComplement
+            );
             setOutput(response.data.sequence);
             console.log(response.data);
         }
@@ -96,12 +95,8 @@ function SearchView({ detail, setDetail }: Props) {
 
     return (
         <Container fluid className="mt-3">
-            <Header
-                title="Search"
-                text="Gene"
-                imageSrc={img}
-            />
-{/* 
+            <Header title="Search" text="Gene" imageSrc={img} />
+            {/* 
             <Searcher
                 text={"Search"}
                 input={input}
@@ -176,13 +171,15 @@ function SearchView({ detail, setDetail }: Props) {
                     onClick={clearSequence}
                 />
 
-                {output && <SequenceViewer
-                    title={"Output"}
-                    sequence={output}
-                    setSequence={setOutput}
-                    readonly={true}
-                    onClick={clearOutput}
-                />}
+                {output && (
+                    <SequenceViewer
+                        title={"Output"}
+                        sequence={output}
+                        setSequence={setOutput}
+                        readonly={true}
+                        onClick={clearOutput}
+                    />
+                )}
             </div>
             {dataStats ? <PercentPlots dataStats={dataStats} /> : ""}
         </Container>

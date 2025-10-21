@@ -41,10 +41,10 @@ function AlignSequences({ setDataAlign }: Props) {
     };
     const clearPattern = () => {
         setPattern("");
-    }
+    };
     const clearSubject = () => {
         setSubject("");
-    }
+    };
     return (
         <>
             <div className="d-flex justify-content-end">

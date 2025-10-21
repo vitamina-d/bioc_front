@@ -6,8 +6,7 @@ import { Icon } from "./Icon";
 import { useState } from "react";
 import ModalBasic from "./ModalBasic";
 import { Link, useLocation } from "react-router-dom";
-import img from "../assets/gene.png"
-
+import img from "../assets/gene.png";
 
 function NavComponent() {
     const location = useLocation();
@@ -51,7 +50,12 @@ function NavComponent() {
                     </Button>
                 </div>
             </div>
-            <ModalBasic modalShow={modalShow} setModalShow={setModalShow} size={"sm"} title={"Search by alias"}>
+            <ModalBasic
+                modalShow={modalShow}
+                setModalShow={setModalShow}
+                size={"sm"}
+                title={"Search by alias"}
+            >
                 <SearchDetail setModalShow={setModalShow} />
             </ModalBasic>
         </Navbar>

@@ -1,6 +1,6 @@
 import { Button, Card, CardImg, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import img from "../assets/search-gene.png"
+import img from "../assets/search-gene.png";
 
 function NotFoundView() {
     const navigate = useNavigate();
@@ -12,12 +12,23 @@ function NotFoundView() {
                     src={img}
                     alt="icono"
                     className="me-2 rounded-circle"
-                    style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+                    style={{
+                        width: "150px",
+                        height: "150px",
+                        objectFit: "cover",
+                    }}
                 />
-                <Card.Title className="font-monospace mt-3 mb-1">404</Card.Title>
-                <Card.Text className="font-monospace mb-3">n o t f o u n d</Card.Text>
-            <Button variant="secondary" onClick={() => navigate("/")}> Back</Button>
-            </Card>  
+                <Card.Title className="font-monospace mt-3 mb-1">
+                    404
+                </Card.Title>
+                <Card.Text className="font-monospace mb-3">
+                    n o t f o u n d
+                </Card.Text>
+                <Button variant="secondary" onClick={() => navigate("/")}>
+                    {" "}
+                    Back
+                </Button>
+            </Card>
         </Container>
     );
 }
