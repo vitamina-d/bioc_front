@@ -3,7 +3,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import SequenceViewer from "../Components/SequenceViewer";
 import { GetSequenceByRange } from "../services/BioconductorServices";
 import Header from "../Components/Header";
-import type { ResponsePlumber } from "../types/ResponsePlumber";
+import type { Response } from "../types/Response";
 import type { DataDetail, DataSequence, DataStats } from "../types/DataPlumber";
 import InputRange from "../Components/InputRange";
 import DropdownChr from "../Components/DropdownChr";
@@ -56,7 +56,7 @@ function SearchView({ detail, setDetail }: Props) {
     //COMPLEMENT http://localhost:8081/api/Python/complement
     const handleReverseComplement = async () => {
         if (sequence != "") {
-            const response: ResponsePlumber<Sequence> = await GetComplement(
+            const response: Response<Sequence> = await GetComplement(
                 sequence,
                 toReverse,
                 toComplement
@@ -75,7 +75,7 @@ function SearchView({ detail, setDetail }: Props) {
             alert("chr");
             return;
         }
-        const response: ResponsePlumber<DataSequence> =
+        const response: Response<DataSequence> =
             await GetSequenceByRange(chr, parseInt(start), parseInt(end));
 
         console.log(response);
@@ -91,7 +91,7 @@ function SearchView({ detail, setDetail }: Props) {
         setDataStats(null);
         if (setDetail) {
             setDetail(null);
-        } 
+        }
     };
     const clearOutput = () => {
         setToReverse(false);

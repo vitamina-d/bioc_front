@@ -1,6 +1,6 @@
 import { Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import type { ResponsePlumber } from "../types/ResponsePlumber";
+import type { Response } from "../types/Response";
 import SequenceViewer from "./SequenceViewer";
 import { GetComplement } from "../services/PythonServices";
 import type { Sequence } from "../types/DataPython";
@@ -17,12 +17,17 @@ function ComplementSequences() {
 
     const handleReverseComplement = async () => {
         console.log("handleReverseComplement");
-        const response: ResponsePlumber<Sequence> = await GetComplement(
+        const response: Response<Sequence> = await GetComplement(
             //body
             sequence,
             toReverse,
             toComplement
         );
+        if (response.code !== 200) {
+            // error
+            console.error(response.message);
+            return;
+        }
         setOutput(response.data.sequence);
         console.log(response.data);
     };

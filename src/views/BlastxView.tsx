@@ -14,7 +14,7 @@ import type { BlastxReport } from "../types/DataBlastx";
 import { useState } from "react";
 import BlastxTable from "../Components/BlastxTable";
 import SequenceViewer from "../Components/SequenceViewer";
-import type { ResponsePlumber } from "../types/ResponsePlumber";
+import type { Response } from "../types/Response";
 import { PostBlastx } from "../services/BlastServices";
 import ModalBasic from "../Components/ModalBasic";
 import { GetTranslate } from "../services/PythonServices";
@@ -56,7 +56,7 @@ function BlastxView() {
     ) => {
         event.preventDefault();
         //console.log("QUERY: ", sequence);
-        const response: ResponsePlumber<BlastxReport> = await PostBlastx(
+        const response: Response<BlastxReport> = await PostBlastx(
             sequence.trim()
         );
         //console.log(response);
@@ -81,13 +81,13 @@ function BlastxView() {
         setJobId(null);
         setStatusJob(null);
         setShowButton(true);
-        
+
         setModalShow(false);
         setFrame(frame);
         //pdb|6JEH|B
         console.log("PDBID -----> ", pdbId.split("|")[1]);
         setPdbId(pdbId.split("|")[1]);
-        const response: ResponsePlumber<Sequence> = await GetTranslate(
+        const response: Response<Sequence> = await GetTranslate(
             sequence.trim(),
             frame
         );
@@ -104,7 +104,7 @@ function BlastxView() {
         console.log(response);
         setJobId(response);
         //const jobStatus: ResponseStatus = await StatusJob(response);
-        const jobStatus: ResponseStatus = await StatusJob(response); 
+        const jobStatus: ResponseStatus = await StatusJob(response);
         const status = JSON.parse(jobStatus.status);
         console.log(status);
         setStatusJob(status);

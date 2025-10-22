@@ -3,7 +3,7 @@ import { Card, CardHeader, CardImg, Container } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import { GetDetail, GetFullDetail } from "../services/BioconductorServices";
 import { SummaryService } from "../services/PublicServices";
-import type { ResponsePlumber } from "../types/ResponsePlumber";
+import type { Response } from "../types/Response";
 import type { DataDetail, DataFullDetail } from "../types/DataPlumber";
 import InfoDetail from "../Components/InfoDetail";
 import ButtonOverlay from "../Components/ButtonOverlay";
@@ -39,8 +39,9 @@ function DetailView() {
             );
             console.log(publicRes);
             setSummary(publicRes);
-            const biocResponse: ResponsePlumber<DataFullDetail> =
-                await GetFullDetail(entrezId!);
+            const biocResponse: Response<DataFullDetail> = await GetFullDetail(
+                entrezId!
+            );
             console.log(biocResponse);
             setFullDetail(biocResponse.data);
         } catch (err) {

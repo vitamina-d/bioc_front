@@ -1,11 +1,12 @@
 import { DOTNET_BLAST_URL } from "../config/urls";
 import type { BlastxReport } from "../types/DataBlastx";
-import type { ResponsePlumber } from "../types/ResponsePlumber";
+import type { Response } from "../types/Response";
 
 const PostBlastx = async (
     sequence: string
-): Promise<ResponsePlumber<BlastxReport>> => {
-    //console.log("blastx service");
+): Promise<Response<BlastxReport>> => {
+    console.log("[BLAST] POST /blastx");
+
     const response = await fetch(`${DOTNET_BLAST_URL}/blastx`, {
         method: "POST",
         body: JSON.stringify({
@@ -15,10 +16,10 @@ const PostBlastx = async (
             "Content-Type": "application/json",
         },
     });
-    //console.log(response);
-    const data = await response.json();
-    //console.log(data);
-    return data;
+    const json = await response.json();
+    console.log(response);
+    console.log(json);
+    return json;
 };
 
 export { PostBlastx };

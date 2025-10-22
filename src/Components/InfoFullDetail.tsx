@@ -2,7 +2,7 @@ import { Col, Accordion, ListGroup, Row } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import type { DataFullDetail, DataStats } from "../types/DataPlumber";
 import ButtonOverlay from "./ButtonOverlay";
-import type { ResponsePlumber } from "../types/ResponsePlumber";
+import type { Response } from "../types/Response";
 import { GetStats } from "../services/BioconductorServices";
 import SequenceShow from "./SequenceShow";
 import PercentPlots from "./PercentPlots";
@@ -21,7 +21,7 @@ function InfoFull({ dataPublic, dataPlumber }: Props) {
 
     const getStats = async () => {
         try {
-            const seqAndStats: ResponsePlumber<DataStats> = await GetStats(
+            const seqAndStats: Response<DataStats> = await GetStats(
                 entrezId!,
                 true
             );

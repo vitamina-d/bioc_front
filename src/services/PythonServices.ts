@@ -1,13 +1,14 @@
 import { DOTNET_PYTHON_URL } from "../config/urls";
-import type { ResponsePlumber } from "../types/ResponsePlumber";
+import type { Response } from "../types/Response";
 import type { Sequence } from "../types/DataPython";
 
-//https://localhost:32769/api/Python/complement
 const GetComplement = async (
     sequence: string,
     reverse: boolean,
     complement: boolean
-): Promise<ResponsePlumber<Sequence>> => {
+): Promise<Response<Sequence>> => {
+    console.log("[PYTHON] POST /complement");
+
     const response = await fetch(`${DOTNET_PYTHON_URL}/complement`, {
         method: "POST",
         body: JSON.stringify({
@@ -19,15 +20,18 @@ const GetComplement = async (
             "Content-Type": "application/json",
         },
     });
+    const json = await response.json();
     console.log(response);
-    const data = await response.json();
-    return data;
+    console.log(json);
+    return json;
 };
 
 const GetTranslate = async (
     sequence: string,
     frame: number
-): Promise<ResponsePlumber<Sequence>> => {
+): Promise<Response<Sequence>> => {
+    console.log("[PYTHON] POST /translate");
+
     const response = await fetch(`${DOTNET_PYTHON_URL}/translate`, {
         method: "POST",
         body: JSON.stringify({
@@ -38,13 +42,10 @@ const GetTranslate = async (
             "Content-Type": "application/json",
         },
     });
+    const json = await response.json();
     console.log(response);
-    const data = await response.json();
-    return data;
+    console.log(json);
+    return json;
 };
 
-export {
-    //GetAlign,
-    GetComplement,
-    GetTranslate,
-};
+export { GetComplement, GetTranslate };

@@ -1,11 +1,14 @@
 import { DOTNET_FOLD_URL } from "../config/urls";
+import type { Response } from "../types/Response";
 import type {
     ProteinRanks,
     ResponseRanks,
     ResponseStatus,
 } from "../types/ResponseFolding";
 
-const InitJob = async (aminoacid: string): Promise<string> => { //jobId
+const InitJob = async (aminoacid: string): Promise<Response<string>> => {
+    console.log("[FOLD] POST /init");
+
     const response = await fetch(`${DOTNET_FOLD_URL}/init`, {
         method: "POST",
         body: JSON.stringify({
@@ -15,42 +18,61 @@ const InitJob = async (aminoacid: string): Promise<string> => { //jobId
             "Content-Type": "application/json",
         },
     });
-    console.log(response);
-    const data = await response.json();
-    return data;
-};
-
-const StatusJob = async (jobId: string): Promise<ResponseStatus> => {
-    //console.log("SERVICE ---- ", jobId)
-    const response = await fetch(`${DOTNET_FOLD_URL}/status/${jobId}`);
-    //console.log(response);
     const json = await response.json();
-    return json;
+    console.log(response);
+    console.log(json);
+    console.log("SIEMPRE JOB: 68e17d82e986d44f8b7e9e1b");
+    return {
+        code: response.status,
+        message: response.statusText,
+        data: "68e17d82e986d44f8b7e9e1b",
+    };
 };
 
-const GetRanksJob = async (jobId: string): Promise<ProteinRanks> => {
+const StatusJob = async (jobId: string): Promise<Response<ResponseStatus>> => {
+    console.log("[FOLD] POST /status/jobId");
+
+    const response = await fetch(`${DOTNET_FOLD_URL}/status/${jobId}`);
+    const json = await response.json();
+    console.log(response);
+    console.log(json);
+    return {
+        code: response.status,
+        message: response.statusText,
+        data: json,
+    };
+};
+
+const GetRanksJob = async (jobId: string): Promise<Response<ProteinRanks>> => {
+    console.log("[FOLD] GET /job/ranks");
+
     const response = await fetch(`${DOTNET_FOLD_URL}/job/${jobId}/ranks`);
-    //console.log(response);
     const json: ResponseRanks = await response.json();
-    return json.prot1; //prot1 se envia en jobinit .net
+    console.log(response);
+    console.log(json);
+    return {
+        code: response.status,
+        message: response.statusText,
+        data: json.prot1,
+    }; //prot1 se envia en jobinit .net
 };
 
 const GetAlignPrediction = async (
     jobId: string,
     rank: string,
     pdbId: string
-): Promise<string> => {
+): Promise<Response<string>> => {
+    console.log("[FOLD] GET /job/rank/pdbId");
+
     const response = await fetch(
         `${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/align/${pdbId}`
     );
-    //console.log("----------------------------------------------", response);
     const pdbFile: string = await response.text();
-    return pdbFile;
+    return {
+        code: response.status,
+        message: response.statusText,
+        data: pdbFile,
+    };
 };
 
-export {
-    InitJob,
-    StatusJob,
-    GetRanksJob,
-    GetAlignPrediction,
-};
+export { InitJob, StatusJob, GetRanksJob, GetAlignPrediction };

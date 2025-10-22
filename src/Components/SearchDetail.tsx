@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Dropdown, Form } from "react-bootstrap";
-import type { ResponsePlumber } from "../types/ResponsePlumber";
+import type { Response } from "../types/Response";
 import { GetAutocomplete, getEntrez } from "../services/BioconductorServices";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "./Icon";
@@ -20,9 +20,7 @@ function SearchDetail({ setModalShow }: Props) {
         e.preventDefault();
         setModalShow(false);
         console.log("el input es: ", search);
-        const getEntrezByValue: ResponsePlumber<DataEntrez> = await getEntrez(
-            search
-        );
+        const getEntrezByValue: Response<DataEntrez> = await getEntrez(search);
         console.log("el response es: ", getEntrezByValue);
         //getentrez
         const entrez = getEntrezByValue.data?.entrez;
@@ -41,9 +39,7 @@ function SearchDetail({ setModalShow }: Props) {
         setSearch(e.target.value);
         console.log("AUTOCOMPLETE: ", search);
         if (search.trimStart().length > 0 && search.trimEnd().length > 0) {
-            const alias: ResponsePlumber<string[]> = await GetAutocomplete(
-                search
-            );
+            const alias: Response<string[]> = await GetAutocomplete(search);
             setDesplegable(alias.data);
         }
     };
