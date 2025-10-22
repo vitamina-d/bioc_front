@@ -9,7 +9,7 @@ import type {
     DataSequence,
     DataStats,
 } from "../types/DataPlumber";
-//https://localhost:32769/api/Plumber/align
+
 const GetAlign = async (
     pattern: string,
     subject: string,
@@ -30,28 +30,33 @@ const GetAlign = async (
             "Content-Type": "application/json",
         },
     });
+    const json = await response.json();
     console.log(response);
-    const data = await response.json();
-    return data;
+    console.log(json);
+    return json;
 };
 
 const GetAutocomplete = async (value: string): Promise<Response<string[]>> => {
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/autocomplete?input=${value}`
     );
-    const data = await response.json();
-    return data;
+    const json = await response.json();
+    console.log(response);
+    console.log(json);
+    return json;
 };
 
-//https://localhost:32789/api/Plumber/detail?value=slos&full=false
 const GetDetail = async (value: string): Promise<Response<DataDetail>> => {
     const full = false;
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/detail?value=${value}&full=${full}`
     );
-    const data = await response.json();
-    return data;
+    const json = await response.json();
+    console.log(response);
+    console.log(json);
+    return json;
 };
+
 const GetFullDetail = async (
     value: string
 ): Promise<Response<DataFullDetail>> => {
@@ -59,11 +64,12 @@ const GetFullDetail = async (
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/detail?value=${value}&full=${full}`
     );
-    const data = await response.json();
-    return data;
+    const json = await response.json();
+    console.log(response);
+    console.log(json);
+    return json;
 };
 
-//https://localhost:32789/api/Plumber/percent
 const GetPercent = async (sequence: string): Promise<Response<DataPercent>> => {
     const response = await fetch(`${DOTNET_BIOCONDUCTOR_URL}/percent`, {
         method: "POST",
@@ -72,11 +78,12 @@ const GetPercent = async (sequence: string): Promise<Response<DataPercent>> => {
             "Content-Type": "application/json",
         },
     });
-    const data = await response.json();
-    return data;
+    const json = await response.json();
+    console.log(response);
+    console.log(json);
+    return json;
 };
 
-//https://localhost:32789/api/Plumber/sequence?value=slos&complete=true
 const GetSequence = async (
     value: string,
     complete: boolean
@@ -84,11 +91,12 @@ const GetSequence = async (
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/sequence?value=${value}&complete=${complete}`
     );
-    const data = await response.json();
-    return data;
+    const json = await response.json();
+    console.log(response);
+    console.log(json);
+    return json;
 };
 
-//https://localhost:32789/api/Plumber/sequence?value=slos&complete=true
 const GetStats = async (
     entrez: string,
     complete: boolean
@@ -96,11 +104,12 @@ const GetStats = async (
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/stats?entrez=${entrez}&complete=${complete}`
     );
-    const data = await response.json();
-    return data;
+    const json = await response.json();
+    console.log(response);
+    console.log(json);
+    return json;
 };
 
-//https://localhost:32789/api/Plumber/sequence_by_range?chrom=11&start=100&end=200
 const GetSequenceByRange = async (
     chr: string, //11, X, Y
     start: number,
@@ -109,28 +118,19 @@ const GetSequenceByRange = async (
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/sequence_by_range?chrom=${chr}&start=${start}&end=${end}`
     );
-    const data = await response.json();
+    const json = await response.json();
     console.log(response);
-    console.log(data);
-    return data;
-};
-
-//https://localhost:32769/api/Plumber/msg?msg=${msg}
-const getMessage = async (msg: string): Promise<string> => {
-    const response = await fetch(
-        `${DOTNET_BIOCONDUCTOR_URL}/msg?msg=${encodeURIComponent(msg)}`
-    );
-    const data = await response.json();
-    return data;
+    console.log(json);
+    return json;
 };
 
 const getEntrez = async (value: string): Promise<Response<DataEntrez>> => {
     console.log(value);
     const response = await fetch(`${DOTNET_BIOCONDUCTOR_URL}/entrez/${value}`);
+    const json = await response.json();
     console.log(response);
-    const data = await response.json();
-    console.log(data);
-    return data;
+    console.log(json);
+    return json;
 };
 
 export {
@@ -142,6 +142,5 @@ export {
     GetSequence,
     GetStats,
     GetSequenceByRange,
-    getMessage,
     getEntrez,
 };
