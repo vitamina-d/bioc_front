@@ -17,6 +17,7 @@ const GetAlign = async (
     gapOpening: number, // >=0
     gapExtension: number // >=0
 ): Promise<Response<DataAlign>> => {
+    console.log("[BIOC] POST /align");
     const response = await fetch(`${DOTNET_BIOCONDUCTOR_URL}/align`, {
         method: "POST",
         body: JSON.stringify({
@@ -37,6 +38,7 @@ const GetAlign = async (
 };
 
 const GetAutocomplete = async (value: string): Promise<Response<string[]>> => {
+    console.log("[BIOC] GET /autocomplete");
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/autocomplete?input=${value}`
     );
@@ -47,6 +49,7 @@ const GetAutocomplete = async (value: string): Promise<Response<string[]>> => {
 };
 
 const GetDetail = async (value: string): Promise<Response<DataDetail>> => {
+    console.log("[BIOC] GET /detail");
     const full = false;
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/detail?value=${value}&full=${full}`
@@ -60,6 +63,7 @@ const GetDetail = async (value: string): Promise<Response<DataDetail>> => {
 const GetFullDetail = async (
     value: string
 ): Promise<Response<DataFullDetail>> => {
+    console.log("[BIOC] GET /detail&full");
     const full = true;
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/detail?value=${value}&full=${full}`
@@ -71,6 +75,7 @@ const GetFullDetail = async (
 };
 
 const GetPercent = async (sequence: string): Promise<Response<DataPercent>> => {
+    console.log("[BIOC] POST /percent");
     const response = await fetch(`${DOTNET_BIOCONDUCTOR_URL}/percent`, {
         method: "POST",
         body: JSON.stringify(sequence),
@@ -88,6 +93,7 @@ const GetSequence = async (
     value: string,
     complete: boolean
 ): Promise<Response<DataSequence>> => {
+    console.log("[BIOC] GET /sequence");
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/sequence?value=${value}&complete=${complete}`
     );
@@ -101,6 +107,7 @@ const GetStats = async (
     entrez: string,
     complete: boolean
 ): Promise<Response<DataStats>> => {
+    console.log("[BIOC] GET /stats");
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/stats?entrez=${entrez}&complete=${complete}`
     );
@@ -115,6 +122,7 @@ const GetSequenceByRange = async (
     start: number,
     end: number
 ): Promise<Response<DataSequence>> => {
+    console.log("[BIOC] GET /sequence");
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/sequence_by_range?chrom=${chr}&start=${start}&end=${end}`
     );
@@ -125,6 +133,7 @@ const GetSequenceByRange = async (
 };
 
 const getEntrez = async (value: string): Promise<Response<DataEntrez>> => {
+    console.log("[BIOC] GET /entrez");
     console.log(value);
     const response = await fetch(`${DOTNET_BIOCONDUCTOR_URL}/entrez/${value}`);
     const json = await response.json();
