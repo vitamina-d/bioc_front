@@ -1,21 +1,42 @@
-import { useEffect, useState } from "react";
-import { Card, CardHeader, CardImg, Container } from "react-bootstrap";
+import { useEffect, useState, type SetStateAction } from "react";
+import {
+    Accordion,
+    Card,
+    CardHeader,
+    CardImg,
+    Container,
+    ListGroup,
+    Modal,
+} from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import { GetDetail, GetFullDetail } from "../services/BioconductorServices";
+import {
+    GetDetail,
+    GetFullDetail,
+    GetStats,
+} from "../services/BioconductorServices";
 import { SummaryService } from "../services/PublicServices";
 import type { Response } from "../types/Response";
-import type { DataDetail, DataFullDetail } from "../types/DataPlumber";
+import type {
+    DataDetail,
+    DataFullDetail,
+    DataStats,
+} from "../types/DataPlumber";
 import ButtonOverlay from "../Components/ButtonOverlay";
 import InfoFullDetail from "../Components/InfoFullDetail";
 import { useParams } from "react-router-dom";
 import img from "../assets/chromosome.png";
 import InfoDetailCopy from "../Components/InfoDetail copy";
+import SequenceShow from "../Components/SequenceShow";
+import PercentPlots from "../Components/PercentPlots";
+import ModalBasic from "../Components/ModalBasic";
 
 function DetailView() {
     const { entrezId, searchInput } = useParams();
     const [detail, setDetail] = useState<DataDetail | null>(null);
     const [summary, setSummary] = useState<ResponsePublicSummary>();
     const [fullDetail, setFullDetail] = useState<DataFullDetail>();
+    const [dataStats, setDataStats] = useState<DataStats | null>(null);
+    const [showStats, setshowStats] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchDetail = async () => {
@@ -44,7 +65,19 @@ function DetailView() {
             console.error(err);
         }
     };
-
+    const getStats = async () => {
+        try {
+            const seqAndStats: Response<DataStats> = await GetStats(
+                entrezId!,
+                true
+            );
+            console.log("data: ", seqAndStats.data);
+            setDataStats(seqAndStats.data);
+            setshowStats(true);
+        } catch (err) {
+            console.error(err);
+        }
+    };
     return (
         <Container fluid className="mt-3">
             <Card className=" font-monospace text-muted text-small">
@@ -63,25 +96,56 @@ function DetailView() {
 
                         <h5 className="card-title mb-1">find:{searchInput}</h5>
                     </div>
-                    <ButtonOverlay
-                        textHover={"FullDetail"}
-                        typeIcon={"binocular"}
-                        onClick={getFull}
-                        variant="outline-secondary"
-                        size="lg"
-                    />
+                    <div className="gap-2 d-flex align-items-center">
+                        <ButtonOverlay
+                            textHover={"FullDetail"}
+                            typeIcon={"binocular"}
+                            onClick={getFull}
+                            variant="outline-secondary"
+                            size="lg"
+                        />
+                        <ButtonOverlay
+                            textHover={"Sequence"}
+                            typeIcon={"finger"}
+                            onClick={getStats}
+                            variant="outline-primary"
+                            size="lg"
+                        />{" "}
+                    </div>
                 </CardHeader>
             </Card>
             <Card>
                 <Card.Body>
-                    {/* DETAIL COMUN */}
-                    <InfoDetailCopy data={detail} />
-
-                    {/* MAS DETAIL */}
-                    <InfoFullDetail
-                        dataPublic={summary}
-                        dataPlumber={fullDetail}
-                    />
+                    <ListGroup className="mb-3" variant="flush">
+                        {/* DETAIL COMUN */}
+                        <InfoDetailCopy data={detail} />
+                        {/* MAS DETAIL */}
+                        <InfoFullDetail
+                            dataPublic={summary}
+                            dataPlumber={fullDetail}
+                        />
+                    </ListGroup>
+                    {/* LOS STATS */}
+                    <ModalBasic
+                        modalShow={showStats}
+                        setModalShow={setshowStats}
+                        size={"xl"}
+                        title={"Sequence and Stats"}
+                    >
+                        <Modal.Body>
+                            {dataStats ? (
+                                <>
+                                    <SequenceShow
+                                        row={4}
+                                        sequence={dataStats.sequence}
+                                    />
+                                    <PercentPlots dataStats={dataStats} />
+                                </>
+                            ) : (
+                                ""
+                            )}{" "}
+                        </Modal.Body>
+                    </ModalBasic>
                 </Card.Body>
             </Card>
         </Container>
@@ -89,3 +153,33 @@ function DetailView() {
 }
 
 export default DetailView;
+/*
+{dataStats ? (
+                        <ModalBasic
+                            modalShow={showStats}
+                            setModalShow={setshowStats}
+                            size={"xl"}
+                            title={"Stats"}
+                        >
+                            <Accordion
+                                className="mx-5 my-1"
+                                defaultActiveKey="0"
+                            >
+                                <Accordion.Item eventKey="0">
+                                    <Accordion.Header>
+                                        Sequence and Stats
+                                    </Accordion.Header>
+                                    <Accordion.Body>
+                                        <SequenceShow
+                                            row={4}
+                                            sequence={dataStats.sequence}
+                                        />
+                                        <PercentPlots dataStats={dataStats} />
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </Accordion>
+                        </ModalBasic>
+                    ) : (
+                        ""
+                    )}{" "}
+*/

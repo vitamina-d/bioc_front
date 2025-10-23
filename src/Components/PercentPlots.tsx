@@ -16,7 +16,7 @@ function PercentPlots({ dataStats }: Props) {
         <Row>
             <Col lg={9}>
                 <PlotHistogram
-                    title="cpg"
+                    title="CpG islands"
                     values={island}
                     lenght={lenght}
                     window={200}
