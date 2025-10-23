@@ -15,7 +15,7 @@ function ModalBodyUpload({ setName, setDictionary, setShowTable }: Props) {
             const file = event.target.files[0];
             setName(file.name);
             //console.log(file);
-            console.log(file.name);
+            //console.log(file.name);
 
             const dictionary: FastaDictionary = {};
 
@@ -43,7 +43,7 @@ function ModalBodyUpload({ setName, setDictionary, setShowTable }: Props) {
                         dictionary[header] += line;
                     }
                 });
-                console.log(dictionary); ///!!!
+                //console.log(dictionary); ///!!!
                 setDictionary(dictionary);
                 setShowTable(true);
             };

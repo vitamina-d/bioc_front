@@ -10,6 +10,7 @@ type Props = {
 
 function ProteinViewer({ size, pdbId, prediction, style = "cartoon" }: Props) {
     const htmlElem = useRef<HTMLDivElement>(null);
+    console.log(prediction);
 
     useEffect(() => {
         if (htmlElem.current) {

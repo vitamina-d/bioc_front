@@ -30,8 +30,8 @@ const GetAlign = async (
             "Content-Type": "application/json",
         },
     });
-    const json = await response.json();
     console.log(response);
+    const json = await response.json();
     console.log(json);
     return json;
 };

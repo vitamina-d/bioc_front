@@ -10,7 +10,7 @@ import {
     Tooltip,
 } from "react-bootstrap";
 import Header from "../Components/Header";
-import type { BlastxReport } from "../types/DataBlastx";
+import type { BlastxReport, Hit } from "../types/DataBlastx";
 import { useState } from "react";
 import BlastxTable from "../Components/BlastxTable";
 import SequenceViewer from "../Components/SequenceViewer";
@@ -49,6 +49,7 @@ function BlastxView() {
     const [modalStructureShow, setModalStructureShow] =
         useState<boolean>(false);
     const [pdbString, setPdbString] = useState<string>("");
+    const [hit, setHit] = useState<Hit | null>(null);
 
     //busca los hits de la secuencia de entrada
     const getBlastxReport = async (
@@ -56,9 +57,7 @@ function BlastxView() {
     ) => {
         event.preventDefault();
         //console.log("QUERY: ", sequence);
-        const response: Response<BlastxReport> = await PostBlastx(
-            sequence.trim()
-        );
+        const response: Response<BlastxReport> = await PostBlastx(sequence);
         //console.log(response);
         setBlastx(response.data);
         setModificable(false);
@@ -74,7 +73,7 @@ function BlastxView() {
     };
 
     //obtener traduccion segun el frame del hit seleccionado
-    const getTraduction = async (frame: number, pdbId: string) => {
+    const getTraduction = async (frame: number, pdbId: string, hit: Hit) => {
         // ya me traigo la referencia pdbid
         //limpiar
         setFrame(null);
@@ -82,8 +81,10 @@ function BlastxView() {
         setStatusJob(null);
         setShowButton(true);
 
+        console.log(hit);
         setModalShow(false);
         setFrame(frame);
+        setHit(hit);
         //pdb|6JEH|B
         console.log("PDBID -----> ", pdbId.split("|")[1]);
         setPdbId(pdbId.split("|")[1]);
@@ -100,12 +101,14 @@ function BlastxView() {
     ) => {
         event.preventDefault();
         console.log("INIT JOB");
-        const response: string = await InitJob(protein);
+        const response: Response<string> = await InitJob(protein);
         console.log(response);
-        setJobId(response);
+        setJobId(response.data);
         //const jobStatus: ResponseStatus = await StatusJob(response);
-        const jobStatus: ResponseStatus = await StatusJob(response);
-        const status = JSON.parse(jobStatus.status);
+        const jobStatus: Response<ResponseStatus> = await StatusJob(
+            response.data
+        );
+        const status = JSON.parse(jobStatus.data.status);
         console.log(status);
         setStatusJob(status);
         setShowButton(false);
@@ -118,8 +121,8 @@ function BlastxView() {
         event.preventDefault();
         console.log("STATUS JOB");
         //const jobStatus: ResponseStatus = await StatusJob(jobId);
-        const jobStatus: ResponseStatus = await StatusJob(jobId);
-        const status = JSON.parse(jobStatus.status);
+        const jobStatus: Response<ResponseStatus> = await StatusJob(jobId);
+        const status = JSON.parse(jobStatus.data.status);
         console.log(status);
         setStatusJob(status);
     };
@@ -132,22 +135,20 @@ function BlastxView() {
         event.preventDefault();
         console.log("STATUS JOB");
         //const jobStatus: ResponseStatus = await StatusJob(jobId);
-        const ranks: ProteinRanks = await GetRanksJob(jobId);
+        const ranks: Response<ProteinRanks> = await GetRanksJob(jobId);
         console.log(ranks);
-        setRanks(ranks);
+        setRanks(ranks.data);
     };
 
-    //onClick del button rank seleccionado para visualizar la estructura
+    //onClick del button rank seleccionado para visualizar las estructuras
     const selectRankToCompare = async (rank: string) => {
-        // el rank
-        //job/{jobId}/rank_{rank}/align/{pdbId}
         console.log("ALIGN: jobid ", jobId, ", rank: ", rank, "pdbId: ", pdbId);
         const align: string = await GetAlignPrediction(
-            "68e17d82e986d44f8b7e9e1b",
+            jobId!,
             rank,
             pdbId
         );
-        console.log(align);
+        console.log("-------------------------------------");
         setPdbString(align);
         setModalStructureShow(true);
     };
@@ -201,6 +202,7 @@ function BlastxView() {
                         <BlastxTable
                             data={blastx}
                             handleCompare={getTraduction}
+                            setHit={setHit}
                         />
                     ) : (
                         ""

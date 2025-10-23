@@ -1,13 +1,14 @@
 import { Button, Collapse, Table } from "react-bootstrap";
-import type { BlastxReport } from "../types/DataBlastx";
+import type { BlastxReport, Hit } from "../types/DataBlastx";
 import BlastxStat from "./BlastxStat";
-import { useState } from "react";
+import React, { useState } from "react";
 import BadgeProtein from "./BadgeProtein";
 import { Icon } from "./Icon";
 
 type Props = {
     data?: BlastxReport;
-    handleCompare: (frame: number, pdbId: string) => void;
+    handleCompare: (frame: number, pdbId: string, hit: Hit) => void;
+    setHit: React.Dispatch<React.SetStateAction<Hit | null>>;
 };
 
 function BlastxTable({ data, handleCompare }: Props) {
@@ -70,18 +71,18 @@ function BlastxTable({ data, handleCompare }: Props) {
                                 const badges: string[] = [];
                                 return (
                                     //agregar key
-                                    <>
-                                        <tr key={hit.num}>
+                                    <React.Fragment key={hit_idx}>
+                                        <tr key={hit_idx}>
                                             <td>{hit.num}</td>
                                             <td>{hit.len}</td>
-                                            {hit.hsps.map((hsp) => (
-                                                <>
+                                            {hit.hsps.map((hsp, hsp_idx) => (
+                                                <React.Fragment key={hsp_idx}>
                                                     <td>{hsp.bit_score}</td>
                                                     <td>{hsp.score}</td>
                                                     <td>{hsp.evalue}</td>
                                                     <td>{hsp.identity}</td>
                                                     <td>{hsp.positive}</td>
-                                                </>
+                                                </React.Fragment>
                                             ))}
                                             {hit.description.map((item) => {
                                                 //console.log("DESCRIPTION");
@@ -172,7 +173,8 @@ function BlastxTable({ data, handleCompare }: Props) {
                                                             hit.hsps[0]
                                                                 .query_frame,
                                                             hit.description[0]
-                                                                .id
+                                                                .id,
+                                                            hit
                                                         )
                                                     }
                                                 >
@@ -323,7 +325,7 @@ function BlastxTable({ data, handleCompare }: Props) {
                                                 </Collapse>
                                             </td>
                                         </tr>
-                                    </>
+                                    </React.Fragment>
                                 );
                             })}
                         </tbody>

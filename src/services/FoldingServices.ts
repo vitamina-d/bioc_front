@@ -21,17 +21,18 @@ const InitJob = async (aminoacid: string): Promise<Response<string>> => {
     const json = await response.json();
     console.log(response);
     console.log(json);
-    console.log("SIEMPRE JOB: 68e17d82e986d44f8b7e9e1b");
     return {
         code: response.status,
         message: response.statusText,
+        //data: json.data,
         data: "68e17d82e986d44f8b7e9e1b",
     };
 };
 
 const StatusJob = async (jobId: string): Promise<Response<ResponseStatus>> => {
     console.log("[FOLD] POST /status/jobId");
-
+    console.log("SET JOB: 68e17d82e986d44f8b7e9e1b");
+    jobId = "68e17d82e986d44f8b7e9e1b";
     const response = await fetch(`${DOTNET_FOLD_URL}/status/${jobId}`);
     const json = await response.json();
     console.log(response);
@@ -45,6 +46,8 @@ const StatusJob = async (jobId: string): Promise<Response<ResponseStatus>> => {
 
 const GetRanksJob = async (jobId: string): Promise<Response<ProteinRanks>> => {
     console.log("[FOLD] GET /job/ranks");
+    console.log("SET JOB: 68e17d82e986d44f8b7e9e1b");
+    jobId = "68e17d82e986d44f8b7e9e1b";
 
     const response = await fetch(`${DOTNET_FOLD_URL}/job/${jobId}/ranks`);
     const json: ResponseRanks = await response.json();
@@ -61,18 +64,16 @@ const GetAlignPrediction = async (
     jobId: string,
     rank: string,
     pdbId: string
-): Promise<Response<string>> => {
+): Promise<string> => {
     console.log("[FOLD] GET /job/rank/pdbId");
+    console.log("SET JOB: 68e17d82e986d44f8b7e9e1b");
+    jobId = "68e17d82e986d44f8b7e9e1b";
 
     const response = await fetch(
         `${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/align/${pdbId}`
     );
     const pdbFile: string = await response.text();
-    return {
-        code: response.status,
-        message: response.statusText,
-        data: pdbFile,
-    };
+    return pdbFile;
 };
 
 export { InitJob, StatusJob, GetRanksJob, GetAlignPrediction };
