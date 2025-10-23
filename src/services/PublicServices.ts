@@ -8,14 +8,10 @@ const SummaryService = async (
     console.log("[PUBLIC] GET /summary/entrez");
     const url = `${DOTNET_PUBLIC_URL}/summary?entrez=${entrez}`;
     const response = await fetch(url);
-    const result = await response.json();
+    const json = await response.json();
     console.log(response);
-    console.log(result);
-    return {
-        code: response.status,
-        message: response.statusText,
-        data: result,
-    };
+    console.log(json);
+    return json;
 };
 
 export { SummaryService };

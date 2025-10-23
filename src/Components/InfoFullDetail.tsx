@@ -6,7 +6,7 @@ import type { Response } from "../types/Response";
 import { GetStats } from "../services/BioconductorServices";
 import SequenceShow from "./SequenceShow";
 import PercentPlots from "./PercentPlots";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 type Props = {
@@ -14,7 +14,8 @@ type Props = {
     dataPlumber?: DataFullDetail;
 };
 
-function InfoFull({ dataPublic, dataPlumber }: Props) {
+function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
+    console.log(dataPublic)
     const { entrezId } = useParams();
 
     const [dataStats, setDataStats] = useState<DataStats | null>(null);
@@ -56,7 +57,7 @@ function InfoFull({ dataPublic, dataPlumber }: Props) {
                         </Row>
                     </ListGroup.Item>
                     {dataPlumber.location.map((range, idx) => (
-                        <>
+                        <React.Fragment key={idx} >
                             <ListGroup.Item key={`location${idx}`}>
                                 <Row className="d-flex ">
                                     <Col xs={3}>Location {`${idx + 1}`}</Col>
@@ -109,7 +110,7 @@ function InfoFull({ dataPublic, dataPlumber }: Props) {
                                     ""
                                 )}
                             </ListGroup.Item>
-                        </>
+                        </React.Fragment>
                     ))}
 
                     {dataPlumber.ensembl_id_gene ? (
@@ -156,4 +157,4 @@ function InfoFull({ dataPublic, dataPlumber }: Props) {
     );
 }
 
-export default InfoFull;
+export default InfoFullDetail;

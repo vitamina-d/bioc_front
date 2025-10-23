@@ -19,12 +19,8 @@ function SearchDetail({ setModalShow }: Props) {
     const getEntrezByValue = async (e: React.FormEvent) => {
         e.preventDefault();
         setModalShow(false);
-        console.log("el input es: ", search);
         const getEntrezByValue: Response<DataEntrez> = await getEntrez(search);
-        console.log("el response es: ", getEntrezByValue);
-        //getentrez
         const entrez = getEntrezByValue.data?.entrez;
-        console.log("el entrez es: ", entrez);
 
         if (entrez) {
             navigate(`/detail/${entrez}`);
@@ -37,7 +33,6 @@ function SearchDetail({ setModalShow }: Props) {
     const autocomplete = async (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setSearch(e.target.value);
-        console.log("AUTOCOMPLETE: ", search);
         if (search.trimStart().length > 0 && search.trimEnd().length > 0) {
             const alias: Response<string[]> = await GetAutocomplete(search);
             setDesplegable(alias.data);
@@ -46,7 +41,7 @@ function SearchDetail({ setModalShow }: Props) {
 
     return (
         <>
-            <Form onSubmit={getEntrezByValue}>
+            <Form onSubmit={getEntrezByValue} className="mb-10">
                 <div className="input-group w-auto">
                     <input
                         type="text"
@@ -66,9 +61,10 @@ function SearchDetail({ setModalShow }: Props) {
                 ////DESPLEGABLE//////////////////////////////////////////
                 desplegable && (
                     <Dropdown
-                        className="position-absolute "
+                        className="position-static"
                         style={{
                             top: "100%",
+                            zIndex: 10000000
                         }}
                     >
                         <div

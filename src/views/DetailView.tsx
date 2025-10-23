@@ -5,21 +5,20 @@ import { GetDetail, GetFullDetail } from "../services/BioconductorServices";
 import { SummaryService } from "../services/PublicServices";
 import type { Response } from "../types/Response";
 import type { DataDetail, DataFullDetail } from "../types/DataPlumber";
-import InfoDetail from "../Components/InfoDetail";
 import ButtonOverlay from "../Components/ButtonOverlay";
 import InfoFullDetail from "../Components/InfoFullDetail";
 import { useParams } from "react-router-dom";
 import img from "../assets/chromosome.png";
+import InfoDetailCopy from "../Components/InfoDetail copy";
 
 function DetailView() {
-    const { entrezId } = useParams();
+    const { entrezId, searchInput } = useParams();
     const [detail, setDetail] = useState<DataDetail | null>(null);
     const [summary, setSummary] = useState<ResponsePublicSummary>();
     const [fullDetail, setFullDetail] = useState<DataFullDetail>();
 
     useEffect(() => {
         const fetchDetail = async () => {
-            console.log("PARAMS", entrezId);
             try {
                 const response = await GetDetail(entrezId!); //! existe
                 setDetail(response.data);
@@ -34,15 +33,12 @@ function DetailView() {
         setFullDetail(undefined);
         setSummary(undefined);
         try {
-            const publicRes: ResponsePublicSummary = await SummaryService(
-                entrezId!
-            );
-            console.log(publicRes);
-            setSummary(publicRes);
+            const publicRes: Response<ResponsePublicSummary> =
+                await SummaryService(entrezId!);
+            setSummary(publicRes.data);
             const biocResponse: Response<DataFullDetail> = await GetFullDetail(
                 entrezId!
             );
-            console.log(biocResponse);
             setFullDetail(biocResponse.data);
         } catch (err) {
             console.error(err);
@@ -52,7 +48,7 @@ function DetailView() {
     return (
         <Container fluid className="mt-3">
             <Card className=" font-monospace text-muted text-small">
-                <CardHeader>
+                <CardHeader className="d-flex justify-content-between align-items-center">
                     <div className=" ps-2 pt-1 d-flex align-items-center">
                         <CardImg
                             src={img}
@@ -64,22 +60,22 @@ function DetailView() {
                                 objectFit: "cover",
                             }}
                         />
-                        <h5 className="card-title mb-1">find:{entrezId}</h5>
+
+                        <h5 className="card-title mb-1">find:{searchInput}</h5>
                     </div>
+                    <ButtonOverlay
+                        textHover={"FullDetail"}
+                        typeIcon={"binocular"}
+                        onClick={getFull}
+                        variant="outline-secondary"
+                        size="lg"
+                    />
                 </CardHeader>
             </Card>
             <Card>
                 <Card.Body>
                     {/* DETAIL COMUN */}
-                    <InfoDetail data={detail}>
-                        <ButtonOverlay
-                            textHover={"FullDetail"}
-                            typeIcon={"binocular"}
-                            onClick={getFull}
-                            variant="outline-secondary"
-                            size="lg"
-                        />
-                    </InfoDetail>
+                    <InfoDetailCopy data={detail} />
 
                     {/* MAS DETAIL */}
                     <InfoFullDetail
