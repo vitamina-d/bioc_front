@@ -52,14 +52,14 @@ function ModalBodyUpload({ setName, setDictionary, setShowTable }: Props) {
 
     return (
         <>
-            <p className="d-flex justify-content-center">subir</p>
+            {" "}
+            <p className="d-flex justify-content-center">soltar</p>
             <p className="d-flex justify-content-center">o</p>
             <Form className="d-flex justify-content-center">
                 <Button
                     className="align-items-center"
                     size="sm"
                     variant="outline-secondary"
-                    onClick={() => handleFileChange}
                     as="label"
                     htmlFor="file-upload"
                 >

@@ -20,7 +20,7 @@ import ButtonOverlay from "../Components/ButtonOverlay";
 import InfoFullDetail from "../Components/InfoFullDetail";
 import { useParams } from "react-router-dom";
 import img from "../assets/chromosome.png";
-import InfoDetailCopy from "../Components/InfoDetail";
+import InfoDetail from "../Components/InfoDetail";
 import SequenceShow from "../Components/SequenceShow";
 import PercentPlots from "../Components/PercentPlots";
 import ModalBasic from "../Components/ModalBasic";
@@ -112,7 +112,7 @@ function DetailView() {
                 <Card.Body>
                     <ListGroup className="mb-3" variant="flush">
                         {/* DETAIL COMUN */}
-                        <InfoDetailCopy data={detail} />
+                        <InfoDetail data={detail} />
                         {/* MAS DETAIL */}
                         <InfoFullDetail
                             dataPublic={summary}

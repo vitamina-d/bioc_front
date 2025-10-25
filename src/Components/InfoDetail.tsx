@@ -31,7 +31,10 @@ function InfoDetail({ data }: Props) {
                 <ListGroup.Item>
                     <Row>
                         <Col xs={6}>Symbol</Col>
-                        <Col xs={6}>{data.symbol}</Col>
+                        <Col xs={6}>
+                            {" "}
+                            <Badge className="bg-secondary m-1">{data.symbol}</Badge>
+                        </Col>
                     </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -41,7 +44,9 @@ function InfoDetail({ data }: Props) {
                             {data.alias &&
                                 data.alias.map((alias, idx) => (
                                     <React.Fragment key={idx}>
-                                        <Badge className="m-1">{alias}</Badge>
+                                        <Badge className="bg-dark m-1">
+                                            {alias}
+                                        </Badge>
                                     </React.Fragment>
                                 ))}
                         </Col>

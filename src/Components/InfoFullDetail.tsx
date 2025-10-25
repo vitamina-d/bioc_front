@@ -37,7 +37,11 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                                 <Row className="d-flex ">
                                     <Col xs={3}>Location {idx}</Col>
                                     <Col xs={9}>
-                                        {`${range.seqnames}: ${range.start} to ${range.end} (lenght: ${range.length}) | Strand ${
+                                        {`${range.seqnames}: ${
+                                            range.start
+                                        } to ${range.end} (lenght: ${
+                                            range.length
+                                        }) | Strand ${
                                             range.strand == "-"
                                                 ? "3′ → 5′ (-)"
                                                 : "5′ → 3′ (+)"
@@ -53,7 +57,15 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                             <Row>
                                 <Col xs={3}>Ensembl Id Gene</Col>
                                 <Col xs={9}>
-                                    {dataPlumber.ensembl_id_gene?.join(", ")}
+                                    {dataPlumber.ensembl_id_gene.map(
+                                        (prot, idx) => (
+                                            <React.Fragment key={idx}>
+                                                <Badge className="bg-prymary m-1">
+                                                    {prot}
+                                                </Badge>
+                                            </React.Fragment>
+                                        )
+                                    )}{" "}
                                 </Col>
                             </Row>
                         </ListGroup.Item>
@@ -65,7 +77,15 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                             <Row>
                                 <Col xs={3}>Ensembl Id Protein</Col>
                                 <Col xs={9}>
-                                    {dataPlumber.ensembl_id_protein?.join(", ")}
+                                    {dataPlumber.ensembl_id_protein.map(
+                                        (prot, idx) => (
+                                            <React.Fragment key={idx}>
+                                                <Badge className="bg-success m-1">
+                                                    {prot}
+                                                </Badge>
+                                            </React.Fragment>
+                                        )
+                                    )}
                                 </Col>
                             </Row>
                         </ListGroup.Item>
@@ -80,7 +100,7 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                                     {dataPlumber.uniprot_ids.map(
                                         (unip, idx) => (
                                             <React.Fragment key={idx}>
-                                                <Badge className="m-1">
+                                                <Badge className="bg-warning m-1">
                                                     {unip}
                                                 </Badge>
                                             </React.Fragment>
