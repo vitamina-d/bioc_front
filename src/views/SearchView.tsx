@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import SequenceViewer from "../Components/SequenceViewer";
-import { GetSequenceByRange } from "../services/BioconductorServices";
+import { GetSequenceByRange } from "../services/PlumberServices";
 import Header from "../Components/Header";
 import type { Response } from "../types/Response";
 import type { DataDetail, DataSequence, DataStats } from "../types/DataPlumber";
@@ -75,11 +75,14 @@ function SearchView({ detail, setDetail }: Props) {
             alert("chr");
             return;
         }
-        const response: Response<DataSequence> =
-            await GetSequenceByRange(chr, parseInt(start), parseInt(end));
+        const response: Response<DataSequence[]> = await GetSequenceByRange(
+            chr,
+            parseInt(start),
+            parseInt(end)
+        );
 
         console.log(response);
-        setSequence(response.data.sequence);
+        setSequence(response.data[0].sequence);
     };
 
     //clear

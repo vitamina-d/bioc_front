@@ -58,18 +58,18 @@ export type Nucleotides = {
 };
 
 export type DataSequence = {
-    entrez: string;
-    complete: boolean;
-    sequence_length: number;
+    index: string;
+    start: number;
+    end: number;
+    length: number;
     sequence: string;
 };
 
 export type DataStats = {
-    complete: boolean;
-    sequence: string;
     length: number;
     nucleotides: Nucleotides;
     cpg_islands: CPG;
+    sequence: string;
 };
 
 export type DataTable = {

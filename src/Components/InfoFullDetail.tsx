@@ -1,4 +1,4 @@
-import { Col, ListGroup, Row } from "react-bootstrap";
+import { Badge, Col, ListGroup, Row } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import type { DataFullDetail } from "../types/DataPlumber";
 import React from "react";
@@ -9,7 +9,6 @@ type Props = {
 };
 
 function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
-
     return (
         <>
             {dataPublic ? (
@@ -33,19 +32,15 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                         </Row>
                     </ListGroup.Item>
                     {dataPlumber.location.map((range, idx) => (
-                        <React.Fragment key={idx}>
-                            <ListGroup.Item key={`location${idx}`}>
+                        <React.Fragment key={`location${idx}`}>
+                            <ListGroup.Item>
                                 <Row className="d-flex ">
-                                    <Col xs={3}>Location {`${idx + 1}`}</Col>
+                                    <Col xs={3}>Location {idx}</Col>
                                     <Col xs={9}>
-                                        {`${range.seqnames}: ${
-                                            range.start
-                                        } to ${range.end} | Lenght: ${
-                                            range.length
-                                        } | Strand: ${
+                                        {`${range.seqnames}: ${range.start} to ${range.end} (lenght: ${range.length}) | Strand ${
                                             range.strand == "-"
-                                                ? "Strand: 3′ → 5′ (-)"
-                                                : "Strand: 5′ → 3′ (+)"
+                                                ? "3′ → 5′ (-)"
+                                                : "5′ → 3′ (+)"
                                         }`}
                                     </Col>
                                 </Row>
@@ -82,7 +77,15 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                             <Row>
                                 <Col xs={3}>UniProt IDs</Col>
                                 <Col xs={9}>
-                                    {dataPlumber.uniprot_ids?.join(", ")}
+                                    {dataPlumber.uniprot_ids.map(
+                                        (unip, idx) => (
+                                            <React.Fragment key={idx}>
+                                                <Badge className="m-1">
+                                                    {unip}
+                                                </Badge>
+                                            </React.Fragment>
+                                        )
+                                    )}
                                 </Col>
                             </Row>
                         </ListGroup.Item>

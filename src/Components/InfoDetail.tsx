@@ -1,46 +1,52 @@
-import { CardBody, Col, Row } from "react-bootstrap";
+import { Badge, Col, ListGroup, Row } from "react-bootstrap";
 import type { DataDetail } from "../types/DataPlumber";
-import type { ReactNode } from "react";
+import React from "react";
 
 type Props = {
     data: DataDetail | null;
-    children: ReactNode;
 };
 
-function InfoDetail({ data, children }: Props) {
+function InfoDetail({ data }: Props) {
     return (
         data && (
             <>
-                <CardBody className="mb-3">
-                    <Row className="d-flex align-items-center">
-                        <Col xs={1} className="text-center">
-                            <div>Entrez</div>
-                            <div className="text-muted">{data.entrez}</div>
-                        </Col>
-                        <Col xs={2} className="text-center">
-                            <div>Genetype</div>
-                            <div className="text-muted ">{data.genetype}</div>
-                        </Col>
-                        <Col xs={4} className="text-center">
-                            <div>Genename</div>
-                            <div className="text-muted ">{data.genename}</div>
-                        </Col>
-                        <Col xs={1} className="text-center">
-                            <div>Symbol</div>
-                            <div className="text-muted ">{data.symbol}</div>
-                        </Col>
-                        <Col xs={3} className="text-center">
-                            <div>Alias</div>
-                            <div className="text-muted ">
-                                {data.alias ? data.alias.join(", ") : "—"}
-                            </div>
-                        </Col>
-                        <Col xs={1} className="text-center">
-                            <div>More</div>
-                            <div>{children}</div>
+                <ListGroup.Item>
+                    <Row>
+                        <Col xs={6}>Entrez</Col>
+                        <Col xs={6}>{data.entrez}</Col>
+                    </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <Row>
+                        <Col xs={6}>Genetype</Col>
+                        <Col xs={6}>{data.genetype}</Col>
+                    </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <Row>
+                        <Col xs={6}>Genename</Col>
+                        <Col xs={6}>{data.genename}</Col>
+                    </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <Row>
+                        <Col xs={6}>Symbol</Col>
+                        <Col xs={6}>{data.symbol}</Col>
+                    </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <Row>
+                        <Col xs={6}>Alias</Col>
+                        <Col xs={6}>
+                            {data.alias &&
+                                data.alias.map((alias, idx) => (
+                                    <React.Fragment key={idx}>
+                                        <Badge className="m-1">{alias}</Badge>
+                                    </React.Fragment>
+                                ))}
                         </Col>
                     </Row>
-                </CardBody>
+                </ListGroup.Item>
             </>
         )
     );

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Dropdown, Form } from "react-bootstrap";
 import type { Response } from "../types/Response";
-import { GetAutocomplete, getEntrez } from "../services/BioconductorServices";
+import { GetAutocomplete, getEntrez } from "../services/PlumberServices";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "./Icon";
 import type { DataEntrez } from "../types/DataPlumber";
@@ -64,7 +64,7 @@ function SearchDetail({ setModalShow }: Props) {
                         className="position-static"
                         style={{
                             top: "100%",
-                            zIndex: 10000000
+                            zIndex: 10000000,
                         }}
                     >
                         <div

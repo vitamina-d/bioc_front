@@ -5,7 +5,6 @@ import type {
     DataDetail,
     DataEntrez,
     DataFullDetail,
-    DataPercent,
     DataSequence,
     DataStats,
 } from "../types/DataPlumber";
@@ -48,11 +47,22 @@ const GetAutocomplete = async (value: string): Promise<Response<string[]>> => {
     return json;
 };
 
-const GetDetail = async (value: string): Promise<Response<DataDetail>> => {
+const GetDetail = async (entrez: string): Promise<Response<DataDetail>> => {
     console.log("[BIOC] GET /detail");
-    const full = false;
+    var isFull: boolean = false;
     const response = await fetch(
-        `${DOTNET_BIOCONDUCTOR_URL}/detail?value=${value}&full=${full}`
+        `${DOTNET_BIOCONDUCTOR_URL}/detail?entrez=${entrez}&isFull=${isFull}`
+    );
+    const json = await response.json();
+    console.log(response);
+    console.log(json);
+    return json;
+};
+const GeFullDetail = async (entrez: string): Promise<Response<DataFullDetail>> => {
+    console.log("[BIOC] GET /detail");
+    var isFull: boolean = true;
+    const response = await fetch(
+        `${DOTNET_BIOCONDUCTOR_URL}/detail?entrez=${entrez}&isFull=${isFull}`
     );
     const json = await response.json();
     console.log(response);
@@ -60,21 +70,7 @@ const GetDetail = async (value: string): Promise<Response<DataDetail>> => {
     return json;
 };
 
-const GetFullDetail = async (
-    value: string
-): Promise<Response<DataFullDetail>> => {
-    console.log("[BIOC] GET /detail&full");
-    const full = true;
-    const response = await fetch(
-        `${DOTNET_BIOCONDUCTOR_URL}/detail?value=${value}&full=${full}`
-    );
-    const json = await response.json();
-    console.log(response);
-    console.log(json);
-    return json;
-};
-
-const GetPercent = async (sequence: string): Promise<Response<DataPercent>> => {
+const GetPercent = async (sequence: string): Promise<Response<DataStats>> => {
     console.log("[BIOC] POST /percent");
     const response = await fetch(`${DOTNET_BIOCONDUCTOR_URL}/percent`, {
         method: "POST",
@@ -92,7 +88,7 @@ const GetPercent = async (sequence: string): Promise<Response<DataPercent>> => {
 const GetSequence = async (
     value: string,
     complete: boolean
-): Promise<Response<DataSequence>> => {
+): Promise<Response<DataSequence[]>> => {
     console.log("[BIOC] GET /sequence");
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/sequence?value=${value}&complete=${complete}`
@@ -121,7 +117,7 @@ const GetSequenceByRange = async (
     chr: string, //11, X, Y
     start: number,
     end: number
-): Promise<Response<DataSequence>> => {
+): Promise<Response<DataSequence[]>> => {
     console.log("[BIOC] GET /sequence");
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/sequence_by_range?chrom=${chr}&start=${start}&end=${end}`
@@ -146,7 +142,7 @@ export {
     GetAlign,
     GetAutocomplete,
     GetDetail,
-    GetFullDetail,
+    GeFullDetail,
     GetPercent,
     GetSequence,
     GetStats,

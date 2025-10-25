@@ -1,6 +1,5 @@
-import { useEffect, useState, type SetStateAction } from "react";
+import { useEffect, useState } from "react";
 import {
-    Accordion,
     Card,
     CardHeader,
     CardImg,
@@ -9,11 +8,7 @@ import {
     Modal,
 } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import {
-    GetDetail,
-    GetFullDetail,
-    GetStats,
-} from "../services/BioconductorServices";
+import { GeFullDetail, GetDetail, GetStats } from "../services/PlumberServices";
 import { SummaryService } from "../services/PublicServices";
 import type { Response } from "../types/Response";
 import type {
@@ -25,7 +20,7 @@ import ButtonOverlay from "../Components/ButtonOverlay";
 import InfoFullDetail from "../Components/InfoFullDetail";
 import { useParams } from "react-router-dom";
 import img from "../assets/chromosome.png";
-import InfoDetailCopy from "../Components/InfoDetail copy";
+import InfoDetailCopy from "../Components/InfoDetail";
 import SequenceShow from "../Components/SequenceShow";
 import PercentPlots from "../Components/PercentPlots";
 import ModalBasic from "../Components/ModalBasic";
@@ -41,7 +36,8 @@ function DetailView() {
     useEffect(() => {
         const fetchDetail = async () => {
             try {
-                const response = await GetDetail(entrezId!); //! existe
+                const response: Response<DataDetail> = await GetDetail(entrezId!); //! existe
+                console.log(response);
                 setDetail(response.data);
             } catch {
                 console.log("no se encontro");
@@ -57,9 +53,7 @@ function DetailView() {
             const publicRes: Response<ResponsePublicSummary> =
                 await SummaryService(entrezId!);
             setSummary(publicRes.data);
-            const biocResponse: Response<DataFullDetail> = await GetFullDetail(
-                entrezId!
-            );
+            const biocResponse: Response<DataFullDetail> = await GeFullDetail(entrezId!);
             setFullDetail(biocResponse.data);
         } catch (err) {
             console.error(err);
@@ -153,33 +147,3 @@ function DetailView() {
 }
 
 export default DetailView;
-/*
-{dataStats ? (
-                        <ModalBasic
-                            modalShow={showStats}
-                            setModalShow={setshowStats}
-                            size={"xl"}
-                            title={"Stats"}
-                        >
-                            <Accordion
-                                className="mx-5 my-1"
-                                defaultActiveKey="0"
-                            >
-                                <Accordion.Item eventKey="0">
-                                    <Accordion.Header>
-                                        Sequence and Stats
-                                    </Accordion.Header>
-                                    <Accordion.Body>
-                                        <SequenceShow
-                                            row={4}
-                                            sequence={dataStats.sequence}
-                                        />
-                                        <PercentPlots dataStats={dataStats} />
-                                    </Accordion.Body>
-                                </Accordion.Item>
-                            </Accordion>
-                        </ModalBasic>
-                    ) : (
-                        ""
-                    )}{" "}
-*/
