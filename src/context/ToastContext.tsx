@@ -45,9 +45,10 @@ export function ToastProvider({ children }: Props) {
     return (
         <ToastContext.Provider value={{ showToast }}>
             {children}
-            <ToastContainer position="top-end" className="position-fixed p-3">
+            <ToastContainer position="top-end" className="position-fixed p-3" style={{zIndex: 2001}}>
                 {toasts.map((toast) => (
                     <Toast
+                        key={toast.date}
                         animation={true}
                         bg={`bg-${toast.type}`}
                         onClose={() => onClose(toast.date)}
