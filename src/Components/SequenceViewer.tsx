@@ -44,9 +44,7 @@ function SequenceViewer({
                 className="pb-2 d-flex justify-content-end"
             >
                 <div className="d-flex justify-content-end">
-                    {readonly ? (
-                        <></>
-                    ) : (
+                    {!readonly && (
                         <FileUp
                             showTable={showFileTable}
                             setShowTable={setShowFileTable}

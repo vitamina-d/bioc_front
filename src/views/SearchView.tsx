@@ -23,7 +23,7 @@ function SearchView() {
     const [end, setEnd] = useState("100100");
     const [chr, setChr] = useState<string | null>(null);
     const [sequence, setSequence] = useState<string>("");
-    
+
     //SEARCH
     const [input, setInput] = useState("");
 
@@ -112,9 +112,7 @@ function SearchView() {
             />
  */}
             {/* range */}
-            {namePage == "/" ? (
-                ""
-            ) : (
+            {namePage !== "/" && (
                 <Form onSubmit={submitRange}>
                     <div className="row mx-1 ">
                         <div className="col">
@@ -189,7 +187,7 @@ function SearchView() {
                     />
                 )}
             </div>
-            {dataStats ? <PercentPlots dataStats={dataStats} /> : ""}
+            {dataStats && <PercentPlots dataStats={dataStats} />}
         </Container>
     );
 }

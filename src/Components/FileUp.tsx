@@ -42,12 +42,10 @@ function FileUp({
                                 onClick={openModal}
                             >
                                 <div className="d-flex align-items-start">
-                                    {name ? (
+                                    {name && (
                                         <Badge bg="secondary" className="me-2">
                                             {name}{" "}
                                         </Badge>
-                                    ) : (
-                                        ""
                                     )}
                                     <Icon type={"upload"} />
                                 </div>
@@ -69,16 +67,13 @@ function FileUp({
                         setShowTable={setShowTable}
                     />
                     <hr className="my-3" />
-                    {dictionary ? (
+                    {dictionary && (
                         <FastaReadTable
                             setSequence={setSequence}
                             showTable={showTable}
                             dictionary={dictionary}
                             setModalShow={setModalShow}
-
                         />
-                    ) : (
-                        <></>
                     )}
                 </>
             </ModalBasic>

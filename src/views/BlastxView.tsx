@@ -143,11 +143,7 @@ function BlastxView() {
     //onClick del button rank seleccionado para visualizar las estructuras
     const selectRankToCompare = async (rank: string) => {
         console.log("ALIGN: jobid ", jobId, ", rank: ", rank, "pdbId: ", pdbId);
-        const align: string = await GetAlignPrediction(
-            jobId!,
-            rank,
-            pdbId
-        );
+        const align: string = await GetAlignPrediction(jobId!, rank, pdbId);
         console.log("-------------------------------------");
         setPdbString(align);
         setModalStructureShow(true);
@@ -198,20 +194,18 @@ function BlastxView() {
                 title={"Result blastx"}
             >
                 <Card.Body>
-                    {blastx ? (
+                    {blastx && (
                         <BlastxTable
                             data={blastx}
                             handleCompare={getTraduction}
                             setHit={setHit}
                         />
-                    ) : (
-                        ""
                     )}
                 </Card.Body>
             </ModalBasic>
 
             {/* SECTION PREDICT */}
-            {frame != null ? (
+            {frame != null && (
                 <Card className="my-3">
                     <CardHeader className="pt-3">
                         <img src={imgns} height={"30px"} width={"30px"} />
@@ -242,7 +236,7 @@ function BlastxView() {
                                     <Col xs={9}>{protein}</Col>
                                 </Row>
                             </ListGroup.Item>
-                            {showButton ? (
+                            {showButton && (
                                 <div className="d-flex justify-content-end">
                                     <Button
                                         className="mt-3"
@@ -253,11 +247,9 @@ function BlastxView() {
                                         get prediction
                                     </Button>
                                 </div>
-                            ) : (
-                                ""
                             )}
 
-                            {jobId && statusJob != null ? (
+                            {jobId && statusJob != null && (
                                 <>
                                     <ListGroup.Item>
                                         <Row>
@@ -312,21 +304,19 @@ function BlastxView() {
                                     </ListGroup.Item>
 
                                     {statusJob == "completed" &&
-                                    ranks == null ? (
-                                        <div className="d-flex justify-content-center">
-                                            <Button
-                                                className="mt-3"
-                                                variant={"primary"}
-                                                onClick={getRank}
-                                            >
-                                                GET RANKS
-                                            </Button>
-                                        </div>
-                                    ) : (
-                                        ""
-                                    )}
+                                        ranks == null && (
+                                            <div className="d-flex justify-content-center">
+                                                <Button
+                                                    className="mt-3"
+                                                    variant={"primary"}
+                                                    onClick={getRank}
+                                                >
+                                                    GET RANKS
+                                                </Button>
+                                            </div>
+                                        )}
 
-                                    {ranks != null ? (
+                                    {ranks != null && (
                                         <>
                                             <ListGroup.Item>
                                                 <Row>
@@ -358,31 +348,23 @@ function BlastxView() {
                                                 title={"Structures"}
                                             >
                                                 <Card.Body>
-                                                    {pdbString ? (
+                                                    {pdbString && (
                                                         <ProteinViewer
                                                             pdbId={pdbId}
                                                             prediction={
                                                                 pdbString
                                                             }
                                                         />
-                                                    ) : (
-                                                        ""
                                                     )}
                                                 </Card.Body>
                                             </ModalBasic>
                                         </>
-                                    ) : (
-                                        ""
                                     )}
                                 </>
-                            ) : (
-                                ""
                             )}
                         </ListGroup>
                     </Card.Body>
                 </Card>
-            ) : (
-                ""
             )}
         </Container>
     );

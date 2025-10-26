@@ -36,8 +36,11 @@ function DetailView() {
     useEffect(() => {
         const fetchDetail = async () => {
             try {
-                var isFull : boolean = false; 
-                const response: Response<DataDetail> = await GetDetail(entrezId!, isFull);//! existe
+                var isFull: boolean = false;
+                const response: Response<DataDetail> = await GetDetail(
+                    entrezId!,
+                    isFull
+                ); //! existe
                 console.log(response);
                 setDetail(response.data);
             } catch {
@@ -53,9 +56,12 @@ function DetailView() {
         try {
             const publicRes: Response<ResponsePublicSummary> =
                 await SummaryService(entrezId!);
-                var isFull : boolean = true; 
+            var isFull: boolean = true;
             setSummary(publicRes.data);
-            const biocResponse: Response<DataFullDetail> = await GetDetail(entrezId!, isFull);
+            const biocResponse: Response<DataFullDetail> = await GetDetail(
+                entrezId!,
+                isFull
+            );
             setFullDetail(biocResponse.data);
         } catch (err) {
             console.error(err);
@@ -129,7 +135,7 @@ function DetailView() {
                         title={"Sequence and Stats"}
                     >
                         <Modal.Body>
-                            {dataStats ? (
+                            {dataStats && (
                                 <>
                                     <SequenceShow
                                         row={4}
@@ -137,9 +143,7 @@ function DetailView() {
                                     />
                                     <PercentPlots dataStats={dataStats} />
                                 </>
-                            ) : (
-                                ""
-                            )}{" "}
+                            )}
                         </Modal.Body>
                     </ModalBasic>
                 </Card.Body>

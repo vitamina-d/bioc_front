@@ -334,7 +334,7 @@ function BlastxTable({ data, handleCompare }: Props) {
             ) : (
                 <p>NO HITS </p>
             )}
-            {stat ? <BlastxStat data={stat} /> : ""}
+            {stat && <BlastxStat data={stat} />}
         </>
     );
 }

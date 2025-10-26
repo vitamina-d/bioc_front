@@ -26,7 +26,7 @@ function ProteinView() {
 
     const handleClick = () => {
         showToast("click", "primary");
-        setSpin(!spin)
+        setSpin(!spin);
         !spin ? showSpinner() : hideSpinner();
     };
 
@@ -41,14 +41,12 @@ function ProteinView() {
                     onSubmit={() => setPressButton(true)}
                     placeholder={"4Q0G"}
                 />
-                {input && pressButton ? (
+                {input && pressButton && (
                     <Card className="mx-3">
                         <ProteinViewer pdbId={input} />
                     </Card>
-                ) : (
-                    ""
                 )}
-                <Button onClick={handleClick} >
+                <Button onClick={handleClick}>
                     {spin ? (
                         <Spinner
                             as="span"

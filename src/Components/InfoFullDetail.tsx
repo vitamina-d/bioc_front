@@ -11,7 +11,7 @@ type Props = {
 function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
     return (
         <>
-            {dataPublic ? (
+            {dataPublic && (
                 <>
                     <ListGroup.Item>
                         <Row>
@@ -20,10 +20,8 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                         </Row>
                     </ListGroup.Item>
                 </>
-            ) : (
-                <></>
             )}
-            {dataPlumber ? (
+            {dataPlumber && (
                 <>
                     <ListGroup.Item>
                         <Row>
@@ -31,30 +29,29 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                             <Col xs={9}>{dataPlumber.citogenetic} </Col>
                         </Row>
                     </ListGroup.Item>
-                    {dataPlumber.location.length > 0
-                        ? dataPlumber.location.map((range, idx) => (
-                              <React.Fragment key={`location${idx}`}>
-                                  <ListGroup.Item>
-                                      <Row className="d-flex ">
-                                          <Col xs={3}>Location {idx}</Col>
-                                          <Col xs={9}>
-                                              {`${range.seqnames}: ${
-                                                  range.start
-                                              } to ${range.end} (lenght: ${
-                                                  range.length
-                                              }) | Strand ${
-                                                  range.strand == "-"
-                                                      ? "3′ → 5′ (-)"
-                                                      : "5′ → 3′ (+)"
-                                              }`}
-                                          </Col>
-                                      </Row>
-                                  </ListGroup.Item>
-                              </React.Fragment>
-                          ))
-                        : ""}
+                    {dataPlumber.location.length > 0 &&
+                        dataPlumber.location.map((range, idx) => (
+                            <React.Fragment key={`location${idx}`}>
+                                <ListGroup.Item>
+                                    <Row className="d-flex ">
+                                        <Col xs={3}>Location {idx}</Col>
+                                        <Col xs={9}>
+                                            {`${range.seqnames}: ${
+                                                range.start
+                                            } to ${range.end} (lenght: ${
+                                                range.length
+                                            }) | Strand ${
+                                                range.strand == "-"
+                                                    ? "3′ → 5′ (-)"
+                                                    : "5′ → 3′ (+)"
+                                            }`}
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                            </React.Fragment>
+                        ))}
 
-                    {dataPlumber.ensembl_id_gene.length > 0 ? (
+                    {dataPlumber.ensembl_id_gene.length > 0 && (
                         <ListGroup.Item>
                             <Row>
                                 <Col xs={3}>Ensembl Id Gene</Col>
@@ -71,10 +68,8 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                                 </Col>
                             </Row>
                         </ListGroup.Item>
-                    ) : (
-                        ""
                     )}
-                    {dataPlumber.ensembl_id_protein.length > 0 ? (
+                    {dataPlumber.ensembl_id_protein.length > 0 && (
                         <ListGroup.Item>
                             <Row>
                                 <Col xs={3}>Ensembl Id Protein</Col>
@@ -91,10 +86,8 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                                 </Col>
                             </Row>
                         </ListGroup.Item>
-                    ) : (
-                        ""
                     )}
-                    {dataPlumber.uniprot_ids.length > 0 ? (
+                    {dataPlumber.uniprot_ids.length > 0 && (
                         <ListGroup.Item>
                             <Row>
                                 <Col xs={3}>UniProt IDs</Col>
@@ -111,12 +104,8 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                                 </Col>
                             </Row>
                         </ListGroup.Item>
-                    ) : (
-                        ""
                     )}
                 </>
-            ) : (
-                <></>
             )}
         </>
     );

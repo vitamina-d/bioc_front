@@ -22,7 +22,7 @@ function ButtonOverlay({ textHover, sequence, typeIcon, ...prop }: Props) {
                     <Button className="align-items-center" {...prop}>
                         <div className="d-flex align-items-start">
                             <Badge bg="secondary" className="me-2">
-                                {sequence ? sequence.length : ""}
+                                {sequence && sequence.length}
                             </Badge>
                             <Icon type={typeIcon} />
                         </div>

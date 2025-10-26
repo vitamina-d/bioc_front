@@ -15,7 +15,7 @@ function AlignView() {
             <Header title="Alinear" text="subtitle." imageSrc={img} />
             <CardBody>
                 <AlignSequences setDataAlign={setDataAlign} />
-                {dataAlign ? (
+                {dataAlign && (
                     <>
                         <PlotAlign data={dataAlign} />
                         <div className="d-flex justify-content-end">
@@ -25,8 +25,6 @@ function AlignView() {
                             />
                         </div>
                     </>
-                ) : (
-                    ""
                 )}
             </CardBody>
         </Container>
