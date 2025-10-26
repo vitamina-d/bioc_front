@@ -47,20 +47,8 @@ const GetAutocomplete = async (value: string): Promise<Response<string[]>> => {
     return json;
 };
 
-const GetDetail = async (entrez: string): Promise<Response<DataDetail>> => {
+const GetDetail = async (entrez: string, isFull: boolean): Promise<Response<any>> => {
     console.log("[BIOC] GET /detail");
-    var isFull: boolean = false;
-    const response = await fetch(
-        `${DOTNET_BIOCONDUCTOR_URL}/detail?entrez=${entrez}&isFull=${isFull}`
-    );
-    const json = await response.json();
-    console.log(response);
-    console.log(json);
-    return json;
-};
-const GeFullDetail = async (entrez: string): Promise<Response<DataFullDetail>> => {
-    console.log("[BIOC] GET /detail");
-    var isFull: boolean = true;
     const response = await fetch(
         `${DOTNET_BIOCONDUCTOR_URL}/detail?entrez=${entrez}&isFull=${isFull}`
     );
@@ -142,7 +130,6 @@ export {
     GetAlign,
     GetAutocomplete,
     GetDetail,
-    GeFullDetail,
     GetPercent,
     GetSequence,
     GetStats,

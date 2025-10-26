@@ -8,7 +8,7 @@ import {
     Modal,
 } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import { GeFullDetail, GetDetail, GetStats } from "../services/PlumberServices";
+import { GetDetail, GetStats } from "../services/PlumberServices";
 import { SummaryService } from "../services/PublicServices";
 import type { Response } from "../types/Response";
 import type {
@@ -36,7 +36,8 @@ function DetailView() {
     useEffect(() => {
         const fetchDetail = async () => {
             try {
-                const response: Response<DataDetail> = await GetDetail(entrezId!); //! existe
+                var isFull : boolean = false; 
+                const response: Response<DataDetail> = await GetDetail(entrezId!, isFull);//! existe
                 console.log(response);
                 setDetail(response.data);
             } catch {
@@ -52,8 +53,9 @@ function DetailView() {
         try {
             const publicRes: Response<ResponsePublicSummary> =
                 await SummaryService(entrezId!);
+                var isFull : boolean = true; 
             setSummary(publicRes.data);
-            const biocResponse: Response<DataFullDetail> = await GeFullDetail(entrezId!);
+            const biocResponse: Response<DataFullDetail> = await GetDetail(entrezId!, isFull);
             setFullDetail(biocResponse.data);
         } catch (err) {
             console.error(err);

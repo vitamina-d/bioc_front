@@ -13,21 +13,17 @@ import type { Sequence } from "../types/DataPython";
 import img from "../assets/search-gene.png";
 import { useLocation } from "react-router-dom";
 
-type Props = {
-    detail?: DataDetail | null;
-    setDetail?: React.Dispatch<React.SetStateAction<DataDetail | null>>;
-};
-
-function SearchView({ detail, setDetail }: Props) {
+function SearchView() {
     const location = useLocation();
     const namePage: string = location.pathname;
+    const [detail, setDetail] = useState<DataDetail | null>(null);
 
     //RANGE
     const [start, setStart] = useState("100000");
     const [end, setEnd] = useState("100100");
     const [chr, setChr] = useState<string | null>(null);
     const [sequence, setSequence] = useState<string>("");
-
+    
     //SEARCH
     const [input, setInput] = useState("");
 
