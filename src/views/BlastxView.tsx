@@ -56,9 +56,9 @@ function BlastxView() {
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         event.preventDefault();
-        //console.log("QUERY: ", sequence);
+        console.log("QUERY: ", sequence);
         const response: Response<BlastxReport> = await PostBlastx(sequence);
-        //console.log(response);
+        console.log(response);
         setBlastx(response.data);
         setModificable(false);
         setModalShow(true);
@@ -100,16 +100,18 @@ function BlastxView() {
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         event.preventDefault();
-        console.log("INIT JOB");
+        console.log("INIT JOB"); //no credits
         const response: Response<string> = await InitJob(protein);
         console.log(response);
         setJobId(response.data);
         //const jobStatus: ResponseStatus = await StatusJob(response);
-        const jobStatus: Response<ResponseStatus> = await StatusJob(
+        const jobStatus: Response<string> = await StatusJob(
             response.data
         );
-        const status = JSON.parse(jobStatus.data.status);
-        console.log(status);
+        console.log("-----------jobStatus: ", jobStatus);
+        console.log("-----------jobStatus.data: ", jobStatus.data);
+
+        const status = jobStatus.data;
         setStatusJob(status);
         setShowButton(false);
     };
@@ -121,8 +123,8 @@ function BlastxView() {
         event.preventDefault();
         console.log("STATUS JOB");
         //const jobStatus: ResponseStatus = await StatusJob(jobId);
-        const jobStatus: Response<ResponseStatus> = await StatusJob(jobId);
-        const status = JSON.parse(jobStatus.data.status);
+        const jobStatus: Response<string> = await StatusJob(jobId);
+        const status = jobStatus.data;
         console.log(status);
         setStatusJob(status);
     };
