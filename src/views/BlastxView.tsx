@@ -110,9 +110,10 @@ function BlastxView() {
         //pdb|6JEH|B
         console.log("PDBID -----> ", pdbId.split("|")[1]);
         setPdbId(pdbId.split("|")[1]);
-        const response: Response<Sequence> = await GetTranslate(
+        const response: Response<Sequence> | null = await GetTranslate(
             sequence.trim(),
-            frame
+            frame,
+            showToast
         );
         if (!response || !response.data) {
             hideSpinner();

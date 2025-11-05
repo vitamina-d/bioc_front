@@ -29,24 +29,43 @@ const GetComplement = async (
 
 const GetTranslate = async (
     sequence: string,
-    frame: number
-): Promise<Response<Sequence>> => {
+    frame: number,
+    showToast: (
+        message: string,
+        status: Toast["status"],
+        type?: Toast["type"]
+    ) => void
+): Promise<Response<Sequence> | null> => {
     console.log("[PYTHON] POST /translate");
+    try {
+        const response = await fetch(`${DOTNET_PYTHON_URL}/translate`, {
+            method: "POST",
+            body: JSON.stringify({
+                sequence: sequence,
+                frame: frame,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        
+        if (!response.ok) {
+            showToast(
+                `Error ${response.status}: ${response.statusText}`,
+                "Warning",
+                "danger"
+            );
+            return null;
+        }
 
-    const response = await fetch(`${DOTNET_PYTHON_URL}/translate`, {
-        method: "POST",
-        body: JSON.stringify({
-            sequence: sequence,
-            frame: frame,
-        }),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-    const json = await response.json();
-    console.log(response);
-    console.log(json);
-    return json;
+        const json = await response.json();
+        console.log(response);
+        console.log(json);
+        return json;
+    } catch {
+        showToast("No se pudo conectar al servidor", "Error", "danger");
+        return null;
+    }
 };
 
 const GetCompare = async (
