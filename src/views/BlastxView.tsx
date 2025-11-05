@@ -65,16 +65,23 @@ function BlastxView() {
         event.preventDefault();
         showSpinner();
         console.log("QUERY: ", sequence);
-        const response: Response<BlastxReport> | null = await PostBlastx(sequence, showToast);
+        const response: Response<BlastxReport> | null = await PostBlastx(
+            sequence,
+            showToast
+        );
         console.log(response);
-        if (!response || !response.data || response.data.results.search.hits.length == 0) {
+        if (
+            !response ||
+            !response.data ||
+            response.data.results.search.hits.length == 0
+        ) {
             hideSpinner();
             return;
         }
         setBlastx(response.data);
         setModificable(false);
-        hideSpinner();
         setModalShow(true);
+        hideSpinner();
     };
 
     //limpiar
@@ -89,6 +96,8 @@ function BlastxView() {
     const getTraduction = async (frame: number, pdbId: string, hit: Hit) => {
         // ya me traigo la referencia pdbid
         //limpiar
+        showSpinner();
+
         setFrame(null);
         setJobId(null);
         setStatusJob(null);
@@ -105,7 +114,12 @@ function BlastxView() {
             sequence.trim(),
             frame
         );
+        if (!response || !response.data) {
+            hideSpinner();
+            return;
+        }
         setProtein(response.data.sequence);
+        hideSpinner();
     };
 
     //inicia la prediccion en neurosnap y verifica el estado. oculta el button
@@ -217,7 +231,9 @@ function BlastxView() {
                     )}
                 </Card.Body>
                 <CardFooter>
-                {blastx?.results.search.stat && <BlastxStat data={blastx?.results.search.stat} />}
+                    {blastx?.results.search.stat && (
+                        <BlastxStat data={blastx?.results.search.stat} />
+                    )}
                 </CardFooter>
             </ModalBasic>
 

@@ -35,7 +35,7 @@ function BlastxTable({ hits, handleCompare }: Props) {
                         background: "white",
                     }}
                 >
-                    <tr>
+                    <tr key={"blastxtable"}>
                         <th>Hit</th>
                         <th>Len</th>
 
