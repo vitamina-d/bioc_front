@@ -1,6 +1,7 @@
 import { DOTNET_PYTHON_URL } from "../config/urls";
 import type { Response } from "../types/Response";
 import type { Sequence } from "../types/DataPython";
+import type { Toast } from "../context/ToastContext";
 
 const GetComplement = async (
     sequence: string,
@@ -50,24 +51,40 @@ const GetTranslate = async (
 
 const GetCompare = async (
     pdb_file: File,
-    reference_id: string
-): Promise<string> => {
+    reference_id: string,
+    showToast: (message: string, status: Toast["status"], type?: Toast["type"]) => void
+): Promise<string | null> => {
     console.log("[PYTHON] POST /compare");
     const form = new FormData();
     form.append("pdb_file", pdb_file);
 
-    const response = await fetch(
-        `${DOTNET_PYTHON_URL}/compare/${reference_id}`,
-        {
-            method: "POST",
-            body: form,
-        }
-    );
+    try {
+        const response = await fetch(
+            `${DOTNET_PYTHON_URL}/compare/${reference_id}`,
+            {
+                method: "POST",
+                body: form,
+            }
+        );
 
-    const pdbFile: string = await response.text();
-    console.log(response);
-    console.log(pdbFile);
-    return pdbFile;
+        if (!response.ok) {
+            showToast(
+                `Error ${response.status}: ${response.statusText}`,
+                "Warning",
+                "danger"
+            );
+            return null;
+        }
+
+        const pdbFile: string = await response.text();
+        console.log(response);
+        console.log(pdbFile);
+        showToast("Comparación exitosa", "Success", "primary");
+        return pdbFile;
+    } catch {
+        showToast("No se pudo conectar al servidor", "Error", "danger");
+        return null;
+    }
 };
 
 export { GetComplement, GetTranslate, GetCompare };

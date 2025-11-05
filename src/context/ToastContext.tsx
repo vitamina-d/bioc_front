@@ -2,14 +2,15 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
 import img from "../assets/gene.png"
 
-type Toast = {
+export type Toast = {
     date: number;
     message: string;
     type?: "primary" | "warning" | "danger" | "secondary";
+    status: "Success" | "Warning" | "Error";
 };
 
 type ToastContextType = {
-    showToast: (message: string, type?: Toast["type"]) => void;
+    showToast: (message: string, status: Toast["status"], type?: Toast["type"]) => void;
 };
 
 const ToastContext = createContext<ToastContextType | null>(null);
@@ -29,9 +30,9 @@ type Props = {
 export function ToastProvider({ children }: Props) {
     const [toasts, setToasts] = useState<Toast[]>([]);
 
-    const showToast = (message: string, type: Toast["type"] = "secondary") => {
+    const showToast = (message: string, status:Toast["status"], type: Toast["type"]) => {
         const date = Date.now();
-        const addToast: Toast = { date, message, type };
+        const addToast: Toast = { date, message, type, status };
         setToasts((stack) => [...stack, addToast ]);
         setTimeout(() => {
             setToasts((stack) => stack.filter((toast) => toast.date !== date));
@@ -50,9 +51,8 @@ export function ToastProvider({ children }: Props) {
                     <Toast
                         key={toast.date}
                         animation={true}
-                        bg={`bg-${toast.type}`}
                         onClose={() => onClose(toast.date)}
-                    >
+                        >
                         <Toast.Header>
                             <img
                                 src={img}
@@ -61,8 +61,8 @@ export function ToastProvider({ children }: Props) {
                                 className="rounded me-1"
                                 alt="Logo"
                             />
-                            <strong className="me-auto">Message</strong>
-                            <small>{toast.date}</small>
+                            <strong className="me-auto ">Notification</strong>
+                            <small className={`text-${toast.type}`}>{toast.status}</small>
                         </Toast.Header>
                         <Toast.Body>{toast.message}</Toast.Body>
                     </Toast>

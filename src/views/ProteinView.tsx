@@ -26,7 +26,7 @@ function ProteinView() {
     }
 
     const handleToast = () => {
-        showToast("click", "primary");
+        showToast("click", "Success" , "primary");
     };
     const handleSpinner = () => {
         setSpin(!spin);
@@ -38,7 +38,7 @@ function ProteinView() {
         console.log(file);
         console.log(input);
         if (!file) return;
-        const align: string = await GetCompare(file, input);
+        const align: string | null = await GetCompare(file, input, showToast);
         console.log(align);
     };
 
