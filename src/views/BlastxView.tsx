@@ -1,6 +1,7 @@
 import {
     Button,
     Card,
+    CardFooter,
     CardHeader,
     Col,
     Container,
@@ -31,10 +32,16 @@ import { Icon } from "../Components/Icon";
 import imgns from "../assets/image.webp";
 import TableRanks from "../Components/TableRanks";
 import ProteinViewer from "../Components/ProteinViewer";
+import { useSpinnerContext } from "../context/SpinnerContext";
+import { useToastContext } from "../context/ToastContext";
+import BlastxStat from "../Components/BlastxStat";
 
 //https://neurosnap.ai/job/68e17d82e986d44f8b7e9e1b
 
 function BlastxView() {
+    const { showToast } = useToastContext();
+    const { showSpinner, hideSpinner } = useSpinnerContext();
+
     const [blastx, setBlastx] = useState<BlastxReport | null>(null);
     const [sequence, setSequence] = useState<string>("");
     const [modalShow, setModalShow] = useState<boolean>(false);
@@ -56,11 +63,17 @@ function BlastxView() {
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         event.preventDefault();
+        showSpinner();
         console.log("QUERY: ", sequence);
-        const response: Response<BlastxReport> = await PostBlastx(sequence);
+        const response: Response<BlastxReport> | null = await PostBlastx(sequence, showToast);
         console.log(response);
+        if (!response || !response.data || response.data.results.search.hits.length == 0) {
+            hideSpinner();
+            return;
+        }
         setBlastx(response.data);
         setModificable(false);
+        hideSpinner();
         setModalShow(true);
     };
 
@@ -105,9 +118,7 @@ function BlastxView() {
         console.log(response);
         setJobId(response.data);
         //const jobStatus: ResponseStatus = await StatusJob(response);
-        const jobStatus: Response<string> = await StatusJob(
-            response.data
-        );
+        const jobStatus: Response<string> = await StatusJob(response.data);
         console.log("-----------jobStatus: ", jobStatus);
         console.log("-----------jobStatus.data: ", jobStatus.data);
 
@@ -173,6 +184,7 @@ function BlastxView() {
                             variant="secondary"
                             size={"sm"}
                             onClick={(event) => getBlastxReport(event)}
+                            disabled={sequence == ""}
                         >
                             get hits
                         </Button>
@@ -198,12 +210,15 @@ function BlastxView() {
                 <Card.Body>
                     {blastx && (
                         <BlastxTable
-                            data={blastx}
+                            hits={blastx?.results.search.hits}
                             handleCompare={getTraduction}
                             setHit={setHit}
                         />
                     )}
                 </Card.Body>
+                <CardFooter>
+                {blastx?.results.search.stat && <BlastxStat data={blastx?.results.search.stat} />}
+                </CardFooter>
             </ModalBasic>
 
             {/* SECTION PREDICT */}

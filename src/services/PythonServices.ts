@@ -52,7 +52,11 @@ const GetTranslate = async (
 const GetCompare = async (
     pdb_file: File,
     reference_id: string,
-    showToast: (message: string, status: Toast["status"], type?: Toast["type"]) => void
+    showToast: (
+        message: string,
+        status: Toast["status"],
+        type?: Toast["type"]
+    ) => void
 ): Promise<string | null> => {
     console.log("[PYTHON] POST /compare");
     const form = new FormData();
