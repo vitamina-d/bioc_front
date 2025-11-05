@@ -26,7 +26,7 @@ import {
     InitJob,
     StatusJob,
 } from "../services/FoldingServices";
-import type { ProteinRanks, ResponseStatus } from "../types/ResponseFolding";
+import type { ProteinRanks } from "../types/ResponseFolding";
 import { Icon } from "../Components/Icon";
 import imgns from "../assets/image.webp";
 import TableRanks from "../Components/TableRanks";

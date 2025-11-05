@@ -20,7 +20,7 @@ function NavComponent() {
                 showOffCanva={showOffCanva}
                 setShowOffCanva={setShowOffCanva}
             />
-            <div className=" ps-2 pt-1 text-white d-flex justify-content-between align-items-center w-100">
+            <div className=" ps-2 pt-1 d-flex justify-content-between align-items-center w-100">
                 <div className="d-flex align-items-center">
                     <Button
                         variant="light"
@@ -29,7 +29,7 @@ function NavComponent() {
                     >
                         <Icon type={"burger"} />
                     </Button>
-                    <Nav.Link className="text-white " as={Link} to="/">
+                    <Nav.Link className="text-light " as={Link} to="/">
                         <img
                             src={img}
                             width="30"

@@ -9,7 +9,7 @@ type Props = {
     setShowTable: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function ModalBodyUpload({ setName, setDictionary, setShowTable }: Props) {
+function FormUpload({ setName, setDictionary, setShowTable }: Props) {
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             const file = event.target.files[0];
@@ -79,4 +79,4 @@ function ModalBodyUpload({ setName, setDictionary, setShowTable }: Props) {
     );
 }
 
-export default ModalBodyUpload;
+export default FormUpload;

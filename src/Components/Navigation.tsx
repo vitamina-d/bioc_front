@@ -10,19 +10,19 @@ function Navigation({ setShowOffCanva }: Props) {
     return (
         <Navbar expand={false}>
             <Nav onClick={() => setShowOffCanva(false)}>
-                <Nav.Link className="text-white" as={Link} to="/search">
+                <Nav.Link className="text-light" as={Link} to="/search">
                     Search
                 </Nav.Link>
-                <Nav.Link className="text-white" as={Link} to="/align">
+                <Nav.Link className="text-light" as={Link} to="/align">
                     Align
                 </Nav.Link>
-                <Nav.Link className="text-white" as={Link} to="/blastx">
+                <Nav.Link className="text-light" as={Link} to="/blastx">
                     Blastx
                 </Nav.Link>
-                <Nav.Link className="text-white" as={Link} to="/protein">
+                <Nav.Link className="text-light" as={Link} to="/protein">
                     Protein
                 </Nav.Link>
-                <Nav.Link className="text-white" as={Link} to="/about">
+                <Nav.Link className="text-light" as={Link} to="/about">
                     About
                 </Nav.Link>
             </Nav>

@@ -10,6 +10,7 @@ import NotFoundView from "./views/NotFoundView";
 import HomeView from "./views/HomeView";
 import { ToastProvider } from "./context/ToastContext";
 import { SpinnerProvider } from "./context/SpinnerContext";
+import Footer from "./Components/Footer";
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                         <Route path="/about" element={<AboutView />} />
                         <Route path="/404" element={<NotFoundView />} />
                     </Routes>
+                <Footer />
                 </SpinnerProvider>
             </ToastProvider>
         </BrowserRouter>

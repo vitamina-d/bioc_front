@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Badge, Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Icon } from "./Icon";
 import type { FastaDictionary } from "../types/FastaDictionary";
-import ModalBodyUpload from "./ModalBodyUpload";
+import FormUpload from "./FormUpload";
 import ModalBasic from "./ModalBasic";
 import FastaReadTable from "./FastaReadTable";
 
@@ -61,7 +61,7 @@ function FileUp({
                 title={"Upload File"}
             >
                 <>
-                    <ModalBodyUpload
+                    <FormUpload
                         setName={setName}
                         setDictionary={setDictionary}
                         setShowTable={setShowTable}

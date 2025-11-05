@@ -18,10 +18,6 @@ function FastaReadTable({
     const headers = Object.keys(dictionary);
     const [selected, setSelected] = useState<string[]>([]);
 
-    useEffect(() => {
-        //console.log("selected: ", selected);
-    }, [selected]);
-
     const selectHeader = (header: string) => {
         if (selected.includes(header)) {
             setSelected(selected.filter((remove) => remove !== header)); //

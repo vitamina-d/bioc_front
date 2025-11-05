@@ -1,4 +1,4 @@
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, InputGroup, Row } from "react-bootstrap";
 import type { ButtonProps } from "react-bootstrap";
 
 type SearcherProps = {
@@ -23,11 +23,11 @@ function Searcher({
     };
 
     return (
-        <div className="row mx-1 ">
+        <Row className="mx-1">
             <Form onSubmit={handleSubmit}>
-                <div className="input-group mb-3 w-auto">
-                    <label className="input-group-text">INPUT</label>
-                    <input
+                <InputGroup className="mb-3 w-auto">
+                    <InputGroup.Text>INPUT </InputGroup.Text>
+                    <Form.Control
                         type="string"
                         className="form-control"
                         id="inputEntrez"
@@ -35,19 +35,19 @@ function Searcher({
                         placeholder={placeholder}
                         onChange={(e) => setInput(e.target.value)}
                     />
-                    <label className="input-group-text p-0">
+                    <InputGroup.Text>
                         <Button
                             variant="light"
                             type="submit"
-                            className="rounded-0"
+                            className="rounded-0 p-0"
                             {...prop}
                         >
                             {text}
-                        </Button>
-                    </label>
-                </div>
+                        </Button>{" "}
+                    </InputGroup.Text>
+                </InputGroup>
             </Form>
-        </div>
+        </Row>
     );
 }
 

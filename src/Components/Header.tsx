@@ -3,9 +3,10 @@ import { CardImg } from "react-bootstrap";
 type Props = {
     title: string;
     text?: string;
+    imageSrc?: string;
 };
 
-function Header({ title, text, imageSrc }: Props & { imageSrc?: string }) {
+function Header({ title, text, imageSrc }: Props) {
     return (
         <div className="d-flex align-items-center p-3">
             {imageSrc && (

@@ -48,4 +48,26 @@ const GetTranslate = async (
     return json;
 };
 
-export { GetComplement, GetTranslate };
+const GetCompare = async (
+    pdb_file: File,
+    reference_id: string
+): Promise<string> => {
+    console.log("[PYTHON] POST /compare");
+    const form = new FormData();
+    form.append("pdb_file", pdb_file);
+
+    const response = await fetch(
+        `${DOTNET_PYTHON_URL}/compare/${reference_id}`,
+        {
+            method: "POST",
+            body: form,
+        }
+    );
+
+    const pdbFile: string = await response.text();
+    console.log(response);
+    console.log(pdbFile);
+    return pdbFile;
+};
+
+export { GetComplement, GetTranslate, GetCompare };
