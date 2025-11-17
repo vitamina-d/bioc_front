@@ -6,11 +6,10 @@ import { Icon } from "./Icon";
 
 type Props = {
     hits: Hit[];
-    handleCompare: (frame: number, pdbId: string, hit: Hit) => void;
     setHit: React.Dispatch<React.SetStateAction<Hit | null>>;
 };
 
-function BlastxTable({ hits, handleCompare }: Props) {
+function BlastxTable({ hits, setHit }: Props) {
     const [openRow, setOpenRow] = useState<number | null>(null);
 
     return (
@@ -45,11 +44,11 @@ function BlastxTable({ hits, handleCompare }: Props) {
                         <th>Identity</th>
                         <th>Positive</th>
 
-                        {/*<th>Chain</th>*/}
                         <th>Name</th>
                         <th>Specie</th>
                         <th>Taxid</th>
-                        <th>PDB IDs</th>
+                        <th>Gene</th>
+                        <th>Evidence</th>
 
                         <th>More</th>
                         <th>Go To</th>
@@ -57,11 +56,11 @@ function BlastxTable({ hits, handleCompare }: Props) {
                 </thead>
                 <tbody>
                     {hits.map((hit, hit_idx) => {
-                        const chains: string[] = [];
-                        const names: string[] = [];
-                        const species: string[] = [];
-                        const taxids: number[] = [];
-                        const badges: string[] = [];
+                        const name: string[] = [];
+                        const specie: string[] = [];
+                        const taxid: string[] = [];
+                        const gen: string[] = [];
+                        const protEvidence: string[] = [];
                         return (
                             //agregar key
                             <React.Fragment key={hit_idx}>
@@ -78,46 +77,25 @@ function BlastxTable({ hits, handleCompare }: Props) {
                                         </React.Fragment>
                                     ))}
                                     {hit.description.map((item) => {
-                                        //console.log("DESCRIPTION");
-                                        //const list = item.title.split(",");
-                                        const chain: string =
-                                            item.title.split(",")[0]; //ok
-                                        const name: string = item.title
-                                            .replace(chain + ",", "") // - chain
-                                            .replace(/\[.*?\]$/, "") // - specie
-                                            .trim();
+                                        //7-dehydrocholesterol reductase OS=Mus musculus OX=10090 GN=Dhcr7 PE=1 SV=1
+                                        name.push(item.title.split("OS=")[0]);
+                                        specie.push(item.title.split("OS=")[1].split("OX=")[0]);
+                                        if (item.title.includes("GN=")) {
+                                            taxid.push(item.title.split("OX=")[1].split("GN=")[0]);
+                                            gen.push(item.title.split("GN=")[1].split("PE=")[0]);
+                                            protEvidence.push(item.title.split("PE=")[1].split("SV")[0]);
 
-                                        const corchetes =
-                                            item.title.match(/\[(.*?)\]$/);
-                                        const specie = corchetes
-                                            ? corchetes[1]
-                                            : "";
-                                        //const specie: string = list[1].split(name)[1].trim();
-
-                                        if (!chains.includes(chain)) {
-                                            chains.push(chain);
-                                        }
-                                        if (!names.includes(name)) {
-                                            names.push(name);
-                                        }
-                                        if (!species.includes(specie)) {
-                                            species.push(specie);
-                                        }
-                                        if (!taxids.includes(item.taxid)) {
-                                            taxids.push(item.taxid);
-                                        }
-                                        if (!badges.includes(item.accession)) {
-                                            badges.push(item.accession);
+                                        } else {
+                                            taxid.push(item.title.split("OX=")[1].split("PE=")[0]);
+                                            protEvidence.push(item.title.split("PE=")[1].split("SV")[0]);
                                         }
                                         return <></>;
                                     })}
-                                    {/*<td>{chains}</td>*/}
-                                    <td>{names}</td>
-                                    <td>{species}</td>
-                                    <td>{taxids}</td>
+                                    <td>{name}</td>
+                                    <td>{specie}</td>
+                                    <td>{taxid}</td>
                                     <td>
-                                        {badges.map((bg) => {
-                                            //console.log("BADGE envia -------------",bg);
+                                        {gen.map((bg) => {
                                             return (
                                                 <BadgeProtein
                                                     key={bg}
@@ -126,6 +104,8 @@ function BlastxTable({ hits, handleCompare }: Props) {
                                             );
                                         })}
                                     </td>
+                                    <td>{protEvidence}</td>
+
                                     <td>
                                         <Button
                                             size="sm"
@@ -153,15 +133,8 @@ function BlastxTable({ hits, handleCompare }: Props) {
                                         <Button
                                             size="sm"
                                             variant="primary"
-                                            onClick={() =>
-                                                handleCompare(
-                                                    hit.hsps[0].query_frame,
-                                                    hit.description[0].id,
-                                                    hit
-                                                )
-                                            }
+                                            onClick={() => setHit(hit)}
                                         >
-                                            {" "}
                                             Compare
                                         </Button>
                                     </td>

@@ -8,18 +8,18 @@ export const optionsSymbol: string[] = [
     "GC",
     "VDR",
     "RXRA",
-    //"RXRB",
     "RXRG",
     "CASR",
     "PTH",
-    //"PTHR1",
     "CALB1", // o_o
-    //"TRPV6",
     "SLC24A5",
     "SLC34A1",
     "SLC34A3",
     "SLC37A2",
     "PKNOX2",
+    //"RXRB",
+    //"PTHR1",
+    //"TRPV6",
     //"SLC45A2",
     //"OCA2"
 ];

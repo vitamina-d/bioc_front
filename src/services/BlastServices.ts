@@ -38,6 +38,7 @@ const PostBlastx = async (
         console.log(json);
         if (json.data.results.search.hits.length == 0){
             showToast("No se encontraron matches", "Success", "primary");
+            return null;
         }
         //showToast("Comparación exitosa", "Success", "primary");
         return json;

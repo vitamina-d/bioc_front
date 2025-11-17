@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import Header from "../Components/Header";
 import type { BlastxReport, Hit } from "../types/DataBlastx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BlastxTable from "../Components/BlastxTable";
 import SequenceViewer from "../Components/SequenceViewer";
 import type { Response } from "../types/Response";
@@ -23,20 +23,24 @@ import type { Sequence } from "../types/DataPython";
 import img from "../assets/search-gene.png";
 import {
     GetAlignPrediction,
+    GetModelReference,
+    GetpLDDTModel,
+    GetpLDDTPrediction,
     GetRanksJob,
     InitJob,
     StatusJob,
 } from "../services/FoldingServices";
 import type { ProteinRanks } from "../types/ResponseFolding";
 import { Icon } from "../Components/Icon";
-import imgns from "../assets/image.webp";
+import image from "../assets/image.webp";
 import TableRanks from "../Components/TableRanks";
 import ProteinViewer from "../Components/ProteinViewer";
 import { useSpinnerContext } from "../context/SpinnerContext";
 import { useToastContext } from "../context/ToastContext";
 import BlastxStat from "../Components/BlastxStat";
-
-//https://neurosnap.ai/job/68e17d82e986d44f8b7e9e1b
+import { validateNucleotides } from "../utils/validateNucleotides";
+import { Link } from "react-router-dom";
+import type { pLDDTModel, pLDDTNeurosnap } from "../types/pLDDT";
 
 function BlastxView() {
     const { showToast } = useToastContext();
@@ -52,11 +56,23 @@ function BlastxView() {
     const [statusJob, setStatusJob] = useState<string | null>(null);
     const [showButton, setShowButton] = useState<boolean>(true);
     const [ranks, setRanks] = useState<ProteinRanks | null>(null);
-    const [pdbId, setPdbId] = useState<string>("");
+    const [accession, setAccession] = useState<string>("");
     const [modalStructureShow, setModalStructureShow] =
         useState<boolean>(false);
-    const [pdbString, setPdbString] = useState<string>("");
+    const [prediction, setPrediction] = useState<string | null>(null);
+    const [reference, setReference] = useState<string | null>(null);
+    const [pLDDTPrediction, setpLDDTPrediction] = useState<number[]>([]);
+    const [pLDDTReference, setpLDDTReference] = useState<number[] | null>(null);
+
     const [hit, setHit] = useState<Hit | null>(null);
+
+    useEffect(() => {
+        console.log("useEFECT")
+        if (hit != null) {
+            
+            getTraduction();
+        }
+    }, [hit]);
 
     //busca los hits de la secuencia de entrada
     const getBlastxReport = async (
@@ -64,9 +80,15 @@ function BlastxView() {
     ) => {
         event.preventDefault();
         showSpinner();
+
+        if (!validateNucleotides(sequence)) {
+            hideSpinner();
+            showToast("Ingrese una secuencia valida.", "Warning", "warning");
+            return;
+        }
         console.log("QUERY: ", sequence);
         const response: Response<BlastxReport> | null = await PostBlastx(
-            sequence,
+            sequence.toUpperCase(),
             showToast
         );
         console.log(response);
@@ -93,11 +115,10 @@ function BlastxView() {
     };
 
     //obtener traduccion segun el frame del hit seleccionado
-    const getTraduction = async (frame: number, pdbId: string, hit: Hit) => {
-        // ya me traigo la referencia pdbid
+    const getTraduction = async () => {
+        console.log("useEffect ------------------- NUEVO HIT: ", hit);
         //limpiar
         showSpinner();
-
         setFrame(null);
         setJobId(null);
         setStatusJob(null);
@@ -105,14 +126,13 @@ function BlastxView() {
 
         console.log(hit);
         setModalShow(false);
-        setFrame(frame);
-        setHit(hit);
-        //pdb|6JEH|B
-        console.log("PDBID -----> ", pdbId.split("|")[1]);
-        setPdbId(pdbId.split("|")[1]);
+        //setFrame(hit.hsps[0].query_frame);
+        //setHit(hit);
+        
+        setAccession(hit!.description[0].accession);
         const response: Response<Sequence> | null = await GetTranslate(
             sequence.trim(),
-            frame,
+            hit!.hsps[0].query_frame,
             showToast
         );
         if (!response || !response.data) {
@@ -132,11 +152,7 @@ function BlastxView() {
         const response: Response<string> = await InitJob(protein);
         console.log(response);
         setJobId(response.data);
-        //const jobStatus: ResponseStatus = await StatusJob(response);
         const jobStatus: Response<string> = await StatusJob(response.data);
-        console.log("-----------jobStatus: ", jobStatus);
-        console.log("-----------jobStatus.data: ", jobStatus.data);
-
         const status = jobStatus.data;
         setStatusJob(status);
         setShowButton(false);
@@ -147,8 +163,6 @@ function BlastxView() {
     ) => {
         if (!jobId) return;
         event.preventDefault();
-        console.log("STATUS JOB");
-        //const jobStatus: ResponseStatus = await StatusJob(jobId);
         const jobStatus: Response<string> = await StatusJob(jobId);
         const status = jobStatus.data;
         console.log(status);
@@ -161,8 +175,6 @@ function BlastxView() {
     ) => {
         if (!jobId) return;
         event.preventDefault();
-        console.log("STATUS JOB");
-        //const jobStatus: ResponseStatus = await StatusJob(jobId);
         const ranks: Response<ProteinRanks> = await GetRanksJob(jobId);
         console.log(ranks);
         setRanks(ranks.data);
@@ -170,15 +182,38 @@ function BlastxView() {
 
     //onClick del button rank seleccionado para visualizar las estructuras
     const selectRankToCompare = async (rank: string) => {
-        console.log("ALIGN: jobid ", jobId, ", rank: ", rank, "pdbId: ", pdbId);
-        const align: string = await GetAlignPrediction(jobId!, rank, pdbId);
-        console.log("-------------------------------------");
-        setPdbString(align);
+        console.log(
+            "jobid ",
+            jobId,
+            ", rank_",
+            rank,
+            "accession: ",
+            accession,
+            "-------------------------------------------------------------------------"
+        );
+        const pdbPrediction: string = await GetAlignPrediction(
+            jobId!,
+            rank,
+            accession
+        );
+        setPrediction(pdbPrediction);
+        const pdbReference: string = await GetModelReference(accession);
+        setReference(pdbReference);
+        const plddtPrediction: Response<pLDDTNeurosnap> = await GetpLDDTPrediction(jobId!, rank)
+        console.log(plddtPrediction)
+        const plddtReference: Response<pLDDTModel> = await GetpLDDTModel(accession)
+        console.log("plddtPrediction: ", plddtPrediction)
+        console.log("plddtReference: ", plddtReference)
+        setpLDDTPrediction(plddtPrediction.data.plddt);
+
+        //metadata
+        //GetpLDDTPrediction
+        //GET /api/Folding/job/{jobId}/rank_{rank}/pLDDT
+        //GetpLDDTModel
+        //GET /api/Folding/model/pLDDT/{accession}
         setModalStructureShow(true);
     };
-    //const goToProteinView = async (rank: string) => {// el rank
-    //    navigate("/protein", { state: { jobId: "68e17d82e986d44f8b7e9e1b", rank: rank, pdbId: pdbId } });
-    //}
+
     return (
         <Container fluid className="mt-3 ">
             <Header
@@ -226,7 +261,6 @@ function BlastxView() {
                     {blastx && (
                         <BlastxTable
                             hits={blastx?.results.search.hits}
-                            handleCompare={getTraduction}
                             setHit={setHit}
                         />
                     )}
@@ -239,11 +273,11 @@ function BlastxView() {
             </ModalBasic>
 
             {/* SECTION PREDICT */}
-            {frame != null && (
+            {hit != null && (
                 <Card className="my-3">
                     <CardHeader className="pt-3">
-                        <img src={imgns} height={"30px"} width={"30px"} />
-                        Predict structure
+                        <img src={image} height={"30px"} width={"30px"} />
+                        Predict structure with Alphafold <Link to="https://neurosnap.ai/" target="_blank">(Neurosnap)</Link> 
                     </CardHeader>
                     <Card.Body className="p-3">
                         <ListGroup
@@ -253,35 +287,46 @@ function BlastxView() {
                             <ListGroup.Item>
                                 <Row>
                                     <Col xs={3}>FALTA</Col>
-                                    <Col xs={9}>
-                                        Agregar datos de donde vengo
-                                    </Col>
+                                    <Col xs={9}>Agregar datos del hit</Col>
                                 </Row>
+                                    
+                                        <Row>
+                                            <Col xs={3}>ACCESSION</Col>
+                                            <Col xs={9}>
+                                                {hit.description[0].accession}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={3}>TITLE</Col>
+                                            <Col xs={9}>
+                                                {hit.description[0].title}
+                                            </Col>
+                                        </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col xs={3}>FRAME</Col>
-                                    <Col xs={9}>{frame}</Col>
+                                    <Col xs={9}>{hit.hsps[0].query_frame}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col xs={3}>PROTEIN TRADUCTION</Col>
-                                    <Col xs={9}>{protein}</Col>
+                                    <Col xs={6}>{protein}</Col>
+                                    <Col xs={3}>
+                                        {showButton && (
+                                            <div className="d-flex justify-content-end">
+                                                <Button
+                                                    className="mt-3"
+                                                    variant="secondary"
+                                                    size={"sm"}
+                                                    onClick={initJobPrediction}
+                                                >get prediction</Button>
+                                            </div>
+                                        )}
+                                    </Col>
                                 </Row>
                             </ListGroup.Item>
-                            {showButton && (
-                                <div className="d-flex justify-content-end">
-                                    <Button
-                                        className="mt-3"
-                                        variant="secondary"
-                                        size={"sm"}
-                                        onClick={initJobPrediction}
-                                    >
-                                        get prediction
-                                    </Button>
-                                </div>
-                            )}
 
                             {jobId && statusJob != null && (
                                 <>
@@ -382,12 +427,15 @@ function BlastxView() {
                                                 title={"Structures"}
                                             >
                                                 <Card.Body>
-                                                    {pdbString && (
+                                                    {prediction && reference && (
                                                         <ProteinViewer
-                                                            pdbId={pdbId}
                                                             prediction={
-                                                                pdbString
+                                                                prediction
                                                             }
+                                                            reference={
+                                                                reference
+                                                            }
+                                                            predictionpLDDT={pLDDTPrediction}
                                                         />
                                                     )}
                                                 </Card.Body>
