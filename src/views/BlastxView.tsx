@@ -149,21 +149,48 @@ function BlastxView() {
     ) => {
         event.preventDefault();
         console.log("INIT JOB"); //no credits
-        const response: Response<string> = await InitJob(protein);
+        showSpinner();
+
+        const response: Response<string> | null = await InitJob(
+            protein,
+            showToast
+        );
         console.log(response);
+        if (!response || !response.data) {
+            hideSpinner();
+            return;
+        }
         setJobId(response.data);
-        const jobStatus: Response<string> = await StatusJob(response.data);
+
+        //status
+        const jobStatus: Response<string> | null = await StatusJob(
+            response.data,
+            showToast
+        );
+        if (!jobStatus || !jobStatus.data) {
+            hideSpinner();
+            return;
+        }
         const status = jobStatus.data;
         setStatusJob(status);
         setShowButton(false);
     };
+    
     //Actualiza el status del button
     const getStatus = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         if (!jobId) return;
         event.preventDefault();
-        const jobStatus: Response<string> = await StatusJob(jobId);
+        //status
+        const jobStatus: Response<string> | null = await StatusJob(
+            jobId,
+            showToast
+        );
+        if (!jobStatus || !jobStatus.data) {
+            hideSpinner();
+            return;
+        }
         const status = jobStatus.data;
         console.log(status);
         setStatusJob(status);
@@ -296,7 +323,7 @@ function BlastxView() {
                                     <Col xs={9}>Agregar datos del hit</Col>
                                 </Row>
 
-                                <Row className="my-1" >
+                                <Row className="my-1">
                                     <Col xs={3}>ACCESSION</Col>
                                     <Col xs={9}>
                                         <Badge className="p-2" bg="danger">

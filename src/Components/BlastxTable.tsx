@@ -64,7 +64,6 @@ function BlastxTable({ hits, setHit }: Props) {
                             //agregar key
                             <React.Fragment key={`hit-${hit_idx}`}>
                                 <tr key={`row-${hit_idx}`}>
-                                    {" "}
                                     <td>{hit.num}</td>
                                     <td>{hit.len}</td>
                                     {hit.hsps.map((hsp, hsp_idx) => (
@@ -163,7 +162,7 @@ function BlastxTable({ hits, setHit }: Props) {
                                         </Button>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr key="tr-Collapse">
                                     <td colSpan={15} className="border-0 p-0">
                                         <Collapse
                                             in={openRow === hit_idx}
@@ -176,7 +175,7 @@ function BlastxTable({ hits, setHit }: Props) {
                                                 className="mb-2"
                                             >
                                                 <thead>
-                                                    <tr>
+                                                    <tr key="tr-Header">
                                                         <th>Sequence</th>
                                                         <th>Align</th>
                                                         <th>Range</th>
@@ -186,9 +185,9 @@ function BlastxTable({ hits, setHit }: Props) {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {hit.hsps.map((hsp) => (
+                                                    {hit.hsps.map((hsp, hsp_idx) => (
                                                         <>
-                                                            <tr>
+                                                            <tr key={`hsp-${hsp_idx}`}>
                                                                 <td>Query</td>
                                                                 <td
                                                                     style={{
@@ -217,7 +216,7 @@ function BlastxTable({ hits, setHit }: Props) {
                                                                 </td>
                                                                 <td>-</td>
                                                             </tr>
-                                                            <tr>
+                                                            <tr key="tr-Midline">
                                                                 <td>Midline</td>
                                                                 <td
                                                                     style={{
@@ -238,7 +237,7 @@ function BlastxTable({ hits, setHit }: Props) {
                                                                     }
                                                                 </td>
                                                             </tr>
-                                                            <tr>
+                                                            <tr key="tr-Hit">
                                                                 <td>Hit</td>
                                                                 <td
                                                                     style={{

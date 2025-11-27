@@ -1,13 +1,17 @@
 import { DOTNET_FOLD_URL } from "../config/urls";
+import type { ShowToast } from "../context/ToastContext";
 import type { pLDDTModel, pLDDTNeurosnap } from "../types/pLDDT";
 import type { Response } from "../types/Response";
 import type { ProteinRanks } from "../types/ResponseFolding";
+import apiRequest from "../wrapper/apiRequest";
 
-const InitJob = async (aminoacid: string): Promise<Response<string>> => {
+const InitJob = async (
+    aminoacid: string,
+    showToast: ShowToast
+): Promise<Response<string> | null> => {
     console.log("[FOLD] POST /init");
-
-    /*
-    const response = await fetch(`${DOTNET_FOLD_URL}/init`, {
+    const url = `${DOTNET_FOLD_URL}/init`;
+    const options = {
         method: "POST",
         body: JSON.stringify({
             aminoacid: aminoacid,
@@ -15,26 +19,28 @@ const InitJob = async (aminoacid: string): Promise<Response<string>> => {
         headers: {
             "Content-Type": "application/json",
         },
-    });
-    const json = await response.json();
-    console.log(response);
-    console.log(json);
+    };
+    const json = await apiRequest<Response<string>>(showToast, url, options);
+
+    //if json showtoast
+    
     return json;
-    */
+
+    /*
     return {
         code: 200,
         message: "Ok",
         data: "68e17d82e986d44f8b7e9e1b",
-    };
+    };    */
 };
 
-const StatusJob = async (jobId: string): Promise<Response<string>> => {
+const StatusJob = async (
+    jobId: string,
+    showToast: ShowToast
+): Promise<Response<string> | null> => {
     console.log("[FOLD] POST /status/jobId");
-
-    const response = await fetch(`${DOTNET_FOLD_URL}/status/${jobId}`);
-    const json = await response.json();
-    console.log(response);
-    console.log(json);
+    const url = `${DOTNET_FOLD_URL}/status/${jobId}`;
+    const json = await apiRequest<Response<string>>(showToast, url);
     return json;
 };
 
@@ -94,13 +100,11 @@ const GetpLDDTModel = async (
 ): Promise<Response<pLDDTModel>> => {
     console.log("[FOLD] GET /api/Folding/model/pLDDT/accession");
 
-    const response = await fetch(
-        `${DOTNET_FOLD_URL}/model/pLDDT/${accession}`
-    );
+    const response = await fetch(`${DOTNET_FOLD_URL}/model/pLDDT/${accession}`);
     const json = await response.json();
     console.log(response);
     console.log(json);
-    return json ;
+    return json;
 };
 
 export {

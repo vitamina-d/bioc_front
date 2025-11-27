@@ -1,7 +1,7 @@
 import { DOTNET_PYTHON_URL } from "../config/urls";
 import type { Response } from "../types/Response";
 import type { Sequence } from "../types/DataPython";
-import type { Toast } from "../context/ToastContext";
+import type { ShowToast } from "../context/ToastContext";
 
 const GetComplement = async (
     sequence: string,
@@ -30,11 +30,7 @@ const GetComplement = async (
 const GetTranslate = async (
     sequence: string,
     frame: number,
-    showToast: (
-        message: string,
-        status: Toast["status"],
-        type?: Toast["type"]
-    ) => void
+    showToast: ShowToast
 ): Promise<Response<Sequence> | null> => {
     console.log("[PYTHON] POST /translate");
     try {
@@ -48,7 +44,7 @@ const GetTranslate = async (
                 "Content-Type": "application/json",
             },
         });
-        
+
         if (!response.ok) {
             showToast(
                 `Error ${response.status}: ${response.statusText}`,
@@ -71,11 +67,7 @@ const GetTranslate = async (
 const GetCompare = async (
     pdb_file: File,
     reference_id: string,
-    showToast: (
-        message: string,
-        status: Toast["status"],
-        type?: Toast["type"]
-    ) => void
+    showToast: ShowToast
 ): Promise<string | null> => {
     console.log("[PYTHON] POST /compare");
     const form = new FormData();

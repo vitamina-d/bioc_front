@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
-import img from "../assets/gene.png"
+import img from "../assets/gene.png";
 
 export type Toast = {
     date: number;
@@ -8,17 +8,21 @@ export type Toast = {
     type?: "primary" | "warning" | "danger" | "secondary";
     status: "Success" | "Warning" | "Error";
 };
+export type ShowToast = (
+    message: string,
+    status: Toast["status"],
+    type?: Toast["type"]
+) => void;
 
 type ToastContextType = {
-    showToast: (message: string, status: Toast["status"], type?: Toast["type"]) => void;
+    showToast: ShowToast;
 };
 
 const ToastContext = createContext<ToastContextType | null>(null);
 
 export const useToastContext = () => {
     const context = useContext(ToastContext);
-    if (!context)
-        throw new Error("no hay contexto");
+    if (!context) throw new Error("no hay contexto");
     return context;
 };
 
@@ -27,13 +31,17 @@ type Props = {
     children: ReactNode;
 };
 
-export function ToastProvider({ children }: Props) {
+export const ToastProvider = ({ children }: Props) => {
     const [toasts, setToasts] = useState<Toast[]>([]);
 
-    const showToast = (message: string, status:Toast["status"], type: Toast["type"]) => {
+    const showToast = (
+        message: string,
+        status: Toast["status"],
+        type: Toast["type"]
+    ) => {
         const date = Date.now();
         const addToast: Toast = { date, message, type, status };
-        setToasts((stack) => [...stack, addToast ]);
+        setToasts((stack) => [...stack, addToast]);
         setTimeout(() => {
             setToasts((stack) => stack.filter((toast) => toast.date !== date));
         }, 100000);
@@ -46,13 +54,17 @@ export function ToastProvider({ children }: Props) {
     return (
         <ToastContext.Provider value={{ showToast }}>
             {children}
-            <ToastContainer position="top-end" className="position-fixed p-3" style={{zIndex: 2001}}>
+            <ToastContainer
+                position="top-end"
+                className="position-fixed p-3"
+                style={{ zIndex: 2001 }}
+            >
                 {toasts.map((toast) => (
                     <Toast
                         key={toast.date}
                         animation={true}
                         onClose={() => onClose(toast.date)}
-                        >
+                    >
                         <Toast.Header>
                             <img
                                 src={img}
@@ -62,7 +74,9 @@ export function ToastProvider({ children }: Props) {
                                 alt="Logo"
                             />
                             <strong className="me-auto ">Notification</strong>
-                            <small className={`text-${toast.type}`}>{toast.status}</small>
+                            <small className={`text-${toast.type}`}>
+                                {toast.status}
+                            </small>
                         </Toast.Header>
                         <Toast.Body>{toast.message}</Toast.Body>
                     </Toast>
@@ -70,4 +84,4 @@ export function ToastProvider({ children }: Props) {
             </ToastContainer>
         </ToastContext.Provider>
     );
-}
+};

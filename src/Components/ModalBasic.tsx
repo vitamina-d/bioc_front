@@ -20,7 +20,15 @@ function ModalBasic({ modalShow, setModalShow, size, title, children }: Props) {
             <Modal.Header closeButton onClick={() => setModalShow(false)}>
                 {title}
             </Modal.Header>
-            <Modal.Body className="mx-3 small" style={{  overflowY: "auto" }}>{children}</Modal.Body>
+            <Modal.Body
+                className="mx-3 small"
+                style={{
+                    maxHeight: "70vh",
+                    overflowY: "auto",
+                }}
+            >
+                {children}
+            </Modal.Body>
             <Modal.Footer>
                 <Button
                     className="font-base"

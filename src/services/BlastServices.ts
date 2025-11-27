@@ -1,51 +1,37 @@
 import { DOTNET_BLAST_URL } from "../config/urls";
-import type { Toast } from "../context/ToastContext";
+import type { ShowToast } from "../context/ToastContext";
 import type { BlastxReport } from "../types/DataBlastx";
 import type { Response } from "../types/Response";
+import apiRequest from "../wrapper/apiRequest";
 
 const PostBlastx = async (
     sequence: string,
-    showToast: (
-        message: string,
-        status: Toast["status"],
-        type?: Toast["type"]
-    ) => void
+    showToast: ShowToast
 ): Promise<Response<BlastxReport> | null> => {
     console.log("[BLAST] POST /blastx");
+    const url = `${DOTNET_BLAST_URL}/blastx`;
+    const options = {
+        method: "POST",
+        body: JSON.stringify({
+            sequence: sequence,
+        }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
 
-    try {
-        const response = await fetch(`${DOTNET_BLAST_URL}/blastx`, {
-            method: "POST",
-            body: JSON.stringify({
-                sequence: sequence,
-            }),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        
-        if (!response.ok) {
-            showToast(
-                `Error ${response.status}: ${response.statusText}`,
-                "Warning",
-                "danger"
-            );
-            return null;
-        } 
+    const json = await apiRequest<Response<BlastxReport>>(
+        showToast,
+        url,
+        options
+    );
 
-        const json = await response.json();
-        console.log(response);
-        console.log(json);
-        if (json.data.results.search.hits.length == 0){
-            showToast("No se encontraron matches", "Success", "primary");
-            return null;
-        }
-        //showToast("Comparación exitosa", "Success", "primary");
-        return json;
-    } catch {
-        showToast("No se pudo conectar al servidor", "Error", "danger");
+    if (json?.data.results.search.hits.length == 0) {
+        showToast("No se encontraron matches", "Success", "primary");
         return null;
     }
+
+    return json;
 };
 
 export { PostBlastx };
