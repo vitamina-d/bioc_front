@@ -3,13 +3,12 @@ import type { ShowToast } from "../context/ToastContext";
 async function apiRequest<T>(
     showToast: ShowToast,
     url: string,
-    options?: RequestInit
+    options?: RequestInit,
+    successMessage?: string
 ): Promise<T | null> {
     try {
+        console.log("[apiRequest]");
         const response = await fetch(url, options);
-        console.log(
-            "-------------------------------apiRequest----------------------------------"
-        );
         console.log(response);
 
         if (!response.ok) {
@@ -26,6 +25,8 @@ async function apiRequest<T>(
 
             showToast(errorMessage, "Warning", "danger");
             return null;
+        } else if (response.ok && successMessage) {
+            showToast(successMessage, "Success", "primary");
         }
         const json = await response.json();
         console.log(response);

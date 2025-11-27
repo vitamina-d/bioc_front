@@ -15,7 +15,7 @@ function TableRanks({ data, selectRankToCompare }: Props) {
         }
         return { key: key, value: value };
     });
-    console.log(ranks);
+    //console.log(ranks);
 
     return (
         <div className="d-flex justify-content-between me-3">

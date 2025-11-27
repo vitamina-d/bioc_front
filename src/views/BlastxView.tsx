@@ -2,7 +2,6 @@ import {
     Badge,
     Button,
     Card,
-    CardFooter,
     CardHeader,
     Col,
     Container,
@@ -14,18 +13,15 @@ import {
 import Header from "../Components/Header";
 import type { BlastxReport, Hit } from "../types/DataBlastx";
 import { useEffect, useState } from "react";
-import BlastxTable from "../Components/BlastxTable";
 import SequenceViewer from "../Components/SequenceViewer";
 import type { Response } from "../types/Response";
 import { PostBlastx } from "../services/BlastServices";
-import ModalBasic from "../Components/ModalBasic";
 import { GetTranslate } from "../services/PythonServices";
 import type { Sequence } from "../types/DataPython";
 import img from "../assets/search-gene.png";
 import {
     GetAlignPrediction,
     GetModelReference,
-    GetpLDDTModel,
     GetpLDDTPrediction,
     GetRanksJob,
     InitJob,
@@ -34,14 +30,15 @@ import {
 import type { ProteinRanks } from "../types/ResponseFolding";
 import { Icon } from "../Components/Icon";
 import image from "../assets/image.webp";
-import TableRanks from "../Components/TableRanks";
-import ProteinViewer from "../Components/ProteinViewer";
 import { useSpinnerContext } from "../context/SpinnerContext";
 import { useToastContext } from "../context/ToastContext";
-import BlastxStat from "../Components/BlastxStat";
 import { validateNucleotides } from "../utils/validateNucleotides";
 import { Link } from "react-router-dom";
-import type { pLDDTModel, pLDDTNeurosnap } from "../types/pLDDT";
+import type { pLDDTNeurosnap } from "../types/pLDDT";
+import ModalEstructures from "../Components/ModalEstructures";
+import RankButtons from "../Components/RankButtons";
+import ModalHits from "../Components/ModalHits";
+import SectionPredict from "../Components/SectionPredict";
 
 function BlastxView() {
     const { showToast } = useToastContext();
@@ -62,13 +59,12 @@ function BlastxView() {
         useState<boolean>(false);
     const [prediction, setPrediction] = useState<string | null>(null);
     const [reference, setReference] = useState<string | null>(null);
-    const [pLDDTPrediction, setpLDDTPrediction] = useState<number[]>([]);
-    const [pLDDTReference, setpLDDTReference] = useState<number[] | null>(null);
+    const [pLDDT, setpLDDT] = useState<number[]>([]);
 
     const [hit, setHit] = useState<Hit | null>(null);
 
     useEffect(() => {
-        console.log("useEFECT");
+        console.log("useEffect: nuevo Hit");
         if (hit != null) {
             getTraduction();
         }
@@ -116,7 +112,7 @@ function BlastxView() {
 
     //obtener traduccion segun el frame del hit seleccionado
     const getTraduction = async () => {
-        console.log("useEffect ------------------- NUEVO HIT: ", hit);
+        console.log("getTraduction click ", hit);
         //limpiar
         showSpinner();
         setFrame(null);
@@ -153,7 +149,8 @@ function BlastxView() {
 
         const response: Response<string> | null = await InitJob(
             protein,
-            showToast
+            showToast,
+            "Prediccion iniciada en Neurosnap Alphafold2. Verifique el estado."
         );
         console.log(response);
         if (!response || !response.data) {
@@ -174,14 +171,16 @@ function BlastxView() {
         const status = jobStatus.data;
         setStatusJob(status);
         setShowButton(false);
+        hideSpinner();
     };
-    
+
     //Actualiza el status del button
     const getStatus = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         if (!jobId) return;
         event.preventDefault();
+        showSpinner();
         //status
         const jobStatus: Response<string> | null = await StatusJob(
             jobId,
@@ -194,6 +193,7 @@ function BlastxView() {
         const status = jobStatus.data;
         console.log(status);
         setStatusJob(status);
+        hideSpinner();
     };
 
     //hace la consulta de los 5 ranks de prediccion de neurosnap
@@ -202,22 +202,17 @@ function BlastxView() {
     ) => {
         if (!jobId) return;
         event.preventDefault();
+        showSpinner();
         const ranks: Response<ProteinRanks> = await GetRanksJob(jobId);
         console.log(ranks);
         setRanks(ranks.data);
+        hideSpinner();
     };
 
     //onClick del button rank seleccionado para visualizar las estructuras
     const selectRankToCompare = async (rank: string) => {
-        console.log(
-            "jobid ",
-            jobId,
-            ", rank_",
-            rank,
-            "accession: ",
-            accession,
-            "-------------------------------------------------------------------------"
-        );
+        showSpinner();
+
         const pdbPrediction: string = await GetAlignPrediction(
             jobId!,
             rank,
@@ -226,22 +221,14 @@ function BlastxView() {
         setPrediction(pdbPrediction);
         const pdbReference: string = await GetModelReference(accession);
         setReference(pdbReference);
-        const plddtPrediction: Response<pLDDTNeurosnap> =
-            await GetpLDDTPrediction(jobId!, rank);
-        console.log(plddtPrediction);
-        const plddtReference: Response<pLDDTModel> = await GetpLDDTModel(
-            accession
+        const plddt: Response<pLDDTNeurosnap> = await GetpLDDTPrediction(
+            jobId!,
+            rank
         );
-        console.log("plddtPrediction: ", plddtPrediction);
-        console.log("plddtReference: ", plddtReference);
-        setpLDDTPrediction(plddtPrediction.data.plddt);
 
-        //metadata
-        //GetpLDDTPrediction
-        //GET /api/Folding/job/{jobId}/rank_{rank}/pLDDT
-        //GetpLDDTModel
-        //GET /api/Folding/model/pLDDT/{accession}
+        console.log(plddt);
         setModalStructureShow(true);
+        hideSpinner();
     };
 
     return (
@@ -281,211 +268,36 @@ function BlastxView() {
             </SequenceViewer>
 
             {/* MODAL RESULT BLAST */}
-            <ModalBasic
+            <ModalHits
+                blastx={blastx}
+                setHit={setHit}
                 modalShow={modalShow}
                 setModalShow={setModalShow}
-                size={"xl"}
-                title={"Result blastx"}
-            >
-                <Card.Body>
-                    {blastx && (
-                        <BlastxTable
-                            hits={blastx?.results.search.hits}
-                            setHit={setHit}
-                        />
-                    )}
-                </Card.Body>
-                <CardFooter>
-                    {blastx?.results.search.stat && (
-                        <BlastxStat data={blastx?.results.search.stat} />
-                    )}
-                </CardFooter>
-            </ModalBasic>
+            />
 
             {/* SECTION PREDICT */}
             {hit != null && (
-                <Card className="my-3 mb-5">
-                    <CardHeader className="pt-3">
-                        <img src={image} height={"30px"} width={"30px"} />
-                        Predict structure with Alphafold{" "}
-                        <Link to="https://neurosnap.ai/" target="_blank">
-                            (Neurosnap)
-                        </Link>
-                    </CardHeader>
-                    <Card.Body className="p-3">
-                        <ListGroup
-                            className="mb-3 font-monospace"
-                            variant="flush"
-                        >
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col xs={3}>FALTA</Col>
-                                    <Col xs={9}>Agregar datos del hit</Col>
-                                </Row>
-
-                                <Row className="my-1">
-                                    <Col xs={3}>ACCESSION</Col>
-                                    <Col xs={9}>
-                                        <Badge className="p-2" bg="danger">
-                                            {hit.description[0].accession}
-                                        </Badge>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs={3}>TITLE</Col>
-                                    <Col xs={9}>{hit.description[0].title}</Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col xs={3}>FRAME</Col>
-                                    <Col xs={9}>{hit.hsps[0].query_frame}</Col>
-                                </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col xs={3}>PROTEIN TRADUCTION</Col>
-                                    <Col xs={6}>{protein}</Col>
-                                    <Col xs={3}>
-                                        {showButton && (
-                                            <div className="d-flex justify-content-end">
-                                                <Button
-                                                    className="mt-3"
-                                                    variant="secondary"
-                                                    size={"sm"}
-                                                    onClick={initJobPrediction}
-                                                >
-                                                    get prediction
-                                                </Button>
-                                            </div>
-                                        )}
-                                    </Col>
-                                </Row>
-                            </ListGroup.Item>
-
-                            {jobId && statusJob != null && (
-                                <>
-                                    <ListGroup.Item>
-                                        <Row>
-                                            <Col xs={3}>JOB ID</Col>
-                                            <Col xs={9}>{jobId}</Col>
-                                        </Row>
-                                    </ListGroup.Item>
-                                    <ListGroup.Item>
-                                        <Row>
-                                            <Col xs={3}>STATUS</Col>
-                                            <Col xs={9}>
-                                                <OverlayTrigger
-                                                    overlay={
-                                                        <Tooltip>
-                                                            {"get status"}
-                                                        </Tooltip>
-                                                    }
-                                                >
-                                                    <span className="d-inline-block">
-                                                        <Button
-                                                            size={"sm"}
-                                                            variant={
-                                                                statusJob ===
-                                                                "pending"
-                                                                    ? "secondary"
-                                                                    : statusJob ===
-                                                                      "running"
-                                                                    ? "warning"
-                                                                    : statusJob ===
-                                                                      "failed"
-                                                                    ? "danger"
-                                                                    : statusJob ===
-                                                                      "completed"
-                                                                    ? "success"
-                                                                    : "secondary" // defecto
-                                                            }
-                                                            onClick={getStatus}
-                                                        >
-                                                            <div className="d-flex align-items-center">
-                                                                <Icon
-                                                                    type={
-                                                                        "status"
-                                                                    }
-                                                                />
-                                                                {statusJob}
-                                                            </div>
-                                                        </Button>
-                                                    </span>
-                                                </OverlayTrigger>
-                                            </Col>
-                                        </Row>
-                                    </ListGroup.Item>
-
-                                    {statusJob == "completed" &&
-                                        ranks == null && (
-                                            <div className="d-flex justify-content-center">
-                                                <Button
-                                                    className="mt-3"
-                                                    variant={"primary"}
-                                                    onClick={getRank}
-                                                >
-                                                    GET RANKS
-                                                </Button>
-                                            </div>
-                                        )}
-
-                                    {ranks != null && (
-                                        <>
-                                            <ListGroup.Item>
-                                                <Row>
-                                                    <Col xs={3}>
-                                                        UNCERTAINTY
-                                                    </Col>
-                                                    <Col xs={9}>
-                                                        <TableRanks
-                                                            data={ranks}
-                                                            selectRankToCompare={
-                                                                selectRankToCompare
-                                                            }
-                                                        />
-                                                    </Col>
-                                                </Row>
-                                                <Row className="d-flex justify-content-center mt-3">
-                                                    Select rank to compare
-                                                    structures.
-                                                </Row>
-                                            </ListGroup.Item>
-
-                                            {/* MODAL PROTEINS */}
-                                            <ModalBasic
-                                                modalShow={modalStructureShow}
-                                                setModalShow={
-                                                    setModalStructureShow
-                                                }
-                                                size={"xl"}
-                                                title={"Structures"}
-                                            >
-                                                <Card.Body>
-                                                    {prediction &&
-                                                        reference && (
-                                                            <ProteinViewer
-                                                                prediction={
-                                                                    prediction
-                                                                }
-                                                                reference={
-                                                                    reference
-                                                                }
-                                                                predictionpLDDT={
-                                                                    pLDDTPrediction
-                                                                }
-                                                            />
-                                                        )}
-                                                </Card.Body>
-                                            </ModalBasic>
-                                        </>
-                                    )}
-                                </>
-                            )}
-                        </ListGroup>
-                    </Card.Body>
-                </Card>
+                <SectionPredict
+                    jobId={jobId}
+                    ranks={ranks}
+                    hit={hit}
+                    protein={protein}
+                    showButton={showButton}
+                    statusJob={statusJob}
+                    selectRankToCompare={selectRankToCompare}
+                    initJobPrediction={initJobPrediction}
+                    getStatus={getStatus}
+                    getRank={getRank}
+                />
             )}
+            {/* MODAL PROTEINS */}
+            <ModalEstructures
+                modalShow={modalStructureShow}
+                setModalShow={setModalStructureShow}
+                prediction={prediction}
+                reference={reference}
+                pLDDT={pLDDT}
+            />
         </Container>
     );
 }
