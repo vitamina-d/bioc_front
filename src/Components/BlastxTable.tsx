@@ -1,4 +1,4 @@
-import { Button, Collapse, Table } from "react-bootstrap";
+import { Badge, Button, Collapse, Table } from "react-bootstrap";
 import type { Hit } from "../types/DataBlastx";
 import React, { useState } from "react";
 import BadgeProtein from "./BadgeProtein";
@@ -48,7 +48,6 @@ function BlastxTable({ hits, setHit }: Props) {
                         <th>Specie</th>
                         <th>Taxid</th>
                         <th>Gene</th>
-                        <th>Evidence</th>
 
                         <th>More</th>
                         <th>Go To</th>
@@ -63,8 +62,9 @@ function BlastxTable({ hits, setHit }: Props) {
                         const protEvidence: string[] = [];
                         return (
                             //agregar key
-                            <React.Fragment key={hit_idx}>
-                                <tr key={hit_idx}>
+                            <React.Fragment key={`hit-${hit_idx}`}>
+                                <tr key={`row-${hit_idx}`}>
+                                    {" "}
                                     <td>{hit.num}</td>
                                     <td>{hit.len}</td>
                                     {hit.hsps.map((hsp, hsp_idx) => (
@@ -79,15 +79,38 @@ function BlastxTable({ hits, setHit }: Props) {
                                     {hit.description.map((item) => {
                                         //7-dehydrocholesterol reductase OS=Mus musculus OX=10090 GN=Dhcr7 PE=1 SV=1
                                         name.push(item.title.split("OS=")[0]);
-                                        specie.push(item.title.split("OS=")[1].split("OX=")[0]);
+                                        specie.push(
+                                            item.title
+                                                .split("OS=")[1]
+                                                .split("OX=")[0]
+                                        );
                                         if (item.title.includes("GN=")) {
-                                            taxid.push(item.title.split("OX=")[1].split("GN=")[0]);
-                                            gen.push(item.title.split("GN=")[1].split("PE=")[0]);
-                                            protEvidence.push(item.title.split("PE=")[1].split("SV")[0]);
-
+                                            taxid.push(
+                                                item.title
+                                                    .split("OX=")[1]
+                                                    .split("GN=")[0]
+                                            );
+                                            gen.push(
+                                                item.title
+                                                    .split("GN=")[1]
+                                                    .split("PE=")[0]
+                                            );
+                                            protEvidence.push(
+                                                item.title
+                                                    .split("PE=")[1]
+                                                    .split("SV")[0]
+                                            );
                                         } else {
-                                            taxid.push(item.title.split("OX=")[1].split("PE=")[0]);
-                                            protEvidence.push(item.title.split("PE=")[1].split("SV")[0]);
+                                            taxid.push(
+                                                item.title
+                                                    .split("OX=")[1]
+                                                    .split("PE=")[0]
+                                            );
+                                            protEvidence.push(
+                                                item.title
+                                                    .split("PE=")[1]
+                                                    .split("SV")[0]
+                                            );
                                         }
                                         return <></>;
                                     })}
@@ -95,17 +118,18 @@ function BlastxTable({ hits, setHit }: Props) {
                                     <td>{specie}</td>
                                     <td>{taxid}</td>
                                     <td>
-                                        {gen.map((bg) => {
+                                        {gen.map((bg, idx) => {
                                             return (
-                                                <BadgeProtein
-                                                    key={bg}
-                                                    name={bg}
-                                                />
+                                                <Badge
+                                                    className="ms-1"
+                                                    bg="danger"
+                                                    key={`gen-${bg}${idx}`}
+                                                >
+                                                    {bg}
+                                                </Badge>
                                             );
                                         })}
                                     </td>
-                                    <td>{protEvidence}</td>
-
                                     <td>
                                         <Button
                                             size="sm"

@@ -7,7 +7,7 @@ type Props = {
 
 function Footer({}: Props) {
     return (
-        <footer className="bg-dark py-3 mt-auto border-top fixed-bottom">
+        <footer className="bg-dark py-3 border-top fixed-bottom">
             <Container>
                 <Row className="align-items-center text-center ">
                     <Col>

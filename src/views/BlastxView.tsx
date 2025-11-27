@@ -1,4 +1,5 @@
 import {
+    Badge,
     Button,
     Card,
     CardFooter,
@@ -67,9 +68,8 @@ function BlastxView() {
     const [hit, setHit] = useState<Hit | null>(null);
 
     useEffect(() => {
-        console.log("useEFECT")
+        console.log("useEFECT");
         if (hit != null) {
-            
             getTraduction();
         }
     }, [hit]);
@@ -128,7 +128,7 @@ function BlastxView() {
         setModalShow(false);
         //setFrame(hit.hsps[0].query_frame);
         //setHit(hit);
-        
+
         setAccession(hit!.description[0].accession);
         const response: Response<Sequence> | null = await GetTranslate(
             sequence.trim(),
@@ -199,11 +199,14 @@ function BlastxView() {
         setPrediction(pdbPrediction);
         const pdbReference: string = await GetModelReference(accession);
         setReference(pdbReference);
-        const plddtPrediction: Response<pLDDTNeurosnap> = await GetpLDDTPrediction(jobId!, rank)
-        console.log(plddtPrediction)
-        const plddtReference: Response<pLDDTModel> = await GetpLDDTModel(accession)
-        console.log("plddtPrediction: ", plddtPrediction)
-        console.log("plddtReference: ", plddtReference)
+        const plddtPrediction: Response<pLDDTNeurosnap> =
+            await GetpLDDTPrediction(jobId!, rank);
+        console.log(plddtPrediction);
+        const plddtReference: Response<pLDDTModel> = await GetpLDDTModel(
+            accession
+        );
+        console.log("plddtPrediction: ", plddtPrediction);
+        console.log("plddtReference: ", plddtReference);
         setpLDDTPrediction(plddtPrediction.data.plddt);
 
         //metadata
@@ -215,7 +218,7 @@ function BlastxView() {
     };
 
     return (
-        <Container fluid className="mt-3 ">
+        <Container fluid className="mt-3 pb-5">
             <Header
                 title="blastx"
                 text="Ingrese una secuencia de nucleotidos. blastx traduce y compara contra una base de datos de proteínas."
@@ -274,10 +277,13 @@ function BlastxView() {
 
             {/* SECTION PREDICT */}
             {hit != null && (
-                <Card className="my-3">
+                <Card className="my-3 mb-5">
                     <CardHeader className="pt-3">
                         <img src={image} height={"30px"} width={"30px"} />
-                        Predict structure with Alphafold <Link to="https://neurosnap.ai/" target="_blank">(Neurosnap)</Link> 
+                        Predict structure with Alphafold{" "}
+                        <Link to="https://neurosnap.ai/" target="_blank">
+                            (Neurosnap)
+                        </Link>
                     </CardHeader>
                     <Card.Body className="p-3">
                         <ListGroup
@@ -289,19 +295,19 @@ function BlastxView() {
                                     <Col xs={3}>FALTA</Col>
                                     <Col xs={9}>Agregar datos del hit</Col>
                                 </Row>
-                                    
-                                        <Row>
-                                            <Col xs={3}>ACCESSION</Col>
-                                            <Col xs={9}>
-                                                {hit.description[0].accession}
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col xs={3}>TITLE</Col>
-                                            <Col xs={9}>
-                                                {hit.description[0].title}
-                                            </Col>
-                                        </Row>
+
+                                <Row className="my-1" >
+                                    <Col xs={3}>ACCESSION</Col>
+                                    <Col xs={9}>
+                                        <Badge className="p-2" bg="danger">
+                                            {hit.description[0].accession}
+                                        </Badge>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xs={3}>TITLE</Col>
+                                    <Col xs={9}>{hit.description[0].title}</Col>
+                                </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
@@ -321,7 +327,9 @@ function BlastxView() {
                                                     variant="secondary"
                                                     size={"sm"}
                                                     onClick={initJobPrediction}
-                                                >get prediction</Button>
+                                                >
+                                                    get prediction
+                                                </Button>
                                             </div>
                                         )}
                                     </Col>
@@ -427,17 +435,20 @@ function BlastxView() {
                                                 title={"Structures"}
                                             >
                                                 <Card.Body>
-                                                    {prediction && reference && (
-                                                        <ProteinViewer
-                                                            prediction={
-                                                                prediction
-                                                            }
-                                                            reference={
-                                                                reference
-                                                            }
-                                                            predictionpLDDT={pLDDTPrediction}
-                                                        />
-                                                    )}
+                                                    {prediction &&
+                                                        reference && (
+                                                            <ProteinViewer
+                                                                prediction={
+                                                                    prediction
+                                                                }
+                                                                reference={
+                                                                    reference
+                                                                }
+                                                                predictionpLDDT={
+                                                                    pLDDTPrediction
+                                                                }
+                                                            />
+                                                        )}
                                                 </Card.Body>
                                             </ModalBasic>
                                         </>

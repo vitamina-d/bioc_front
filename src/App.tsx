@@ -31,7 +31,7 @@ function App() {
                         <Route path="/about" element={<AboutView />} />
                         <Route path="/404" element={<NotFoundView />} />
                     </Routes>
-               {/* <Footer />*/}
+                    <Footer />
                 </SpinnerProvider>
             </ToastProvider>
         </BrowserRouter>

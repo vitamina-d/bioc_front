@@ -11,11 +11,12 @@ type Props = {
 
 function FormUpload({ setName, setDictionary, setShowTable }: Props) {
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        event.preventDefault();
         if (event.target.files && event.target.files.length > 0) {
             const file = event.target.files[0];
             setName(file.name);
-            //console.log(file);
-            //console.log(file.name);
+            console.log(file);
+            console.log(file.name);
 
             const dictionary: FastaDictionary = {};
 
@@ -52,7 +53,6 @@ function FormUpload({ setName, setDictionary, setShowTable }: Props) {
 
     return (
         <>
-            {" "}
             <p className="d-flex justify-content-center">soltar</p>
             <p className="d-flex justify-content-center">o</p>
             <Form className="d-flex justify-content-center">

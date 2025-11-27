@@ -10,6 +10,9 @@ function Navigation({ setShowOffCanva }: Props) {
     return (
         <Navbar expand={false}>
             <Nav onClick={() => setShowOffCanva(false)}>
+                <Nav.Link className="text-light" as={Link} to="/">
+                    Home
+                </Nav.Link>
                 <Nav.Link className="text-light" as={Link} to="/search">
                     Search
                 </Nav.Link>

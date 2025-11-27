@@ -1,10 +1,8 @@
-import { Button, Card, Container, Spinner } from "react-bootstrap";
+import { Button, Container, Spinner } from "react-bootstrap";
 import Header from "../Components/Header";
-import ProteinViewer from "../Components/ProteinViewer";
 import { useState } from "react";
 import Searcher from "../Components/Searcher";
 import img from "../assets/gene.png";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useToastContext } from "../context/ToastContext";
 import PdbUpload from "../Components/PdbUpload";
 import { GetCompare } from "../services/PythonServices";
@@ -17,16 +15,8 @@ function ProteinView() {
     const [spin, setSpin] = useState<boolean>(false);
     const [file, setFile] = useState<File | null>(null);
 
-    const location = useLocation();
-    const namePage: string = location.pathname;
-
-    const navigate = useNavigate();
-    if (namePage == "/") {
-        navigate("/protein");
-    }
-
     const handleToast = () => {
-        showToast("click", "Success" , "primary");
+        showToast("click", "Success", "primary");
     };
     const handleSpinner = () => {
         setSpin(!spin);
@@ -71,11 +61,6 @@ function ProteinView() {
                     </Button>
                     <Button onClick={getCompare}>COMPARE</Button>
                 </div>
-                {input && pressButton && (
-                    <Card className="mx-3">
-                        <ProteinViewer pdbId={input} />
-                    </Card>
-                )}
             </>
         </Container>
     );

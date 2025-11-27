@@ -11,11 +11,10 @@ import img from "../assets/gene.png";
 import SearchView from "./SearchView";
 import ProteinView from "./ProteinView";
 import AlignView from "./AlignView";
-import ProteinViewer from "../Components/ProteinViewer";
 
 function HomeView() {
     return (
-        <Container fluid className="mt-3">
+        <Container fluid className="mt-3 pb-5" >
             <Row className="border-0">
                 <Col xs={12}>
                     <Card className="justify-content-center align-items-center p-3">
@@ -35,13 +34,8 @@ function HomeView() {
                     </Card>
                 </Col>
             </Row>
-            <Row>
+{/*            <Row>
                 <Carousel>
-                    <CarouselItem>
-                        <Card className="mt-3 justify-content-center align-items-center pb-3">
-                            <ProteinViewer size="sm" pdbId={"4Q0G"} />
-                        </Card>
-                    </CarouselItem>
                     <CarouselItem>
                         <Card className="mt-3 justify-content-center align-items-center pb-3">
                             <ProteinView />
@@ -63,7 +57,7 @@ function HomeView() {
                     </CarouselItem>
                 </Carousel>
             </Row>
-        </Container>
+*/}        </Container>
     );
 }
 
