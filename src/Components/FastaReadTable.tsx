@@ -1,6 +1,6 @@
 import { Button, Form, Table } from "react-bootstrap";
 import type { FastaDictionary } from "../types/FastaDictionary";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type Props = {
     dictionary: FastaDictionary;
@@ -78,7 +78,7 @@ function FastaReadTable({
                         >
                             <tr className="text-center">
                                 <th>Header</th>
-                                <th>Length</th>
+                                <th>Lenght</th>
                                 <th>
                                     <Form.Check
                                         type="checkbox"

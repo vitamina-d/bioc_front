@@ -2,8 +2,8 @@ import { useEffect, useRef } from "react";
 import * as $3Dmol from "3dmol";
 
 type Props = {
-    prediction: string;
-    predictionpLDDT: number[];
+    prediction: string | null;
+    predictionpLDDT: number[] | null;
     reference: string | null;
     style?: "stick" | "cartoon" | "line" | "sphere"; //renderizado
     size?: "sm";
@@ -30,13 +30,16 @@ function CompareProteinViewer({
         //0. PREDICTION
         if (prediction != null) {
             viewer.addModel(prediction, "pdb");
-            const model = viewer.getModel(0);
-            const atoms = model.selectedAtoms({});
             // pLDDT a cada atom
-            atoms.forEach((atom, idx) => {
-                const p = predictionpLDDT[idx] ?? 0;
-                atom.b = p; // (0;100)
-            });
+            if (predictionpLDDT != null) {
+                const model = viewer.getModel(0);
+                const atoms = model.selectedAtoms({});
+                atoms.forEach((atom, idx) => {
+                    const p = predictionpLDDT[idx] ?? 0;
+                    atom.b = p; // (0;100)
+                });
+                
+            }
             viewer.setStyle(
                 { model: 0 },
                 {
@@ -46,7 +49,7 @@ function CompareProteinViewer({
                             gradient: "linear",
                             min: 0,
                             max: 100,
-                            colors: ["blue", "aquamarine", "yellow", "coral"],
+                            colors: ["#0053D6", "#65CBF3", "#FFDB13", "#FF7D45"],
                         },
                     },
                 }
@@ -55,8 +58,8 @@ function CompareProteinViewer({
 
         //1. REFRENCE
         if (reference != null) {
-            //viewer.addModel(reference, "pdb");
-            //viewer.setStyle({ model: 1 }, { [style]: { color: "lightgray" } });
+            viewer.addModel(reference, "pdb");
+            viewer.setStyle({ model: 1 }, { [style]: { color: "#C0C0C0" } });
         }
 
         viewer.zoomTo();

@@ -23,13 +23,14 @@ function ModalBasic({ modalShow, setModalShow, size, title, children }: Props) {
             <Modal.Body
                 className="mx-3 small"
                 style={{
-                    maxHeight: "70vh",
+                    maxHeight: "75vh",
                     overflowY: "auto",
                 }}
             >
                 {children}
             </Modal.Body>
             <Modal.Footer>
+                
                 <Button
                     className="font-base"
                     variant={"secondary"}

@@ -1,15 +1,4 @@
-import {
-    Badge,
-    Button,
-    Card,
-    CardHeader,
-    Col,
-    Container,
-    ListGroup,
-    OverlayTrigger,
-    Row,
-    Tooltip,
-} from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import Header from "../Components/Header";
 import type { BlastxReport, Hit } from "../types/DataBlastx";
 import { useEffect, useState } from "react";
@@ -28,15 +17,11 @@ import {
     StatusJob,
 } from "../services/FoldingServices";
 import type { ProteinRanks } from "../types/ResponseFolding";
-import { Icon } from "../Components/Icon";
-import image from "../assets/image.webp";
 import { useSpinnerContext } from "../context/SpinnerContext";
 import { useToastContext } from "../context/ToastContext";
 import { validateNucleotides } from "../utils/validateNucleotides";
-import { Link } from "react-router-dom";
 import type { pLDDTNeurosnap } from "../types/pLDDT";
 import ModalEstructures from "../Components/ModalEstructures";
-import RankButtons from "../Components/RankButtons";
 import ModalHits from "../Components/ModalHits";
 import SectionPredict from "../Components/SectionPredict";
 
@@ -55,17 +40,22 @@ function BlastxView() {
     const [showButton, setShowButton] = useState<boolean>(true);
     const [ranks, setRanks] = useState<ProteinRanks | null>(null);
     const [accession, setAccession] = useState<string>("");
-    const [modalStructureShow, setModalStructureShow] =
-        useState<boolean>(false);
+    const [modalStructureShow, setModalStructureShow] = useState<boolean>(true);
     const [prediction, setPrediction] = useState<string | null>(null);
     const [reference, setReference] = useState<string | null>(null);
     const [pLDDT, setpLDDT] = useState<number[]>([]);
 
     const [hit, setHit] = useState<Hit | null>(null);
+    const [filenames, setFilenames] = useState({
+        prediction: "",
+        reference: "",
+    });
 
     useEffect(() => {
         console.log("useEffect: nuevo Hit");
         if (hit != null) {
+            console.log(hit);
+
             getTraduction();
         }
     }, [hit]);
@@ -212,7 +202,10 @@ function BlastxView() {
     //onClick del button rank seleccionado para visualizar las estructuras
     const selectRankToCompare = async (rank: string) => {
         showSpinner();
-
+        setFilenames({
+            prediction: `prediction_${jobId}_rank${rank}.pdb`,
+            reference: `reference_${accession}.pdb`,
+        });
         const pdbPrediction: string = await GetAlignPrediction(
             jobId!,
             rank,
@@ -225,7 +218,7 @@ function BlastxView() {
             jobId!,
             rank
         );
-
+        setpLDDT(plddt.data.plddt);
         console.log(plddt);
         setModalStructureShow(true);
         hideSpinner();
@@ -297,6 +290,7 @@ function BlastxView() {
                 prediction={prediction}
                 reference={reference}
                 pLDDT={pLDDT}
+                filenames={filenames}
             />
         </Container>
     );

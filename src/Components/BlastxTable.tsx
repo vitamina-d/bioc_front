@@ -1,7 +1,6 @@
 import { Badge, Button, Collapse, Table } from "react-bootstrap";
 import type { Hit } from "../types/DataBlastx";
 import React, { useState } from "react";
-import BadgeProtein from "./BadgeProtein";
 import { Icon } from "./Icon";
 
 type Props = {
@@ -48,6 +47,7 @@ function BlastxTable({ hits, setHit }: Props) {
                         <th>Specie</th>
                         <th>Taxid</th>
                         <th>Gene</th>
+                        <th>Accession</th>
 
                         <th>More</th>
                         <th>Go To</th>
@@ -60,6 +60,8 @@ function BlastxTable({ hits, setHit }: Props) {
                         const taxid: string[] = [];
                         const gen: string[] = [];
                         const protEvidence: string[] = [];
+                        const accession: string[] = [];
+
                         return (
                             //agregar key
                             <React.Fragment key={`hit-${hit_idx}`}>
@@ -76,6 +78,7 @@ function BlastxTable({ hits, setHit }: Props) {
                                         </React.Fragment>
                                     ))}
                                     {hit.description.map((item) => {
+                                        accession.push(item.accession);
                                         //7-dehydrocholesterol reductase OS=Mus musculus OX=10090 GN=Dhcr7 PE=1 SV=1
                                         name.push(item.title.split("OS=")[0]);
                                         specie.push(
@@ -121,7 +124,7 @@ function BlastxTable({ hits, setHit }: Props) {
                                             return (
                                                 <Badge
                                                     className="ms-1"
-                                                    bg="danger"
+                                                    bg="warning"
                                                     key={`gen-${bg}${idx}`}
                                                 >
                                                     {bg}
@@ -129,6 +132,20 @@ function BlastxTable({ hits, setHit }: Props) {
                                             );
                                         })}
                                     </td>
+                                    <td>
+                                        {accession.map((acc, idx) => {
+                                            return (
+                                                <Badge
+                                                    className="ms-1"
+                                                    bg="danger"
+                                                    key={`gen-${acc}${idx}`}
+                                                >
+                                                    {acc}
+                                                </Badge>
+                                            );
+                                        })}
+                                    </td>
+
                                     <td>
                                         <Button
                                             size="sm"
@@ -185,81 +202,97 @@ function BlastxTable({ hits, setHit }: Props) {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {hit.hsps.map((hsp, hsp_idx) => (
-                                                        <>
-                                                            <tr key={`hsp-${hsp_idx}`}>
-                                                                <td>Query</td>
-                                                                <td
-                                                                    style={{
-                                                                        fontFamily:
-                                                                            "monospace",
-                                                                    }}
+                                                    {hit.hsps.map(
+                                                        (hsp, hsp_idx) => (
+                                                            <>
+                                                                <tr
+                                                                    key={`hsp-${hsp_idx}`}
                                                                 >
-                                                                    {hsp.qseq}
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        hsp.query_from
-                                                                    }
-                                                                    -
-                                                                    {
-                                                                        hsp.query_to
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        hsp.query_frame
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {hsp.gaps}
-                                                                </td>
-                                                                <td>-</td>
-                                                            </tr>
-                                                            <tr key="tr-Midline">
-                                                                <td>Midline</td>
-                                                                <td
-                                                                    style={{
-                                                                        fontFamily:
-                                                                            "monospace",
-                                                                    }}
-                                                                >
-                                                                    {
-                                                                        hsp.midline
-                                                                    }
-                                                                </td>
-                                                                <td>-</td>
-                                                                <td>-</td>
-                                                                <td>-</td>
-                                                                <td>
-                                                                    {
-                                                                        hsp.align_len
-                                                                    }
-                                                                </td>
-                                                            </tr>
-                                                            <tr key="tr-Hit">
-                                                                <td>Hit</td>
-                                                                <td
-                                                                    style={{
-                                                                        fontFamily:
-                                                                            "monospace",
-                                                                    }}
-                                                                >
-                                                                    {hsp.hseq}
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        hsp.hit_from
-                                                                    }
-                                                                    -
-                                                                    {hsp.hit_to}
-                                                                </td>
-                                                                <td>-</td>
-                                                                <td>-</td>
-                                                                <td>-</td>
-                                                            </tr>
-                                                        </>
-                                                    ))}
+                                                                    <td>
+                                                                        Query
+                                                                    </td>
+                                                                    <td
+                                                                        style={{
+                                                                            fontFamily:
+                                                                                "monospace",
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            hsp.qseq
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        {
+                                                                            hsp.query_from
+                                                                        }
+                                                                        -
+                                                                        {
+                                                                            hsp.query_to
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        {
+                                                                            hsp.query_frame
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        {
+                                                                            hsp.gaps
+                                                                        }
+                                                                    </td>
+                                                                    <td>-</td>
+                                                                </tr>
+                                                                <tr key="tr-Midline">
+                                                                    <td>
+                                                                        Midline
+                                                                    </td>
+                                                                    <td
+                                                                        style={{
+                                                                            fontFamily:
+                                                                                "monospace",
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            hsp.midline
+                                                                        }
+                                                                    </td>
+                                                                    <td>-</td>
+                                                                    <td>-</td>
+                                                                    <td>-</td>
+                                                                    <td>
+                                                                        {
+                                                                            hsp.align_len
+                                                                        }
+                                                                    </td>
+                                                                </tr>
+                                                                <tr key="tr-Hit">
+                                                                    <td>Hit</td>
+                                                                    <td
+                                                                        style={{
+                                                                            fontFamily:
+                                                                                "monospace",
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            hsp.hseq
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        {
+                                                                            hsp.hit_from
+                                                                        }
+                                                                        -
+                                                                        {
+                                                                            hsp.hit_to
+                                                                        }
+                                                                    </td>
+                                                                    <td>-</td>
+                                                                    <td>-</td>
+                                                                    <td>-</td>
+                                                                </tr>
+                                                            </>
+                                                        )
+                                                    )}
                                                 </tbody>
                                             </Table>
                                         </Collapse>
