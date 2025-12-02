@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Badge, Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Icon } from "./Icon";
 import type { FastaDictionary } from "../types/FastaDictionary";
-import FormUpload from "./FormUpload";
 import ModalBasic from "./ModalBasic";
 import FastaReadTable from "./FastaReadTable";
+import FormUploadDrag from "./FormUploadDrag";
 
 type Props = {
     dictionary: FastaDictionary;
@@ -12,6 +12,8 @@ type Props = {
     showTable: boolean;
     setShowTable: React.Dispatch<React.SetStateAction<boolean>>;
     setSequence: React.Dispatch<React.SetStateAction<string>>;
+    name: string;
+    setName: React.Dispatch<React.SetStateAction<string>>;
 };
 
 function FileUp({
@@ -20,8 +22,9 @@ function FileUp({
     showTable,
     setShowTable,
     setSequence,
+    name, 
+    setName
 }: Props) {
-    const [name, setName] = useState<string>("");
     const [modalShow, setModalShow] = useState<boolean>(false);
 
     const openModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -61,7 +64,7 @@ function FileUp({
                 title={"Upload File"}
             >
                 <>
-                    <FormUpload
+                    <FormUploadDrag
                         setName={setName}
                         setDictionary={setDictionary}
                         setShowTable={setShowTable}

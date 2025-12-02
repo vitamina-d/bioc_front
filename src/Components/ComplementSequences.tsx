@@ -1,5 +1,5 @@
 import { Button, Form } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type SetStateAction } from "react";
 import type { Response } from "../types/Response";
 import SequenceViewer from "./SequenceViewer";
 import { GetComplement } from "../services/PythonServices";
@@ -10,6 +10,7 @@ function ComplementSequences() {
     const [output, setOutput] = useState<string>("");
     const [toReverse, setToReverse] = useState(false);
     const [toComplement, setToComplement] = useState(false);
+    const [name, setName] = useState<string>("");
 
     useEffect(() => {
         handleReverseComplement();
@@ -68,6 +69,8 @@ function ComplementSequences() {
                             setOutput("");
                             setSequence("");
                         }}
+                        name={name}
+                        setName={setName}
                     />
                 </div>
                 <div className="flex-fill ms-2">
@@ -77,6 +80,8 @@ function ComplementSequences() {
                         setSequence={setOutput}
                         readonly={true}
                         onClick={() => setSequence("")}
+                        name={name}
+                        setName={setName}
                     />
                 </div>
             </div>

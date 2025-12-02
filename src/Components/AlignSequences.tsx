@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 import { GetAlign } from "../services/PlumberServices";
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type SetStateAction } from "react";
 import type { Response } from "../types/Response";
 import DotPlot from "./Plots/DotPlot";
 import SequenceViewer from "./SequenceViewer";
@@ -13,6 +13,9 @@ type Props = {
 function AlignSequences({ setDataAlign }: Props) {
     const [pattern, setPattern] = useState<string>("");
     const [subject, setSubject] = useState<string>("");
+    const [namePattern, setNamePattern] = useState<string>("");
+    const [nameSubject, setNameSubject] = useState<string>("");
+
     const type: string = "global"; // "local" "overlap"
     const gapOpening: number = 1;
     const gapExtension: number = 1;
@@ -40,9 +43,11 @@ function AlignSequences({ setDataAlign }: Props) {
         setDataAlign(response.data);
     };
     const clearPattern = () => {
+        setNamePattern("");
         setPattern("");
     };
     const clearSubject = () => {
+        setNameSubject("");
         setSubject("");
     };
     return (
@@ -65,6 +70,8 @@ function AlignSequences({ setDataAlign }: Props) {
                         setSequence={setPattern}
                         readonly={false}
                         onClick={clearPattern}
+                        name={namePattern}
+                        setName={setNamePattern}
                     />
                 </div>
                 <div className="flex-fill">
@@ -74,6 +81,8 @@ function AlignSequences({ setDataAlign }: Props) {
                         setSequence={setSubject}
                         readonly={false}
                         onClick={clearSubject}
+                        name={nameSubject}
+                        setName={setNameSubject}
                     />
                 </div>
             </div>

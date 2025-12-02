@@ -33,6 +33,7 @@ function SearchView() {
     const [toComplement, setToComplement] = useState(false);
 
     ///OPTION
+    const [name, setName] = useState<string>("");
 
     /////HOME
     const [dataStats, setDataStats] = useState<DataStats | null>(null);
@@ -71,6 +72,11 @@ function SearchView() {
             alert("chr");
             return;
         }
+
+        setOutput("");
+        setToComplement(false);
+        setToReverse(false);
+
         const response: Response<DataSequence[]> = await GetSequenceByRange(
             chr,
             parseInt(start),
@@ -175,6 +181,8 @@ function SearchView() {
                     setSequence={setSequence}
                     readonly={false}
                     onClick={clearSequence}
+                    name={name}
+                    setName={setName}
                 />
 
                 {output && (
@@ -184,6 +192,8 @@ function SearchView() {
                         setSequence={setOutput}
                         readonly={true}
                         onClick={clearOutput}
+                        name={name}
+                        setName={setName}
                     />
                 )}
             </div>

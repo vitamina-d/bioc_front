@@ -1,7 +1,7 @@
 import { Button, Container } from "react-bootstrap";
 import Header from "../Components/Header";
 import type { BlastxReport, Hit } from "../types/DataBlastx";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type SetStateAction } from "react";
 import SequenceViewer from "../Components/SequenceViewer";
 import type { Response } from "../types/Response";
 import { PostBlastx } from "../services/BlastServices";
@@ -34,6 +34,7 @@ function BlastxView() {
     const [modalShow, setModalShow] = useState<boolean>(false);
     const [modificable, setModificable] = useState<boolean>(true);
     const [frame, setFrame] = useState<number | null>(null);
+    const [name, setName] = useState<string>("");
     const [rank, setRank] = useState<string | null>(null);
     const [protein, setProtein] = useState<string>("");
     const [jobId, setJobId] = useState<string | null>(null);
@@ -100,6 +101,7 @@ function BlastxView() {
         setSequence("");
         setFrame(null);
         setProtein("");
+        setName("")
     };
 
     //obtener traduccion segun el frame del hit seleccionado
@@ -244,6 +246,8 @@ function BlastxView() {
                 setSequence={setSequence}
                 readonly={!modificable}
                 onClick={clearInput}
+                name={name}
+                setName={setName}
             >
                 <div className="d-flex justify-content-end">
                     {modificable ? (

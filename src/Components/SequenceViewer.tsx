@@ -3,7 +3,7 @@ import ButtonOverlay from "./ButtonOverlay";
 import { Stack, type ButtonProps } from "react-bootstrap";
 import FileUp from "./FileUp";
 import type { FastaDictionary } from "../types/FastaDictionary";
-import { useState, type ReactNode } from "react";
+import { useState, type ReactNode, type SetStateAction } from "react";
 
 type Props = {
     title: string;
@@ -11,6 +11,8 @@ type Props = {
     setSequence: React.Dispatch<React.SetStateAction<string>>;
     readonly: boolean;
     children?: ReactNode;
+    name: string;
+    setName: React.Dispatch<React.SetStateAction<string>>;
 } & ButtonProps;
 
 function SequenceViewer({
@@ -19,6 +21,8 @@ function SequenceViewer({
     setSequence,
     readonly,
     children,
+    name,
+    setName,
     ...prop
 }: Props) {
     const [dictionary, setDictionary] = useState<FastaDictionary>({});
@@ -51,6 +55,8 @@ function SequenceViewer({
                             dictionary={dictionary}
                             setDictionary={setDictionary}
                             setSequence={setSequence}
+                            name={name}
+                            setName={setName}
                         />
                     )}
 
