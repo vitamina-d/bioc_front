@@ -4,7 +4,7 @@ import img from "../assets/gene.png";
 
 function AboutView() {
     return (
-        <Container fluid className="mt-3">
+        <Container fluid className="pb-5 mt-3 mb-5">
             <Header
                 title="v i t a m i n a"
                 text="Tema: Aplicación web para el análisis de datos genómicos relacionados con la Vitamina D, su estudio y caracterización."

@@ -234,7 +234,7 @@ function BlastxView() {
     };
 
     return (
-        <Container fluid className="mt-3 pb-5">
+        <Container fluid className="pb-5 mt-3 mb-5">
             <Header
                 title="blastx"
                 text="Ingrese una secuencia de nucleotidos. blastx traduce y compara contra una base de datos de proteínas."

@@ -26,7 +26,7 @@ const PostBlastx = async (
         options
     );
 
-    if (json?.data.results.search.hits.length == 0) {
+    if (json?.data.results.search.hits == null || json?.data.results.search.hits.length == 0) {
         showToast("No se encontraron matches", "Success", "primary");
         return null;
     }

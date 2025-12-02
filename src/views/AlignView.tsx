@@ -11,7 +11,7 @@ function AlignView() {
     const [dataAlign, setDataAlign] = useState<DataAlign>();
 
     return (
-        <Container fluid className="mt-3">
+        <Container fluid className="pb-5 mt-3 mb-5">
             <Header title="Alinear" text="subtitle." imageSrc={img} />
             <CardBody>
                 <AlignSequences setDataAlign={setDataAlign} />

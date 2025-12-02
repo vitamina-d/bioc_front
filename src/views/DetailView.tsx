@@ -81,7 +81,7 @@ function DetailView() {
         }
     };
     return (
-        <Container fluid className="mt-3">
+        <Container fluid className="pb-5 mt-3 mb-5">
             <Card className=" font-monospace text-muted text-small">
                 <CardHeader className="d-flex justify-content-between align-items-center">
                     <div className=" ps-2 pt-1 d-flex align-items-center">

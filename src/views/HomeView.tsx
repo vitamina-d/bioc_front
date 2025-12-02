@@ -14,7 +14,7 @@ import AlignView from "./AlignView";
 
 function HomeView() {
     return (
-        <Container fluid className="mt-3 pb-5" >
+        <Container fluid className="mt-3 pb-5">
             <Row className="border-0">
                 <Col xs={12}>
                     <Card className="justify-content-center align-items-center p-3">

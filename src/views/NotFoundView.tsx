@@ -6,7 +6,7 @@ function NotFoundView() {
     const navigate = useNavigate();
 
     return (
-        <Container fluid className="mt-3">
+        <Container fluid className="mt-3 pb-5">
             <Card className="justify-content-center align-items-center p-3">
                 <CardImg
                     src={img}

@@ -33,7 +33,7 @@ function ProteinView() {
     };
 
     return (
-        <Container fluid className="mt-3">
+        <Container fluid className="mt-3 pb-5">
             <Header title="Proteina" text="3DMol." imageSrc={img} />
             <>
                 <Searcher

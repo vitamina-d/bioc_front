@@ -105,7 +105,7 @@ function SearchView() {
     };
 
     return (
-        <Container fluid className="mt-3">
+        <Container fluid className="mt-3 pb-5 ">
             <Header title="Utilities" text="Sequences" imageSrc={img} />
             {/* 
             <Searcher
