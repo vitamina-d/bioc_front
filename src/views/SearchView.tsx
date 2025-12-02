@@ -12,8 +12,11 @@ import { GetComplement } from "../services/PythonServices";
 import type { Sequence } from "../types/DataPython";
 import img from "../assets/search-gene.png";
 import { useLocation } from "react-router-dom";
+import { useToastContext } from "../context/ToastContext";
 
 function SearchView() {
+    const { showToast } = useToastContext();
+
     const location = useLocation();
     const namePage: string = location.pathname;
     const [detail, setDetail] = useState<DataDetail | null>(null);
@@ -80,7 +83,8 @@ function SearchView() {
         const response: Response<DataSequence[]> = await GetSequenceByRange(
             chr,
             parseInt(start),
-            parseInt(end)
+            parseInt(end),
+            showToast
         );
 
         console.log(response);

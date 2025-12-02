@@ -10,7 +10,10 @@ const SpinnerContext = createContext<SpinnerContextType | null>(null);
 
 export const useSpinnerContext = () => {
     const context = useContext(SpinnerContext);
-    if (!context) throw new Error("no hay contexto");
+    if (!context)
+        throw new Error(
+            "Spinner se está ejecutando fuera del <SpinnerProvider>"
+        );
     return context;
 };
 

@@ -1,6 +1,7 @@
 import type { ShowToast } from "../context/ToastContext";
 
-async function apiRequest<T>(
+async function apiRequestToast<T>(
+    showToast: ShowToast,
     url: string,
     options?: RequestInit
 ): Promise<T | null> {
@@ -21,15 +22,16 @@ async function apiRequest<T>(
                 errorMessage = response.statusText;
             }
 
+            showToast(errorMessage, "Warning", "warning");
             return null;
-        }
+        } 
         const json = await response.json();
         console.log(response);
         console.log(json);
         return json as T;
     } catch {
+        showToast("No se pudo conectar al servidor", "Error", "danger");
         return null;
     }
 }
-
-export default apiRequest;
+export default apiRequestToast;

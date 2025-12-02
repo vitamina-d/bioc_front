@@ -5,37 +5,62 @@ import { GetAutocomplete, getEntrez } from "../services/PlumberServices";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "./Icon";
 import type { DataEntrez } from "../types/DataPlumber";
+import { useToastContext } from "../context/ToastContext";
+import { useSpinnerContext } from "../context/SpinnerContext";
 
 type Props = {
     setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function SearchDetail({ setModalShow }: Props) {
+    const { showToast } = useToastContext();
+    const { showSpinner, hideSpinner } = useSpinnerContext();
+
     const navigate = useNavigate();
     const [search, setSearch] = useState<string>("");
-    const [desplegable, setDesplegable] = useState<string[]>([]);
+    const [desplegable, setDesplegable] = useState<string[] | null>([]);
 
     //click en Searcher DETAIL BREVE - submit
     const getEntrezByValue = async (e: React.FormEvent) => {
         e.preventDefault();
-        setModalShow(false);
-        const getEntrezByValue: Response<DataEntrez> = await getEntrez(search);
-        const entrez = getEntrezByValue.data?.entrez;
 
-        if (entrez) {
-            navigate(`/detail/${entrez}`);
-        } else {
-            navigate("/404");
+        if (search == "") {
+            showToast("Ingrese un value. ", "Warning", "warning");
+            return;
         }
+
+        showSpinner();
+
+        setModalShow(false);
+
+        const getEntrezByValue: Response<DataEntrez> | null = await getEntrez(
+            search,
+            showToast
+        );
+
+        if (
+            !getEntrezByValue ||
+            !getEntrezByValue.data ||
+            !getEntrezByValue.data.entrez
+        ) {
+            hideSpinner();
+            return;
+        }
+
+        hideSpinner();
+        navigate(`/detail/${getEntrezByValue.data.entrez}`);
     };
 
     //AUTOCOMPLETE
     const autocomplete = async (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        setSearch(e.target.value);
-        if (search.trimStart().length > 0 && search.trimEnd().length > 0) {
-            const alias: Response<string[]> = await GetAutocomplete(search);
-            setDesplegable(alias.data);
+        const value = e.target.value;
+        setSearch(value);
+        if (e.target.value.trim().length > 0) {
+            const alias: Response<string[]> | null = await GetAutocomplete(
+                value
+            );
+            setDesplegable(alias?.data ?? null);
         }
     };
 
@@ -84,7 +109,7 @@ function SearchDetail({ setModalShow }: Props) {
                                 >
                                     {elem}
                                 </Dropdown.Item>
-                            ))}{" "}
+                            ))}
                         </div>
                     </Dropdown>
                 )

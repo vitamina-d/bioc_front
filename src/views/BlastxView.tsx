@@ -75,12 +75,11 @@ function BlastxView() {
             showToast("Ingrese una secuencia valida.", "Warning", "warning");
             return;
         }
-        console.log("QUERY: ", sequence);
         const response: Response<BlastxReport> | null = await PostBlastx(
             sequence.toUpperCase(),
             showToast
         );
-        console.log(response);
+
         if (
             !response ||
             !response.data ||

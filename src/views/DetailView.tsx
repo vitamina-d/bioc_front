@@ -24,8 +24,13 @@ import InfoDetail from "../Components/InfoDetail";
 import SequenceShow from "../Components/SequenceShow";
 import PercentPlots from "../Components/PercentPlots";
 import ModalBasic from "../Components/ModalBasic";
+import { useToastContext } from "../context/ToastContext";
+import { useSpinnerContext } from "../context/SpinnerContext";
 
 function DetailView() {
+    const { showToast } = useToastContext();
+    const { showSpinner, hideSpinner } = useSpinnerContext();
+
     const { entrezId, searchInput } = useParams();
     const [detail, setDetail] = useState<DataDetail | null>(null);
     const [summary, setSummary] = useState<ResponsePublicSummary>();
@@ -35,51 +40,68 @@ function DetailView() {
 
     useEffect(() => {
         const fetchDetail = async () => {
-            try {
-                var isFull: boolean = false;
-                const response: Response<DataDetail> = await GetDetail(
-                    entrezId!,
-                    isFull
-                ); //! existe
-                console.log(response);
-                setDetail(response.data);
-            } catch {
-                console.log("no se encontro");
+            var isFull: boolean = false;
+            const response: Response<DataDetail> | null = await GetDetail(
+                entrezId!,
+                isFull,
+                showToast
+            ); //! existe
+            if (!response || !response.data) {
+                showToast("No se encontro el id.", "Warning", "warning");
+                return;
             }
+            console.log(response);
+            setDetail(response.data);
         };
         fetchDetail();
     }, [entrezId]);
 
-    const getFull = async () => {
-        setFullDetail(undefined);
+    //GET FULL DETAIL
+    const getFull = async (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        event.preventDefault();
+        var isFull: boolean = true;
+        showSpinner();
+
         setSummary(undefined);
-        try {
-            const publicRes: Response<ResponsePublicSummary> =
-                await SummaryService(entrezId!);
-            var isFull: boolean = true;
-            setSummary(publicRes.data);
-            const biocResponse: Response<DataFullDetail> = await GetDetail(
-                entrezId!,
-                isFull
-            );
-            setFullDetail(biocResponse.data);
-        } catch (err) {
-            console.error(err);
-        }
+        setFullDetail(undefined);
+
+        const publicRes: Response<ResponsePublicSummary> | null =
+            await SummaryService(entrezId!, showToast);
+        const biocResponse: Response<DataFullDetail> | null = await GetDetail(
+            entrezId!,
+            isFull,
+            showToast
+        );
+
+        setSummary(publicRes?.data);
+        setFullDetail(biocResponse?.data);
+        hideSpinner();
     };
-    const getStats = async () => {
-        try {
-            const seqAndStats: Response<DataStats> = await GetStats(
-                entrezId!,
-                true
-            );
-            console.log("data: ", seqAndStats.data);
-            setDataStats(seqAndStats.data);
-            setshowStats(true);
-        } catch (err) {
-            console.error(err);
+
+    //GET STATS DE LA SECUENCIA
+    const getStats = async (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        event.preventDefault();
+        showSpinner();
+
+        const seqAndStats: Response<DataStats> | null = await GetStats(
+            entrezId!,
+            true,
+            showToast
+        );
+
+        if (!seqAndStats || !seqAndStats.data) {
+            hideSpinner();
+            return;
         }
+        setDataStats(seqAndStats.data);
+        setshowStats(true);
+        hideSpinner();
     };
+
     return (
         <Container fluid className="pb-5 mt-3 mb-5">
             <Card className=" font-monospace text-muted text-small">
@@ -102,14 +124,14 @@ function DetailView() {
                         <ButtonOverlay
                             textHover={"FullDetail"}
                             typeIcon={"binocular"}
-                            onClick={getFull}
+                            onClick={(event) => getFull(event)}
                             variant="outline-secondary"
                             size="lg"
                         />
                         <ButtonOverlay
                             textHover={"Sequence"}
                             typeIcon={"finger"}
-                            onClick={getStats}
+                            onClick={(event) => getStats(event)}
                             variant="outline-primary"
                             size="lg"
                         />{" "}

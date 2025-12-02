@@ -22,7 +22,8 @@ const ToastContext = createContext<ToastContextType | null>(null);
 
 export const useToastContext = () => {
     const context = useContext(ToastContext);
-    if (!context) throw new Error("no hay contexto");
+    if (!context)
+        throw new Error("Toast se está ejecutando fuera del <ToastProvider>");
     return context;
 };
 
