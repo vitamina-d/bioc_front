@@ -134,7 +134,7 @@ function DetailView() {
                             onClick={(event) => getStats(event)}
                             variant="outline-primary"
                             size="lg"
-                        />{" "}
+                        />
                     </div>
                 </CardHeader>
             </Card>

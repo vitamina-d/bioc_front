@@ -13,9 +13,11 @@ import type { Sequence } from "../types/DataPython";
 import img from "../assets/search-gene.png";
 import { useLocation } from "react-router-dom";
 import { useToastContext } from "../context/ToastContext";
+import { useSpinnerContext } from "../context/SpinnerContext";
 
 function SearchView() {
     const { showToast } = useToastContext();
+    const { showSpinner, hideSpinner } = useSpinnerContext();
 
     const location = useLocation();
     const namePage: string = location.pathname;
@@ -68,11 +70,11 @@ function SearchView() {
 
     const submitRange = async (event: FormEvent) => {
         event.preventDefault();
+        showSpinner();
 
         console.log("PLUMBER: chr:", chr, "start", start, "end", end);
-
         if (!chr) {
-            alert("chr");
+            showToast("Ingrese un cromosoma valido.", "Warning", "warning");
             return;
         }
 
@@ -80,15 +82,25 @@ function SearchView() {
         setToComplement(false);
         setToReverse(false);
 
-        const response: Response<DataSequence[]> = await GetSequenceByRange(
-            chr,
-            parseInt(start),
-            parseInt(end),
-            showToast
-        );
-
+        const response: Response<DataSequence[]> | null =
+            await GetSequenceByRange(
+                chr,
+                parseInt(start),
+                parseInt(end),
+                showToast
+            );
+        if (
+            !response ||
+            !response.data ||
+            !response.data[0] ||
+            !response.data[0].sequence
+        ) {
+            hideSpinner();
+            return;
+        }
         console.log(response);
         setSequence(response.data[0].sequence);
+        hideSpinner();
     };
 
     //clear

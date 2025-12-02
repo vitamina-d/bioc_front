@@ -8,8 +8,8 @@ type Props = {
 };
 
 function SequenceShow({ sequence, row }: Props) {
-    let calculateRow = Math.round(sequence.length / 125);
-    calculateRow = Math.max(Math.min(calculateRow, 20), 4);
+    let calculateRow = Math.round(sequence.length / 114);
+    calculateRow = Math.max(Math.min(calculateRow, 10), 4);
     const copySequence = () => {
         navigator.clipboard.writeText(sequence);
     };
