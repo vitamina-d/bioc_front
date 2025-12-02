@@ -5,8 +5,8 @@ type Props = {
     prediction: string | null;
     predictionpLDDT: number[] | null;
     reference: string | null;
-    style?: "stick" | "cartoon" | "line" | "sphere"; //renderizado
-    size?: "sm";
+    style: "stick" | "cartoon" | "line" | "sphere"; 
+    showReference: boolean;
 };
 
 function CompareProteinViewer({
@@ -14,7 +14,7 @@ function CompareProteinViewer({
     predictionpLDDT,
     reference,
     style = "cartoon",
-    size,
+    showReference,
 }: Props) {
     const htmlElem = useRef<HTMLDivElement>(null);
 
@@ -43,7 +43,7 @@ function CompareProteinViewer({
             viewer.setStyle(
                 { model: 0 },
                 {
-                    cartoon: {
+                    [style]: {
                         colorscheme: {
                             prop: "b", // en atom.b esta el pLDDT
                             gradient: "linear",
@@ -57,21 +57,21 @@ function CompareProteinViewer({
         }
 
         //1. REFRENCE
-        if (reference != null) {
+        if (showReference && reference != null) {
             viewer.addModel(reference, "pdb");
             viewer.setStyle({ model: 1 }, { [style]: { color: "#C0C0C0" } });
         }
 
         viewer.zoomTo();
         viewer.render();
-    }, [prediction, reference, style]);
+    }, [prediction, reference, showReference, style]);
 
     return (
         <div
             ref={htmlElem}
             style={{
                 width: "100%",
-                height: size === "sm" ? "200px" : "400px",
+                height: "400px",
                 position: "relative",
             }}
         />
@@ -79,10 +79,3 @@ function CompareProteinViewer({
 }
 
 export default CompareProteinViewer;
-
-/*
-90–100: azul
-70–89: cian
-50–69: amarillo
-<50: rojo
-*/

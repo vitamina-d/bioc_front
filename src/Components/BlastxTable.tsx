@@ -1,4 +1,11 @@
-import { Badge, Button, Collapse, Table } from "react-bootstrap";
+import {
+    Badge,
+    Button,
+    Collapse,
+    OverlayTrigger,
+    Table,
+    Tooltip,
+} from "react-bootstrap";
 import type { Hit } from "../types/DataBlastx";
 import React, { useState } from "react";
 import { Icon } from "./Icon";
@@ -16,14 +23,17 @@ function BlastxTable({ hits, setHit }: Props) {
             style={{
                 overflowY: "auto",
                 overflowX: "auto",
-                maxHeight: "55vh",
+                maxHeight: "55vh", //55% de alto
             }}
         >
             <Table
-                className="font-monospace fontsize-sm"
+                className="font-monospace fontsize-sm "
                 bordered
                 hover
                 size="sm"
+                style={{
+                    fontSize: "0.8rem",
+                }}
             >
                 <thead
                     style={{
@@ -50,7 +60,7 @@ function BlastxTable({ hits, setHit }: Props) {
                         <th>Accession</th>
 
                         <th>More</th>
-                        <th>Go To</th>
+                        <th>Go</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,15 +78,11 @@ function BlastxTable({ hits, setHit }: Props) {
                                 <tr key={`row-${hit_idx}`}>
                                     <td>{hit.num}</td>
                                     <td>{hit.len}</td>
-                                    {hit.hsps.map((hsp, hsp_idx) => (
-                                        <React.Fragment key={hsp_idx}>
-                                            <td>{hsp.bit_score}</td>
-                                            <td>{hsp.score}</td>
-                                            <td>{hsp.evalue}</td>
-                                            <td>{hsp.identity}</td>
-                                            <td>{hsp.positive}</td>
-                                        </React.Fragment>
-                                    ))}
+                                    <td>{hit.hsps[0].bit_score}</td>
+                                    <td>{hit.hsps[0].score}</td>
+                                    <td>{hit.hsps[0].evalue}</td>
+                                    <td>{hit.hsps[0].identity}</td>
+                                    <td>{hit.hsps[0].positive}</td>
                                     {hit.description.map((item) => {
                                         accession.push(item.accession);
                                         //7-dehydrocholesterol reductase OS=Mus musculus OX=10090 GN=Dhcr7 PE=1 SV=1
@@ -170,13 +176,19 @@ function BlastxTable({ hits, setHit }: Props) {
                                         </Button>
                                     </td>
                                     <td>
-                                        <Button
-                                            size="sm"
-                                            variant="primary"
-                                            onClick={() => setHit(hit)}
+                                        <OverlayTrigger
+                                            overlay={
+                                                <Tooltip>Compare hit</Tooltip>
+                                            }
                                         >
-                                            Compare
-                                        </Button>
+                                            <Button
+                                                size="sm"
+                                                variant="primary"
+                                                onClick={() => setHit(hit)}
+                                            >
+                                                <Icon type="shuffle" />
+                                            </Button>
+                                        </OverlayTrigger>
                                     </td>
                                 </tr>
                                 <tr key="tr-Collapse">

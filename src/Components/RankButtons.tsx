@@ -4,10 +4,11 @@ import type { ProteinRanks } from "../types/ResponseFolding";
 
 type Props = {
     ranks: ProteinRanks;
+    selected_rank: string | null;
     selectRankToCompare: (rank: string) => void;
 };
 
-function RankButtons({ ranks, selectRankToCompare }: Props) {
+function RankButtons({ ranks, selected_rank, selectRankToCompare }: Props) {
     return (
         <ListGroup.Item>
             <Row>
@@ -15,6 +16,7 @@ function RankButtons({ ranks, selectRankToCompare }: Props) {
                 <Col xs={9}>
                     <TableRanks
                         data={ranks}
+                        selected={selected_rank}
                         selectRankToCompare={selectRankToCompare}
                     />
                 </Col>

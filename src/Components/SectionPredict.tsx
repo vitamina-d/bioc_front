@@ -19,6 +19,7 @@ import type { ProteinRanks } from "../types/ResponseFolding";
 type Props = {
     jobId: string | null;
     ranks: ProteinRanks | null;
+    selected_rank: string | null;
     hit: Hit;
     protein: string;
     showButton: boolean;
@@ -38,6 +39,7 @@ type Props = {
 function SectionPredict({
     jobId,
     ranks,
+    selected_rank,
     hit,
     protein,
     showButton,
@@ -166,14 +168,11 @@ function SectionPredict({
                             )}
 
                             {ranks != null && (
-                                <>
-                                    <RankButtons
-                                        ranks={ranks}
-                                        selectRankToCompare={
-                                            selectRankToCompare
-                                        }
-                                    />
-                                </>
+                                <RankButtons
+                                    ranks={ranks}
+                                    selectRankToCompare={selectRankToCompare}
+                                    selected_rank={selected_rank}
+                                />
                             )}
                         </>
                     )}

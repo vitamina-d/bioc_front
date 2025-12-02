@@ -4,9 +4,10 @@ import type { ProteinRanks } from "../types/ResponseFolding";
 type Props = {
     data: ProteinRanks;
     selectRankToCompare: (rank: string) => void;
+    selected: string | null;
 };
 
-function TableRanks({ data, selectRankToCompare }: Props) {
+function TableRanks({ data, selected, selectRankToCompare }: Props) {
     //const data = { "1": 7.8, "2": 4.97, "3": 4.71, "4": 5.85, "5": 6.44 };
     var min: number = 100;
     const ranks = Object.entries(data).map(([key, value]) => {
@@ -15,7 +16,8 @@ function TableRanks({ data, selectRankToCompare }: Props) {
         }
         return { key: key, value: value };
     });
-    //console.log(ranks);
+    console.log(ranks);
+    console.log(selected);
 
     return (
         <div className="d-flex justify-content-between me-3">
@@ -26,8 +28,8 @@ function TableRanks({ data, selectRankToCompare }: Props) {
                 >
                     <span className="d-inline-block">
                         <Button
-                            onClick={() => selectRankToCompare(r.key)}
-                            variant={r.value === min ? "primary" : "secondary"}
+                            onClick={() => selectRankToCompare(r.key)} 
+                            variant={selected == r.key ? "success" :  r.value === min ? "primary" : "secondary"}
                             className="align-items-center font-monospace"
                             size="sm"
                         >

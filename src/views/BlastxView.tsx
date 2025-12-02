@@ -34,13 +34,15 @@ function BlastxView() {
     const [modalShow, setModalShow] = useState<boolean>(false);
     const [modificable, setModificable] = useState<boolean>(true);
     const [frame, setFrame] = useState<number | null>(null);
+    const [rank, setRank] = useState<string | null>(null);
     const [protein, setProtein] = useState<string>("");
     const [jobId, setJobId] = useState<string | null>(null);
     const [statusJob, setStatusJob] = useState<string | null>(null);
     const [showButton, setShowButton] = useState<boolean>(true);
     const [ranks, setRanks] = useState<ProteinRanks | null>(null);
     const [accession, setAccession] = useState<string>("");
-    const [modalStructureShow, setModalStructureShow] = useState<boolean>(true);
+    const [modalStructureShow, setModalStructureShow] =
+        useState<boolean>(false);
     const [prediction, setPrediction] = useState<string | null>(null);
     const [reference, setReference] = useState<string | null>(null);
     const [pLDDT, setpLDDT] = useState<number[]>([]);
@@ -200,28 +202,33 @@ function BlastxView() {
     };
 
     //onClick del button rank seleccionado para visualizar las estructuras
-    const selectRankToCompare = async (rank: string) => {
-        showSpinner();
-        setFilenames({
-            prediction: `prediction_${jobId}_rank${rank}.pdb`,
-            reference: `reference_${accession}.pdb`,
-        });
-        const pdbPrediction: string = await GetAlignPrediction(
-            jobId!,
-            rank,
-            accession
-        );
-        setPrediction(pdbPrediction);
-        const pdbReference: string = await GetModelReference(accession);
-        setReference(pdbReference);
-        const plddt: Response<pLDDTNeurosnap> = await GetpLDDTPrediction(
-            jobId!,
-            rank
-        );
-        setpLDDT(plddt.data.plddt);
-        console.log(plddt);
-        setModalStructureShow(true);
-        hideSpinner();
+    const selectRankToCompare = async (selected_rank: string) => {
+        if (selected_rank == rank) {
+            setModalStructureShow(true);
+        } else {
+            showSpinner();
+            setRank(selected_rank);
+            setFilenames({
+                prediction: `prediction_${jobId}_rank${selected_rank}.pdb`,
+                reference: `reference_${accession}.pdb`,
+            });
+            const pdbPrediction: string = await GetAlignPrediction(
+                jobId!,
+                selected_rank,
+                accession
+            );
+            setPrediction(pdbPrediction);
+            const pdbReference: string = await GetModelReference(accession);
+            setReference(pdbReference);
+            const plddt: Response<pLDDTNeurosnap> = await GetpLDDTPrediction(
+                jobId!,
+                selected_rank
+            );
+            setpLDDT(plddt.data.plddt);
+            console.log(plddt);
+            setModalStructureShow(true);
+            hideSpinner();
+        }
     };
 
     return (
@@ -281,6 +288,7 @@ function BlastxView() {
                     initJobPrediction={initJobPrediction}
                     getStatus={getStatus}
                     getRank={getRank}
+                    selected_rank={rank}
                 />
             )}
             {/* MODAL PROTEINS */}

@@ -17,8 +17,8 @@ function ModalHits({ blastx, setHit, modalShow, setModalShow}: Props) {
         <ModalBasic
             modalShow={modalShow}
             setModalShow={setModalShow}
-            size={"xl"}
-            title={"Result blastx"}
+            size="xl"
+            title="Result blastx"
         >
             <Card.Body>
                 {blastx && (

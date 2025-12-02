@@ -18,7 +18,9 @@ function ModalBasic({ modalShow, setModalShow, size, title, children }: Props) {
             contentClassName="p-3 text-small"
         >
             <Modal.Header closeButton onClick={() => setModalShow(false)}>
-                {title}
+                <Modal.Title onClick={(e) => e.stopPropagation()}>
+                    {title}
+                </Modal.Title>
             </Modal.Header>
             <Modal.Body
                 className="mx-3 small"
@@ -30,7 +32,6 @@ function ModalBasic({ modalShow, setModalShow, size, title, children }: Props) {
                 {children}
             </Modal.Body>
             <Modal.Footer>
-                
                 <Button
                     className="font-base"
                     variant={"secondary"}

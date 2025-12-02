@@ -2,8 +2,6 @@ import { Card } from "react-bootstrap";
 import ModalBasic from "./ModalBasic";
 import ModalBodyEstructures from "./ModalBodyEstructures";
 import type React from "react";
-import PLDDT from "./PLDDT";
-import { plddt } from "../config/plddt";
 
 type Props = {
     prediction: string | null;

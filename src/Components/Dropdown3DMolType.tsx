@@ -11,20 +11,19 @@ function Dropdown3DMolType({ type, setType }: Props) {
     const options = ["stick", "cartoon", "line", "sphere"] as const;
 
     return (
-        <Dropdown className="w-100 "  as={ButtonGroup}>
-            <label className="input-group-text rounded-0 rounded-start small">
+        <Dropdown as={ButtonGroup} className="w-100 input-group input-group-sm">
+            <label className="input-group-text rounded-0 rounded-start">
                 Type
             </label>
             <label className="input-group-text bg-white border rounded-0  flex-grow-1 text-start">
                 {type}
             </label>
-
             <Dropdown.Menu>
                 {options.map((elem) => (
                     <Dropdown.Item
                         key={elem}
                         active={elem === type}
-                        className="py-1 px-2 "
+                        className="small"
                         onClick={() => setType(elem)}
                     >
                         {elem}
@@ -34,7 +33,8 @@ function Dropdown3DMolType({ type, setType }: Props) {
             <Dropdown.Toggle
                 split
                 variant="light"
-                className="border rounded-0 rounded-end "
+                className="border rounded-0 rounded-end"
+                size="sm"
             />
         </Dropdown>
     );
