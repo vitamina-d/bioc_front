@@ -102,6 +102,8 @@ function DetailView() {
         hideSpinner();
     };
 
+    
+
     return (
         <Container fluid className="pb-5 mt-3 mb-5">
             <Card className=" font-monospace text-muted text-small">
@@ -118,7 +120,7 @@ function DetailView() {
                             }}
                         />
 
-                        <h5 className="card-title mb-1">find:{searchInput}</h5>
+                        <h5 className="card-title mb-1">find:{searchInput ? searchInput : entrezId}</h5>
                     </div>
                     <div className="gap-2 d-flex align-items-center">
                         <ButtonOverlay
@@ -128,13 +130,13 @@ function DetailView() {
                             variant="outline-secondary"
                             size="lg"
                         />
-                        <ButtonOverlay
+                        {/*<ButtonOverlay
                             textHover={"Sequence"}
                             typeIcon={"finger"}
                             onClick={(event) => getStats(event)}
                             variant="outline-primary"
                             size="lg"
-                        />
+                        />*/}
                     </div>
                 </CardHeader>
             </Card>

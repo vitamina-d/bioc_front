@@ -24,7 +24,7 @@ function PlotHistogram({ title, values, lenght, window }: Props) {
                 },
                 {
                     x: values,
-                    y: values.map(() => -0.5),
+                    y: values.map(() => -0.3),
                     type: "scatter",
                     mode: "lines+markers",
                     marker: { size: 15, opacity: 0.1 },

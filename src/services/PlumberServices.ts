@@ -67,7 +67,8 @@ const GetDetail = async (
 };
 
 const GetPercent = async (
-    sequence: string
+    sequence: string,
+    showToast: ShowToast
 ): Promise<Response<DataStats> | null> => {
     console.log("[BIOC] POST /percent");
     const url = `${DOTNET_BIOCONDUCTOR_URL}/percent`;
@@ -78,7 +79,7 @@ const GetPercent = async (
             "Content-Type": "application/json",
         },
     };
-    const json = await apiRequest<Response<any>>(url, options);
+    const json = await apiRequestToast<Response<any>>(showToast, url, options);
 
     return json;
 };

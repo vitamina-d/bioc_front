@@ -9,9 +9,9 @@ type Props = {
 
 function PercentPlots({ dataStats }: Props) {
     const nucleotides: Nucleotides = dataStats.nucleotides;
-    const lenght: number = dataStats.length;
+    const lenght: number = dataStats.sequence.length;
     const island: number[] = dataStats.cpg_islands.start;
-
+console.log(dataStats)
     return (
         <Row>
             <Col lg={9}>

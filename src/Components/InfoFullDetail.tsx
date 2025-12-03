@@ -3,16 +3,20 @@ import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import type {
     DataFullDetail,
     DataSequence,
+    DataStats,
     Location,
 } from "../types/DataPlumber";
 import React, { useState } from "react";
 import ButtonOverlay from "./ButtonOverlay";
-import { GetSequenceByRange } from "../services/PlumberServices";
+import { GetPercent, GetSequenceByRange } from "../services/PlumberServices";
 import { useSpinnerContext } from "../context/SpinnerContext";
 import { useToastContext } from "../context/ToastContext";
 import type { Response } from "../types/Response";
 import ModalBasic from "./ModalBasic";
 import SequenceShow from "./SequenceShow";
+import PercentPlots from "./PercentPlots";
+import type { Sequence } from "../types/DataPython";
+import { GetComplement } from "../services/PythonServices";
 
 type Props = {
     dataPublic?: ResponsePublicSummary;
@@ -23,8 +27,10 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
     const { showSpinner, hideSpinner } = useSpinnerContext();
     const { showToast } = useToastContext();
 
+    const [title, setTitle] = useState<string>("");
     const [sequence, setSequence] = useState<string>("");
     const [showSequence, setShowSequence] = useState<boolean>(false);
+    const [dataStats, setDataStats] = useState<DataStats | null>(null);
 
     //GET SEQUENCE
     const getSequence = async (
@@ -33,19 +39,16 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
     ) => {
         event.preventDefault();
         console.log("PLUMBER: range:", range);
+        setTitle(`Sequence (Strand ${range.strand})`)
+        setDataStats(null);
         showSpinner();
 
         const chr: string = range.seqnames.startsWith("chr")
             ? range.seqnames.substring(3)
             : range.seqnames;
-        
+
         const response: Response<DataSequence[]> | null =
-            await GetSequenceByRange(
-                chr,
-                range.start,
-                range.end,
-                showToast
-            );
+            await GetSequenceByRange(chr, range.start, range.end, showToast);
 
         if (
             !response ||
@@ -56,8 +59,42 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
             hideSpinner();
             return;
         }
-        setSequence(response.data[0].sequence);
+
+        if (range.strand == "-") {
+            const toReverse: boolean = true;
+            const toComplement: boolean = false;
+
+            const reverse: Response<Sequence> = await GetComplement(
+                response.data[0].sequence,
+                toReverse,
+                toComplement
+            );
+            setSequence(reverse.data.sequence);
+        } else {
+            setSequence(response.data[0].sequence);
+        }
+
         setShowSequence(true);
+        hideSpinner();
+    };
+
+    //GET PERCENT
+    const getStats = async (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        event.preventDefault();
+        showSpinner();
+
+        const response: Response<DataStats> | null = await GetPercent(
+            sequence,
+            showToast
+        );
+
+        if (!response || !response.data) {
+            hideSpinner();
+            return;
+        }
+        setDataStats(response.data);
         hideSpinner();
     };
 
@@ -174,14 +211,26 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                         modalShow={showSequence}
                         setModalShow={setShowSequence}
                         size={"xl"}
-                        title={"Sequence"}
+                        title={title}
                     >
                         <Modal.Body>
                             {sequence != "" && (
-                                <SequenceShow sequence={sequence} />
+                                <>
+                                    <SequenceShow sequence={sequence} />
+                                    {dataStats ? (
+                                        <PercentPlots dataStats={dataStats} />
+                                    ) : (
+                                        <ButtonOverlay
+                                            textHover="Get Stats"
+                                            typeIcon="pie"
+                                            onClick={(event) => getStats(event)}
+                                            variant="outline-success"
+                                            size="lg"
+                                        />
+                                    )}
+                                </>
                             )}
                         </Modal.Body>
-                        {/*<PercentPlots dataStats={dataStats} />*/}
                     </ModalBasic>
                 </>
             )}
