@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Form, InputGroup } from "react-bootstrap";
 
 type Props = {
     children: ReactNode;
@@ -8,18 +9,15 @@ type Props = {
 
 function InputRange({ children, number, setNumber }: Props) {
     return (
-        <>
-            <div className="input-group mb-3 w-auto">
-                <label className="input-group-text">{children}</label>
-                <input
-                    type="number"
-                    className="form-control"
-                    id="inputRange"
-                    placeholder={number}
-                    onChange={(e) => setNumber(e.target.value)}
-                />
-            </div>
-        </>
+        <InputGroup className="mb-3">
+            <InputGroup.Text>{children}</InputGroup.Text>
+            <Form.Control
+                type="text"
+                placeholder={number}
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
+            />
+        </InputGroup>
     );
 }
 

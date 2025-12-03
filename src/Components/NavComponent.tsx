@@ -1,17 +1,19 @@
 import Navbar from "react-bootstrap/Navbar";
 import SearchDetail from "./SearchDetail";
 import OffCanvasComponent from "./OffCanvasComponent";
-import { Button, Nav } from "react-bootstrap";
+import { Button, Nav, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Icon } from "./Icon";
 import { useState } from "react";
 import ModalBasic from "./ModalBasic";
 import { Link, useLocation } from "react-router-dom";
 import img from "../assets/gene.png";
+import ConfigAPIKey from "./ConfigAPIKey";
 
 function NavComponent() {
     const location = useLocation();
     const [showOffCanva, setShowOffCanva] = useState(false);
     const [modalShow, setModalShow] = useState(false);
+    const [modalConfigShow, setModalConfigShow] = useState(false);
     const namePage: string = location.pathname;
 
     return (
@@ -41,13 +43,30 @@ function NavComponent() {
                     </Nav.Link>
                 </div>
                 <div className="  pe-2 pt-1 d-flex">
-                    <Button
-                        variant="light"
-                        className="bg-light m-1"
-                        onClick={() => setModalShow(true)}
+                    <OverlayTrigger
+                        placement="bottom"
+                        overlay={<Tooltip>Search</Tooltip>}
                     >
-                        <Icon type={"search"} />
-                    </Button>
+                        <Button
+                            variant="light"
+                            className="bg-light m-1"
+                            onClick={() => setModalShow(true)}
+                        >
+                            <Icon type={"search"} />
+                        </Button>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                        placement="bottom"
+                        overlay={<Tooltip>Configuration</Tooltip>}
+                    >
+                        <Button
+                            variant="secondary"
+                            className="bg-secondary m-1"
+                            onClick={() => setModalConfigShow(true)}
+                        >
+                            <Icon type={"config"} />
+                        </Button>
+                    </OverlayTrigger>
                 </div>
             </div>
             <ModalBasic
@@ -57,6 +76,15 @@ function NavComponent() {
                 title={"Search by alias"}
             >
                 <SearchDetail setModalShow={setModalShow} />
+            </ModalBasic>
+            {/* CONFIG APIKEY */}
+            <ModalBasic
+                modalShow={modalConfigShow}
+                setModalShow={setModalConfigShow}
+                size={"lg"}
+                title={"Configuration"}
+            >
+                <ConfigAPIKey setModalShow={setModalConfigShow} />
             </ModalBasic>
         </Navbar>
     );

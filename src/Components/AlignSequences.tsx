@@ -11,6 +11,8 @@ type Props = {
 };
 
 function AlignSequences({ setDataAlign }: Props) {
+    const { showToast } = useToastContext();
+
     const [pattern, setPattern] = useState<string>("");
     const [subject, setSubject] = useState<string>("");
     const [namePattern, setNamePattern] = useState<string>("");
