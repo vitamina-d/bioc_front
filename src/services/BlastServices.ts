@@ -2,7 +2,7 @@ import { DOTNET_BLAST_URL } from "../config/urls";
 import type { ShowToast } from "../context/ToastContext";
 import type { BlastxReport } from "../types/DataBlastx";
 import type { Response } from "../types/Response";
-import apiRequestToast from "../wrapper/apiRequestToast";
+import apiRequest from "../wrapper/apiRequest";
 
 const PostBlastx = async (
     sequence: string,
@@ -20,10 +20,10 @@ const PostBlastx = async (
         },
     };
 
-    const json = await apiRequestToast<Response<BlastxReport>>(
-        showToast,
+    const json = await apiRequest<Response<BlastxReport>>(
         url,
-        options
+        options,
+        showToast,
     );
 
     if (json?.data.results.search.hits == null || json?.data.results.search.hits.length == 0) {

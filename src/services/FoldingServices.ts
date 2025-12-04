@@ -2,31 +2,32 @@ import { DOTNET_FOLD_URL } from "../config/urls";
 import type { ShowToast } from "../context/ToastContext";
 import type { pLDDTModel, pLDDTNeurosnap } from "../types/pLDDT";
 import type { Response } from "../types/Response";
-import type { ProteinRanks } from "../types/ResponseFolding";
+import type { DataRanks, ProteinRanks } from "../types/ResponseFolding";
 import apiRequest from "../wrapper/apiRequest";
+import apiRequestFile from "../wrapper/apiRequestFile";
 
+//ENVIAR API KEY
 const InitJob = async (
     aminoacid: string,
-    showToast: ShowToast,
-    successMessage?: string
+    showToast: ShowToast
 ): Promise<Response<string> | null> => {
-    /*
     console.log("[FOLD] POST /init");
-    const url = `${DOTNET_FOLD_URL}/init`;
-    const options = {
+    const APIKey = localStorage.getItem("APIKey");
+    /*const url = `${DOTNET_FOLD_URL}/init`;
+    const options: RequestInit = {
         method: "POST",
         body: JSON.stringify({
             aminoacid: aminoacid,
         }),
         headers: {
-            "Content-Type": "application/json",
+            "X-API-KEY": APIKey ? APIKey : "",
         },
     };
-    const json = await apiRequest<Response<string>>(showToast, url, options, successMessage);
+    const json = await apiRequest<Response<string>>(url, options, showToast);
 
     return json;
-    */
-
+    
+      */
     return {
         code: 200,
         message: "Ok",
@@ -39,72 +40,110 @@ const StatusJob = async (
     showToast: ShowToast
 ): Promise<Response<string> | null> => {
     console.log("[FOLD] POST /status/jobId");
+    const APIKey = localStorage.getItem("APIKey");
     const url = `${DOTNET_FOLD_URL}/status/${jobId}`;
-    const json = await apiRequest<Response<string>>(showToast, url);
-    
+    const options: RequestInit = {
+        method: "GET",
+        headers: {
+            "X-API-KEY": APIKey ? APIKey : "",
+        },
+    };
+
+    const json = await apiRequest<Response<string>>(url, options, showToast);
     return json;
 };
 
-type Data = {
-    data: ProteinRanks;
-};
-const GetRanksJob = async (jobId: string): Promise<Response<ProteinRanks>> => {
+const GetRanksJob = async (
+    jobId: string,
+    showToast: ShowToast
+): Promise<Response<ProteinRanks> | null> => {
     console.log("[FOLD] GET /job/ranks");
-
-    const response = await fetch(`${DOTNET_FOLD_URL}/job/${jobId}/ranks`);
-    const json: Data = await response.json();
-    console.log(response);
-    console.log(json);
-    return {
-        code: response.status,
-        message: response.statusText,
-        data: json.data,
-    }; //prot1 se envia en jobinit .net
+    const APIKey = localStorage.getItem("APIKey");
+    const url = `${DOTNET_FOLD_URL}/job/${jobId}/ranks`;
+    const options: RequestInit = {
+        method: "GET",
+        headers: {
+            "X-API-KEY": APIKey ? APIKey : "",
+        },
+    };
+    const json = await apiRequest<Response<ProteinRanks>>(
+        url,
+        options,
+        showToast
+    );
+    return json;
 };
 
 const GetAlignPrediction = async (
     jobId: string,
     rank: string,
-    accession: string
-): Promise<string> => {
+    accession: string,
+    showToast: ShowToast
+): Promise<string | null> => {
     console.log("[FOLD] GET /job/rank/accession");
-
-    const response = await fetch(
-        `${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/align/${accession}`
-    );
-    const pdbFile: string = await response.text();
-    return pdbFile;
+    const APIKey = localStorage.getItem("APIKey");
+    const url = `${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/align/${accession}`;
+    const options: RequestInit = {
+        method: "GET",
+        headers: {
+            "X-API-KEY": APIKey ? APIKey : "",
+        },
+    };
+    const file = await apiRequestFile(url, options, showToast);
+    return file;
 };
-const GetModelReference = async (accession: string): Promise<string> => {
-    console.log("[FOLD] GET /model/accession");
 
-    const response = await fetch(`${DOTNET_FOLD_URL}/model/${accession}`);
-    const pdbFile: string = await response.text();
-    return pdbFile;
-};
 const GetpLDDTPrediction = async (
     jobId: string,
-    rank: string
-): Promise<Response<pLDDTNeurosnap>> => {
+    rank: string,
+    showToast: ShowToast
+): Promise<Response<pLDDTNeurosnap> | null> => {
     console.log("[FOLD] GET /api/Folding/job/rank/pLDDT");
-
-    const response = await fetch(
-        `${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/pLDDT`
+    const APIKey = localStorage.getItem("APIKey");
+    const url = `${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/pLDDT`;
+    const options: RequestInit = {
+        method: "GET",
+        headers: {
+            "X-API-KEY": APIKey ? APIKey : "",
+        },
+    };
+    const json = await apiRequest<Response<pLDDTNeurosnap>>(
+        url,
+        options,
+        showToast
     );
-    const json = await response.json();
-    console.log(response);
-    console.log(json);
     return json;
 };
-const GetpLDDTModel = async (
-    accession: string
-): Promise<Response<pLDDTModel>> => {
-    console.log("[FOLD] GET /api/Folding/model/pLDDT/accession");
 
-    const response = await fetch(`${DOTNET_FOLD_URL}/model/pLDDT/${accession}`);
-    const json = await response.json();
-    console.log(response);
-    console.log(json);
+// -------------------- NO ENVIAR API KEY ------------------------------------
+const GetModelReference = async (
+    accession: string,
+    showToast: ShowToast
+): Promise<string | null> => {
+    console.log("[FOLD] GET /model/accession");
+
+    const url = `${DOTNET_FOLD_URL}/model/${accession}`;
+    const options: RequestInit = {
+        method: "GET",
+    };
+    const file = await apiRequestFile(url, options, showToast);
+    return file;
+};
+//no
+const GetpLDDTModel = async (
+    accession: string,
+    showToast: ShowToast
+): Promise<Response<pLDDTModel> | null> => {
+    console.log("[FOLD] GET /api/Folding/model/pLDDT/accession");
+    const url = `${DOTNET_FOLD_URL}/model/pLDDT/${accession}`;
+    const options: RequestInit = {
+        method: "GET",
+    };
+    const json = await apiRequest<Response<pLDDTModel>>(
+        url,
+        options,
+        showToast
+    );
     return json;
 };
 

@@ -10,3 +10,7 @@ export type ResponseRanks = {
 };
 
 export type ProteinRanks = Record<string, number>;
+
+export type DataRanks = {
+    data: ProteinRanks;
+};

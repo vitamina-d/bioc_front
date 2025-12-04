@@ -2,7 +2,8 @@ import type { ShowToast } from "../context/ToastContext";
 
 async function apiRequest<T>(
     url: string,
-    options?: RequestInit
+    options: RequestInit,
+    showToast?: ShowToast
 ): Promise<T | null> {
     try {
         console.log("[apiRequest]");
@@ -20,7 +21,7 @@ async function apiRequest<T>(
             } catch {
                 errorMessage = response.statusText;
             }
-
+            if (showToast) showToast(errorMessage, "Warning", "warning");
             return null;
         }
         const json = await response.json();
@@ -28,6 +29,8 @@ async function apiRequest<T>(
         console.log(json);
         return json as T;
     } catch {
+        if (showToast)
+            showToast("No se pudo conectar al servidor", "Warning", "warning");
         return null;
     }
 }

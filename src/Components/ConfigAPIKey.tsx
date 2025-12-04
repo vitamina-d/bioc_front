@@ -16,10 +16,16 @@ type Props = {
 
 function ConfigAPIKey({ setModalShow }: Props) {
     const { showToast } = useToastContext();
-    const [APIkey, setAPIKey] = useState(localStorage.getItem("APIKey") || "");
+    const [APIkey, setAPIKey] = useState<string>("");
     const [show, setShow] = useState(false);
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        const key = localStorage.getItem("APIKey");
+        if (key != null) {
+            setAPIKey(key);
+        }
+        console.log(key)
+    }, []);
 
     const saveAPIKey = (event: FormEvent) => {
         event.preventDefault();
@@ -29,9 +35,9 @@ function ConfigAPIKey({ setModalShow }: Props) {
     };
     const deleteAPIKey = (event: FormEvent) => {
         event.preventDefault();
+        setAPIKey("");
         localStorage.removeItem("APIKey");
         showToast("La API Key ha sido eliminada.", "Success", "primary");
-        setModalShow(false);
     };
 
     return (
@@ -45,7 +51,7 @@ function ConfigAPIKey({ setModalShow }: Props) {
                     <Form.Control
                         type={show ? "text" : "password"}
                         value={APIkey}
-                        placeholder="API Key"
+                        placeholder="Ingrese la API Key de Neurosnap"
                         onChange={(e) => setAPIKey(e.target.value)}
                     />
                     <Button
@@ -77,17 +83,16 @@ function ConfigAPIKey({ setModalShow }: Props) {
             <div className="d-flex justify-content-end gap-1 me-3">
                 <OverlayTrigger overlay={<Tooltip>Save API Key</Tooltip>}>
                     <Button
-                    className="d-flex justify-content-center align-items-center" 
+                        className="d-flex justify-content-center align-items-center"
                         variant="outline-success"
                         onClick={saveAPIKey}
                     >
                         <Icon type={"check"} />
-
                     </Button>
                 </OverlayTrigger>
                 <OverlayTrigger overlay={<Tooltip>Delete API Key</Tooltip>}>
                     <Button
-                    className="d-flex justify-content-center align-items-center" 
+                        className="d-flex justify-content-center align-items-center"
                         variant="outline-danger"
                         onClick={deleteAPIKey}
                     >

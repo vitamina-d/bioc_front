@@ -8,7 +8,6 @@ import type {
 } from "../types/DataPlumber";
 import type { ShowToast } from "../context/ToastContext";
 import apiRequest from "../wrapper/apiRequest";
-import apiRequestToast from "../wrapper/apiRequestToast";
 
 const GetAlign = async (
     pattern: string,
@@ -34,11 +33,7 @@ const GetAlign = async (
         },
     };
 
-    const json = await apiRequestToast<Response<DataAlign>>(
-        showToast,
-        url,
-        options
-    );
+    const json = await apiRequest<Response<DataAlign>>(url, options, showToast);
     return json;
 };
 
@@ -47,7 +42,10 @@ const GetAutocomplete = async (
 ): Promise<Response<string[]> | null> => {
     console.log("[BIOC] GET /autocomplete");
     const url = `${DOTNET_BIOCONDUCTOR_URL}/autocomplete?input=${value}`;
-    const json = await apiRequest<Response<string[]>>(url);
+    const options: RequestInit = {
+        method: "GET",
+    };
+    const json = await apiRequest<Response<string[]>>(url, options);
     return json;
 };
 
@@ -58,7 +56,10 @@ const GetDetail = async (
 ): Promise<Response<any> | null> => {
     console.log("[BIOC] GET /detail");
     const url = `${DOTNET_BIOCONDUCTOR_URL}/detail?entrez=${entrez}&isFull=${isFull}`;
-    const json = await apiRequest<Response<any>>(url);
+    const options: RequestInit = {
+        method: "GET",
+    };
+    const json = await apiRequest<Response<any>>(url, options, showToast);
     if (json?.data == null) {
         showToast("No se obtuvo detalle", "Warning", "warning");
         return null;
@@ -72,14 +73,14 @@ const GetPercent = async (
 ): Promise<Response<DataStats> | null> => {
     console.log("[BIOC] POST /percent");
     const url = `${DOTNET_BIOCONDUCTOR_URL}/percent`;
-    const options = {
+    const options: RequestInit = {
         method: "POST",
         body: JSON.stringify(sequence),
         headers: {
             "Content-Type": "application/json",
         },
     };
-    const json = await apiRequestToast<Response<any>>(showToast, url, options);
+    const json = await apiRequest<Response<any>>(url, options, showToast);
 
     return json;
 };
@@ -91,9 +92,13 @@ const GetSequence = async (
 ): Promise<Response<DataSequence[]> | null> => {
     console.log("[BIOC] GET /sequence");
     const url = `${DOTNET_BIOCONDUCTOR_URL}/sequence?value=${value}&complete=${complete}`;
-    const json = await apiRequestToast<Response<DataSequence[]>>(
-        showToast,
-        url
+    const options: RequestInit = {
+        method: "GET",
+    };
+    const json = await apiRequest<Response<DataSequence[]>>(
+        url,
+        options,
+        showToast
     );
     return json;
 };
@@ -105,7 +110,10 @@ const GetStats = async (
 ): Promise<Response<DataStats> | null> => {
     console.log("[BIOC] GET /stats");
     const url = `${DOTNET_BIOCONDUCTOR_URL}/stats?entrez=${entrez}&complete=${complete}`;
-    const json = await apiRequestToast<Response<DataStats>>(showToast, url);
+    const options: RequestInit = {
+        method: "GET",
+    };
+    const json = await apiRequest<Response<DataStats>>(url, options, showToast);
     return json;
 };
 
@@ -117,9 +125,13 @@ const GetSequenceByRange = async (
 ): Promise<Response<DataSequence[]> | null> => {
     console.log("[BIOC] GET /sequence");
     const url = `${DOTNET_BIOCONDUCTOR_URL}/sequence_by_range?chrom=${chr}&start=${start}&end=${end}`;
-    const json = await apiRequestToast<Response<DataSequence[]>>(
-        showToast,
-        url
+    const options: RequestInit = {
+        method: "GET",
+    };
+    const json = await apiRequest<Response<DataSequence[]>>(
+        url,
+        options,
+        showToast
     );
     return json;
 };
@@ -130,7 +142,14 @@ const getEntrez = async (
 ): Promise<Response<DataEntrez> | null> => {
     console.log("[BIOC] GET /entrez");
     const url = `${DOTNET_BIOCONDUCTOR_URL}/entrez/${value}`;
-    const json = await apiRequestToast<Response<DataEntrez>>(showToast, url);
+    const options: RequestInit = {
+        method: "GET",
+    };
+    const json = await apiRequest<Response<DataEntrez>>(
+        url,
+        options,
+        showToast
+    );
     return json;
 };
 

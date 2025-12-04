@@ -1,12 +1,12 @@
 import type { ShowToast } from "../context/ToastContext";
 
-async function apiRequestToast<T>(
-    showToast: ShowToast,
+async function apiRequestFile(
     url: string,
-    options?: RequestInit
-): Promise<T | null> {
+    options: RequestInit,
+    showToast?: ShowToast
+): Promise<string | null> {
     try {
-        console.log("[apiRequest]");
+        console.log("[apiRequestFile]");
         const response = await fetch(url, options);
         console.log(response);
 
@@ -21,17 +21,16 @@ async function apiRequestToast<T>(
             } catch {
                 errorMessage = response.statusText;
             }
-
-            showToast(errorMessage, "Warning", "warning");
+            if (showToast) showToast(errorMessage, "Warning", "warning");
             return null;
-        } 
-        const json = await response.json();
-        console.log(response);
-        console.log(json);
-        return json as T;
+        }
+        const pdbFile: string = await response.text();
+        return pdbFile;
     } catch {
-        showToast("No se pudo conectar al servidor", "Error", "danger");
+        if (showToast)
+            showToast("No se pudo conectar al servidor", "Warning", "warning");
         return null;
     }
 }
-export default apiRequestToast;
+
+export default apiRequestFile;

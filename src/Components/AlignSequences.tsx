@@ -5,6 +5,8 @@ import type { Response } from "../types/Response";
 import DotPlot from "./Plots/DotPlot";
 import SequenceViewer from "./SequenceViewer";
 import type { DataAlign } from "../types/DataPlumber";
+import { useToastContext } from "../context/ToastContext";
+import { useSpinnerContext } from "../context/SpinnerContext";
 
 type Props = {
     setDataAlign: React.Dispatch<React.SetStateAction<DataAlign | undefined>>;
@@ -12,6 +14,7 @@ type Props = {
 
 function AlignSequences({ setDataAlign }: Props) {
     const { showToast } = useToastContext();
+    const { showSpinner, hideSpinner } = useSpinnerContext();
 
     const [pattern, setPattern] = useState<string>("");
     const [subject, setSubject] = useState<string>("");
@@ -32,15 +35,21 @@ function AlignSequences({ setDataAlign }: Props) {
             "type:",
             type
         );
-
-        const response: Response<DataAlign> = await GetAlign(
+        showSpinner();
+        const response: Response<DataAlign> | null = await GetAlign(
             //body
             pattern,
             subject,
             type,
             gapOpening,
-            gapExtension
+            gapExtension,
+            showToast
         );
+        if (!response || !response.data) {
+            hideSpinner();
+            return;
+        }
+        hideSpinner();
         console.log(response);
         setDataAlign(response.data);
     };

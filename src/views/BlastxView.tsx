@@ -16,7 +16,7 @@ import {
     InitJob,
     StatusJob,
 } from "../services/FoldingServices";
-import type { ProteinRanks } from "../types/ResponseFolding";
+import type { DataRanks, ProteinRanks } from "../types/ResponseFolding";
 import { useSpinnerContext } from "../context/SpinnerContext";
 import { useToastContext } from "../context/ToastContext";
 import { validateNucleotides } from "../utils/validateNucleotides";
@@ -100,7 +100,7 @@ function BlastxView() {
         setSequence("");
         setFrame(null);
         setProtein("");
-        setName("")
+        setName("");
     };
 
     //obtener traduccion segun el frame del hit seleccionado
@@ -142,8 +142,7 @@ function BlastxView() {
 
         const response: Response<string> | null = await InitJob(
             protein,
-            showToast,
-            "Prediccion iniciada en Neurosnap Alphafold2. Verifique el estado."
+            showToast
         );
         console.log(response);
         if (!response || !response.data) {
@@ -196,7 +195,11 @@ function BlastxView() {
         if (!jobId) return;
         event.preventDefault();
         showSpinner();
-        const ranks: Response<ProteinRanks> = await GetRanksJob(jobId);
+        const ranks = await GetRanksJob(jobId, showToast);
+        if (!ranks || !ranks.data) {
+            hideSpinner();
+            return;
+        }
         console.log(ranks);
         setRanks(ranks.data);
         hideSpinner();
@@ -213,19 +216,25 @@ function BlastxView() {
                 prediction: `prediction_${jobId}_rank${selected_rank}.pdb`,
                 reference: `reference_${accession}.pdb`,
             });
-            const pdbPrediction: string = await GetAlignPrediction(
+            const pdbPrediction: string | null = await GetAlignPrediction(
                 jobId!,
                 selected_rank,
-                accession
+                accession,
+                showToast
             );
             setPrediction(pdbPrediction);
-            const pdbReference: string = await GetModelReference(accession);
-            setReference(pdbReference);
-            const plddt: Response<pLDDTNeurosnap> = await GetpLDDTPrediction(
-                jobId!,
-                selected_rank
+            const pdbReference: string | null = await GetModelReference(
+                accession,
+                showToast
             );
-            setpLDDT(plddt.data.plddt);
+            setReference(pdbReference);
+            const plddt: Response<pLDDTNeurosnap> | null =
+                await GetpLDDTPrediction(jobId!, selected_rank, showToast);
+
+            if (plddt && plddt.data) {
+                setpLDDT(plddt.data.plddt);
+            }
+
             console.log(plddt);
             setModalStructureShow(true);
             hideSpinner();
