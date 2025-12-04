@@ -6,7 +6,7 @@ import type {
     DataStats,
     Location,
 } from "../types/DataPlumber";
-import React, { useState } from "react";
+import React, { useState, type FormEvent } from "react";
 import ButtonOverlay from "./ButtonOverlay";
 import { GetPercent, GetSequenceByRange } from "../services/PlumberServices";
 import { useSpinnerContext } from "../context/SpinnerContext";
@@ -21,9 +21,10 @@ import { GetComplement } from "../services/PythonServices";
 type Props = {
     dataPublic?: ResponsePublicSummary;
     dataPlumber?: DataFullDetail;
+    getUniprot: (event: FormEvent, select_unip: string) => Promise<void>;
 };
 
-function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
+function InfoFullDetail({ dataPublic, dataPlumber, getUniprot }: Props) {
     const { showSpinner, hideSpinner } = useSpinnerContext();
     const { showToast } = useToastContext();
 
@@ -39,7 +40,7 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
     ) => {
         event.preventDefault();
         console.log("PLUMBER: range:", range);
-        setTitle(`Sequence (Strand ${range.strand})`)
+        setTitle(`Sequence (Strand ${range.strand})`);
         setDataStats(null);
         showSpinner();
 
@@ -195,7 +196,15 @@ function InfoFullDetail({ dataPublic, dataPlumber }: Props) {
                                     {dataPlumber.uniprot_ids.map(
                                         (unip, idx) => (
                                             <React.Fragment key={idx}>
-                                                <Badge className="bg-warning m-1">
+                                                <Badge
+                                                    className="bg-warning m-1"
+                                                    onClick={(e) =>
+                                                        getUniprot(e, unip)
+                                                    }
+                                                    style={{
+                                                        cursor: "pointer",
+                                                    }}
+                                                >
                                                     {unip}
                                                 </Badge>
                                             </React.Fragment>

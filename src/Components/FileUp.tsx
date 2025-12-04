@@ -22,8 +22,8 @@ function FileUp({
     showTable,
     setShowTable,
     setSequence,
-    name, 
-    setName
+    name,
+    setName,
 }: Props) {
     const [modalShow, setModalShow] = useState<boolean>(false);
 

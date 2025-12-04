@@ -1,31 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import {
     Card,
     CardHeader,
     CardImg,
     Container,
     ListGroup,
-    Modal,
 } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
-import { GetDetail, GetStats } from "../services/PlumberServices";
+import { GetDetail } from "../services/PlumberServices";
 import { SummaryService } from "../services/PublicServices";
 import type { Response } from "../types/Response";
-import type {
-    DataDetail,
-    DataFullDetail,
-    DataStats,
-} from "../types/DataPlumber";
+import type { DataDetail, DataFullDetail } from "../types/DataPlumber";
 import ButtonOverlay from "../Components/ButtonOverlay";
 import InfoFullDetail from "../Components/InfoFullDetail";
 import { useParams } from "react-router-dom";
 import img from "../assets/chromosome.png";
 import InfoDetail from "../Components/InfoDetail";
-import SequenceShow from "../Components/SequenceShow";
-import PercentPlots from "../Components/PercentPlots";
-import ModalBasic from "../Components/ModalBasic";
 import { useToastContext } from "../context/ToastContext";
 import { useSpinnerContext } from "../context/SpinnerContext";
+import ModalUniprotDetail from "../Components/ModalUniprotDetail";
+import { GetModelReference } from "../services/FoldingServices";
+import { GetModel } from "../services/UniprotServices";
 
 function DetailView() {
     const { showToast } = useToastContext();
@@ -35,8 +30,9 @@ function DetailView() {
     const [detail, setDetail] = useState<DataDetail | null>(null);
     const [summary, setSummary] = useState<ResponsePublicSummary>();
     const [fullDetail, setFullDetail] = useState<DataFullDetail>();
-    const [dataStats, setDataStats] = useState<DataStats | null>(null);
-    const [showStats, setshowStats] = useState<boolean>(false);
+    const [modalUniprot, setModalUniprot] = useState<boolean>(false);
+    const [uniprotId, setUniprotId] = useState<string>("");
+    const [estructure, setEstructure] = useState<string>("");
 
     useEffect(() => {
         const fetchDetail = async () => {
@@ -80,30 +76,21 @@ function DetailView() {
         hideSpinner();
     };
 
-    //GET STATS DE LA SECUENCIA
-    const getStats = async (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
+    //GET UNIPROT
+    const getUniprot = async (event: FormEvent, select_unip: string) => {
         event.preventDefault();
         showSpinner();
+        setUniprotId(select_unip);
+        const response: string | null = await GetModel(select_unip, showToast);
 
-        const seqAndStats: Response<DataStats> | null = await GetStats(
-            entrezId!,
-            true,
-            showToast
-        );
-
-        if (!seqAndStats || !seqAndStats.data) {
+        if (!response) {
             hideSpinner();
             return;
         }
-        setDataStats(seqAndStats.data);
-        setshowStats(true);
+        setEstructure(response);
+        setModalUniprot(true);
         hideSpinner();
     };
-
-    
-
     return (
         <Container fluid className="pb-5 mt-3 mb-5">
             <Card className=" font-monospace text-muted text-small">
@@ -120,7 +107,9 @@ function DetailView() {
                             }}
                         />
 
-                        <h5 className="card-title mb-1">find:{searchInput ? searchInput : entrezId}</h5>
+                        <h5 className="card-title mb-1">
+                            find:{searchInput ? searchInput : entrezId}
+                        </h5>
                     </div>
                     <div className="gap-2 d-flex align-items-center">
                         <ButtonOverlay
@@ -130,13 +119,6 @@ function DetailView() {
                             variant="outline-secondary"
                             size="lg"
                         />
-                        {/*<ButtonOverlay
-                            textHover={"Sequence"}
-                            typeIcon={"finger"}
-                            onClick={(event) => getStats(event)}
-                            variant="outline-primary"
-                            size="lg"
-                        />*/}
                     </div>
                 </CardHeader>
             </Card>
@@ -149,27 +131,16 @@ function DetailView() {
                         <InfoFullDetail
                             dataPublic={summary}
                             dataPlumber={fullDetail}
+                            getUniprot={getUniprot}
                         />
                     </ListGroup>
-                    {/* LOS STATS */}
-                    <ModalBasic
-                        modalShow={showStats}
-                        setModalShow={setshowStats}
-                        size={"xl"}
-                        title={"Sequence and Stats"}
-                    >
-                        <Modal.Body>
-                            {dataStats && (
-                                <>
-                                    <SequenceShow
-                                        row={4}
-                                        sequence={dataStats.sequence}
-                                    />
-                                    <PercentPlots dataStats={dataStats} />
-                                </>
-                            )}
-                        </Modal.Body>
-                    </ModalBasic>
+                    {/* MODAL PROTEINS */}
+                    <ModalUniprotDetail
+                        modalShow={modalUniprot}
+                        setModalShow={setModalUniprot}
+                        estructure={estructure}
+                        uniprotId={uniprotId}
+                    />
                 </Card.Body>
             </Card>
         </Container>
