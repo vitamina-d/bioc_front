@@ -20,7 +20,7 @@ function ConfigAPIKey({ setModalShow }: Props) {
     const [show, setShow] = useState(false);
 
     useEffect(() => {
-        const key = localStorage.getItem("APIKey");
+        const key = sessionStorage.getItem("APIKey");
         if (key != null) {
             setAPIKey(key);
         }
@@ -29,14 +29,14 @@ function ConfigAPIKey({ setModalShow }: Props) {
 
     const saveAPIKey = (event: FormEvent) => {
         event.preventDefault();
-        localStorage.setItem("APIKey", APIkey);
+        sessionStorage.setItem("APIKey", APIkey);
         showToast("La API Key ha sido guardada.", "Success", "primary");
         setModalShow(false);
     };
     const deleteAPIKey = (event: FormEvent) => {
         event.preventDefault();
         setAPIKey("");
-        localStorage.removeItem("APIKey");
+        sessionStorage.removeItem("APIKey");
         showToast("La API Key ha sido eliminada.", "Success", "primary");
     };
 

@@ -2,7 +2,7 @@ import { DOTNET_FOLD_URL } from "../config/urls";
 import type { ShowToast } from "../context/ToastContext";
 import type { pLDDTModel, pLDDTNeurosnap } from "../types/pLDDT";
 import type { Response } from "../types/Response";
-import type { DataRanks, ProteinRanks } from "../types/ResponseFolding";
+import type { ProteinRanks } from "../types/ResponseFolding";
 import apiRequest from "../wrapper/apiRequest";
 import apiRequestFile from "../wrapper/apiRequestFile";
 
@@ -12,7 +12,7 @@ const InitJob = async (
     showToast: ShowToast
 ): Promise<Response<string> | null> => {
     console.log("[FOLD] POST /init");
-    const APIKey = localStorage.getItem("APIKey");
+    const APIKey = sessionStorage.getItem("APIKey");
     /*const url = `${DOTNET_FOLD_URL}/init`;
     const options: RequestInit = {
         method: "POST",
@@ -40,7 +40,7 @@ const StatusJob = async (
     showToast: ShowToast
 ): Promise<Response<string> | null> => {
     console.log("[FOLD] POST /status/jobId");
-    const APIKey = localStorage.getItem("APIKey");
+    const APIKey = sessionStorage.getItem("APIKey");
     const url = `${DOTNET_FOLD_URL}/status/${jobId}`;
     const options: RequestInit = {
         method: "GET",
@@ -58,7 +58,7 @@ const GetRanksJob = async (
     showToast: ShowToast
 ): Promise<Response<ProteinRanks> | null> => {
     console.log("[FOLD] GET /job/ranks");
-    const APIKey = localStorage.getItem("APIKey");
+    const APIKey = sessionStorage.getItem("APIKey");
     const url = `${DOTNET_FOLD_URL}/job/${jobId}/ranks`;
     const options: RequestInit = {
         method: "GET",
@@ -81,7 +81,7 @@ const GetAlignPrediction = async (
     showToast: ShowToast
 ): Promise<string | null> => {
     console.log("[FOLD] GET /job/rank/accession");
-    const APIKey = localStorage.getItem("APIKey");
+    const APIKey = sessionStorage.getItem("APIKey");
     const url = `${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/align/${accession}`;
     const options: RequestInit = {
         method: "GET",
@@ -99,7 +99,7 @@ const GetpLDDTPrediction = async (
     showToast: ShowToast
 ): Promise<Response<pLDDTNeurosnap> | null> => {
     console.log("[FOLD] GET /api/Folding/job/rank/pLDDT");
-    const APIKey = localStorage.getItem("APIKey");
+    const APIKey = sessionStorage.getItem("APIKey");
     const url = `${DOTNET_FOLD_URL}/job/${jobId}/rank_${rank}/pLDDT`;
     const options: RequestInit = {
         method: "GET",
