@@ -13,7 +13,7 @@ function CompareProteinViewer({
     prediction,
     predictionpLDDT,
     reference,
-    style = "cartoon",
+    style,
     showReference,
 }: Props) {
     const htmlElem = useRef<HTMLDivElement>(null);
@@ -74,6 +74,7 @@ function CompareProteinViewer({
                 height: "400px",
                 position: "relative",
             }}
+            className=""
         />
     );
 }

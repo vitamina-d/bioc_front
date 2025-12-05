@@ -5,6 +5,8 @@ import { plddt } from "../config/plddt";
 import PLDDT from "./PLDDT";
 import Dropdown3DMolType from "./Dropdown3DMolType";
 import DownloadButtons from "./DownloadButtons";
+import Secondary from "./Secondary";
+import type { Hit } from "../types/DataBlastx";
 
 type Props = {
     prediction: string | null;
@@ -14,6 +16,7 @@ type Props = {
         prediction: string;
         reference: string;
     };
+    hit: Hit | null;
 };
 
 function ModalBodyEstructures({
@@ -21,6 +24,7 @@ function ModalBodyEstructures({
     reference,
     pLDDT,
     filenames,
+    hit,
 }: Props) {
     const [showReference, setShowReference] = useState<boolean>(true);
     const [type, setType] = useState<"stick" | "cartoon" | "line" | "sphere">(
@@ -28,24 +32,37 @@ function ModalBodyEstructures({
     );
 
     return (
-        <Row>
-            <Col md={3} className="border-end pe-3 font-monospace small">
-                <Form.Check
-                    label="Show Reference"
-                    type="checkbox"
-                    checked={showReference}
-                    disabled={reference == null}
-                    onChange={() => setShowReference(!showReference)}
-                />
-                <p>transparencia</p>
-                <Dropdown3DMolType type={type} setType={setType} />
-                <DownloadButtons
-                    prediction={prediction}
-                    reference={reference}
-                    filenames={filenames}
-                />
-            </Col>
-            <Col md={9} className="border-end pe-3">
+        <>
+            <Row className="p-0">
+                <Col sm={12} lg={9} className=" p-0 ">
+                    {hit
+                        ? hit.hsps.map((hit) => (
+                              <Secondary
+                                  key={"hit-aminoacids"}
+                                  hseq={hit.hseq}
+                                  qseq={hit.qseq}
+                              />
+                          ))
+                        : ""}
+                </Col>
+                <Col sm={12} lg={3} className="font-monospace small">
+                    <Dropdown3DMolType type={type} setType={setType} />
+                    <Form.Check
+                    className="d-flex justify-content-end"
+                        label="Show Reference"
+                        type="checkbox"
+                        checked={showReference}
+                        disabled={reference == null}
+                        onChange={() => setShowReference(!showReference)}
+                    />
+                    <DownloadButtons
+                        prediction={prediction}
+                        reference={reference}
+                        filenames={filenames}
+                    />
+                </Col>
+            </Row>
+            <Row  className="border-end">
                 <CompareProteinViewer
                     prediction={prediction}
                     reference={reference}
@@ -58,8 +75,8 @@ function ModalBodyEstructures({
                         <PLDDT text={value.text} color={value.color} />
                     ))}
                 </div>
-            </Col>
-        </Row>
+            </Row>
+        </>
     );
 }
 

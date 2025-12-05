@@ -311,6 +311,7 @@ function BlastxView() {
                 reference={reference}
                 pLDDT={pLDDT}
                 filenames={filenames}
+                hit={hit}
             />
         </Container>
     );

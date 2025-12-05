@@ -8,7 +8,6 @@ type Props = {
 };
 
 function TableRanks({ data, selected, selectRankToCompare }: Props) {
-    //const data = { "1": 7.8, "2": 4.97, "3": 4.71, "4": 5.85, "5": 6.44 };
     var min: number = 100;
     const ranks = Object.entries(data).map(([key, value]) => {
         if (value < min) {

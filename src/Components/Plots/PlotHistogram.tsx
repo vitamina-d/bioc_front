@@ -24,10 +24,10 @@ function PlotHistogram({ title, values, lenght, window }: Props) {
                 },
                 {
                     x: values,
-                    y: values.map(() => -0.3),
+                    y: values.map(() => -0.03),
                     type: "scatter",
                     mode: "lines+markers",
-                    marker: { size: 15, opacity: 0.1 },
+                    marker: { size: 15, opacity: 0.05 },
                 },
             ]}
             layout={{
@@ -47,7 +47,7 @@ function PlotHistogram({ title, values, lenght, window }: Props) {
                 legend: {
                     orientation: "h",
                     x: 0.5,
-                    y: -0.3,
+                    y: -0.1,
                     xanchor: "center",
                     yanchor: "top",
                 },

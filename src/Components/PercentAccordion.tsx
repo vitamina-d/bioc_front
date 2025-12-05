@@ -55,7 +55,6 @@ function PercentAccordion({ data }: Props) {
                         CpG islands histogram/bar
                     </Accordion.Header>
                     <Accordion.Body>
-                        {" "}
                         <PlotHistogram
                             title=""
                             values={island}
@@ -64,14 +63,6 @@ function PercentAccordion({ data }: Props) {
                         />
                     </Accordion.Body>
                 </Accordion.Item>
-
-                {/*<Accordion.Item eventKey="2">
-                    <Accordion.Header>CpG islands Scatter</Accordion.Header>
-                    <Accordion.Body>
-                        {" "}
-                        <PlotScatter title="" x={island} />
-                    </Accordion.Body>
-                </Accordion.Item>*/}
             </Accordion>
         )
     );

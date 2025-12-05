@@ -2,6 +2,7 @@ import { Card } from "react-bootstrap";
 import ModalBasic from "./ModalBasic";
 import ModalBodyEstructures from "./ModalBodyEstructures";
 import type React from "react";
+import type { Hit } from "../types/DataBlastx";
 
 type Props = {
     prediction: string | null;
@@ -13,6 +14,7 @@ type Props = {
         prediction: string;
         reference: string;
     };
+    hit: Hit | null;
 };
 
 function ModalEstructures({
@@ -22,6 +24,7 @@ function ModalEstructures({
     reference,
     pLDDT,
     filenames,
+    hit,
 }: Props) {
     return (
         <ModalBasic
@@ -36,6 +39,7 @@ function ModalEstructures({
                     reference={reference}
                     pLDDT={pLDDT}
                     filenames={filenames}
+                    hit={hit}
                 />
             </Card.Body>
         </ModalBasic>

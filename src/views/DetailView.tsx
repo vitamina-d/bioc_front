@@ -19,7 +19,6 @@ import InfoDetail from "../Components/InfoDetail";
 import { useToastContext } from "../context/ToastContext";
 import { useSpinnerContext } from "../context/SpinnerContext";
 import ModalUniprotDetail from "../Components/ModalUniprotDetail";
-import { GetModelReference } from "../services/FoldingServices";
 import { GetModel } from "../services/UniprotServices";
 
 function DetailView() {
@@ -33,6 +32,7 @@ function DetailView() {
     const [modalUniprot, setModalUniprot] = useState<boolean>(false);
     const [uniprotId, setUniprotId] = useState<string>("");
     const [estructure, setEstructure] = useState<string>("");
+    const [selectedUniprot, setSelectedUniprot] = useState<string>("");
 
     useEffect(() => {
         const fetchDetail = async () => {
@@ -79,6 +79,11 @@ function DetailView() {
     //GET UNIPROT
     const getUniprot = async (event: FormEvent, select_unip: string) => {
         event.preventDefault();
+        if (selectedUniprot == select_unip) {
+            setModalUniprot(true);
+            return;
+        }
+        setSelectedUniprot(select_unip);
         showSpinner();
         setUniprotId(select_unip);
         const response: string | null = await GetModel(select_unip, showToast);
@@ -132,6 +137,7 @@ function DetailView() {
                             dataPublic={summary}
                             dataPlumber={fullDetail}
                             getUniprot={getUniprot}
+                            selectedUniprot={selectedUniprot}
                         />
                     </ListGroup>
                     {/* MODAL PROTEINS */}

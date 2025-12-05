@@ -24,13 +24,13 @@ function DownloadButtons({ prediction, reference, filenames }: Props) {
     };
 
     return (
-        <div>
+        <div className="d-flex justify-content-between">
             {prediction && (
                 <OverlayTrigger
                     overlay={<Tooltip>Download Prediction</Tooltip>}
                 >
                     <Button
-                        variant="primary"
+                        variant="light"
                         size="sm"
                         onClick={() =>
                             downloadFile(
@@ -40,6 +40,7 @@ function DownloadButtons({ prediction, reference, filenames }: Props) {
                         }
                     >
                         <Icon type={"download"} />
+                        {" "}PREDICTION
                     </Button>
                 </OverlayTrigger>
             )}
@@ -57,6 +58,7 @@ function DownloadButtons({ prediction, reference, filenames }: Props) {
                         }
                     >
                         <Icon type={"download"} />
+                        {" "}REFERENCE
                     </Button>
                 </OverlayTrigger>
             )}

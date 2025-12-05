@@ -43,8 +43,8 @@ export const ToastProvider = ({ children }: Props) => {
         const date = Date.now();
         const addToast: Toast = { date, message, type, status };
         setToasts((stack) => [...stack, addToast]);
+        setToasts((stack) => stack.filter((toast) => toast.date !== date));
         setTimeout(() => {
-            setToasts((stack) => stack.filter((toast) => toast.date !== date));
         }, 100000);
     };
 

@@ -1,4 +1,12 @@
-import { Badge, Col, ListGroup, Modal, Row } from "react-bootstrap";
+import {
+    Badge,
+    Col,
+    ListGroup,
+    Modal,
+    OverlayTrigger,
+    Row,
+    Tooltip,
+} from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import type {
     DataFullDetail,
@@ -22,9 +30,15 @@ type Props = {
     dataPublic?: ResponsePublicSummary;
     dataPlumber?: DataFullDetail;
     getUniprot: (event: FormEvent, select_unip: string) => Promise<void>;
+    selectedUniprot: string;
 };
 
-function InfoFullDetail({ dataPublic, dataPlumber, getUniprot }: Props) {
+function InfoFullDetail({
+    dataPublic,
+    dataPlumber,
+    getUniprot,
+    selectedUniprot,
+}: Props) {
     const { showSpinner, hideSpinner } = useSpinnerContext();
     const { showToast } = useToastContext();
 
@@ -196,17 +210,30 @@ function InfoFullDetail({ dataPublic, dataPlumber, getUniprot }: Props) {
                                     {dataPlumber.uniprot_ids.map(
                                         (unip, idx) => (
                                             <React.Fragment key={idx}>
-                                                <Badge
-                                                    className="bg-warning m-1"
-                                                    onClick={(e) =>
-                                                        getUniprot(e, unip)
+                                                <OverlayTrigger
+                                                    overlay={
+                                                        <Tooltip>
+                                                            View structure
+                                                        </Tooltip>
                                                     }
-                                                    style={{
-                                                        cursor: "pointer",
-                                                    }}
                                                 >
-                                                    {unip}
-                                                </Badge>
+                                                    <Badge
+                                                        className={`m-1 bg-${
+                                                            selectedUniprot ==
+                                                            unip
+                                                                ? "success"
+                                                                : "warning"
+                                                        }`}
+                                                        onClick={(e) =>
+                                                            getUniprot(e, unip)
+                                                        }
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                    >
+                                                        {unip}
+                                                    </Badge>
+                                                </OverlayTrigger>
                                             </React.Fragment>
                                         )
                                     )}
