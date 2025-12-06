@@ -61,13 +61,8 @@ function SectionPredict({
             <Card.Body className="p-3">
                 <ListGroup className="mb-3 font-monospace" variant="flush">
                     <ListGroup.Item>
-                        <Row>
-                            <Col xs={3}>FALTA</Col>
-                            <Col xs={9}>Agregar datos del hit</Col>
-                        </Row>
-
                         <Row className="my-1">
-                            <Col xs={3}>ACCESSION</Col>
+                            <Col xs={3}>HIT ACCESSION</Col>
                             <Col xs={9}>
                                 <Badge className="p-2" bg="danger">
                                     {hit.description[0].accession}
@@ -75,19 +70,19 @@ function SectionPredict({
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={3}>TITLE</Col>
+                            <Col xs={3}>HIT TITLE</Col>
                             <Col xs={9}>{hit.description[0].title}</Col>
                         </Row>
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <Row>
-                            <Col xs={3}>FRAME</Col>
+                            <Col xs={3}>HIT FRAME</Col>
                             <Col xs={9}>{hit.hsps[0].query_frame}</Col>
                         </Row>
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <Row>
-                            <Col xs={3}>PROTEIN TRADUCTION</Col>
+                            <Col xs={3}>QUERY TRADUCTION</Col>
                             <Col xs={6}>{protein}</Col>
                             <Col xs={3}>
                                 {showButton && (
@@ -98,8 +93,7 @@ function SectionPredict({
                                             size={"sm"}
                                             onClick={initJobPrediction}
                                         >
-                                            get prediction
-                                        </Button>
+INIT PREDICTION                                        </Button>
                                     </div>
                                 )}
                             </Col>

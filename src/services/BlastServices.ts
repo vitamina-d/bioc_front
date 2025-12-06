@@ -1,4 +1,4 @@
-import { DOTNET_BLAST_URL } from "../config/urls";
+import { DOTNET_BLAST_URL } from "../constant/urls";
 import type { ShowToast } from "../context/ToastContext";
 import type { BlastxReport } from "../types/DataBlastx";
 import type { Response } from "../types/Response";
@@ -23,10 +23,13 @@ const PostBlastx = async (
     const json = await apiRequest<Response<BlastxReport>>(
         url,
         options,
-        showToast,
+        showToast
     );
 
-    if (json?.data.results.search.hits == null || json?.data.results.search.hits.length == 0) {
+    if (
+        json?.data.results.search.hits == null ||
+        json?.data.results.search.hits.length == 0
+    ) {
         showToast("No se encontraron matches", "Success", "primary");
         return null;
     }

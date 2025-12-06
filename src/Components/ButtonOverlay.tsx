@@ -6,7 +6,7 @@ import {
     type ButtonProps,
 } from "react-bootstrap";
 import { Icon } from "./Icon";
-import type { TypesIcon } from "../config/iconPaths";
+import type { TypesIcon } from "../constant/iconPaths";
 
 type Props = {
     textHover: string;

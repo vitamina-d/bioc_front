@@ -64,7 +64,7 @@ function FastaReadTable({
                     style={{
                         overflowY: "auto",
                         overflowX: "auto",
-                        maxHeight: "45vh",
+                        maxHeight: "35vh",
                     }}
                 >
                     <Table bordered hover className="font-monospace small">

@@ -1,5 +1,5 @@
 import { Col, Row } from "react-bootstrap";
-import { aminoacidColors } from "../config/aminoacidColors";
+import { aminoacidColors } from "../constant/aminoacidColors";
 
 type Props = {
     hseq: string;
@@ -32,10 +32,7 @@ function Secondary({ hseq, qseq }: Props) {
             {blocks.map((block, blockIndex) => (
                 <div key={blockIndex} className="m-2">
                     <Row className="fw-bold font-monospace">
-                        <Col
-                            sm={2}
-                            style={{ fontSize: "small" }}
-                        >
+                        <Col sm={2} style={{ fontSize: "small" }}>
                             {`REF (${block.range})`}{" "}
                         </Col>
                         <Col sm={10}>
@@ -43,7 +40,10 @@ function Secondary({ hseq, qseq }: Props) {
                                 <span
                                     key={i}
                                     className="p-1"
-                                    style={{ color: aminoacidColors[aa], fontSize: "small" }}
+                                    style={{
+                                        color: aminoacidColors[aa],
+                                        fontSize: "small",
+                                    }}
                                 >
                                     {aa}
                                 </span>
@@ -52,10 +52,7 @@ function Secondary({ hseq, qseq }: Props) {
                     </Row>
 
                     <Row className="fw-bold font-monospace">
-                        <Col
-                            sm={2}
-                            style={{ fontSize: "small" }}
-                        >
+                        <Col sm={2} style={{ fontSize: "small" }}>
                             {`PRED (${block.range})`}{" "}
                         </Col>
                         <Col sm={10}>
@@ -63,7 +60,10 @@ function Secondary({ hseq, qseq }: Props) {
                                 <span
                                     key={i}
                                     className="p-1"
-                                    style={{ color: aminoacidColors[aa], fontSize: "small" }}
+                                    style={{
+                                        color: aminoacidColors[aa],
+                                        fontSize: "small",
+                                    }}
                                 >
                                     {aa}
                                 </span>

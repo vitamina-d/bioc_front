@@ -1,6 +1,6 @@
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import type { Response } from "../types/Response";
-import { DOTNET_PUBLIC_URL } from "../config/urls";
+import { DOTNET_PUBLIC_URL } from "../constant/urls";
 import type { ShowToast } from "../context/ToastContext";
 import apiRequest from "../wrapper/apiRequest";
 

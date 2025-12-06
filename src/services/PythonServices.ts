@@ -1,4 +1,4 @@
-import { DOTNET_PYTHON_URL } from "../config/urls";
+import { DOTNET_PYTHON_URL } from "../constant/urls";
 import type { Response } from "../types/Response";
 import type { Sequence } from "../types/DataPython";
 import type { ShowToast } from "../context/ToastContext";

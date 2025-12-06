@@ -3,7 +3,7 @@ import Plot from "react-plotly.js";
 import {
     bootstrap_colors,
     nucleotideColors,
-} from "../../config/nucleotideColors";
+} from "../../constant/nucleotideColors";
 import type { DataAlign } from "../../types/DataPlumber";
 
 type Props = {

@@ -23,7 +23,7 @@ function ModalBasic({ modalShow, setModalShow, size, title, children }: Props) {
             <Modal.Body
                 className="mx-3 small"
                 style={{
-                    maxHeight: "65vh",
+                    maxHeight: "70vh",
                     overflowY: "auto",
                 }}
             >

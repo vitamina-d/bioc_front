@@ -16,7 +16,7 @@ import {
     InitJob,
     StatusJob,
 } from "../services/FoldingServices";
-import type { DataRanks, ProteinRanks } from "../types/ResponseFolding";
+import type { ProteinRanks } from "../types/ResponseFolding";
 import { useSpinnerContext } from "../context/SpinnerContext";
 import { useToastContext } from "../context/ToastContext";
 import { validateNucleotides } from "../utils/validateNucleotides";
@@ -101,6 +101,7 @@ function BlastxView() {
         setFrame(null);
         setProtein("");
         setName("");
+        setHit(null);
     };
 
     //obtener traduccion segun el frame del hit seleccionado
@@ -265,7 +266,7 @@ function BlastxView() {
                             onClick={(event) => getBlastxReport(event)}
                             disabled={sequence == ""}
                         >
-                            get hits
+                            get blastx hits
                         </Button>
                     ) : (
                         <Button
@@ -273,7 +274,7 @@ function BlastxView() {
                             size={"sm"}
                             onClick={() => setModalShow(true)}
                         >
-                            show hits
+                            SHOW HITS{" "}
                         </Button>
                     )}
                 </div>

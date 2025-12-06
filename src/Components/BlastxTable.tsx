@@ -27,7 +27,7 @@ function BlastxTable({ hits, setHit }: Props) {
             }}
         >
             <Table
-                className="font-monospace fontsize-sm "
+                className="font-monospace fontsize-sm text-center"
                 bordered
                 hover
                 size="sm"
@@ -45,20 +45,67 @@ function BlastxTable({ hits, setHit }: Props) {
                 >
                     <tr key={"blastxtable"}>
                         <th>Hit</th>
-                        <th>Len</th>
-
-                        <th>Bitscore</th>
-                        <th>Score</th>
-                        <th>Evalue</th>
-                        <th>Identity</th>
-                        <th>Positive</th>
-
+                        <OverlayTrigger
+                            overlay={
+                                <Tooltip>
+                                    Hit Length - Longitud de la proteina
+                                    objetivo
+                                </Tooltip>
+                            }
+                        >
+                            <th>Len</th>
+                        </OverlayTrigger>
+                        <OverlayTrigger overlay={<Tooltip>Bitscore</Tooltip>}>
+                            <th>BS</th>
+                        </OverlayTrigger>
+                        <OverlayTrigger overlay={<Tooltip>Score</Tooltip>}>
+                            <th>S</th>
+                        </OverlayTrigger>
+                        <OverlayTrigger
+                            overlay={
+                                <Tooltip>
+                                    Probabilidad de coincidencia aleatoria
+                                </Tooltip>
+                            }
+                        >
+                            <th>E-value</th>
+                        </OverlayTrigger>
+                        <OverlayTrigger
+                            overlay={
+                                <Tooltip>
+                                    Identity - Porcentaje de identidades exactas
+                                </Tooltip>
+                            }
+                        >
+                            <th>Id%</th>
+                        </OverlayTrigger>
+                        <OverlayTrigger
+                            overlay={
+                                <Tooltip>
+                                    Positive - Porcentaje de coincidencias
+                                    conservadas
+                                </Tooltip>
+                            }
+                        >
+                            <th>Pos%</th>
+                        </OverlayTrigger>
                         <th>Name</th>
                         <th>Specie</th>
-                        <th>Taxid</th>
+                        <OverlayTrigger
+                            overlay={
+                                <Tooltip>
+                                    Identificador taxonómico NCBI
+                                </Tooltip>
+                            }
+                        >
+                            <th>TaxID</th>
+                        </OverlayTrigger>
                         <th>Gene</th>
-                        <th>Accession</th>
-
+                        <OverlayTrigger
+                            overlay={<Tooltip>Identificador en la BD</Tooltip>}
+                        >
+                            <th>Accession</th>
+                        </OverlayTrigger>
                         <th>More</th>
                         <th>Go</th>
                     </tr>
@@ -81,8 +128,8 @@ function BlastxTable({ hits, setHit }: Props) {
                                     <td>{hit.hsps[0].bit_score}</td>
                                     <td>{hit.hsps[0].score}</td>
                                     <td>{hit.hsps[0].evalue}</td>
-                                    <td>{hit.hsps[0].identity}</td>
-                                    <td>{hit.hsps[0].positive}</td>
+                                    <td>{hit.hsps[0].identity}%</td>
+                                    <td>{hit.hsps[0].positive}%</td>
                                     {hit.description.map((item) => {
                                         accession.push(item.accession);
                                         //7-dehydrocholesterol reductase OS=Mus musculus OX=10090 GN=Dhcr7 PE=1 SV=1

@@ -1,4 +1,4 @@
-import { DOTNET_BIOCONDUCTOR_URL } from "../config/urls";
+import { DOTNET_BIOCONDUCTOR_URL } from "../constant/urls";
 import type { Response } from "../types/Response";
 import type {
     DataAlign,

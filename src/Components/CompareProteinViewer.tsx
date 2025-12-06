@@ -71,7 +71,7 @@ function CompareProteinViewer({
             ref={htmlElem}
             style={{
                 width: "100%",
-                height: "400px",
+                height: "300px",
                 position: "relative",
             }}
             className=""

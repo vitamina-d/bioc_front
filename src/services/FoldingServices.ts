@@ -1,4 +1,4 @@
-import { DOTNET_FOLD_URL } from "../config/urls";
+import { DOTNET_FOLD_URL } from "../constant/urls";
 import type { ShowToast } from "../context/ToastContext";
 import type { pLDDTModel, pLDDTNeurosnap } from "../types/pLDDT";
 import type { Response } from "../types/Response";
