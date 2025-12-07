@@ -18,25 +18,25 @@ function ConfigAPIKey({ setModalShow }: Props) {
     const { showToast } = useToastContext();
     const [APIkey, setAPIKey] = useState<string>("");
     const [show, setShow] = useState(false);
-
+    const name: string= "API-KEY";
     useEffect(() => {
-        const key = sessionStorage.getItem("APIKey");
+        const key = sessionStorage.getItem(name);
         if (key != null) {
             setAPIKey(key);
         }
-        console.log(key)
     }, []);
 
     const saveAPIKey = (event: FormEvent) => {
         event.preventDefault();
-        sessionStorage.setItem("APIKey", APIkey);
+        sessionStorage.clear();
+        sessionStorage.setItem(name, APIkey);
         showToast("La API Key ha sido guardada.", "Success", "primary");
         setModalShow(false);
     };
     const deleteAPIKey = (event: FormEvent) => {
         event.preventDefault();
         setAPIKey("");
-        sessionStorage.removeItem("APIKey");
+        sessionStorage.clear();
         showToast("La API Key ha sido eliminada.", "Success", "primary");
     };
 
