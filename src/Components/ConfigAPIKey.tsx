@@ -9,7 +9,7 @@ import {
 import { useEffect, useState, type FormEvent } from "react";
 import { useToastContext } from "../context/ToastContext";
 import { Icon } from "./Icon";
-
+import { apiKeyName } from "./../constant/apiKeyName";
 type Props = {
     setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -18,9 +18,8 @@ function ConfigAPIKey({ setModalShow }: Props) {
     const { showToast } = useToastContext();
     const [APIkey, setAPIKey] = useState<string>("");
     const [show, setShow] = useState(false);
-    const name: string= "API-KEY";
     useEffect(() => {
-        const key = sessionStorage.getItem(name);
+        const key = sessionStorage.getItem(apiKeyName);
         if (key != null) {
             setAPIKey(key);
         }
@@ -29,7 +28,7 @@ function ConfigAPIKey({ setModalShow }: Props) {
     const saveAPIKey = (event: FormEvent) => {
         event.preventDefault();
         sessionStorage.clear();
-        sessionStorage.setItem(name, APIkey);
+        sessionStorage.setItem(apiKeyName, APIkey);
         showToast("La API Key ha sido guardada.", "Success", "primary");
         setModalShow(false);
     };
