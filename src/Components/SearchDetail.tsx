@@ -23,12 +23,10 @@ function SearchDetail({ setModalShow }: Props) {
     //click en Searcher DETAIL BREVE - submit
     const getEntrezByValue = async (e: React.FormEvent) => {
         e.preventDefault();
-
         if (search == "") {
             showToast("Ingrese un value. ", "Warning", "warning");
             return;
         }
-
         showSpinner();
 
         setModalShow(false);
@@ -44,6 +42,7 @@ function SearchDetail({ setModalShow }: Props) {
             !getEntrezByValue.data.entrez
         ) {
             hideSpinner();
+            showToast("Ingrese un alias válido.", "Warning", "warning");
             return;
         }
 

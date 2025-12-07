@@ -154,12 +154,12 @@ const getEntrez = async (
 };
 
 export {
-    GetAlign,
     GetAutocomplete,
+    GetAlign,
     GetDetail,
     GetPercent,
+    GetSequenceByRange,
     GetSequence,
     GetStats,
-    GetSequenceByRange,
     getEntrez,
 };
