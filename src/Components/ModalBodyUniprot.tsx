@@ -28,11 +28,11 @@ function ModalBodyUniprot({ estructure, uniprotId }: Props) {
 
         //ESTRUCTURE
         viewer.addModel(estructure, "pdb");
-       
+
         viewer.setStyle(
             { model: 0 },
             {
-                [type]: {color:'spectrum'},
+                [type]: { color: "spectrum" },
             }
         );
 
@@ -41,32 +41,41 @@ function ModalBodyUniprot({ estructure, uniprotId }: Props) {
     }, [estructure, type]);
 
     return (
-        <Row>
-            <Col md={3} className="border-end pe-3 font-monospace small">
-                <Dropdown3DMolType type={type} setType={setType} />
-                <OverlayTrigger overlay={<Tooltip>Download PDB</Tooltip>}>
-                    <Button
-                        variant="primary"
-                        size="sm"
-                        onClick={() =>
-                            downloadFile(estructure, uniprotId ?? "file.pdb")
-                        }
-                    >
-                        <Icon type={"download"} />
-                    </Button>
-                </OverlayTrigger>
-            </Col>
-            <Col md={9} className="border-end pe-3">
-                <div
-                    ref={htmlElem}
-                    style={{
-                        width: "100%",
-                        height: "400px",
-                        position: "relative",
-                    }}
-                />
-            </Col>
-        </Row>
+        <>
+            <Row className="p-0">
+                <Col sm={12} lg={9} className=" p-0 ">
+                    <div
+                        ref={htmlElem}
+                        style={{
+                            width: "100%",
+                            height: "400px",
+                            position: "relative",
+                        }}
+                    />
+                </Col>
+                <Col sm={12} lg={3} className="font-monospace small">
+                    <Dropdown3DMolType type={type} setType={setType} />
+                    <div className="d-flex justify-content-end py-3">
+                        <OverlayTrigger
+                            overlay={<Tooltip>Download PDB</Tooltip>}
+                        >
+                            <Button
+                                variant="light"
+                                size="sm"
+                                onClick={() =>
+                                    downloadFile(
+                                        estructure,
+                                        uniprotId ?? "file.pdb"
+                                    )
+                                }
+                            >
+                                <Icon type={"download"} /> DOWNLOAD STRUCTURE
+                            </Button>
+                        </OverlayTrigger>{" "}
+                    </div>
+                </Col>
+            </Row>
+        </>
     );
 }
 

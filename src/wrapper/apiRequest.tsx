@@ -11,15 +11,19 @@ async function apiRequest<T>(
         console.log(response);
 
         if (!response.ok) {
-            var errorMessage = `Error ${response.status}`;
+            let errorMessage = `Error ${response.status}`;
 
-            try {
-                const errorJson = await response.json();
-                if (errorJson?.message) {
-                    errorMessage = errorJson.message;
+            const text = await response.text();
+            if (text) {
+                try {
+                    const errJson = JSON.parse(text);
+                    if (errJson?.message) {
+                        errorMessage = errJson.message;
+                    }
+                } catch {
+                    // No es JSON → usar el texto crudo
+                    errorMessage = text || errorMessage;
                 }
-            } catch {
-                errorMessage = response.statusText;
             }
             if (showToast) showToast(errorMessage, "Warning", "warning");
             return null;

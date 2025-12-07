@@ -48,7 +48,7 @@ function ModalBodyEstructures({
                 <Col sm={12} lg={3} className="font-monospace small">
                     <Dropdown3DMolType type={type} setType={setType} />
                     <Form.Check
-                        className="d-flex justify-content-end"
+                    className="d-flex justify-content-end"
                         label="Show Reference"
                         type="checkbox"
                         checked={showReference}
@@ -62,7 +62,7 @@ function ModalBodyEstructures({
                     />
                 </Col>
             </Row>
-            <Row className="border-end">
+            <Row  className="border-end">
                 <CompareProteinViewer
                     prediction={prediction}
                     reference={reference}

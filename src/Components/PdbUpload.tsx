@@ -14,21 +14,12 @@ function PdbUpload({ setFile }: Props) {
             const file = event.target.files[0];
             setName(file.name);
             setFile(file);
-            //console.log(file);
-            //console.log(file.name);
-
-            const reader = new FileReader();
-            reader.readAsText(file);
-            reader.onload = (e) => {
-                const text = e.target?.result as string;
-                console.log(text);
-            };
         }
     };
 
     return (
         <>
-            <Form className="d-flex justify-content-center">
+            <Form className="d-flex justify-content-center align-items-center">
                 <Button
                     className="align-items-center"
                     size="sm"
