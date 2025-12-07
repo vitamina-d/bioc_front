@@ -72,8 +72,9 @@ function SearchView() {
         showSpinner();
 
         console.log("PLUMBER: chr:", chr, "start", start, "end", end);
-        if (!chr) {
-            showToast("Ingrese un cromosoma valido.", "Warning", "warning");
+        if (!chr || !start || !end) {
+            hideSpinner();
+            showToast("Ingrese cromosoma y rango validos.", "Warning", "warning");
             return;
         }
 

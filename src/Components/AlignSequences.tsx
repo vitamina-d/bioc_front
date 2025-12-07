@@ -7,6 +7,7 @@ import SequenceViewer from "./SequenceViewer";
 import type { DataAlign } from "../types/DataPlumber";
 import { useToastContext } from "../context/ToastContext";
 import { useSpinnerContext } from "../context/SpinnerContext";
+import { validateNucleotides } from "../utils/validateNucleotides";
 
 type Props = {
     setDataAlign: React.Dispatch<React.SetStateAction<DataAlign | undefined>>;
@@ -27,15 +28,19 @@ function AlignSequences({ setDataAlign }: Props) {
 
     const handleOnClick = async (event: FormEvent) => {
         event.preventDefault();
-        console.log(
-            "ALINEAR pattern:",
-            pattern,
-            "subject:",
-            subject,
-            "type:",
-            type
-        );
+
         showSpinner();
+
+        if (!validateNucleotides(pattern)) {
+            hideSpinner();
+            showToast("Ingrese un pattern valido.", "Warning", "warning");
+            return;
+        }
+        if (!validateNucleotides(subject)) {
+            hideSpinner();
+            showToast("Ingrese un subject valido.", "Warning", "warning");
+            return;
+        }
         const response: Response<DataAlign> | null = await GetAlign(
             //body
             pattern,
