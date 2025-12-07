@@ -1,6 +1,5 @@
-import type { Datum } from "plotly.js";
+/*import type { Datum } from "plotly.js";
 import Plot from "react-plotly.js";
-import type { DataAlign } from "../../types/DataPlumber";
 
 const aminoacids = [
     "A",
@@ -150,3 +149,4 @@ function PlotAlignAA({ qseq, hseq }: Props) {
 }
 
 export default PlotAlignAA;
+*/

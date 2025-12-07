@@ -1,6 +1,6 @@
 import { Button, Card, CardImg, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import img from "../assets/search-gene.png";
+import img from "../assets/gene.png";
 
 function NotFoundView() {
     const navigate = useNavigate();

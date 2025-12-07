@@ -14,7 +14,7 @@ import type { DataDetail, DataFullDetail } from "../types/DataPlumber";
 import ButtonOverlay from "../Components/ButtonOverlay";
 import InfoFullDetail from "../Components/InfoFullDetail";
 import { useParams } from "react-router-dom";
-import img from "../assets/chromosome.png";
+import img from "../assets/gene.png";
 import InfoDetail from "../Components/InfoDetail";
 import { useToastContext } from "../context/ToastContext";
 import { useSpinnerContext } from "../context/SpinnerContext";

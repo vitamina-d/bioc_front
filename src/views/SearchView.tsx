@@ -10,7 +10,7 @@ import DropdownChr from "../Components/DropdownChr";
 import PercentPlots from "../Components/PercentPlots";
 import { GetComplement } from "../services/PythonServices";
 import type { Sequence } from "../types/DataPython";
-import img from "../assets/search-gene.png";
+import img from "../assets/gene.png";
 import { useLocation } from "react-router-dom";
 import { useToastContext } from "../context/ToastContext";
 import { useSpinnerContext } from "../context/SpinnerContext";
@@ -30,7 +30,6 @@ function SearchView() {
     const [sequence, setSequence] = useState<string>("");
 
     //SEARCH
-    const [input, setInput] = useState("");
 
     /// COMPLEMENT
     const [output, setOutput] = useState<string>("");
@@ -122,7 +121,7 @@ function SearchView() {
 
     return (
         <Container fluid className="mt-3 pb-5 ">
-            <Header title="Utilities" text="Sequences" imageSrc={img} />
+            <Header title="Search" text="Sequences" imageSrc={img} />
             {/* 
             <Searcher
                 text={"Search"}

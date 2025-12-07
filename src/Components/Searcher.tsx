@@ -1,4 +1,4 @@
-import { Button, Form, InputGroup, Row } from "react-bootstrap";
+/*import { Button, Form, InputGroup, Row } from "react-bootstrap";
 import type { ButtonProps } from "react-bootstrap";
 
 type SearcherProps = {
@@ -52,3 +52,4 @@ function Searcher({
 }
 
 export default Searcher;
+*/

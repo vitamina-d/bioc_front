@@ -1,4 +1,4 @@
-import { Badge, Button } from "react-bootstrap";
+/*import { Badge, Button } from "react-bootstrap";
 
 type Props = {
     text: string;
@@ -24,3 +24,4 @@ function ButtonSpinner({ text, value }: Props) {
 }
 
 export default ButtonSpinner;
+*/

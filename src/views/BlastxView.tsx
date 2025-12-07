@@ -1,13 +1,13 @@
 import { Button, Container } from "react-bootstrap";
 import Header from "../Components/Header";
 import type { BlastxReport, Hit } from "../types/DataBlastx";
-import { useEffect, useState, type SetStateAction } from "react";
+import { useEffect, useState } from "react";
 import SequenceViewer from "../Components/SequenceViewer";
 import type { Response } from "../types/Response";
 import { PostBlastx } from "../services/BlastServices";
 import { GetTranslate } from "../services/PythonServices";
 import type { Sequence } from "../types/DataPython";
-import img from "../assets/search-gene.png";
+import img from "../assets/gene.png";
 import {
     GetAlignPrediction,
     GetModelReference,
@@ -33,7 +33,6 @@ function BlastxView() {
     const [sequence, setSequence] = useState<string>("");
     const [modalShow, setModalShow] = useState<boolean>(false);
     const [modificable, setModificable] = useState<boolean>(true);
-    const [frame, setFrame] = useState<number | null>(null);
     const [name, setName] = useState<string>("");
     const [rank, setRank] = useState<string | null>(null);
     const [protein, setProtein] = useState<string>("");
@@ -98,7 +97,6 @@ function BlastxView() {
     const clearInput = () => {
         setModificable(true);
         setSequence("");
-        setFrame(null);
         setProtein("");
         setName("");
         setHit(null);
@@ -109,7 +107,6 @@ function BlastxView() {
         console.log("getTraduction click ", hit);
         //limpiar
         showSpinner();
-        setFrame(null);
         setJobId(null);
         setStatusJob(null);
         setShowButton(true);
