@@ -1,6 +1,6 @@
 import { DOTNET_FOLD_URL } from "../constant/urls";
 import type { ShowToast } from "../context/ToastContext";
-import type { pLDDTModel, pLDDTNeurosnap } from "../types/pLDDT";
+import type { pLDDTNeurosnap } from "../types/pLDDT";
 import type { Response } from "../types/Response";
 import type { ProteinRanks } from "../types/ResponseFolding";
 import apiRequest from "../wrapper/apiRequest";
@@ -115,7 +115,7 @@ const GetpLDDTPrediction = async (
     return json;
 };
 
-// -------------------- NO ENVIAR API KEY ------------------------------------
+// -------------------- NO ENVIAR API KEY
 const GetModelReference = async (
     accession: string,
     showToast: ShowToast
@@ -129,23 +129,6 @@ const GetModelReference = async (
     const file = await apiRequestFile(url, options, showToast);
     return file;
 };
-//no
-const GetpLDDTModel = async (
-    accession: string,
-    showToast: ShowToast
-): Promise<Response<pLDDTModel> | null> => {
-    console.log("[FOLD] GET /api/Folding/model/pLDDT/accession");
-    const url = `${DOTNET_FOLD_URL}/model/pLDDT/${accession}`;
-    const options: RequestInit = {
-        method: "GET",
-    };
-    const json = await apiRequest<Response<pLDDTModel>>(
-        url,
-        options,
-        showToast
-    );
-    return json;
-};
 
 export {
     InitJob,
@@ -154,5 +137,4 @@ export {
     GetAlignPrediction,
     GetModelReference,
     GetpLDDTPrediction,
-    GetpLDDTModel,
 };

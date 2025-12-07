@@ -3,6 +3,7 @@ import type { Response } from "../types/Response";
 import { DOTNET_PUBLIC_URL } from "../constant/urls";
 import type { ShowToast } from "../context/ToastContext";
 import apiRequest from "../wrapper/apiRequest";
+import apiRequestFile from "../wrapper/apiRequestFile";
 
 const SummaryService = async (
     entrez: string,
@@ -27,4 +28,19 @@ const SummaryService = async (
     return json;
 };
 
-export { SummaryService };
+const GetModel = async (
+    uniprotId: string,
+    showToast: ShowToast
+): Promise<string | null> => {
+    console.log("[FOLD] GET /model/uniprotId");
+    const url = `${DOTNET_PUBLIC_URL}/model/${uniprotId}`;
+    const options: RequestInit = {
+        method: "GET",
+    };
+
+    const file = await apiRequestFile(url, options, showToast);
+    //console.log(file);
+    return file;
+};
+
+export { SummaryService, GetModel };

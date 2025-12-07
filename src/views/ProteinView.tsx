@@ -1,12 +1,11 @@
 import { Button, Container } from "react-bootstrap";
 import Header from "../Components/Header";
-import { useState, type SetStateAction } from "react";
+import { useState } from "react";
 import img from "../assets/gene.png";
 import { useToastContext } from "../context/ToastContext";
 import PdbUpload from "../Components/PdbUpload";
 import ModalUniprotDetail from "../Components/ModalUniprotDetail";
 import { useSpinnerContext } from "../context/SpinnerContext";
-import Searcher from "../Components/Searcher";
 
 function ProteinView() {
     const { showToast } = useToastContext();

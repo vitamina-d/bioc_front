@@ -8,7 +8,7 @@ import {
 } from "react-bootstrap";
 import type { ResponsePublicSummary } from "../types/ResponsePublicSummary";
 import { GetDetail } from "../services/PlumberServices";
-import { SummaryService } from "../services/PublicServices";
+import { GetModel, SummaryService } from "../services/PublicServices";
 import type { Response } from "../types/Response";
 import type { DataDetail, DataFullDetail } from "../types/DataPlumber";
 import ButtonOverlay from "../Components/ButtonOverlay";
@@ -19,7 +19,6 @@ import InfoDetail from "../Components/InfoDetail";
 import { useToastContext } from "../context/ToastContext";
 import { useSpinnerContext } from "../context/SpinnerContext";
 import ModalUniprotDetail from "../Components/ModalUniprotDetail";
-import { GetModel } from "../services/UniprotServices";
 
 function DetailView() {
     const { showToast } = useToastContext();
