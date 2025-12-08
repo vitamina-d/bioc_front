@@ -5,7 +5,7 @@ import type { Response } from "../types/Response";
 import type { ProteinRanks } from "../types/ResponseFolding";
 import apiRequest from "../wrapper/apiRequest";
 import apiRequestFile from "../wrapper/apiRequestFile";
-import {apiKeyName} from "./../constant/apiKeyName"
+import { apiKeyName } from "./../constant/apiKeyName";
 
 //ENVIAR API KEY
 const InitJob = async (
@@ -14,7 +14,7 @@ const InitJob = async (
 ): Promise<Response<string> | null> => {
     console.log("[FOLD] POST /init");
     const APIKey = sessionStorage.getItem(apiKeyName);
-    /*const url = `${DOTNET_FOLD_URL}/init`;
+    const url = `${DOTNET_FOLD_URL}/init`;
     const options: RequestInit = {
         method: "POST",
         body: JSON.stringify({
@@ -27,13 +27,14 @@ const InitJob = async (
     const json = await apiRequest<Response<string>>(url, options, showToast);
 
     return json;
-    
-      */
+
+    /*
     return {
         code: 200,
         message: "Ok",
         data: "68e17d82e986d44f8b7e9e1b",
     };
+    */
 };
 
 const StatusJob = async (
