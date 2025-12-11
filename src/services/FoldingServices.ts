@@ -25,16 +25,14 @@ const InitJob = async (
         },
     };
     const json = await apiRequest<Response<string>>(url, options, showToast);
-
     return json;
-
-    /*
+/*
     return {
         code: 200,
         message: "Ok",
         data: "68e17d82e986d44f8b7e9e1b",
     };
-    */
+*/
 };
 
 const StatusJob = async (

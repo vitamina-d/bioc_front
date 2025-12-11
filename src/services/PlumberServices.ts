@@ -102,7 +102,7 @@ const GetSequence = async (
     );
     return json;
 };
-
+/*
 const GetStats = async (
     entrez: string,
     complete: boolean,
@@ -115,7 +115,7 @@ const GetStats = async (
     };
     const json = await apiRequest<Response<DataStats>>(url, options, showToast);
     return json;
-};
+};*/
 
 const GetSequenceByRange = async (
     chr: string, //11, X, Y
@@ -154,12 +154,11 @@ const getEntrez = async (
 };
 
 export {
-    GetAutocomplete,
-    GetAlign,
-    GetDetail,
-    GetPercent,
-    GetSequenceByRange,
+    GetAutocomplete,//
+    GetAlign, //
+    GetDetail,//
+    GetPercent, //
+    GetSequenceByRange, //
     GetSequence,
-    GetStats,
-    getEntrez,
+    getEntrez,//
 };
