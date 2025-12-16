@@ -3,7 +3,7 @@ import ButtonOverlay from "./ButtonOverlay";
 import { Stack, type ButtonProps } from "react-bootstrap";
 import FileUp from "./FileUp";
 import type { FastaDictionary } from "../types/FastaDictionary";
-import { useState, type ReactNode, type SetStateAction } from "react";
+import { useState, type ReactNode } from "react";
 
 type Props = {
     title: string;
