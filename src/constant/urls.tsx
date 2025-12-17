@@ -1,6 +1,7 @@
-const PORT: string = "8081";
-export const DOTNET_BIOCONDUCTOR_URL: string = `http://localhost:${PORT}/api/Plumber`;
-export const DOTNET_PUBLIC_URL: string = `http://localhost:${PORT}/api/Public`;
-export const DOTNET_BLAST_URL: string = `http://localhost:${PORT}/api/Blast`;
-export const DOTNET_FOLD_URL: string = `http://localhost:${PORT}/api/Folding`;
-export const DOTNET_PYTHON_URL: string = `http://localhost:${PORT}/api/Python`;
+const AZURE: string = "http://20.82.6.107/80";
+
+export const DOTNET_BIOCONDUCTOR_URL: string = `${AZURE}/api/Plumber`;
+export const DOTNET_PUBLIC_URL: string = `${AZURE}/api/Public`;
+export const DOTNET_BLAST_URL: string = `${AZURE}/api/Blast`;
+export const DOTNET_FOLD_URL: string = `${AZURE}/api/Folding`;
+export const DOTNET_PYTHON_URL: string = `${AZURE}/api/Python`;
