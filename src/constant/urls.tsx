@@ -1,4 +1,5 @@
-const DOMAIN: string = "https://vitamina-unaj.duckdns.org";
+const DOMAIN: string = "https://vitamina-unaj.ddns.net";
+
 
 export const DOTNET_BIOCONDUCTOR_URL: string = `${DOMAIN}/api/Plumber`;
 export const DOTNET_PUBLIC_URL: string = `${DOMAIN}/api/Public`;
