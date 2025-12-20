@@ -13,7 +13,7 @@ import type { Response } from "../types/Response";
 import type { DataDetail, DataFullDetail } from "../types/DataPlumber";
 import ButtonOverlay from "../Components/ButtonOverlay";
 import InfoFullDetail from "../Components/InfoFullDetail";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import img from "../assets/gene.png";
 import InfoDetail from "../Components/InfoDetail";
 import { useToastContext } from "../context/ToastContext";
@@ -23,6 +23,7 @@ import ModalUniprotDetail from "../Components/ModalUniprotDetail";
 function DetailView() {
     const { showToast } = useToastContext();
     const { showSpinner, hideSpinner } = useSpinnerContext();
+    const navigate = useNavigate();
 
     const { entrezId, searchInput } = useParams();
     const [detail, setDetail] = useState<DataDetail | null>(null);
@@ -43,6 +44,7 @@ function DetailView() {
             ); //! existe
             if (!response || !response.data) {
                 showToast("No se encontro el id.", "Warning", "warning");
+                navigate("/bioc_front")
                 return;
             }
             console.log(response);
