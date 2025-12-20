@@ -24,7 +24,7 @@ function NotFoundView() {
                 <Card.Text className="font-monospace mb-3">
                     n o t f o u n d
                 </Card.Text>
-                <Button variant="secondary" onClick={() => navigate("/")}>
+                <Button variant="secondary" onClick={() => navigate("/bioc_front")}>
                     {" "}
                     Back
                 </Button>

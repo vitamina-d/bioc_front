@@ -15,7 +15,7 @@ function App() {
         <BrowserRouter>
             <NavComponent />
             <Routes>
-                <Route path="/" element={<HomeView />} />
+                <Route path="/bioc_front" element={<HomeView />} />
                 <Route path="/detail/:entrezId" element={<DetailView />} />
                 <Route path="/search" element={<SearchView />} />
                 <Route path="/align" element={<AlignView />} />

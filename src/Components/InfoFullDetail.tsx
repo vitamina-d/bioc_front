@@ -139,7 +139,7 @@ function InfoFullDetail({
                                 <ListGroup.Item>
                                     <Row className="d-flex align-items-center ">
                                         <Col xs={3}>Location {idx}</Col>
-                                        <Col xs={8}>
+                                        <Col xs={7}>
                                             {`${range.seqnames}: ${
                                                 range.start
                                             } to ${range.end} (lenght: ${
@@ -150,7 +150,7 @@ function InfoFullDetail({
                                                     : "5′ → 3′ (+)"
                                             }`}
                                         </Col>
-                                        <Col xs={1}>
+                                        <Col xs={2} className="d-flex justify-content-end ">
                                             <ButtonOverlay
                                                 textHover="Sequence"
                                                 typeIcon="finger"

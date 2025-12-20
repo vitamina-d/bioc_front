@@ -12,35 +12,37 @@ function InfoDetail({ data }: Props) {
             <>
                 <ListGroup.Item>
                     <Row>
-                        <Col xs={6}>Entrez</Col>
-                        <Col xs={6}>{data.entrez}</Col>
+                        <Col xs={3}>Entrez</Col>
+                        <Col xs={9}>{data.entrez}</Col>
                     </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                     <Row>
-                        <Col xs={6}>Genetype</Col>
-                        <Col xs={6}>{data.genetype}</Col>
+                        <Col xs={3}>Genetype</Col>
+                        <Col xs={9}>{data.genetype}</Col>
                     </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                     <Row>
-                        <Col xs={6}>Genename</Col>
-                        <Col xs={6}>{data.genename}</Col>
+                        <Col xs={3}>Genename</Col>
+                        <Col xs={9}>{data.genename}</Col>
                     </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                     <Row>
-                        <Col xs={6}>Symbol</Col>
-                        <Col xs={6}>
+                        <Col xs={3}>Symbol</Col>
+                        <Col xs={9}>
                             {" "}
-                            <Badge className="bg-secondary m-1">{data.symbol}</Badge>
+                            <Badge className="bg-secondary m-1">
+                                {data.symbol}
+                            </Badge>
                         </Col>
                     </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                     <Row>
-                        <Col xs={6}>Alias</Col>
-                        <Col xs={6}>
+                        <Col xs={3}>Alias</Col>
+                        <Col xs={9}>
                             {data.alias &&
                                 data.alias.map((alias, idx) => (
                                     <React.Fragment key={idx}>
